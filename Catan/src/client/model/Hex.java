@@ -19,6 +19,22 @@ public class Hex {
 	private String resource;
 	private int numberToken;
 
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: a Hex
+	 * @param location
+	 * @param resource
+	 * @param numberToken
+	 */
+	public Hex(HexLocation location, String resource, int numberToken) {
+		super();
+		this.location = location;
+		this.resource = resource;
+		this.numberToken = numberToken;
+	}
+
 	public HexLocation getLocation() {
 		return location;
 	}

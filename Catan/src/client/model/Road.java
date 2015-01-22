@@ -17,6 +17,20 @@ public class Road {
 	private int owner;
 	private EdgeLocation location;
 
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: a Road
+	 * @param owner
+	 * @param location
+	 */
+	public Road(int owner, EdgeLocation location) {
+		super();
+		this.owner = owner;
+		this.location = location;
+	}
+
 	public int getOwner() {
 		return owner;
 	}

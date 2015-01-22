@@ -16,6 +16,20 @@ public class MessageLine {
 	private String message;
 	private String source;
 
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: a MessageLine
+	 * @param message
+	 * @param source
+	 */
+	public MessageLine(String message, String source) {
+		super();
+		this.message = message;
+		this.source = source;
+	}
+
 	public String getMessage() {
 		return message;
 	}

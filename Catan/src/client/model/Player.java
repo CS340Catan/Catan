@@ -42,6 +42,50 @@ public class Player {
 	private int soldiers;
 	private int victoryPoints;
 
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: a Player
+	 * @param playerIndex
+	 * @param playerid
+	 * @param cities
+	 * @param settlements
+	 * @param name
+	 * @param color
+	 * @param discarded
+	 * @param monuments
+	 * @param newDevCards
+	 * @param oldDevCards
+	 * @param playedDevCard
+	 * @param resources
+	 * @param roads
+	 * @param soldiers
+	 * @param victoryPoints
+	 */
+	public Player(int playerIndex, int playerid, int cities, int settlements,
+			String name, String color, boolean discarded, int monuments,
+			DevCardList newDevCards, DevCardList oldDevCards,
+			boolean playedDevCard, ResourceList resources, int roads,
+			int soldiers, int victoryPoints) {
+		super();
+		this.playerIndex = playerIndex;
+		this.playerid = playerid;
+		this.cities = cities;
+		this.settlements = settlements;
+		this.name = name;
+		this.color = color;
+		this.discarded = discarded;
+		this.monuments = monuments;
+		this.newDevCards = newDevCards;
+		this.oldDevCards = oldDevCards;
+		this.playedDevCard = playedDevCard;
+		this.resources = resources;
+		this.roads = roads;
+		this.soldiers = soldiers;
+		this.victoryPoints = victoryPoints;
+	}
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}

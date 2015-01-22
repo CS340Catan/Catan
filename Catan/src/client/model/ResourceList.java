@@ -22,6 +22,26 @@ public class ResourceList {
 	private int wheat;
 	private int lumber;
 
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: a ResourceList
+	 * @param brick
+	 * @param ore
+	 * @param sheep
+	 * @param wheat
+	 * @param lumber
+	 */
+	public ResourceList(int brick, int ore, int sheep, int wheat, int lumber) {
+		super();
+		this.brick = brick;
+		this.ore = ore;
+		this.sheep = sheep;
+		this.wheat = wheat;
+		this.lumber = lumber;
+	}
+
 	public int getBrick() {
 		return brick;
 	}

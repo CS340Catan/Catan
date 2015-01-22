@@ -26,6 +26,32 @@ public class Map {
 	private int radius;
 	private HexLocation robber;
 
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: a Map
+	 * @param hexes
+	 * @param ports
+	 * @param roads
+	 * @param settlements
+	 * @param cities
+	 * @param radius
+	 * @param robber
+	 */
+	public Map(Hex[] hexes, Port[] ports, Road[] roads,
+			VertexObject[] settlements, VertexObject[] cities, int radius,
+			HexLocation robber) {
+		super();
+		this.hexes = hexes;
+		this.ports = ports;
+		this.roads = roads;
+		this.settlements = settlements;
+		this.cities = cities;
+		this.radius = radius;
+		this.robber = robber;
+	}
+
 	public Hex[] getHexes() {
 		return hexes;
 	}

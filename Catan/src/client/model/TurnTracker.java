@@ -16,9 +16,29 @@ package client.model;
  */
 public class TurnTracker {
 	private int currentTurn;
-	private String status; // ['Rolling' or 'Robbing' or 'Playing' or 'Discarding' or 'FirstRound' or 'SecondRound']:
+	private String status; // ['Rolling' or 'Robbing' or 'Playing' or
+							// 'Discarding' or 'FirstRound' or 'SecondRound']:
 	private int longestRoad;
 	private int largestArmy;
+
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: a TurnTracker
+	 * @param currentTurn
+	 * @param status
+	 * @param longestRoad
+	 * @param largestArmy
+	 */
+	public TurnTracker(int currentTurn, String status, int longestRoad,
+			int largestArmy) {
+		super();
+		this.currentTurn = currentTurn;
+		this.status = status;
+		this.longestRoad = longestRoad;
+		this.largestArmy = largestArmy;
+	}
 
 	public int getCurrentTurn() {
 		return currentTurn;

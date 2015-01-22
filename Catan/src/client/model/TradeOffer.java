@@ -18,6 +18,22 @@ public class TradeOffer {
 	private int receiver;
 	private ResourceList resourceList;
 
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: a TradeOffer
+	 * @param sender
+	 * @param receiver
+	 * @param resourceList
+	 */
+	public TradeOffer(int sender, int receiver, ResourceList resourceList) {
+		super();
+		this.sender = sender;
+		this.receiver = receiver;
+		this.resourceList = resourceList;
+	}
+
 	public int getSender() {
 		return sender;
 	}

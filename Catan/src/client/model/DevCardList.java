@@ -22,6 +22,27 @@ public class DevCardList {
 	private int soldier;
 	private int yearOfPlenty;
 
+	/**
+	 * Default constructor, requires all fields
+	 *
+	 * @Pre no field may be null
+	 * @Post result: a DevCardList
+	 * @param monopoly
+	 * @param monument
+	 * @param roadBuilding
+	 * @param soldier
+	 * @param yearOfPlenty
+	 */
+	public DevCardList(int monopoly, int monument, int roadBuilding,
+			int soldier, int yearOfPlenty) {
+		super();
+		this.monopoly = monopoly;
+		this.monument = monument;
+		this.roadBuilding = roadBuilding;
+		this.soldier = soldier;
+		this.yearOfPlenty = yearOfPlenty;
+	}
+
 	public int getMonopoly() {
 		return monopoly;
 	}

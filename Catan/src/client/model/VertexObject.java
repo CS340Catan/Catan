@@ -16,6 +16,20 @@ public class VertexObject {
 	private int owner;
 	private EdgeLocation location;
 
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: a VertexObject
+	 * @param owner
+	 * @param location
+	 */
+	public VertexObject(int owner, EdgeLocation location) {
+		super();
+		this.owner = owner;
+		this.location = location;
+	}
+
 	public int getOwner() {
 		return owner;
 	}

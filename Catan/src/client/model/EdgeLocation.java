@@ -2,12 +2,14 @@ package client.model;
 
 /**
  * Stores the location of an Edge -x:int -y:int -direction:String
- *  <pre>
+ * 
+ * <pre>
  * <b>Domain:</b>
  * -x:int
  * -y:int
  * -direction:String
  * </pre>
+ * 
  * @author Seth White
  *
  */
@@ -15,6 +17,22 @@ public class EdgeLocation {
 	private int x;
 	private int y;
 	private String direction;
+
+	/**
+	 * Default constructor, requires all fields
+	 * 
+	 * @Pre no field may be null
+	 * @Post result: an EdgeLocation
+	 * @param x
+	 * @param y
+	 * @param direction
+	 */
+	public EdgeLocation(int x, int y, String direction) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.direction = direction;
+	}
 
 	public int getX() {
 		return x;
