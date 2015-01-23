@@ -19,6 +19,15 @@ public class ClientCommunicator {
 	private HTTPCommunicator httpCommunicator;
 	
 	/**
+	 * Checks to see if the server's model has been updated, returns the model if it has
+	 * @pre 	none
+	 * @post	ClientModel is updated
+	 */
+	public void poll() {
+		
+	}
+	
+	/**
 	 * Prepares credentials to be sent over network, then sends them to server login
 	 * 
 	 * @pre		username not null
