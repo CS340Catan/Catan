@@ -25,43 +25,52 @@ public interface IServer {
 	/**
 	 * This method takes in UserCredentials, which contain a username and
 	 * password, and determine if the inputed username and password is a valid
-	 * combination.
+	 * combination. A LoginResponse will be returned back.
 	 * 
-	 * @Pre Username is not null
-	 * @Pre Password is not null
+	 * @Pre Username is not null.
+	 * @Pre Password is not null.
 	 * @PreIf the passedÂ­in (username, password) pair is valid, 1. The server
-	 *        returns an HTTP 200 success response with â€œSuccessâ€� in the
-	 *        body. 2. The HTTP response headers set the catan.user cookie to
-	 *        contain the identity of the loggedÂ­in player.
+	 *        returns an HTTP 200 success response with "Success" in the body.
+	 *        2. The HTTP response headers set the catan.user cookie to contain
+	 *        the identity of the loggedÂ­in player.
 	 * @Post If the passed-in credentials is valid, the server returns a success
-	 *       response with a cookie
+	 *       response with a cookie.
 	 * @param credentials
+	 *            Information containing username and password.
 	 * @return
 	 */
 	public LoginResponse Login(UserCredentials credentials);
 
 	/**
-	 * @Pre username is not null
-	 * @Pre password is not null
+	 * This method will take UserCredentials and determine if the inputed
+	 * username already exists. If not, a new user will be created using inputed
+	 * data. A LoginResponse will be returned back.
+	 * 
+	 * @Pre username is not null.
+	 * @Pre password is not null.
 	 * @Pre The specified username is not already in use
 	 * @Post If there is no existing user with the specified username, 1. A new
 	 *       user account has been created with the specified username and
 	 *       password. 2. The server returns an HTTP 200 success response with
-	 *       â€œSuccessâ€� in the body. 3. The HTTP response headers set the
-	 *       catan.user cookie to contain the identity of the loggedÂ­in player.
+	 *       "Success" in the body 3. The HTTP response headers set the
+	 *       catan.user cookie to contain the identity of the logged­in player.
 	 * @Post If there is already an existing user with the specified name, or
 	 *       the operation fails for any other reason, 1. The server returns an
 	 *       HTTP 400 error response, and the body contains an error message.
 	 * @param credentials
+	 *            Information containing username and password.
 	 * @return
 	 */
 	public LoginResponse Register(UserCredentials credentials);
 
 	/**
+	 * This method will get a list containing the current list of games stored
+	 * within the server.
+	 * 
 	 * @Pre none
 	 * @Post If the operation succeeds, 1. The server returns an HTTP 200
 	 *       success response. 2. The body contains a JSON array containing a
-	 *       list of objects that contain information about the serverâ€™s games
+	 *       list of objects that contain information about the server's games.
 	 * @Post If the operation fails, 1. The server returns an HTTP 400 error
 	 *       response, and the body contains an error message.
 	 * @return
@@ -69,31 +78,39 @@ public interface IServer {
 	public GamesList getGameList();
 
 	/**
-	 * @Pre name != null
+	 * This method will create a game using the inputed game parameters within
+	 * the server. Following this creation, a game summary will be returned to
+	 * the client.
+	 * 
+	 * @Pre name is not null
 	 * @Pre randomTiles, randomNumbers, and randomPorts contain valid boolean
-	 *      values
+	 *      values.
 	 * @Post If the operation succeeds, 1. A new game with the specified
 	 *       properties has been created 2. The server returns an HTTP 200
 	 *       success response. 3. The body contains a JSON object describing the
-	 *       newly created game
+	 *       newly created game.
 	 * @param params
 	 * @return
 	 */
 	public GameSummary createGame(CreateGameParams params);
 
 	/**
+	 * This method will add a user to a game that requires a player. The client
+	 * will be returned a boolean stating whether they have been successfully
+	 * added or rejected from the game.
+	 * 
 	 * @Pre 1. The user has previously logged in to the server (i.e., they have
 	 *      a valid catan.user HTTP cookie). 2. The player may join the game
 	 *      because 2.a They are already in the game, OR 2.b There is space in
 	 *      the game to add a new player 3. The specified game ID is valid 4.
 	 *      The specified color is valid (red, green, blue, yellow, puce, brown,
-	 *      white, purple, orange)
+	 *      white, purple, orange).
 	 * @Post If the operation succeeds, 1. The server returns an HTTP 200
 	 *       success response with â€œSuccessâ€� in the body. 2. The player is
 	 *       in the game with the specified color (i.e. calls to /games/list
 	 *       method will show the player in the game with the chosen color). 3.
-	 *       The server response includes the â€œSetÂ­cookieâ€� response header
-	 *       setting the catan.game HTTP cookie
+	 *       The server response includes the Set cookie response header setting
+	 *       the catan.game HTTP cookie.
 	 * @Post If the operation fails,1. The server returns an HTTP 400 error
 	 *       response, and the body contains an error message.
 	 * 
@@ -103,97 +120,105 @@ public interface IServer {
 	public boolean joinGame(JoinGameParams params);
 
 	/**
-	 * Prepares params to be sent over network, then sends them to server to
-	 * save a game
+	 * This method will save the game parameters to the server. The client will
+	 * be returned a boolean if the game was successfully saved. Prepares params
+	 * to be sent over network, then sends them to server to save a game
 	 * 
-	 * @pre game id is valid
-	 * @pre filname is not null or empty
-	 * @post a valid boolean returned
+	 * @pre Game id is valid.
+	 * @pre Filename is not null or empty.
+	 * @post A valid boolean returned.
 	 */
 	public boolean saveGame(SaveParams params);
 
 	/**
-	 * Prepares the filename to be sent over network, then sends it to server to
-	 * load a game
+	 * This method will take a filename and try and load the game matching the
+	 * filename input. A boolean will be returned to the client stating whether
+	 * the game was loaded.
 	 * 
-	 * @pre a saved game with the specified filename exists on the server
-	 * @post a valid boolean returned
+	 * @pre A saved game with the specified filename exists on the server.
+	 * @post A valid boolean returned.
 	 */
 	public boolean loadGame(String fileName);
 
 	/**
-	 * Prepares the version number to be sent over the network, then retrieves
-	 * current game from server if it's different than the current version
+	 * Prepares the version number to be sent to the server, then retrieves
+	 * current game from the server if it's different than the current version.
 	 * 
-	 * @pre user has logged on and joined a game, and therefore has cookies
-	 * @pre version is a valid int
-	 * @post a valid ClientModel returned
+	 * @pre User has logged on and joined a game, and therefore has cookies.
+	 * @pre Version is a valid integer.
+	 * @post A valid ClientModel returned.
 	 */
 	public ClientModel getCurrentGame(int version);
 
 	/**
-	 * Tells the server to reset the game
+	 * This method resets the game within the server.
 	 * 
 	 * @pre none
-	 * @post a valid ClientModel returned
+	 * @post A valid ClientModel returned.
 	 */
 	public ClientModel resetGame();
 
 	/**
-	 * Retrieves all the past commands in the current game from the server
+	 * Retrieves all the past commands in the current game from the server.
 	 * 
 	 * @pre none
-	 * @post a valid set of commands returned
+	 * @post A valid set of commands returned.
 	 */
 	public CommandList getCommands();
 
 	/**
-	 * Prepares commands to be sent over network, then sends them to server to
-	 * apply to current game
+	 * Prepares commands to be sent to the server, then sends them to server to
+	 * apply to current game.
 	 * 
-	 * @pre user has logged on and joined a game, and therefore has cookies
-	 * @post a valid ClientModel returned
+	 * @pre User has logged on and joined a game, and therefore has cookies.
+	 * @post A valid ClientModel returned.
 	 */
 	public ClientModel setCommands(CommandList commands);
 
 	/**
 	 * Retrieves a list from the server of the different types of AI players
-	 * available available
+	 * available available.
 	 * 
 	 * @pre none
-	 * @post a valid list of AI types returned
+	 * @post A valid list of AI types returned.
 	 */
 	public String[] getAITypes();
 
 	/**
-	 * Prepares the AIType to be sent over network, then sends it to server to
-	 * create a new AI player
+	 * Prepares the AIType to the server, then sends it to server to create a
+	 * new AI player.
 	 * 
-	 * @pre user has logged on and joined a game, and therefore has cookies
-	 * @pre there is space in the game for another player
-	 * @pre the AIType is a valid type returned by the getAITypes method
-	 * @post a valid boolean returned
+	 * @pre User has logged on and joined a game, and therefore has cookies.
+	 * @pre There is space in the game for another player.
+	 * @pre The AIType is a valid type returned by the getAITypes method.
+	 * @post A valid boolean returned.
 	 */
 	public boolean addAI(String AIType);
 
 	/**
-	 * Prepares the log level to be sent over network, then sends it to server
-	 * to change the granularity of the log it keeps
+	 * Prepares the log level to the server, then sends it to server to change
+	 * the granularity of the log it keeps.
 	 * 
-	 * @pre level is a valid LogLevel (SEVERE, WARNING, INFO, CONFIG, FINE,
-	 *      FINER, FINEST)
-	 * @post a valid boolean returned
+	 * @pre Level is a valid LogLevel (SEVERE, WARNING, INFO, CONFIG, FINE,
+	 *      FINER, FINEST).
+	 * @post A valid boolean returned.
 	 */
 	public boolean changeLogLevel(LogLevels level);
 
 	/**
+	 * This method will send a signal to the server checking to see if the
+	 * current version of the model has been changed.
+	 * 
 	 * @Pre none
-	 * @Post gets an updated version of the model from the server
+	 * @Post Gets an updated version of the model from the server.
 	 */
-	public void poll();
+	public ClientModel poll();
 
 	// ----MOVE APIs--------
 	/**
+	 * This method sends a chat message to the server. A new ClientModel is
+	 * returned to the client.
+	 * 
 	 * @Pre none
 	 * @Post chat contains the player's message at the end
 	 * @param content
@@ -202,6 +227,9 @@ public interface IServer {
 	public ClientModel sendChat(String content);
 
 	/**
+	 * This method will send a response to the server for a trade offer given to
+	 * the client. A new ClientModel will be returned.
+	 * 
 	 * @Pre Current player has been offered a domestic trade
 	 * @Pre To accept the offered trade, current player has the required
 	 *      resources
@@ -214,6 +242,8 @@ public interface IServer {
 	public ClientModel acceptTrade(boolean willAccept);
 
 	/**
+	 * 
+	 * 
 	 * @Pre The status of the client model is 'Discarding'
 	 * @Pre The current player has over 7 cards
 	 * @Pre The current player has the cards the current player is choosing to
