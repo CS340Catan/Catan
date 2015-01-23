@@ -12,6 +12,11 @@ import shared.locations.*;
 import client.model.ResourceList;
 import client.model.ClientModel;
 
+/**
+ * Interface to be implemented by servers, i.e. MockServer, ServerProxy, Server. All methods from API to be implemented with differing functionality
+ * @author Seth White
+ *
+ */
 public interface IServer {
 	//----NON-MOVE APIs--------
 	public LoginResponse Login(UserCredentials credentials);

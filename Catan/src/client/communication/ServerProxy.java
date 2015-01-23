@@ -165,8 +165,6 @@ public class ServerProxy implements IServer {
 	 */
 
 
-
-
 	@Override
 	public boolean changeLogLevel(LogLevels level) {
 		// TODO Auto-generated method stub
@@ -294,6 +292,11 @@ public class ServerProxy implements IServer {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+	
 
 	//----MOVE APIs--------
 //	public sendChat(String)
