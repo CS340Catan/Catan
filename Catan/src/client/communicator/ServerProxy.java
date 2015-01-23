@@ -32,6 +32,12 @@ public class ServerProxy implements IServer {
 	/** used to send data over the network */
 	private HTTPCommunicator httpCommunicator;
 
+	/**
+	 * Default constructor.
+	 * 
+	 * @param httpCommunicator
+	 *            Given communicator that is connected to the server.
+	 */
 	public ServerProxy(HTTPCommunicator httpCommunicator) {
 		this.httpCommunicator = httpCommunicator;
 	}
