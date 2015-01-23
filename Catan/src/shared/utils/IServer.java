@@ -7,7 +7,7 @@ import shared.communication.JoinGameParams;
 import shared.communication.LoginResponse;
 import shared.communication.SaveParams;
 import shared.communication.UserCredentials;
-import client.communication.LogLevel;
+import shared.communication.LogLevels;
 import shared.locations.*;
 import client.model.ResourceList;
 import client.model.ClientModel;
@@ -27,7 +27,7 @@ public interface IServer {
 	public ClientModel setCommands(String[] commands);
 	public String[] getAITypes();
 	public boolean addAI(String AIType);	
-	public boolean changeLogLevel(LogLevel level);
+	public boolean changeLogLevel(LogLevels level);
 
 	//----MOVE APIs--------
 	public void sendChat(String content);
