@@ -30,21 +30,21 @@ public interface IServer {
 	public boolean changeLogLevel(LogLevels level);
 
 	//----MOVE APIs--------
-	public void sendChat(String content);
-	public boolean acceptTrade(boolean willAccept);
-	public void discardCards(ResourceList discardedCards);
-	public void rollNumber(int number);
-	public void buildRoad(boolean free, EdgeLocation roadLocation);
-	public void buildSettlement(boolean free, VertexLocation vertexLocation);
-	public void buildCity(VertexLocation vertexLocation);
-	public void offerTrade(ResourceList offer, int receiver);
-	public void maritimeTrade(int ratio, String inputResource, String outputResource);
-	public void robPlayer(HexLocation location, int victimIndex);
-	public void finishTurn();
-	public void buyDevCard();
-	public void playSoldierCard(HexLocation location, int victimIndex);
-	public void playYearOfPlentyCard(String resource1, String resource2);
-	public void playRoadBuildingCard(EdgeLocation spot1, EdgeLocation spot2);
-	public void playMonopolyCard(String resource);
-	public void playMonument();
+	public ClientModel sendChat(String content);
+	public ClientModel acceptTrade(boolean willAccept);
+	public ClientModel discardCards(ResourceList discardedCards);
+	public ClientModel rollNumber(int number);
+	public ClientModel buildRoad(boolean free, EdgeLocation roadLocation);
+	public ClientModel buildSettlement(boolean free, VertexLocation vertexLocation);
+	public ClientModel buildCity(VertexLocation vertexLocation);
+	public ClientModel offerTrade(ResourceList offer, int receiver);
+	public ClientModel maritimeTrade(int ratio, String inputResource, String outputResource);
+	public ClientModel robPlayer(HexLocation location, int victimIndex);
+	public ClientModel finishTurn();
+	public ClientModel buyDevCard();
+	public ClientModel playSoldierCard(HexLocation location, int victimIndex);
+	public ClientModel playYearOfPlentyCard(String resource1, String resource2);
+	public ClientModel playRoadBuildingCard(EdgeLocation spot1, EdgeLocation spot2);
+	public ClientModel playMonopolyCard(String resource);
+	public ClientModel playMonument();
 }
