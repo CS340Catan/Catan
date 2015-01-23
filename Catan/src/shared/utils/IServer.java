@@ -1,5 +1,6 @@
 package shared.utils;
 
+import shared.communication.CommandList;
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
 import shared.communication.GamesList;
@@ -140,7 +141,7 @@ public interface IServer {
 	 * @pre none
 	 * @post a valid set of commands returned
 	 */
-	public String[] getCommands();
+	public CommandList getCommands();
 
 	/**
 	 * Prepares commands to be sent over network, then sends them to server to
@@ -149,7 +150,7 @@ public interface IServer {
 	 * @pre user has logged on and joined a game, and therefore has cookies
 	 * @post a valid ClientModel returned
 	 */
-	public ClientModel setCommands(String[] commands);
+	public ClientModel setCommands(CommandList commands);
 
 	/**
 	 * Retrieves a list from the server of the different types of AI players

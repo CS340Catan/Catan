@@ -129,8 +129,8 @@ public class ServerProxy implements IServer {
 	 * @pre		none
 	 * @post	a valid set of commands returned
 	 */
-	public String[] getCommands() {
-		String[] commands = null;
+	public CommandList getCommands() {
+		CommandList commands = null;
 		return commands;
 	}
 	/**
@@ -139,7 +139,7 @@ public class ServerProxy implements IServer {
 	 * @pre		user has logged on and joined a game, and therefore has cookies
 	 * @post	a valid ClientModel returned
 	 */
-	public ClientModel setCommands(String[] commands) {
+	public ClientModel setCommands(CommandList commands) {
 		ClientModel model = new ClientModel(null, null, null, null, null, null, null, 0, 0);
 		return model;
 	}
