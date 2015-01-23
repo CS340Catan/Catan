@@ -1,4 +1,4 @@
-package shared.util;
+package shared.utils;
 
 /**
  * Serializes and deserializes from and to JSON

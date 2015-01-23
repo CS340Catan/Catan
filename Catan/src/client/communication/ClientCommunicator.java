@@ -1,13 +1,22 @@
 package client.communication;
 
+import client.model.ClientModel;
+import shared.communication.CreateGameParams;
+import shared.communication.GameSummary;
+import shared.communication.GamesList;
+import shared.communication.JoinGameParams;
+import shared.communication.LoginResponse;
+import shared.communication.SaveParams;
+import shared.communication.UserCredentials;
+
 public class ClientCommunicator {
 	
 	public ClientCommunicator(IServer server) {
-		httpCommunicator = new HttpCommunicator(server);
+		httpCommunicator = new HTTPCommunicator(server);
 	}
 	
 	/**used to send data over the network*/
-	private HttpCommunicator httpCommunicator;
+	private HTTPCommunicator httpCommunicator;
 	
 	/**
 	 * Prepares credentials to be sent over network, then sends them to server login
@@ -37,8 +46,8 @@ public class ClientCommunicator {
 	 * @pre		none
 	 * @post	A valid CurrentGames returned
 	 */
-	public CurrentGames getGameList() {
-		GameList currentGames = new GameList();
+	public GamesList getGameList() {
+		GamesList currentGames = new GamesList(null);
 		return currentGames;
 	}
 	/**
@@ -48,8 +57,8 @@ public class ClientCommunicator {
 	 * @pre		params contains only valid boolean values
 	 * @post	a valid GameSummary returned
 	 */
-	public GameSummary createGame(createGameParams params) {
-		GameSummary newGame = new GameSummary();
+	public GameSummary createGame(CreateGameParams params) {
+		GameSummary newGame = new GameSummary(null,0,null);
 		return newGame;
 	}
 	/**
@@ -61,7 +70,7 @@ public class ClientCommunicator {
 	 * @pre		color is valid (red, green, blue, yellow, puce, brown, white, purple, orange)
 	 * @post	a valid boolean returned
 	 */
-	public boolean joinGame(joinGameParams params) {
+	public boolean joinGame(JoinGameParams params) {
 		boolean success = true;
 		return success;
 	}
@@ -104,8 +113,9 @@ public class ClientCommunicator {
 	 * @post	a valid ClientModel returned
 	 */
 	public ClientModel resetGame() {
-		ClientModel model = new ClientModel();
-		return model;
+//		ClientModel model = new ClientModel();
+//		return model;
+		return null;
 	}
 	/**
 	 * Retrieves all the past commands in the current game from the server
