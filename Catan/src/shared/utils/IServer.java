@@ -124,7 +124,14 @@ public interface IServer {
 	public ClientModel playRoadBuildingCard(EdgeLocation spot1,
 			EdgeLocation spot2);
 
-	public ClientModel playMonopolyCard(String resource);
 
+
+	public ClientModel playMonopolyCard(String resource);
+	
+	/**
+	 * @Pre none
+	 * @Post current player gains a victory point
+	 * 
+	 */
 	public ClientModel playMonument();
 }
