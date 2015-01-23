@@ -242,7 +242,7 @@ public interface IServer {
 	public ClientModel acceptTrade(boolean willAccept);
 
 	/**
-	 * 
+	 * This method will discard a set of cards from the client's hand.
 	 * 
 	 * @Pre The status of the client model is 'Discarding'
 	 * @Pre The current player has over 7 cards
@@ -258,28 +258,34 @@ public interface IServer {
 	public ClientModel discardCards(ResourceList discardedCards);
 
 	/**
+	 * This method will roll the dice for the client if current turn. Following
+	 * the rolling of the dice, the cient's model will be updated.
+	 * 
 	 * @Pre It is the current player's turn
-	 * @Pre The client modelâ€™s status is â€˜Rollingâ€™
-	 * @Post The client modelâ€™s status is now in â€˜Discardingâ€™ or
-	 *       â€˜Robbingâ€™ or â€˜Playingâ€™
+	 * @Pre The client model's status is "Rolling"
+	 * @Post The client model's status is now in "Discarding" or "Robbing" or
+	 *       "Playing"
 	 * @param number
 	 * @return
 	 */
 	public ClientModel rollNumber(int number);
 
 	/**
+	 * This method will build a road for the client. A new ClientModel will be
+	 * returned to the client.
+	 * 
 	 * @Pre The road location is open
 	 * @Pre The road location is connected to another road owned by the player
 	 * @Pre The road location is not on water
-	 * @Pre The current player has the required resources (1 wood, 1 brickÍ¾ 1
+	 * @Pre The current player has the required resources (1 wood, 1 brick or 1
 	 *      road)
 	 * @Pre Setup round: Must be placed by settlement owned by the player with
 	 *      no adjacent road
 	 * @Post The current player lost the resources required to build a road (1
 	 *       wood, 1 brickÍ¾ 1 road)
 	 * @Post The road is on the map at the specified location
-	 * @Post If applicable, â€œlongest roadâ€� has been awarded to the player
-	 *       with the longest road
+	 * @Post If applicable, 'longest road' has been awarded to the player with
+	 *       the longest road
 	 * @param free
 	 * @param roadLocation
 	 * @return
@@ -287,6 +293,9 @@ public interface IServer {
 	public ClientModel buildRoad(boolean free, EdgeLocation roadLocation);
 
 	/**
+	 * This method will build a settlement for the client. A new ClientModel
+	 * will be returned to the client.
+	 * 
 	 * @Pre The settlement location is open The settlement location is not on
 	 *      water
 	 * @Pre The settlement location is connected to one of the current player's
@@ -303,6 +312,9 @@ public interface IServer {
 			VertexLocation vertexLocation);
 
 	/**
+	 * This method will build a city for the client. A new ClientModel will be
+	 * returned to the client.
+	 * 
 	 * updates model, builds a city in specified location
 	 * 
 	 * @pre the city location is where you currently have a settlement
@@ -315,6 +327,9 @@ public interface IServer {
 	public ClientModel buildCity(VertexLocation vertexLocation);
 
 	/**
+	 * This method will offer a trade with another player. A new ClientModel
+	 * will be returned to the client.
+	 * 
 	 * displays to other player a trade offer
 	 * 
 	 * @pre you have the resources you are offering
@@ -324,6 +339,9 @@ public interface IServer {
 	public ClientModel offerTrade(ResourceList offer, int receiver);
 
 	/**
+	 * This method will complete trade with a maritime port. A new ClientModel
+	 * will be returned to the client.
+	 * 
 	 * trades resource cards according to a certain ratio
 	 * 
 	 * @pre you have the resources you are giving
@@ -335,7 +353,8 @@ public interface IServer {
 			String outputResource);
 
 	/**
-	 * moves the robber, steals a development card from a player
+	 * This method will move the robber and steal from a specific victim. A new
+	 * ClientModel will be returned to the client.
 	 * 
 	 * @pre robber is not being kept in the same location
 	 * @pre if a player is being robbed, the player being robbed has resource
@@ -347,7 +366,8 @@ public interface IServer {
 	public ClientModel robPlayer(HexLocation location, int victimIndex);
 
 	/**
-	 * end player's turn, start next payer's turn
+	 * This method will end the client's turn and start a new players turn. A
+	 * new ClientModel will be returned to the client.
 	 * 
 	 * @pre none
 	 * @post cards in new dev card hand have been transferred to old dev card
@@ -356,7 +376,8 @@ public interface IServer {
 	public ClientModel finishTurn();
 
 	/**
-	 * removes resource cards from player, retrieves development card from bank
+	 * This method removes resource cards from player's in return for a
+	 * development card. A new ClientModel will be returned to the client.
 	 * 
 	 * @pre player has the required resources
 	 * @pre there is a development card left in the bank
@@ -367,6 +388,9 @@ public interface IServer {
 	public ClientModel buyDevCard();
 
 	/**
+	 * This method will play a soldier card from a player's hand. A new
+	 * ClientModel will be returned to the client.
+	 * 
 	 * @Pre player has the specific card they want to play in their
 	 *      "old dev card hand"
 	 * @Pre player hasn't played a dev card this turn
@@ -381,6 +405,9 @@ public interface IServer {
 	public ClientModel playSoldierCard(HexLocation location, int victimIndex);
 
 	/**
+	 * This method will play a year of plenty card from a player's hand. A new
+	 * ClientModel will be returned to the client.
+	 * 
 	 * @Pre player has the specific card they want to play in their
 	 *      "old dev card hand"
 	 * @Pre player hasn't played a dev card this turn
@@ -392,6 +419,9 @@ public interface IServer {
 	public ClientModel playYearOfPlentyCard(String resource1, String resource2);
 
 	/**
+	 * This method will play a road building card from a player's hand. A new
+	 * ClientModel will be returned to the client.
+	 * 
 	 * @Pre player has the specific card they want to play in their
 	 *      "old dev card hand"
 	 * @Pre player hasn't played a dev card this turn
@@ -409,6 +439,9 @@ public interface IServer {
 			EdgeLocation spot2);
 
 	/**
+	 * This method plays a monopoly card from the player's hand. A new
+	 * ClientModel will be returned to the client.
+	 * 
 	 * @Pre player has the specific card they want to play in their
 	 *      "old dev card hand"
 	 * @Pre player hasn't played a dev card this turn
@@ -420,6 +453,9 @@ public interface IServer {
 	public ClientModel playMonopolyCard(String resource);
 
 	/**
+	 * This method plays a monument card from the player's hand. A new
+	 * ClientModel will be returned to the client.
+	 * 
 	 * @Pre none
 	 * @Post current player gains a victory point
 	 *

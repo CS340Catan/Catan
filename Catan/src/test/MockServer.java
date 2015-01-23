@@ -490,7 +490,7 @@ public class MockServer implements IServer {
 	}
 
 	/**
-	 * Plays a monument car, which gives the player who played a victory point
+	 * Plays a monument card, which gives the player who played a victory point
 	 * 
 	 * @pre Player is logged in and part of the game
 	 * @pre It is the player's turn

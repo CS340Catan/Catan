@@ -9,167 +9,208 @@ import client.model.ClientModel;
 import client.model.ResourceList;
 
 public class ServerProxy implements IServer {
-	
-	/**used to send data over the network*/
+
+	public HTTPCommunicator getHttpCommunicator() {
+		return httpCommunicator;
+	}
+
+	public void setHttpCommunicator(HTTPCommunicator httpCommunicator) {
+		this.httpCommunicator = httpCommunicator;
+	}
+
+	/** used to send data over the network */
 	private HTTPCommunicator httpCommunicator;
-	
+
 	public ServerProxy(HTTPCommunicator httpCommunicator) {
 		this.httpCommunicator = httpCommunicator;
 	}
-	
+
 	/**
-	 * Checks to see if the server's model has been updated, returns the model if it has
-	 * @pre 	none
-	 * @post	ClientModel is updated
-	 */
-	public void poll() {
-		
-	}
-	
-	/**
-	 * Prepares credentials to be sent over network, then sends them to server login
+	 * Checks to see if the server's model has been updated, returns the model
+	 * if it has
 	 * 
-	 * @pre		username not null
-	 * @pre		password not null
-	 * @post	a valid LoginResponse returned
+	 * @return
+	 * @pre none
+	 * @post ClientModel is updated
+	 */
+	public ClientModel poll() {
+		return null;
+
+	}
+
+	/**
+	 * Prepares credentials to be sent over network, then sends them to server
+	 * login
+	 * 
+	 * @pre username not null
+	 * @pre password not null
+	 * @post a valid LoginResponse returned
 	 */
 	public LoginResponse Login(UserCredentials credentials) {
 		return null;
 	}
+
 	/**
-	 * Prepares credentials to be sent over network, then sends them to server registration
+	 * Prepares credentials to be sent over network, then sends them to server
+	 * registration
 	 * 
-	 * @pre		username not null
-	 * @pre		password not null
-	 * @post	a valid LoginResponse returned
+	 * @pre username not null
+	 * @pre password not null
+	 * @post a valid LoginResponse returned
 	 */
 	public LoginResponse Register(UserCredentials credentials) {
 		LoginResponse loginResponse = new LoginResponse();
 		return loginResponse;
 	}
+
 	/**
 	 * Retrieves a list of the currently existing games
 	 * 
-	 * @pre		none
-	 * @post	A valid CurrentGames returned
+	 * @pre none
+	 * @post A valid CurrentGames returned
 	 */
 	public GamesList getGameList() {
 		GamesList currentGames = new GamesList(null);
 		return currentGames;
 	}
+
 	/**
-	 * Prepares params to be sent over network, then sends them to server to create a game
+	 * Prepares params to be sent over network, then sends them to server to
+	 * create a game
 	 * 
-	 * @pre		name not null
-	 * @pre		params contains only valid boolean values
-	 * @post	a valid GameSummary returned
+	 * @pre name not null
+	 * @pre params contains only valid boolean values
+	 * @post a valid GameSummary returned
 	 */
 	public GameSummary createGame(CreateGameParams params) {
 		GameSummary newGame = new GameSummary(null, 0, null);
 		return newGame;
 	}
+
 	/**
-	 * Prepares params to be sent over network, then sends them to server to join a game
+	 * Prepares params to be sent over network, then sends them to server to
+	 * join a game
 	 * 
-	 * @pre		user has previously logged into server
-	 * @pre		The player is already in the game OR there is room for a new player
-	 * @pre		game id is valid
-	 * @pre		color is valid (red, green, blue, yellow, puce, brown, white, purple, orange)
-	 * @post	a valid boolean returned
+	 * @pre user has previously logged into server
+	 * @pre The player is already in the game OR there is room for a new player
+	 * @pre game id is valid
+	 * @pre color is valid (red, green, blue, yellow, puce, brown, white,
+	 *      purple, orange)
+	 * @post a valid boolean returned
 	 */
 	public boolean joinGame(JoinGameParams params) {
 		boolean success = true;
 		return success;
 	}
+
 	/**
-	 * Prepares params to be sent over network, then sends them to server to save a game
+	 * Prepares params to be sent over network, then sends them to server to
+	 * save a game
 	 * 
-	 * @pre		game id is valid
-	 * @pre		filname is not null or empty
-	 * @post	a valid boolean returned
+	 * @pre game id is valid
+	 * @pre filname is not null or empty
+	 * @post a valid boolean returned
 	 */
 	public boolean saveGame(SaveParams params) {
 		boolean success = true;
 		return success;
 	}
+
 	/**
-	 * Prepares the filename to be sent over network, then sends it to server to load a game
+	 * Prepares the filename to be sent over network, then sends it to server to
+	 * load a game
 	 * 
-	 * @pre		a saved game with the specified filename exists on the server
-	 * @post	a valid boolean returned
+	 * @pre a saved game with the specified filename exists on the server
+	 * @post a valid boolean returned
 	 */
 	public boolean loadGame(String fileName) {
 		boolean success = true;
 		return success;
 	}
+
 	/**
-	 * Prepares the version number to be sent over the network, then retrieves current game from server if it's different than the current version
+	 * Prepares the version number to be sent over the network, then retrieves
+	 * current game from server if it's different than the current version
 	 * 
-	 * @pre		user has logged on and joined a game, and therefore has cookies
-	 * @pre		version is a valid int
-	 * @post	a valid ClientModel returned
+	 * @pre user has logged on and joined a game, and therefore has cookies
+	 * @pre version is a valid int
+	 * @post a valid ClientModel returned
 	 */
 	public ClientModel getCurrentGame(int version) {
-		ClientModel model = new ClientModel(null, null, null, null, null, null, null, version, version);
+		ClientModel model = new ClientModel(null, null, null, null, null, null,
+				null, version, version);
 		return model;
 	}
+
 	/**
 	 * Tells the server to reset the game
 	 * 
-	 * @pre		none
-	 * @post	a valid ClientModel returned
+	 * @pre none
+	 * @post a valid ClientModel returned
 	 */
 	public ClientModel resetGame() {
-		ClientModel model = new ClientModel(null, null, null, null, null, null, null, 0, 0);
+		ClientModel model = new ClientModel(null, null, null, null, null, null,
+				null, 0, 0);
 		return model;
 	}
+
 	/**
 	 * Retrieves all the past commands in the current game from the server
 	 * 
-	 * @pre		none
-	 * @post	a valid set of commands returned
+	 * @pre none
+	 * @post a valid set of commands returned
 	 */
 	public CommandList getCommands() {
 		CommandList commands = null;
 		return commands;
 	}
+
 	/**
-	 * Prepares commands to be sent over network, then sends them to server to apply to current game 
+	 * Prepares commands to be sent over network, then sends them to server to
+	 * apply to current game
 	 * 
-	 * @pre		user has logged on and joined a game, and therefore has cookies
-	 * @post	a valid ClientModel returned
+	 * @pre user has logged on and joined a game, and therefore has cookies
+	 * @post a valid ClientModel returned
 	 */
 	public ClientModel setCommands(CommandList commands) {
-		ClientModel model = new ClientModel(null, null, null, null, null, null, null, 0, 0);
+		ClientModel model = new ClientModel(null, null, null, null, null, null,
+				null, 0, 0);
 		return model;
 	}
+
 	/**
-	 * Retrieves a list from the server of the different types of AI players available available
+	 * Retrieves a list from the server of the different types of AI players
+	 * available available
 	 * 
-	 * @pre		none
-	 * @post	a valid list of AI types returned
+	 * @pre none
+	 * @post a valid list of AI types returned
 	 */
 	public String[] getAITypes() {
 		String[] AITypes = null;
 		return AITypes;
 	}
+
 	/**
-	 * Prepares the AIType to be sent over network, then sends it to server to create a new AI player
+	 * Prepares the AIType to be sent over network, then sends it to server to
+	 * create a new AI player
 	 * 
-	 * @pre		user has logged on and joined a game, and therefore has cookies
-	 * @pre		there is space in the game for another player
-	 * @pre		the AIType is a valid type returned by the getAITypes method
-	 * @post	a valid boolean returned
+	 * @pre user has logged on and joined a game, and therefore has cookies
+	 * @pre there is space in the game for another player
+	 * @pre the AIType is a valid type returned by the getAITypes method
+	 * @post a valid boolean returned
 	 */
 	public boolean addAI(String AIType) {
 		boolean success = true;
 		return success;
 	}
+
 	/**
-	 * Prepares the log level to be sent over network, then sends it to server to change the granularity of the log it keeps
+	 * Prepares the log level to be sent over network, then sends it to server
+	 * to change the granularity of the log it keeps
 	 * 
-	 * @pre		level is a valid LogLevel (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
-	 * @post	a valid boolean returned
+	 * @pre level is a valid LogLevel (SEVERE, WARNING, INFO, CONFIG, FINE,
+	 *      FINER, FINEST)
+	 * @post a valid boolean returned
 	 */
 
 	/**
@@ -234,9 +275,9 @@ public class ServerProxy implements IServer {
 
 	/**
 	 * @Pre It is the current player's turn
-	 * @Pre The client model’s status is ‘Rolling’
-	 * @Post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or
-	 *       ‘Playing’
+	 * @Pre The client modelâ€™s status is â€˜Rollingâ€™
+	 * @Post The client modelâ€™s status is now in â€˜Discardingâ€™ or
+	 *       â€˜Robbingâ€™ or â€˜Playingâ€™
 	 * @param number
 	 * @return
 	 */
@@ -250,15 +291,15 @@ public class ServerProxy implements IServer {
 	 * @Pre The road location is open
 	 * @Pre The road location is connected to another road owned by the player
 	 * @Pre The road location is not on water
-	 * @Pre The current player has the required resources (1 wood, 1 brick; 1
+	 * @Pre The current player has the required resources (1 wood, 1 brickÍ¾ 1
 	 *      road)
 	 * @Pre Setup round: Must be placed by settlement owned by the player with
 	 *      no adjacent road
 	 * @Post The current player lost the resources required to build a road (1
-	 *       wood, 1 brick; 1 road)
+	 *       wood, 1 brickÍ¾ 1 road)
 	 * @Post The road is on the map at the specified location
-	 * @Post If applicable, “longest road” has been awarded to the player with
-	 *       the longest road
+	 * @Post If applicable, â€œlongest roadâ€� has been awarded to the player
+	 *       with the longest road
 	 * @param free
 	 * @param roadLocation
 	 * @return
@@ -275,7 +316,7 @@ public class ServerProxy implements IServer {
 	 * @Pre The settlement location is connected to one of the current player's
 	 *      roads except during setup
 	 * @Pre The current player has the required resources (1 wood, 1 brick, 1
-	 *      wheat, 1 sheep; 1 settlement)
+	 *      wheat, 1 sheepÍ¾ 1 settlement)
 	 * @Pre The settlement cannot be placed adjacent to another settlement
 	 * 
 	 * @param free
@@ -456,5 +497,5 @@ public class ServerProxy implements IServer {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }
