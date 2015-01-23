@@ -11,6 +11,7 @@ import client.communication.LogLevel;
 import client.model.ClientModel;
 
 public interface IServer {
+	//----NON-MOVE APIs--------
 	public LoginResponse Login(UserCredentials credentials);
 	public LoginResponse Register(UserCredentials credentials);
 	public GamesList getGameList();
