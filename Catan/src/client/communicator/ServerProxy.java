@@ -1,10 +1,11 @@
-package client.communication;
+package client.communicator;
 
 import shared.communication.*;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.utils.IServer;
+import client.communication.HTTPCommunicator;
 import client.model.ClientModel;
 import client.model.ResourceList;
 
