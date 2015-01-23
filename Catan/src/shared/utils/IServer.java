@@ -34,14 +34,14 @@ public interface IServer {
 	public void buildRoad(boolean free, EdgeLocation roadLocation);
 	public void buildSettlement(boolean free, VertexLocation vertexLocation);
 	public void buildCity(VertexLocation vertexLocation);
-	public void offerTrade(ResourceHand, playerIndex);
-	public void maritimeTrade(integer, Resource, Resource);
-	public void robPlayer(HexLocation, playerIndex);
+	public void offerTrade(ResourceHand offer, playerIndex receiver);
+	public void maritimeTrade(int ratio, Resource inputResource, Resource outputResource);
+	public void robPlayer(HexLocation location, playerIndex victimIndex);
 	public void finishTurn();
 	public void buyDevCard();
-	public void playSoldierCard(HexLocation, playerIndex);
-	public void playYearOfPlentyCard(Resource, Resource);
-	public void playRoadBuildingCard(EdgeLocation, EdgeLocation);
-	public void playMonopolyCard(Resource);
+	public void playSoldierCard(HexLocation location, playerIndex victimIndex);
+	public void playYearOfPlentyCard(Resource resource1, Resource resource2);
+	public void playRoadBuildingCard(EdgeLocation spot1, EdgeLocation spot2);
+	public void playMonopolyCard(Resource resource);
 	public void playMonument();
 }
