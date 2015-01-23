@@ -29,15 +29,15 @@ public interface IServer {
 	 * 
 	 * @Pre Username is not null.
 	 * @Pre Password is not null.
-	 * @PreIf the passedÂ­in (username, password) pair is valid, 1. The server
-	 *        returns an HTTP 200 success response with "Success" in the body.
-	 *        2. The HTTP response headers set the catan.user cookie to contain
-	 *        the identity of the loggedÂ­in player.
+	 * @Pre If the passed­in (username, password) pair is valid, 1. The server
+	 *      returns an HTTP 200 success response with "Success" in the body. 2.
+	 *      The HTTP response headers set the catan.user cookie to contain the
+	 *      identity of the loggedÂ­in player.
 	 * @Post If the passed-in credentials is valid, the server returns a success
 	 *       response with a cookie.
 	 * @param credentials
 	 *            Information containing username and password.
-	 * @return
+	 * 
 	 */
 	public LoginResponse Login(UserCredentials credentials);
 
@@ -59,7 +59,7 @@ public interface IServer {
 	 *       HTTP 400 error response, and the body contains an error message.
 	 * @param credentials
 	 *            Information containing username and password.
-	 * @return
+	 * 
 	 */
 	public LoginResponse Register(UserCredentials credentials);
 
@@ -73,7 +73,7 @@ public interface IServer {
 	 *       list of objects that contain information about the server's games.
 	 * @Post If the operation fails, 1. The server returns an HTTP 400 error
 	 *       response, and the body contains an error message.
-	 * @return
+	 * 
 	 */
 	public GamesList getGameList();
 
@@ -90,7 +90,7 @@ public interface IServer {
 	 *       success response. 3. The body contains a JSON object describing the
 	 *       newly created game.
 	 * @param params
-	 * @return
+	 * 
 	 */
 	public GameSummary createGame(CreateGameParams params);
 
@@ -115,7 +115,7 @@ public interface IServer {
 	 *       response, and the body contains an error message.
 	 * 
 	 * @param params
-	 * @return
+	 * 
 	 */
 	public boolean joinGame(JoinGameParams params);
 
@@ -124,9 +124,9 @@ public interface IServer {
 	 * be returned a boolean if the game was successfully saved. Prepares params
 	 * to be sent over network, then sends them to server to save a game
 	 * 
-	 * @pre Game id is valid.
-	 * @pre Filename is not null or empty.
-	 * @post A valid boolean returned.
+	 * @Pre Game id is valid.
+	 * @Pre Filename is not null or empty.
+	 * @Post A valid boolean returned.
 	 */
 	public boolean saveGame(SaveParams params);
 
@@ -135,8 +135,8 @@ public interface IServer {
 	 * filename input. A boolean will be returned to the client stating whether
 	 * the game was loaded.
 	 * 
-	 * @pre A saved game with the specified filename exists on the server.
-	 * @post A valid boolean returned.
+	 * @Pre A saved game with the specified filename exists on the server.
+	 * @Post A valid boolean returned.
 	 */
 	public boolean loadGame(String fileName);
 
@@ -144,25 +144,25 @@ public interface IServer {
 	 * Prepares the version number to be sent to the server, then retrieves
 	 * current game from the server if it's different than the current version.
 	 * 
-	 * @pre User has logged on and joined a game, and therefore has cookies.
-	 * @pre Version is a valid integer.
-	 * @post A valid ClientModel returned.
+	 * @Pre User has logged on and joined a game, and therefore has cookies.
+	 * @Pre Version is a valid integer.
+	 * @Post A valid ClientModel returned.
 	 */
 	public ClientModel getCurrentGame(int version);
 
 	/**
 	 * This method resets the game within the server.
 	 * 
-	 * @pre none
-	 * @post A valid ClientModel returned.
+	 * @Pre none
+	 * @Post A valid ClientModel returned.
 	 */
 	public ClientModel resetGame();
 
 	/**
 	 * Retrieves all the past commands in the current game from the server.
 	 * 
-	 * @pre none
-	 * @post A valid set of commands returned.
+	 * @Pre none
+	 * @Post A valid set of commands returned.
 	 */
 	public CommandList getCommands();
 
@@ -170,8 +170,8 @@ public interface IServer {
 	 * Prepares commands to be sent to the server, then sends them to server to
 	 * apply to current game.
 	 * 
-	 * @pre User has logged on and joined a game, and therefore has cookies.
-	 * @post A valid ClientModel returned.
+	 * @Pre User has logged on and joined a game, and therefore has cookies.
+	 * @Post A valid ClientModel returned.
 	 */
 	public ClientModel setCommands(CommandList commands);
 
@@ -179,8 +179,8 @@ public interface IServer {
 	 * Retrieves a list from the server of the different types of AI players
 	 * available available.
 	 * 
-	 * @pre none
-	 * @post A valid list of AI types returned.
+	 * @Pre none
+	 * @Post A valid list of AI types returned.
 	 */
 	public String[] getAITypes();
 
@@ -188,10 +188,10 @@ public interface IServer {
 	 * Prepares the AIType to the server, then sends it to server to create a
 	 * new AI player.
 	 * 
-	 * @pre User has logged on and joined a game, and therefore has cookies.
-	 * @pre There is space in the game for another player.
-	 * @pre The AIType is a valid type returned by the getAITypes method.
-	 * @post A valid boolean returned.
+	 * @Pre User has logged on and joined a game, and therefore has cookies.
+	 * @Pre There is space in the game for another player.
+	 * @Pre The AIType is a valid type returned by the getAITypes method.
+	 * @Post A valid boolean returned.
 	 */
 	public boolean addAI(String AIType);
 
@@ -199,9 +199,9 @@ public interface IServer {
 	 * Prepares the log level to the server, then sends it to server to change
 	 * the granularity of the log it keeps.
 	 * 
-	 * @pre Level is a valid LogLevel (SEVERE, WARNING, INFO, CONFIG, FINE,
+	 * @Pre Level is a valid LogLevel (SEVERE, WARNING, INFO, CONFIG, FINE,
 	 *      FINER, FINEST).
-	 * @post A valid boolean returned.
+	 * @Post A valid boolean returned.
 	 */
 	public boolean changeLogLevel(LogLevels level);
 
@@ -222,7 +222,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post chat contains the player's message at the end
 	 * @param content
-	 * @return
+	 * 
 	 */
 	public ClientModel sendChat(String content);
 
@@ -253,7 +253,7 @@ public interface IServer {
 	 * @Post If the current player is the last one to discard, the client model
 	 *       status changes to 'Robbing'
 	 * @param discardedCards
-	 * @return
+	 * 
 	 */
 	public ClientModel discardCards(ResourceList discardedCards);
 
@@ -266,7 +266,7 @@ public interface IServer {
 	 * @Post The client model's status is now in "Discarding" or "Robbing" or
 	 *       "Playing"
 	 * @param number
-	 * @return
+	 * 
 	 */
 	public ClientModel rollNumber(int number);
 
@@ -282,13 +282,13 @@ public interface IServer {
 	 * @Pre Setup round: Must be placed by settlement owned by the player with
 	 *      no adjacent road
 	 * @Post The current player lost the resources required to build a road (1
-	 *       wood, 1 brickÍ¾ 1 road)
+	 *       wood, 1 brick and 1 road)
 	 * @Post The road is on the map at the specified location
 	 * @Post If applicable, 'longest road' has been awarded to the player with
 	 *       the longest road
 	 * @param free
 	 * @param roadLocation
-	 * @return
+	 * 
 	 */
 	public ClientModel buildRoad(boolean free, EdgeLocation roadLocation);
 
@@ -301,12 +301,12 @@ public interface IServer {
 	 * @Pre The settlement location is connected to one of the current player's
 	 *      roads except during setup
 	 * @Pre The current player has the required resources (1 wood, 1 brick, 1
-	 *      wheat, 1 sheepÍ¾ 1 settlement)
+	 *      wheat, 1 sheep and 1 settlement)
 	 * @Pre The settlement cannot be placed adjacent to another settlement
 	 * 
 	 * @param free
 	 * @param vertexLocation
-	 * @return
+	 * 
 	 */
 	public ClientModel buildSettlement(boolean free,
 			VertexLocation vertexLocation);
@@ -317,12 +317,12 @@ public interface IServer {
 	 * 
 	 * updates model, builds a city in specified location
 	 * 
-	 * @pre the city location is where you currently have a settlement
-	 * @pre you have the required resources (2 wheat, 3 ore; 1 city)
-	 * @post you lost the resources required to build a city (2 wheat, 3 ore; 1
+	 * @Pre the city location is where you currently have a settlement
+	 * @Pre you have the required resources (2 wheat, 3 ore; 1 city)
+	 * @Post you lost the resources required to build a city (2 wheat, 3 ore; 1
 	 *       city)
-	 * @post the city is on the map at the specified location
-	 * @post you got a settlement back
+	 * @Post the city is on the map at the specified location
+	 * @Post you got a settlement back
 	 */
 	public ClientModel buildCity(VertexLocation vertexLocation);
 
@@ -332,8 +332,8 @@ public interface IServer {
 	 * 
 	 * displays to other player a trade offer
 	 * 
-	 * @pre you have the resources you are offering
-	 * @post the trade is offered to the other player (stored in the server
+	 * @Pre you have the resources you are offering
+	 * @Post the trade is offered to the other player (stored in the server
 	 *       model)
 	 */
 	public ClientModel offerTrade(ResourceList offer, int receiver);
@@ -344,9 +344,9 @@ public interface IServer {
 	 * 
 	 * trades resource cards according to a certain ratio
 	 * 
-	 * @pre you have the resources you are giving
-	 * @pre for ratios less than 4, you have the correct port for the trade
-	 * @post trade has been executed (offered resources are in the bank, and the
+	 * @Pre you have the resources you are giving
+	 * @Pre for ratios less than 4, you have the correct port for the trade
+	 * @Post trade has been executed (offered resources are in the bank, and the
 	 *       requested resource has been received)
 	 */
 	public ClientModel maritimeTrade(int ratio, String inputResource,
@@ -356,11 +356,11 @@ public interface IServer {
 	 * This method will move the robber and steal from a specific victim. A new
 	 * ClientModel will be returned to the client.
 	 * 
-	 * @pre robber is not being kept in the same location
-	 * @pre if a player is being robbed, the player being robbed has resource
+	 * @Pre robber is not being kept in the same location
+	 * @Pre if a player is being robbed, the player being robbed has resource
 	 *      cards
-	 * @post robber is in the new location
-	 * @post player being robbed (if any) gave you one of his resource cards
+	 * @Post robber is in the new location
+	 * @Post player being robbed (if any) gave you one of his resource cards
 	 *       (randomly selected)
 	 */
 	public ClientModel robPlayer(HexLocation location, int victimIndex);
@@ -369,9 +369,9 @@ public interface IServer {
 	 * This method will end the client's turn and start a new players turn. A
 	 * new ClientModel will be returned to the client.
 	 * 
-	 * @pre none
-	 * @post cards in new dev card hand have been transferred to old dev card
-	 * @post it is the next player's turn
+	 * @Pre none
+	 * @Post cards in new dev card hand have been transferred to old dev card
+	 * @Post it is the next player's turn
 	 */
 	public ClientModel finishTurn();
 
@@ -379,10 +379,10 @@ public interface IServer {
 	 * This method removes resource cards from player's in return for a
 	 * development card. A new ClientModel will be returned to the client.
 	 * 
-	 * @pre player has the required resources
-	 * @pre there is a development card left in the bank
-	 * @post player has a new development card
-	 * @post if it is monument card, add it to old devcard hand else, add it to
+	 * @Pre player has the required resources
+	 * @Pre there is a development card left in the bank
+	 * @Post player has a new development card
+	 * @Post if it is monument card, add it to old devcard hand else, add it to
 	 *       new devcard hand
 	 */
 	public ClientModel buyDevCard();

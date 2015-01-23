@@ -302,15 +302,15 @@ public class ServerProxy implements IServer {
 	 * @Pre The road location is open
 	 * @Pre The road location is connected to another road owned by the player
 	 * @Pre The road location is not on water
-	 * @Pre The current player has the required resources (1 wood, 1 brickÍ¾ 1
+	 * @Pre The current player has the required resources (1 wood, 1 brick and 1
 	 *      road)
 	 * @Pre Setup round: Must be placed by settlement owned by the player with
 	 *      no adjacent road
 	 * @Post The current player lost the resources required to build a road (1
-	 *       wood, 1 brickÍ¾ 1 road)
+	 *       wood, 1 brick and 1 road)
 	 * @Post The road is on the map at the specified location
-	 * @Post If applicable, â€œlongest roadâ€� has been awarded to the player
-	 *       with the longest road
+	 * @Post If applicable, "Longest Road" has been awarded to the player with
+	 *       the longest road
 	 * @param free
 	 * @param roadLocation
 	 * @return
@@ -327,7 +327,7 @@ public class ServerProxy implements IServer {
 	 * @Pre The settlement location is connected to one of the current player's
 	 *      roads except during setup
 	 * @Pre The current player has the required resources (1 wood, 1 brick, 1
-	 *      wheat, 1 sheepÍ¾ 1 settlement)
+	 *      wheat, 1 sheep and 1 settlement)
 	 * @Pre The settlement cannot be placed adjacent to another settlement
 	 * 
 	 * @param free

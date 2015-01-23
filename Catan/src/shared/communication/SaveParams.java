@@ -21,8 +21,8 @@ public class SaveParams {
 	String fileName;
 
 	/**
-	 * @pre id must be a valid game id
-	 * @pre filename cannot be null or the empty string
+	 * @Pre id must be a valid game id
+	 * @Pre filename cannot be null or the empty string
 	 * @post creates a wrapper class around data that needs be sent to server in
 	 *       order to save game
 	 * @param id
