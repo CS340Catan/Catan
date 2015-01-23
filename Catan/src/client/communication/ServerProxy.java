@@ -8,12 +8,12 @@ import shared.utils.IServer;
 import client.model.ClientModel;
 import client.model.ResourceList;
 
-public class ClientCommunicator implements IServer {
+public class ServerProxy implements IServer {
 	
 	/**used to send data over the network*/
 	private HTTPCommunicator httpCommunicator;
 	
-	public ClientCommunicator(HTTPCommunicator httpCommunicator) {
+	public ServerProxy(HTTPCommunicator httpCommunicator) {
 		this.httpCommunicator = httpCommunicator;
 	}
 	
