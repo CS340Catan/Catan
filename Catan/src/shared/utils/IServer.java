@@ -19,6 +19,22 @@ import client.model.ClientModel;
  * @author Seth White
  *
  */
+/**
+ * @author marcos
+ *
+ */
+/**
+ * @author marcos
+ *
+ */
+/**
+ * @author marcos
+ *
+ */
+/**
+ * @author marcos
+ *
+ */
 public interface IServer {
 	// ----NON-MOVE APIs--------
 	/**
@@ -105,6 +121,11 @@ public interface IServer {
 			EdgeLocation spot2);
 
 	public ClientModel playMonopolyCard(String resource);
-
+	
+	/**
+	 * @Pre none
+	 * @Post current player gains a victory point
+	 * 
+	 */
 	public ClientModel playMonument();
 }
