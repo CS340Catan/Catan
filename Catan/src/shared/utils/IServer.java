@@ -69,14 +69,34 @@ public interface IServer {
 	 * @Pre Current player has been offered a domestic trade
 	 * @Pre To accept the offered trade, current player has the required
 	 *      resources
-	 * @Pre Player has 
+	 * @Post If you accepted, you and the player who offered swap the specified
+	 *       resources
+	 * @Post If you declined no resources are exchanged
+	 * @Post The trade offer is removed
 	 * @param willAccept
-	 * @return
 	 */
 	public ClientModel acceptTrade(boolean willAccept);
 
+	/**
+	 * @Pre The status of the client model is 'Discarding'
+	 * @Pre You have over 7 cards
+	 * @Pre You have the cards you're choosing to discard.
+	 * @Post Postconditions
+	 * @Post You gave up the specified resources
+	 * @Post If you're the last one to discard, the client model status changes
+	 *       to 'Robbing'
+	 * @param discardedCards
+	 * @return
+	 */
 	public ClientModel discardCards(ResourceList discardedCards);
 
+	/**
+	 * @Pre It is your turn
+	 * @Pre The client model’s status is ‘Rolling’
+	 * 
+	 * @param number
+	 * @return
+	 */
 	public ClientModel rollNumber(int number);
 
 	public ClientModel buildRoad(boolean free, EdgeLocation roadLocation);
