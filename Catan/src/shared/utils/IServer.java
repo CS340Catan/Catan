@@ -8,6 +8,8 @@ import shared.communication.LoginResponse;
 import shared.communication.SaveParams;
 import shared.communication.UserCredentials;
 import client.communication.LogLevel;
+import shared.locations.*;
+import client.model.ResourceList;
 import client.model.ClientModel;
 
 public interface IServer {
@@ -30,12 +32,12 @@ public interface IServer {
 	//----MOVE APIs--------
 	public void sendChat(String content);
 	public boolean acceptTrade(boolean willAccept);
-	public void discardCards(ResourceHand discardedCards);
+	public void discardCards(ResourceList discardedCards);
 	public void rollNumber(int number);
 	public void buildRoad(boolean free, EdgeLocation roadLocation);
 	public void buildSettlement(boolean free, VertexLocation vertexLocation);
 	public void buildCity(VertexLocation vertexLocation);
-	public void offerTrade(ResourceHand offer, playerIndex receiver);
+	public void offerTrade(ResourceList offer, playerIndex receiver);
 	public void maritimeTrade(int ratio, Resource inputResource, Resource outputResource);
 	public void robPlayer(HexLocation location, playerIndex victimIndex);
 	public void finishTurn();
