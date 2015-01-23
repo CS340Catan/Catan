@@ -23,12 +23,16 @@ import client.model.ClientModel;
 public interface IServer {
 	// ----NON-MOVE APIs--------
 	/**
+	 * This method takes in UserCredentials, which contain a username and
+	 * password, and determine if the inputed username and password is a valid
+	 * combination.
+	 * 
 	 * @Pre Username is not null
 	 * @Pre Password is not null
-	 * @PreIf the passed­in (username, password) pair is valid, 1. The server
-	 *        returns an HTTP 200 success response with “Success” in the body.
-	 *        2. The HTTP response headers set the catan.user cookie to contain
-	 *        the identity of the logged­in player.
+	 * @PreIf the passedÂ­in (username, password) pair is valid, 1. The server
+	 *        returns an HTTP 200 success response with â€œSuccessâ€� in the
+	 *        body. 2. The HTTP response headers set the catan.user cookie to
+	 *        contain the identity of the loggedÂ­in player.
 	 * @Post If the passed-in credentials is valid, the server returns a success
 	 *       response with a cookie
 	 * @param credentials
@@ -43,8 +47,8 @@ public interface IServer {
 	 * @Post If there is no existing user with the specified username, 1. A new
 	 *       user account has been created with the specified username and
 	 *       password. 2. The server returns an HTTP 200 success response with
-	 *       “Success” in the body. 3. The HTTP response headers set the
-	 *       catan.user cookie to contain the identity of the logged­in player.
+	 *       â€œSuccessâ€� in the body. 3. The HTTP response headers set the
+	 *       catan.user cookie to contain the identity of the loggedÂ­in player.
 	 * @Post If there is already an existing user with the specified name, or
 	 *       the operation fails for any other reason, 1. The server returns an
 	 *       HTTP 400 error response, and the body contains an error message.
@@ -57,7 +61,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post If the operation succeeds, 1. The server returns an HTTP 200
 	 *       success response. 2. The body contains a JSON array containing a
-	 *       list of objects that contain information about the server’s games
+	 *       list of objects that contain information about the serverâ€™s games
 	 * @Post If the operation fails, 1. The server returns an HTTP 400 error
 	 *       response, and the body contains an error message.
 	 * @return
@@ -85,11 +89,11 @@ public interface IServer {
 	 *      The specified color is valid (red, green, blue, yellow, puce, brown,
 	 *      white, purple, orange)
 	 * @Post If the operation succeeds, 1. The server returns an HTTP 200
-	 *       success response with “Success” in the body. 2. The player is in
-	 *       the game with the specified color (i.e. calls to /games/list method
-	 *       will show the player in the game with the chosen color). 3. The
-	 *       server response includes the “Set­cookie” response header setting
-	 *       the catan.game HTTP cookie
+	 *       success response with â€œSuccessâ€� in the body. 2. The player is
+	 *       in the game with the specified color (i.e. calls to /games/list
+	 *       method will show the player in the game with the chosen color). 3.
+	 *       The server response includes the â€œSetÂ­cookieâ€� response header
+	 *       setting the catan.game HTTP cookie
 	 * @Post If the operation fails,1. The server returns an HTTP 400 error
 	 *       response, and the body contains an error message.
 	 * 
@@ -225,9 +229,9 @@ public interface IServer {
 
 	/**
 	 * @Pre It is the current player's turn
-	 * @Pre The client model’s status is ‘Rolling’
-	 * @Post The client model’s status is now in ‘Discarding’ or ‘Robbing’ or
-	 *       ‘Playing’
+	 * @Pre The client modelâ€™s status is â€˜Rollingâ€™
+	 * @Post The client modelâ€™s status is now in â€˜Discardingâ€™ or
+	 *       â€˜Robbingâ€™ or â€˜Playingâ€™
 	 * @param number
 	 * @return
 	 */
@@ -237,15 +241,15 @@ public interface IServer {
 	 * @Pre The road location is open
 	 * @Pre The road location is connected to another road owned by the player
 	 * @Pre The road location is not on water
-	 * @Pre The current player has the required resources (1 wood, 1 brick; 1
+	 * @Pre The current player has the required resources (1 wood, 1 brickÍ¾ 1
 	 *      road)
 	 * @Pre Setup round: Must be placed by settlement owned by the player with
 	 *      no adjacent road
 	 * @Post The current player lost the resources required to build a road (1
-	 *       wood, 1 brick; 1 road)
+	 *       wood, 1 brickÍ¾ 1 road)
 	 * @Post The road is on the map at the specified location
-	 * @Post If applicable, “longest road” has been awarded to the player with
-	 *       the longest road
+	 * @Post If applicable, â€œlongest roadâ€� has been awarded to the player
+	 *       with the longest road
 	 * @param free
 	 * @param roadLocation
 	 * @return
@@ -258,7 +262,7 @@ public interface IServer {
 	 * @Pre The settlement location is connected to one of the current player's
 	 *      roads except during setup
 	 * @Pre The current player has the required resources (1 wood, 1 brick, 1
-	 *      wheat, 1 sheep; 1 settlement)
+	 *      wheat, 1 sheepÍ¾ 1 settlement)
 	 * @Pre The settlement cannot be placed adjacent to another settlement
 	 * 
 	 * @param free
@@ -319,7 +323,7 @@ public interface IServer {
 	 * @post cards in new dev card hand have been transferred to old dev card
 	 * @post it is the next player's turn
 	 */
-		public ClientModel finishTurn();
+	public ClientModel finishTurn();
 
 	/**
 	 * removes resource cards from player, retrieves development card from bank
@@ -330,7 +334,7 @@ public interface IServer {
 	 * @post if it is monument card, add it to old devcard hand else, add it to
 	 *       new devcard hand
 	 */
-		public ClientModel buyDevCard();
+	public ClientModel buyDevCard();
 
 	/**
 	 * @Pre player has the specific card they want to play in their
