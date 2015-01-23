@@ -1,31 +1,22 @@
 package client.communication;
 
+import shared.communication.*;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
+import shared.utils.IServer;
 import client.model.ClientModel;
-import shared.communication.CreateGameParams;
-import shared.communication.GameSummary;
-import shared.communication.GamesList;
-import shared.communication.JoinGameParams;
-import shared.communication.LoginResponse;
-import shared.communication.SaveParams;
-import shared.communication.UserCredentials;
+import client.model.ResourceList;
 
-public class ClientCommunicator {
-	
-	public ClientCommunicator(IServer server) {
-		httpCommunicator = new HTTPCommunicator(server);
-	}
+public class ClientCommunicator implements IServer {
 	
 	/**used to send data over the network*/
 	private HTTPCommunicator httpCommunicator;
 	
-	/**
-	 * Checks to see if the server's model has been updated, returns the model if it has
-	 * @pre 	none
-	 * @post	ClientModel is updated
-	 */
-	public void poll() {
-		
+	public ClientCommunicator(HTTPCommunicator httpCommunicator) {
+		this.httpCommunicator = httpCommunicator;
 	}
+	
 	
 	/**
 	 * Prepares credentials to be sent over network, then sends them to server login
@@ -35,8 +26,7 @@ public class ClientCommunicator {
 	 * @post	a valid LoginResponse returned
 	 */
 	public LoginResponse Login(UserCredentials credentials) {
-		LoginResponse loginResponse = new LoginResponse();
-		return loginResponse;
+		return null;
 	}
 	/**
 	 * Prepares credentials to be sent over network, then sends them to server registration
@@ -67,13 +57,13 @@ public class ClientCommunicator {
 	 * @post	a valid GameSummary returned
 	 */
 	public GameSummary createGame(CreateGameParams params) {
-		GameSummary newGame = new GameSummary(null,0,null);
+		GameSummary newGame = new GameSummary(null, 0, null);
 		return newGame;
 	}
 	/**
 	 * Prepares params to be sent over network, then sends them to server to join a game
 	 * 
-	 * @pre		user has previously loggged into server
+	 * @pre		user has previously logged into server
 	 * @pre		The player is already in the game OR there is room for a new player
 	 * @pre		game id is valid
 	 * @pre		color is valid (red, green, blue, yellow, puce, brown, white, purple, orange)
@@ -112,7 +102,7 @@ public class ClientCommunicator {
 	 * @post	a valid ClientModel returned
 	 */
 	public ClientModel getCurrentGame(int version) {
-		ClientModel model = new ClientModel();
+		ClientModel model = new ClientModel(null, null, null, null, null, null, null, version, version);
 		return model;
 	}
 	/**
@@ -122,9 +112,8 @@ public class ClientCommunicator {
 	 * @post	a valid ClientModel returned
 	 */
 	public ClientModel resetGame() {
-//		ClientModel model = new ClientModel();
-//		return model;
-		return null;
+		ClientModel model = new ClientModel(null, null, null, null, null, null, null, 0, 0);
+		return model;
 	}
 	/**
 	 * Retrieves all the past commands in the current game from the server
@@ -133,7 +122,7 @@ public class ClientCommunicator {
 	 * @post	a valid set of commands returned
 	 */
 	public String[] getCommands() {
-		String[] commands;
+		String[] commands = null;
 		return commands;
 	}
 	/**
@@ -143,7 +132,7 @@ public class ClientCommunicator {
 	 * @post	a valid ClientModel returned
 	 */
 	public ClientModel setCommands(String[] commands) {
-		ClientModel model = new ClientModel();
+		ClientModel model = new ClientModel(null, null, null, null, null, null, null, 0, 0);
 		return model;
 	}
 	/**
@@ -153,7 +142,7 @@ public class ClientCommunicator {
 	 * @post	a valid list of AI types returned
 	 */
 	public String[] getAITypes() {
-		String[] AITypes;
+		String[] AITypes = null;
 		return AITypes;
 	}
 	/**
@@ -174,28 +163,155 @@ public class ClientCommunicator {
 	 * @pre		level is a valid LogLevel (SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST)
 	 * @post	a valid boolean returned
 	 */
-	public boolean changeLogLevel(LogLevel level) {
-		boolean success = true;
-		return success;
+
+
+
+
+	@Override
+	public boolean changeLogLevel(LogLevels level) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public ClientModel sendChat(String content) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel acceptTrade(boolean willAccept) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel discardCards(ResourceList discardedCards) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel rollNumber(int number) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel buildRoad(boolean free, EdgeLocation roadLocation) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel buildSettlement(boolean free,
+			VertexLocation vertexLocation) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel buildCity(VertexLocation vertexLocation) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel offerTrade(ResourceList offer, int receiver) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel maritimeTrade(int ratio, String inputResource,
+			String outputResource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel robPlayer(HexLocation location, int victimIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel finishTurn() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel buyDevCard() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel playSoldierCard(HexLocation location, int victimIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel playYearOfPlentyCard(String resource1, String resource2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel playRoadBuildingCard(EdgeLocation spot1,
+			EdgeLocation spot2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel playMonopolyCard(String resource) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ClientModel playMonument() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	//----MOVE APIs--------
-	public sendChat(String)
-	public acceptTrade(boolean)
-	public discardCards(ResourceList)
-	public rollNumber(integer)
-	public buildRoad(boolean, EdgeLocation)
-	public buildSettlement(boolean, VertexLocation)
-	public buildCity(VertexLocation)
-	public offerTrade(ResourceHand, playerIndex)
-	public maritimeTrade(integer, Resource, Resource)
-	public robPlayer(HexLocation, playerIndex)
-	public finishTurn()
-	public buyDevCard()
-	public playSoldierCard(HexLocation, playerIndex)
-	public playYearOfPlentyCard(Resource, Resource)
-	public playRoadBuildingCard(EdgeLocation, EdgeLocation)
-	public playMonopolyCard(Resource)
-	public playMonument()
+//	public sendChat(String)
+//	public acceptTrade(boolean)
+//	public discardCards(ResourceList)
+//	public rollNumber(integer)
+//	public buildRoad(boolean, EdgeLocation)
+//	public buildSettlement(boolean, VertexLocation)
+//	public buildCity(VertexLocation)
+//	public offerTrade(ResourceHand, playerIndex)
+//	public maritimeTrade(integer, Resource, Resource)
+//	public robPlayer(HexLocation, playerIndex)
+//	public finishTurn()
+//	public buyDevCard()
+//	public playSoldierCard(HexLocation, playerIndex)
+//	public playYearOfPlentyCard(Resource, Resource)
+//	public playRoadBuildingCard(EdgeLocation, EdgeLocation)
+//	public playMonopolyCard(Resource)
+//	public playMonument()
 	
 }
