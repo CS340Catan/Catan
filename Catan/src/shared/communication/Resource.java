@@ -1,12 +1,13 @@
 package shared.communication;
 
-
 /**
  * A resource with a constrained name
+ * 
  * <pre>
  * <b> Domain: </b>
  * name:String
  * </pre>
+ * 
  * @author Seth White
  *
  */
@@ -15,6 +16,7 @@ public class Resource {
 
 	/**
 	 * Constrains name
+	 * 
 	 * @Pre none
 	 * @Post result:resource
 	 * @param name
@@ -31,5 +33,5 @@ public class Resource {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

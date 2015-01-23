@@ -1,27 +1,23 @@
 package shared.communication;
 
 /**
+ * This class is for sending a list of games currently on the server per the
+ * '/games/list' request This class is for send information for a newly created
+ * game per the '/games/create' method If this is being returned after
+ * requesting '/games/create', all four PlayerSummary objects should be empty
+ * Domain: title:String id:Integer players:List of PlayerSummaries
+ * 
+ * Domain Restraints: title - not null and not the empty string id - a valid
+ * game id players - an array of four valid PlayerSummary obejcts
  * 
  * @author winstonhurst
- * This class is for sending a list of games currently on the server per the '/games/list' request
- * This class is for send information for a newly created game per the '/games/create' method
- * If this is being returned after requesting '/games/create', all four PlayerSummary objects should be empty
- * Domain:
- * 	title:String
- * 	id:Integer
- * 	players:List of PlayerSummaries
- * 
- * Domain Restraints:
- * 	title - not null and not the empty string
- * 	id - a valid game id
- * 	players - an array of four valid PlayerSummary obejcts
  */
 public class GameSummary {
 
 	String title;
 	int id;
 	PlayerSummary players[] = new PlayerSummary[4];
-	
+
 	public GameSummary(String title, int id, PlayerSummary[] players) {
 		this.title = title;
 		this.id = id;
@@ -51,7 +47,5 @@ public class GameSummary {
 	public void setPlayers(PlayerSummary[] players) {
 		this.players = players;
 	}
-	
-	
-	
+
 }

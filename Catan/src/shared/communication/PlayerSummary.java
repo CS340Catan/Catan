@@ -3,15 +3,13 @@ package shared.communication;
 import shared.definitions.CatanColor;
 
 /**
+ * This class wraps about data about a player to be sent across the network It
+ * mirrors the json object passed across the network. This is part of the the
+ * response generated from the server from calling '/games/lit'
+ * 
+ * Domain color:CatanColor name:Username id:integer
  * 
  * @author winstonhurst
- * This class wraps about data about a player to be sent across the network
- * It mirrors the json object passed across the network.
- * This is part of the the response generated from the server from calling '/games/lit'
- *	Domain
- *		color:CatanColor
- *		name:Username
- *		id:integer
  */
 public class PlayerSummary {
 	/**
@@ -26,16 +24,16 @@ public class PlayerSummary {
 	 * The Player's id
 	 */
 	int id;
-	
+
 	/**
 	 * @pre The player must be in a game, with a valid username, color and id
-	 * @post Creates a PlayerSummary Object which can be serialized into json and passed across the network
+	 * @post Creates a PlayerSummary Object which can be serialized into json
+	 *       and passed across the network
 	 * @param color
 	 * @param name
 	 * @param id
 	 */
-	public PlayerSummary(CatanColor color, Username name, int id)
-	{
+	public PlayerSummary(CatanColor color, Username name, int id) {
 		this.color = color;
 		this.name = name;
 		this.id = id;
@@ -64,6 +62,5 @@ public class PlayerSummary {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
+
 }

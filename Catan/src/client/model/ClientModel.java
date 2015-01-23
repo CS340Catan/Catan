@@ -29,7 +29,7 @@ public class ClientModel {
 	private TurnTracker turnTracker;
 	private int version;
 	private int winner;
-	
+
 	/**
 	 * Default constructor, requires all fields
 	 * 

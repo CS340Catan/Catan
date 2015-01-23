@@ -8,6 +8,16 @@ import shared.utils.IServer;
 import client.model.ClientModel;
 import client.model.ResourceList;
 
+/**
+ * This class implements the IServer interface, as the way in which the Client
+ * is able to communicate with the server via a HTTP connection. This class with
+ * package the input parameters for each individual, such that they can sent to
+ * the server via a HTTPCommunicator. The response from the HTTPCommunicator
+ * will then be unpackaged into the appropriate objects.
+ * 
+ * @author Keloric
+ *
+ */
 public class ServerProxy implements IServer {
 
 	public HTTPCommunicator getHttpCommunicator() {
