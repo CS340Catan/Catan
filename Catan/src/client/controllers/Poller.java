@@ -1,5 +1,12 @@
 package client.controllers;
 
+import client.model.ClientModel;
+import client.model.ClientModelController;
+import shared.utils.IServer;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * The purpose of the poller is to perform a function on a timer once a second.
  * This function checks with the ProxyServer to see if the ClientModel needs to be updated with data from the server.
@@ -15,13 +22,27 @@ package client.controllers;
 
 public class Poller {
 	
+	private IServer server;
+	private ClientModelController clientModelController;
+	private Timer timer;
+	
+	/** Calls function in ServerProxy which will update the ClientModel if it has changed on the server
+	 * @pre none
+	 * @post has either left current ClientModel alone, or updated it
+	 */
+	public void updateModel() {
+		ClientModel updatedClientModel = server.poll(); //change this to server.updateModel()
+		clientModelController.setClientModel(updatedClientModel);
+	}
+	
 	/**
 	 * @pre an actual game has started
-	 * @post a java timer is set that calls a function in the ClientController which checks the server to see
-	 * if anything needs to be updated in the ClientModel
+	 * @post a java timer is set that calls updateModel() every second
 	 */
 	public void setTimer() {
-		
+		TimerTask timerTask = new PollerTimerTask(this);
+		timer = new Timer(true);
+		timer.scheduleAtFixedRate(timerTask, 0, 1000);
 	}
 	
 	/**
@@ -29,7 +50,9 @@ public class Poller {
 	 * @post the java timer no longer 
 	 */
 	public void stopTimer() {
-		
+		if (timer != null) {
+			timer.cancel();
+		}
 	}
 	
 }
