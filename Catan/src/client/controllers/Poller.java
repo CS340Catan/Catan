@@ -2,12 +2,13 @@ package client.controllers;
 
 /**
  * The purpose of the poller is to perform a function on a timer once a second.
- * This function checks with the server to see if the ClientModel needs to be updated with data from the server.
- * Instead of asking the server directly, the Poller will call a function in ClientController which will
- * eventually make it to the server. Information will not come back to the Poller.
+ * This function checks with the ProxyServer to see if the ClientModel needs to be updated with data from the server.
+ * The Poller will call a function in ProxyServer which will return a ClientModel. 
+ * The Poller will then call update on the ClientModelController.
  * 
  * Domain:
  * 	timer:Timer
+ *  server:IServer
  * Domain Constraint:
  * 	the timer will be scheduled to perform its task once per second
  */
