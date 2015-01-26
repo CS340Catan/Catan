@@ -24,14 +24,33 @@ public class ClientModelController {
 	public ClientModelController(ClientModel clientModel) {
 		this.clientModel = clientModel;
 	}
-
+/**
+ * Checks if it is the given player's turn
+ * @pre none
+ * @post boolean if it is the player's turn or not
+ * @param playerIndex
+ * @return
+ */
+	public boolean isPlayerTurn(int playerIndex) {
+		if(clientModel.getTurnTracker().getCurrentTurn() == playerIndex) {
+			return true;
+		}
+		return false;
+	}
+	public boolean playerHasResources(ResourceList resourceList){
+		return false;
+		
+	}
 	/**
 	 * tests if the player can roll
 	 * 
 	 * @Pre it is the current turn of the player attempting to roll
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canRollNumber() {
+	public boolean canRollNumber(int playerIndex) {
+		if(isPlayerTurn(playerIndex) && clientModel.getTurnTracker().getStatus() == "Rolling"){
+			return true;
+		}
 		return false;
 	}
 
@@ -44,7 +63,11 @@ public class ClientModelController {
 	 * @Pre the road is not over another road
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildRoad() {
+	public boolean canBuildRoad(int playerIndex) {
+		if(isPlayerTurn(playerIndex)){
+			
+		}
+		
 		return false;
 
 	}

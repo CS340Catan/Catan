@@ -81,4 +81,39 @@ public class ResourceList {
 	public void setLumber(int lumber) {
 		this.lumber = lumber;
 	}
+
+	/**
+	 * Checks if another resourceList equals this one
+	 * @Pre none
+	 * @Post boolean
+	 * @param resourceList
+	 * @return
+	 */
+	public boolean equals(ResourceList resourceList) {
+		if (resourceList.getBrick() == this.getBrick()
+				&& resourceList.getLumber() == this.getLumber()
+				&& resourceList.getOre() == this.getOre()
+				&& resourceList.getSheep() == this.getSheep()
+				&& resourceList.getWheat() == this.getWheat()) {
+			return true;
+		}
+		return false;
+	}
+/**
+ * Checks if the given resource list is a subset of this resource list
+ * @Pre none
+ * @Post boolean
+ * @param resourceList
+ * @return
+ */
+	public boolean contains(ResourceList resourceList) {
+		if (resourceList.getBrick() <= this.getBrick()
+				&& resourceList.getLumber() <= this.getLumber()
+				&& resourceList.getOre() <= this.getOre()
+				&& resourceList.getSheep() <= this.getSheep()
+				&& resourceList.getWheat() <= this.getWheat()) {
+			return true;
+		}
+		return false;
+	}
 }
