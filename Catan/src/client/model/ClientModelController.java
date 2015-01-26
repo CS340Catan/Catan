@@ -37,9 +37,11 @@ public class ClientModelController {
 		}
 		return false;
 	}
-	public boolean playerHasResources(ResourceList resourceList){
+	public boolean playerHasResources(int playerIndex, ResourceList resourceList){
+		if(clientModel.getPlayers()[playerIndex].getResources().contains(resourceList)){
+			return true;
+		}
 		return false;
-		
 	}
 	/**
 	 * tests if the player can roll
@@ -64,10 +66,11 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildRoad(int playerIndex) {
-		if(isPlayerTurn(playerIndex)){
-			
+		//TODO:HSW check location and connecting buildings/roads/pre-existing buildings
+		ResourceList resourceList = new ResourceList(1,0,0,0,1);
+		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList)){
+			return true;
 		}
-		
 		return false;
 
 	}
@@ -80,9 +83,13 @@ public class ClientModelController {
 	 * @Pre the city is replacing an existing settlement
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildCity() {
+	public boolean canBuildCity(int playerIndex) {
+		//TODO:HSW check if built on existing settlement	
+		ResourceList resourceList = new ResourceList(0,3,0,2,0);
+		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList)){
+			return true;
+		}
 		return false;
-
 	}
 
 	/**
@@ -94,9 +101,13 @@ public class ClientModelController {
 	 * @Pre Settlement is two edges away from all other settlements
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildSettlement() {
+	public boolean canBuildSettlement(int playerIndex) {
+		//TODO: HSW check for roads/settlements/pre-existing buildings
+		ResourceList resourceList = new ResourceList(1,0,1,1,1);
+		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList)){
+			return true;
+		}
 		return false;
-
 	}
 
 	/**
@@ -105,9 +116,11 @@ public class ClientModelController {
 	 * @Pre the player has more than 7 cards after a 7 is rolled
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canDiscardCards() {
+	public boolean canDiscardCards(int playerIndex) {
+		if(clientModel.getPlayers()[playerIndex].getResources().count() > 7 && !clientModel.getPlayers()[playerIndex].alreadyDiscarded()){
+			return true;
+		}
 		return false;
-
 	}
 
 	/**
@@ -118,7 +131,11 @@ public class ClientModelController {
 	 * @Pre The player has the resources to offer
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canOfferTrade(ResourceList resourceList) {
+	public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
+		//TODO:HSW figure out how to figure out if a trade has been offered
+		if(clientModel.getPlayers()[playerIndex].getResources().contains(resourceList)){
+			return true;
+		}
 		return false;
 
 	}
@@ -131,9 +148,11 @@ public class ClientModelController {
 	 * @Pre the player has the asked for resources
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canAcceptTrade(ResourceList resourceList) {
+	public boolean canAcceptTrade(int playerIndex, ResourceList resourceList) {
+		if(isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getResources().contains(resourceList)){
+			return true;
+		}
 		return false;
-
 	}
 
 	/**
@@ -144,13 +163,16 @@ public class ClientModelController {
 	 * @Pre the player has the required ratio of resources
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canMaritimeTrade(ResourceList resourceList) {
-
+	public boolean canMaritimeTrade(int playerIndex, ResourceList resourceList, int ratioNumerator) {
+		//TODO:HSW check locations
+		if(isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getResources().ofAKind(ratioNumerator)) {
+			return true;
+		}
 		return false;
 	}
 
 	/**
-	 * tests if the player can roll
+	 * tests if the player can rob a player
 	 * 
 	 * @Pre it is the current turn of the player attempting to rob
 	 * @Pre the player has just rolled a 7 or the player has just played a
@@ -159,6 +181,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRobPlayer(HexLocation hexLocation, int playerIndex) {
+		//TODO:HSW everything here
 		return false;
 
 	}
@@ -170,7 +193,11 @@ public class ClientModelController {
 	 * @Pre player has the required resources to buy the card
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuyDevCard() {
+	public boolean canBuyDevCard(int playerIndex) {
+		ResourceList resourceList = new ResourceList(0,1,1,1,0);
+		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList)){
+			return true;
+		}
 		return false;
 
 	}

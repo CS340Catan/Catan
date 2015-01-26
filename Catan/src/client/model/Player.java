@@ -134,7 +134,7 @@ public class Player {
 		this.color = color;
 	}
 
-	public boolean isDiscarded() {
+	public boolean alreadyDiscarded() {
 		return discarded;
 	}
 
