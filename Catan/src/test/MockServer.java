@@ -560,7 +560,7 @@ public class MockServer implements IServer {
 	 * @Post Gets an updated version of the model from the server.
 	 */
 	@Override
-	public ClientModel poll() {
+	public ClientModel updateModel() {
 		return null;
 		// TODO Auto-generated method stub
 

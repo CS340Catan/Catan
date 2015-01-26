@@ -26,6 +26,10 @@ public class Poller {
 	private ClientModelController clientModelController;
 	private Timer timer;
 	
+	public Poller(IServer server) {
+		this.server = server;
+	}
+	
 	/** Calls function in ServerProxy which will update the ClientModel if it has changed on the server
 	 * @pre none
 	 * @post has either left current ClientModel alone, or updated it
