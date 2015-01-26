@@ -5,7 +5,7 @@ import client.model.ClientModel;
 import com.google.gson.Gson;
 
 /**
- * Serializes and deserializes from and to JSON.
+ * Serializes and deserializes to and from JSON.
  * 
  * @author Seth White
  *
@@ -25,8 +25,8 @@ public class Serializer {
 	}
 
 	/**
-	 * Generic deserializer. This will take in a general JSON string and convert
-	 * the string into a Java Object.
+	 * Client Model deserializer. This will take in a Client Model  JSON string and convert
+	 * the string into a ClientModel.
 	 * 
 	 * @Pre jsonString is not null.
 	 * @Post A generic object ready to be cast.
