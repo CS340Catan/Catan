@@ -35,7 +35,7 @@ public class Poller {
 	 * @post has either left current ClientModel alone, or updated it
 	 */
 	public void updateModel() {
-		ClientModel updatedClientModel = server.poll(); //change this to server.updateModel()
+		ClientModel updatedClientModel = server.updateModel(); //change this to server.updateModel()
 		clientModelController.setClientModel(updatedClientModel);
 	}
 	
