@@ -29,10 +29,21 @@ public class Serializer {
 	 * the string into a ClientModel.
 	 * 
 	 * @Pre jsonString is not null.
-	 * @Post A generic object ready to be cast.
+	 * @Post A ClientModel.
 	 */
 	public static ClientModel deserializeClientModel(String jsonString) {
 		Gson gson = new Gson();
 		return gson.fromJson(jsonString,ClientModel.class);
+	}
+	/**
+	 * Generic deserializer for non-move API responses
+	 * @Pre jsonString is not null.
+	 * @Post A generic object ready to be cast.
+	 * @param jsonString
+	 * @return
+	 */
+	public static Object genericDeserialize (String jsonString) {
+		Gson gson = new Gson();
+		return gson.fromJson(jsonString,Object.class);
 	}
 }
