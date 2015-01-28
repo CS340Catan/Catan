@@ -45,4 +45,11 @@ public class HexLocation {
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	public boolean equals(HexLocation hexLocation){
+		if(hexLocation.getX() == this.getX() && hexLocation.getY() == this.getY()){
+			return true;
+		}
+		return false;
+	}
 }
