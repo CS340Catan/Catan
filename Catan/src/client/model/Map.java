@@ -1,5 +1,8 @@
 package client.model;
 
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+
 /**
  * Represents the game map, stores relevant locations and layout
  * 
@@ -20,7 +23,7 @@ package client.model;
 public class Map {
 	private Hex[] hexes;
 	private Port[] ports;
-	private Road[] roads;
+	private EdgeLocation[] roads;
 	private VertexObject[] settlements;
 	private VertexObject[] cities;
 	private int radius;
@@ -39,7 +42,7 @@ public class Map {
 	 * @param radius
 	 * @param robber
 	 */
-	public Map(Hex[] hexes, Port[] ports, Road[] roads,
+	public Map(Hex[] hexes, Port[] ports, EdgeLocation[] roads,
 			VertexObject[] settlements, VertexObject[] cities, int radius,
 			HexLocation robber) {
 		super();
@@ -68,11 +71,11 @@ public class Map {
 		this.ports = ports;
 	}
 
-	public Road[] getRoads() {
+	public EdgeLocation[] getRoads() {
 		return roads;
 	}
 
-	public void setRoads(Road[] roads) {
+	public void setRoads(EdgeLocation[] roads) {
 		this.roads = roads;
 	}
 

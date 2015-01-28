@@ -1,5 +1,7 @@
 package client.model;
 
+import shared.locations.EdgeLocation;
+
 /**
  * An object placed on a vertex, city or settlement
  * 
@@ -25,7 +27,6 @@ public class VertexObject {
 	 * @param location
 	 */
 	public VertexObject(int owner, EdgeLocation location) {
-		super();
 		this.owner = owner;
 		this.location = location;
 	}

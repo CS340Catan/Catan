@@ -1,5 +1,8 @@
 package client.model;
 
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+
 /**
  * Handles all "CanDo" methods and provides access to the client model
  * 
