@@ -57,7 +57,7 @@ public class ServerProxy implements IServer {
 	 */
 	public ClientModel updateModel() {
 		return null;
-
+		
 	}
 
 	/**
@@ -69,7 +69,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid LoginResponse returned
 	 */
 	public LoginResponse Login(UserCredentials credentials) {
-		return null;
+		
+		return (LoginResponse)httpCommunicator.doPost("/user/login", credentials);
 	}
 
 	/**
@@ -81,8 +82,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid LoginResponse returned
 	 */
 	public LoginResponse Register(UserCredentials credentials) {
-		LoginResponse loginResponse = new LoginResponse();
-		return loginResponse;
+		
+		return (LoginResponse)httpCommunicator.doPost("/user/register", credentials);
 	}
 
 	/**
@@ -92,8 +93,8 @@ public class ServerProxy implements IServer {
 	 * @post A valid CurrentGames returned
 	 */
 	public GamesList getGameList() {
-		GamesList currentGames = new GamesList(null);
-		return currentGames;
+		
+		return (GamesList)httpCommunicator.doGet("/games/list", null);
 	}
 
 	/**
@@ -105,8 +106,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid GameSummary returned
 	 */
 	public GameSummary createGame(CreateGameParams params) {
-		GameSummary newGame = new GameSummary(null, 0, null);
-		return newGame;
+		
+		return (GameSummary)httpCommunicator.doPost("/games/create", params);
 	}
 
 	/**
@@ -121,7 +122,9 @@ public class ServerProxy implements IServer {
 	 * @post a valid boolean returned
 	 */
 	public JoinResponse joinGame(JoinGameParams params) {
-		return null;
+		
+		return (JoinResponse)httpCommunicator.doPost("/games/join", params);
+		//----------still need to get cookie somehow
 	}
 
 	/**
@@ -133,7 +136,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid boolean returned
 	 */
 	public SaveResponse saveGame(SaveParams params) {
-		return null;
+
+		return (SaveResponse)httpCommunicator.doPost("/games/save", params);
 	}
 
 	/**
@@ -144,7 +148,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid boolean returned
 	 */
 	public LoadResponse loadGame(String fileName) {
-		return null;
+
+		return (LoadResponse)httpCommunicator.doPost("/games/load", fileName);
 	}
 
 	/**
@@ -156,9 +161,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid ClientModel returned
 	 */
 	public ClientModel getCurrentGame(int version) {
-		ClientModel model = new ClientModel(null, null, null, null, null, null,
-				null, version, version);
-		return model;
+		
+		return (ClientModel)httpCommunicator.doGet("/game/model?version=" + version, null);
 	}
 
 	/**
@@ -168,9 +172,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid ClientModel returned
 	 */
 	public ClientModel resetGame() {
-		ClientModel model = new ClientModel(null, null, null, null, null, null,
-				null, 0, 0);
-		return model;
+		
+		return (ClientModel)httpCommunicator.doPost("/game/reset", null);
 	}
 
 	/**
@@ -180,8 +183,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid set of commands returned
 	 */
 	public CommandList getCommands() {
-		CommandList commands = null;
-		return commands;
+
+		return (CommandList)httpCommunicator.doGet("/game/commands", null);
 	}
 
 	/**
@@ -192,9 +195,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid ClientModel returned
 	 */
 	public ClientModel setCommands(CommandList commands) {
-		ClientModel model = new ClientModel(null, null, null, null, null, null,
-				null, 0, 0);
-		return model;
+
+		return (ClientModel)httpCommunicator.doPost("/game/commands", commands);
 	}
 
 	/**
@@ -205,7 +207,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid list of AI types returned
 	 */
 	public ListAIResponse getAITypes() {
-		return null;
+
+		return (ListAIResponse)httpCommunicator.doGet("/game/listAI", null);
 	}
 
 	/**
@@ -219,8 +222,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public AddAIResponse addAI(AddAIParams params) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return (AddAIResponse)httpCommunicator.doPost("/game/addAI", params);
 	}
 
 	/**
@@ -242,7 +245,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level) {
-		return null;
+
+		return (ChangeLogLevelResponse)httpCommunicator.doPost("/util/changeLogLevel", level);
 	}
 
 	/**
@@ -253,8 +257,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel sendChat(String content) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return (ClientModel)httpCommunicator.doPost("/moves/sendChat", content);
 	}
 
 	/**
@@ -269,8 +273,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel acceptTrade(boolean willAccept) {
-		// TODO Auto-generated method stub
-		return null;
+		//---need to convert boolean to Object somehow
+		return (ClientModel)httpCommunicator.doPost("/moves/acceptTrade", willAccept);
 	}
 
 	/**
@@ -287,8 +291,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel discardCards(ResourceList discardedCards) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return (ClientModel)httpCommunicator.doPost("/moves/discardCards", discardedCards);
 	}
 
 	/**
@@ -301,8 +305,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel rollNumber(int number) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return (ClientModel)httpCommunicator.doPost("/moves/rollNumber", (Integer)number);
 	}
 
 	/**
@@ -324,8 +328,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel buildRoad(boolean free, EdgeLocation roadLocation) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return (ClientModel)httpCommunicator.doPost("/moves/buildRoad", roadLocation);
 	}
 
 	/**
@@ -344,8 +348,8 @@ public class ServerProxy implements IServer {
 	@Override
 	public ClientModel buildSettlement(boolean free,
 			VertexLocation vertexLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		//------need to wrap free and vertexLocation in one object
+		return (ClientModel)httpCommunicator.doPost("/moves/buildSettlement", null);
 	}
 
 	/**
@@ -360,8 +364,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel buildCity(VertexLocation vertexLocation) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return (ClientModel)httpCommunicator.doPost("/moves/buildCity", vertexLocation);
 	}
 
 	/**
@@ -373,8 +377,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel offerTrade(ResourceList offer, int receiver) {
-		// TODO Auto-generated method stub
-		return null;
+		//-----need to wrap offer and receiver in one object
+		return (ClientModel)httpCommunicator.doPost("/moves/offerTrade", null);
 	}
 
 	/**
@@ -388,8 +392,8 @@ public class ServerProxy implements IServer {
 	@Override
 	public ClientModel maritimeTrade(int ratio, String inputResource,
 			String outputResource) {
-		// TODO Auto-generated method stub
-		return null;
+		//-----need to wrap resources and ratio in one object
+		return (ClientModel)httpCommunicator.doPost("/moves/maritimeTrade", null);
 	}
 
 	/**
@@ -404,8 +408,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel robPlayer(HexLocation location, int victimIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		//-----need to wrap objects together
+		return (ClientModel)httpCommunicator.doPost("/moves/robPlayer", null);
 	}
 
 	/**
@@ -417,8 +421,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel finishTurn() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return (ClientModel)httpCommunicator.doPost("/moves/finishTurn", null);
 	}
 
 	/**
@@ -432,8 +436,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel buyDevCard() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return (ClientModel)httpCommunicator.doPost("/moves/buyDevCard", null);
 	}
 
 	/**
@@ -450,8 +454,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playSoldierCard(HexLocation location, int victimIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		//----need to wrap objects together
+		return (ClientModel)httpCommunicator.doPost("/moves/Soldier", null);
 	}
 
 	/**
@@ -465,8 +469,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playYearOfPlentyCard(String resource1, String resource2) {
-		// TODO Auto-generated method stub
-		return null;
+		//---need to wrap objects together
+		return (ClientModel)httpCommunicator.doPost("/moves/Year_of_Plenty", null);
 	}
 
 	/**
@@ -486,8 +490,8 @@ public class ServerProxy implements IServer {
 	@Override
 	public ClientModel playRoadBuildingCard(EdgeLocation spot1,
 			EdgeLocation spot2) {
-		// TODO Auto-generated method stub
-		return null;
+		//---need to wrap objects together
+		return (ClientModel)httpCommunicator.doPost("/moves/Road_Building", null);
 	}
 
 	/**
@@ -501,8 +505,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playMonopolyCard(String resource) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return (ClientModel)httpCommunicator.doPost("/moves/Monopoly", resource);
 	}
 
 	/**
@@ -512,8 +516,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playMonument() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return (ClientModel)httpCommunicator.doPost("/moves/Monument", null);
 	}
 
 }
