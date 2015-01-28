@@ -10,9 +10,10 @@ package shared.communication;
  */
 public class LoginResponse {
 
-	Username name;
-	Password password;
+	String name;
+	String password;
 	int playerID;
+	boolean success = false;
 
 	public LoginResponse() {
 	}
@@ -23,7 +24,7 @@ public class LoginResponse {
 	 * @param password
 	 * 
 	 */
-	public LoginResponse(Username username, Password password) {
+	public LoginResponse(String username, String password) {
 		this.name = username;
 		this.password = password;
 	}
@@ -34,24 +35,24 @@ public class LoginResponse {
 	 * @param password
 	 * @param id
 	 */
-	public LoginResponse(Username username, Password password, int id) {
+	public LoginResponse(String username, String password, int id) {
 		this(username, password);
 		this.playerID = id;
 	}
 
-	public Username getUsername() {
+	public String getUsername() {
 		return name;
 	}
 
-	public void setUsername(Username username) {
+	public void setUsername(String username) {
 		this.name = username;
 	}
 
-	public Password getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(Password password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -61,5 +62,13 @@ public class LoginResponse {
 
 	public void setId(int id) {
 		this.playerID = id;
+	}
+	
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+	
+	public boolean isSuccess() {
+		return success;
 	}
 }

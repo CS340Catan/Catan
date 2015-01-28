@@ -2,14 +2,21 @@ package test;
 
 import client.model.ClientModel;
 import client.model.ResourceList;
+import shared.communication.AddAIParams;
+import shared.communication.AddAIResponse;
+import shared.communication.ChangeLogLevelParams;
+import shared.communication.ChangeLogLevelResponse;
 import shared.communication.CommandList;
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
 import shared.communication.GamesList;
 import shared.communication.JoinGameParams;
-import shared.communication.LogLevels;
+import shared.communication.JoinResponse;
+import shared.communication.ListAIResponse;
+import shared.communication.LoadResponse;
 import shared.communication.LoginResponse;
 import shared.communication.SaveParams;
+import shared.communication.SaveResponse;
 import shared.communication.UserCredentials;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -52,8 +59,8 @@ public class MockServer implements IServer {
 	@Override
 	public LoginResponse Login(UserCredentials credentials) {
 		LoginResponse response = null;
-		if (credentials.getUsername().getUsername() == "test"
-				&& credentials.getPassword().getPasswordString() == "pass") {
+		if (credentials.getUsername() == "test"
+				&& credentials.getPassword() == "pass") {
 			response = new LoginResponse(credentials.getUsername(),
 					credentials.getPassword());
 		}
@@ -112,9 +119,8 @@ public class MockServer implements IServer {
 	 * @Post Returns true if the player was added.
 	 */
 	@Override
-	public boolean joinGame(JoinGameParams params) {
-		// TODO Auto-generated method stub
-		return false;
+	public JoinResponse joinGame(JoinGameParams params) {
+		return null;
 	}
 
 	/**
@@ -127,9 +133,8 @@ public class MockServer implements IServer {
 	 * @Post If bad input, will return false and doesn't write to file.
 	 */
 	@Override
-	public boolean saveGame(SaveParams params) {
-		// TODO Auto-generated method stub
-		return false;
+	public SaveResponse saveGame(SaveParams params) {
+		return null;
 	}
 
 	/**
@@ -142,9 +147,8 @@ public class MockServer implements IServer {
 	 * @Post If bad parameters, throw an error.
 	 */
 	@Override
-	public boolean loadGame(String fileName) {
-		// TODO Auto-generated method stub
-		return false;
+	public LoadResponse loadGame(String fileName) {
+		return null;
 	}
 
 	/**
@@ -215,8 +219,7 @@ public class MockServer implements IServer {
 	 * @Post If the operation succeeds, returns a list of AI types.
 	 */
 	@Override
-	public String[] getAITypes() {
-		// TODO Auto-generated method stub
+	public ListAIResponse getAITypes() {
 		return null;
 	}
 
@@ -232,9 +235,9 @@ public class MockServer implements IServer {
 	 *       has been added to the current game.
 	 */
 	@Override
-	public boolean addAI(String AIType) {
+	public AddAIResponse addAI(AddAIParams params) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	/**
@@ -246,9 +249,8 @@ public class MockServer implements IServer {
 	 *      returned
 	 */
 	@Override
-	public boolean changeLogLevel(LogLevels level) {
-		// TODO Auto-generated method stub
-		return false;
+	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level) {
+		return null;
 	}
 
 	/**

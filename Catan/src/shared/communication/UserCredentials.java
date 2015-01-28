@@ -4,8 +4,8 @@ package shared.communication;
  * This class wraps up information for logging in or creating a new user.
  * Includes a user name, password Domain:
  * <ul>
- * <li>username:Username</li>
- * <li>password:Password</li>
+ * <li>username:String</li>
+ * <li>password:String</li>
  * </ul>
  * Domain Restraints:
  * <ul>
@@ -18,8 +18,8 @@ package shared.communication;
  */
 public class UserCredentials {
 
-	Username name;
-	Password password;
+	String name;
+	String password;
 
 	/**
 	 * @pre username must be valid
@@ -27,24 +27,24 @@ public class UserCredentials {
 	 * @param password
 	 * 
 	 */
-	public UserCredentials(Username username, Password password) {
+	public UserCredentials(String username, String password) {
 		this.name = username;
 		this.password = password;
 	}
 
-	public Username getUsername() {
+	public String getUsername() {
 		return name;
 	}
 
-	public void setUsername(Username username) {
+	public void setUsername(String username) {
 		this.name = username;
 	}
 
-	public Password getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(Password password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 }
