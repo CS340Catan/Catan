@@ -50,7 +50,19 @@ public class ClientModelController {
 		}
 		return false;
 	}
-
+	public boolean roadExists(EdgeLocation roadLocation){
+		for(EdgeLocation existingRoad : clientModel.getMap().getRoads()){
+			if(roadLocation.equals(existingRoad)){
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean legitRoadPlacement(EdgeLocation edgeLocation){
+		HexLocation hexLocation = edgeLocation.getHexLoc();
+		
+		return false;
+	}
 	/**
 	 * tests if the player can roll
 	 * 
@@ -74,12 +86,13 @@ public class ClientModelController {
 	 * @Pre the road is not over another road
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildRoad(int playerIndex) {
+	public boolean canBuildRoad(int playerIndex, EdgeLocation edgeLocation) {
 		// TODO:HSW check location and connecting buildings/roads/pre-existing
 		// buildings
 		ResourceList resourceList = new ResourceList(1, 0, 0, 0, 1);
 		if (isPlayerTurn(playerIndex)
-				&& playerHasResources(playerIndex, resourceList)) {
+				&& playerHasResources(playerIndex, resourceList)
+				&& !roadExists(edgeLocation)) {
 			return true;
 		}
 		return false;
@@ -270,8 +283,7 @@ public class ClientModelController {
 	 * @Pre this dev card was not purchased this turn
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canPlayRoadBuildingCard(int playerIndex, EdgeLocation edgeLocation1,
-			EdgeLocation edgeLocation2) {
+	public boolean canPlayRoadBuildingCard(int playerIndex, EdgeLocation edgeLocation) {
 		if (isPlayerTurn(playerIndex)
 				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getRoadBuilding() > 0
 				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
