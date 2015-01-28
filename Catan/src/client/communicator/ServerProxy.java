@@ -21,6 +21,11 @@ import client.model.ResourceList;
  */
 public class ServerProxy implements IServer {
 
+	/**stores the encoded user info received from the server as a cookie*/
+	private String user;
+	/**Stores the gameid received from the server as a cookie*/
+	private int gameid;
+	
 	public HTTPCommunicator getHttpCommunicator() {
 		return httpCommunicator;
 	}
@@ -50,7 +55,7 @@ public class ServerProxy implements IServer {
 	 * @pre none
 	 * @post ClientModel is updated
 	 */
-	public ClientModel poll() {
+	public ClientModel updateModel() {
 		return null;
 
 	}
@@ -115,9 +120,8 @@ public class ServerProxy implements IServer {
 	 *      purple, orange)
 	 * @post a valid boolean returned
 	 */
-	public boolean joinGame(JoinGameParams params) {
-		boolean success = true;
-		return success;
+	public JoinResponse joinGame(JoinGameParams params) {
+		return null;
 	}
 
 	/**
@@ -128,9 +132,8 @@ public class ServerProxy implements IServer {
 	 * @pre filname is not null or empty
 	 * @post a valid boolean returned
 	 */
-	public boolean saveGame(SaveParams params) {
-		boolean success = true;
-		return success;
+	public SaveResponse saveGame(SaveParams params) {
+		return null;
 	}
 
 	/**
@@ -140,9 +143,8 @@ public class ServerProxy implements IServer {
 	 * @pre a saved game with the specified filename exists on the server
 	 * @post a valid boolean returned
 	 */
-	public boolean loadGame(String fileName) {
-		boolean success = true;
-		return success;
+	public LoadResponse loadGame(String fileName) {
+		return null;
 	}
 
 	/**
@@ -202,9 +204,8 @@ public class ServerProxy implements IServer {
 	 * @pre none
 	 * @post a valid list of AI types returned
 	 */
-	public String[] getAITypes() {
-		String[] AITypes = null;
-		return AITypes;
+	public ListAIResponse getAITypes() {
+		return null;
 	}
 
 	/**
@@ -216,9 +217,10 @@ public class ServerProxy implements IServer {
 	 * @pre the AIType is a valid type returned by the getAITypes method
 	 * @post a valid boolean returned
 	 */
-	public boolean addAI(String AIType) {
-		boolean success = true;
-		return success;
+	@Override
+	public AddAIResponse addAI(AddAIParams params) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -239,9 +241,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid boolean returned
 	 */
 	@Override
-	public boolean changeLogLevel(LogLevels level) {
-		// TODO Auto-generated method stub
-		return false;
+	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level) {
+		return null;
 	}
 
 	/**

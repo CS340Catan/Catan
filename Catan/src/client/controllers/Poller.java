@@ -26,12 +26,16 @@ public class Poller {
 	private ClientModelController clientModelController;
 	private Timer timer;
 	
+	public Poller(IServer server) {
+		this.server = server;
+	}
+	
 	/** Calls function in ServerProxy which will update the ClientModel if it has changed on the server
 	 * @pre none
 	 * @post has either left current ClientModel alone, or updated it
 	 */
 	public void updateModel() {
-		ClientModel updatedClientModel = server.poll(); //change this to server.updateModel()
+		ClientModel updatedClientModel = server.updateModel(); //change this to server.updateModel()
 		clientModelController.setClientModel(updatedClientModel);
 	}
 	
@@ -42,7 +46,7 @@ public class Poller {
 	public void setTimer() {
 		TimerTask timerTask = new PollerTimerTask(this);
 		timer = new Timer(true);
-		timer.scheduleAtFixedRate(timerTask, 0, 1000);
+		timer.scheduleAtFixedRate(timerTask, 0, 1000); //(timerTask, 0 means starts now, 1000 means 1/second)
 	}
 	
 	/**

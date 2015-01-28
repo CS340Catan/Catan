@@ -1,14 +1,21 @@
 package shared.utils;
 
+import shared.communication.AddAIParams;
+import shared.communication.AddAIResponse;
+import shared.communication.ChangeLogLevelResponse;
+import shared.communication.ChangeLogLevelParams;
 import shared.communication.CommandList;
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
 import shared.communication.GamesList;
 import shared.communication.JoinGameParams;
+import shared.communication.JoinResponse;
+import shared.communication.ListAIResponse;
+import shared.communication.LoadResponse;
 import shared.communication.LoginResponse;
 import shared.communication.SaveParams;
+import shared.communication.SaveResponse;
 import shared.communication.UserCredentials;
-import shared.communication.LogLevels;
 import shared.locations.*;
 import client.model.ResourceList;
 import client.model.ClientModel;
@@ -117,7 +124,7 @@ public interface IServer {
 	 * @param params
 	 * 
 	 */
-	public boolean joinGame(JoinGameParams params);
+	public JoinResponse joinGame(JoinGameParams params);
 
 	/**
 	 * This method will save the game parameters to the server. The client will
@@ -128,7 +135,7 @@ public interface IServer {
 	 * @Pre Filename is not null or empty.
 	 * @Post A valid boolean returned.
 	 */
-	public boolean saveGame(SaveParams params);
+	public SaveResponse saveGame(SaveParams params);
 
 	/**
 	 * This method will take a filename and try and load the game matching the
@@ -138,7 +145,7 @@ public interface IServer {
 	 * @Pre A saved game with the specified filename exists on the server.
 	 * @Post A valid boolean returned.
 	 */
-	public boolean loadGame(String fileName);
+	public LoadResponse loadGame(String fileName);
 
 	/**
 	 * Prepares the version number to be sent to the server, then retrieves
@@ -182,7 +189,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post A valid list of AI types returned.
 	 */
-	public String[] getAITypes();
+	public ListAIResponse getAITypes();
 
 	/**
 	 * Prepares the AIType to the server, then sends it to server to create a
@@ -193,7 +200,7 @@ public interface IServer {
 	 * @Pre The AIType is a valid type returned by the getAITypes method.
 	 * @Post A valid boolean returned.
 	 */
-	public boolean addAI(String AIType);
+	public AddAIResponse addAI(AddAIParams params);
 
 	/**
 	 * Prepares the log level to the server, then sends it to server to change
@@ -203,7 +210,7 @@ public interface IServer {
 	 *      FINER, FINEST).
 	 * @Post A valid boolean returned.
 	 */
-	public boolean changeLogLevel(LogLevels level);
+	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams params);
 
 	/**
 	 * This method will send a signal to the server checking to see if the
@@ -212,7 +219,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post Gets an updated version of the model from the server.
 	 */
-	public ClientModel poll();
+	public ClientModel updateModel();
 
 	// ----MOVE APIs--------
 	/**
