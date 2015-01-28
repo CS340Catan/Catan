@@ -1,7 +1,11 @@
 package shared.utils;
 
+import client.model.ClientModel;
+
+import com.google.gson.Gson;
+
 /**
- * Serializes and deserializes from and to JSON.
+ * Serializes and deserializes to and from JSON.
  * 
  * @author Seth White
  *
@@ -15,17 +19,20 @@ public class Serializer {
 	 * @Post A deserialized object to be cast to the right class.
 	 */
 	public static String serialize(Object object) {
-		return null;
+		Gson gson = new Gson();
+		String serializedObject = gson.toJson(object);
+		return serializedObject;
 	}
 
 	/**
-	 * Generic deserializer. This will take in a general JSON string and convert
-	 * the string into a Java Object.
+	 * Client Model deserializer. This will take in a Client Model  JSON string and convert
+	 * the string into a ClientModel.
 	 * 
 	 * @Pre jsonString is not null.
 	 * @Post A generic object ready to be cast.
 	 */
-	public static Object deserialize(String jsonString) {
-		return null;
+	public static ClientModel deserializeClientModel(String jsonString) {
+		Gson gson = new Gson();
+		return gson.fromJson(jsonString,ClientModel.class);
 	}
 }

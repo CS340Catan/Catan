@@ -34,7 +34,6 @@ public class ResourceList {
 	 * @param lumber
 	 */
 	public ResourceList(int brick, int ore, int sheep, int wheat, int lumber) {
-		super();
 		this.brick = brick;
 		this.ore = ore;
 		this.sheep = sheep;
@@ -80,5 +79,68 @@ public class ResourceList {
 
 	public void setLumber(int lumber) {
 		this.lumber = lumber;
+	}
+
+	/**
+	 * Checks if another resourceList equals this one
+	 * 
+	 * @Pre none
+	 * @Post boolean
+	 * @param resourceList
+	 * @return
+	 */
+	public boolean equals(ResourceList resourceList) {
+		if (resourceList.getBrick() == this.getBrick()
+				&& resourceList.getLumber() == this.getLumber()
+				&& resourceList.getOre() == this.getOre()
+				&& resourceList.getSheep() == this.getSheep()
+				&& resourceList.getWheat() == this.getWheat()) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the given resource list is a subset of this resource list
+	 * 
+	 * @Pre none
+	 * @Post boolean
+	 * @param resourceList
+	 * @return
+	 */
+	public boolean contains(ResourceList resourceList) {
+		if (resourceList.getBrick() <= this.getBrick()
+				&& resourceList.getLumber() <= this.getLumber()
+				&& resourceList.getOre() <= this.getOre()
+				&& resourceList.getSheep() <= this.getSheep()
+				&& resourceList.getWheat() <= this.getWheat()) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Gives a count of how many resources are stored here
+	 * 
+	 * @return
+	 */
+	public int count() {
+		return brick + lumber + ore + sheep + wheat;
+	}
+
+	/**
+	 * Tests if there exists a number of a kind in the list, 3 of a kind, 4 of a kind, etc
+	 * @Pre none
+	 * @Post boolean
+	 * @param number
+	 * @return
+	 */
+	public boolean ofAKind(int number) {
+		if (this.getBrick() >= number || this.getLumber() >= number
+				|| this.getOre() >= number || this.getSheep() >= number
+				|| this.getWheat() >= number) {
+			return true;
+		}
+		return false;
 	}
 }
