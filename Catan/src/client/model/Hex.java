@@ -1,5 +1,7 @@
 package client.model;
 
+import shared.locations.HexLocation;
+
 /**
  * Represents a map hex, stores its location, what resource it represents, and
  * its number to be rolled

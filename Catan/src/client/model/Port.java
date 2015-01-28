@@ -1,5 +1,7 @@
 package client.model;
 
+import shared.locations.HexLocation;
+
 /**
  * The port hex, contains location and trading ratio
  * 

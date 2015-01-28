@@ -1,5 +1,7 @@
 package client.model;
 
+import shared.locations.EdgeLocation;
+
 /**
  * Contains the location and owner of a Road, changed from EdgeValue in the
  * specs, because that was a poor name.

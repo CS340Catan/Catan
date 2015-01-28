@@ -1,5 +1,8 @@
 package client.model;
 
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+
 /**
  * Handles all "CanDo" methods and provides access to the client model
  * 
@@ -24,25 +27,30 @@ public class ClientModelController {
 	public ClientModelController(ClientModel clientModel) {
 		this.clientModel = clientModel;
 	}
-/**
- * Checks if it is the given player's turn
- * @pre none
- * @post boolean if it is the player's turn or not
- * @param playerIndex
- * @return
- */
+
+	/**
+	 * Checks if it is the given player's turn
+	 * 
+	 * @pre none
+	 * @post boolean if it is the player's turn or not
+	 * @param playerIndex
+	 * @return
+	 */
 	public boolean isPlayerTurn(int playerIndex) {
-		if(clientModel.getTurnTracker().getCurrentTurn() == playerIndex) {
+		if (clientModel.getTurnTracker().getCurrentTurn() == playerIndex) {
 			return true;
 		}
 		return false;
 	}
-	public boolean playerHasResources(int playerIndex, ResourceList resourceList){
-		if(clientModel.getPlayers()[playerIndex].getResources().contains(resourceList)){
+
+	public boolean playerHasResources(int playerIndex, ResourceList resourceList) {
+		if (clientModel.getPlayers()[playerIndex].getResources().contains(
+				resourceList)) {
 			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * tests if the player can roll
 	 * 
@@ -50,7 +58,8 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRollNumber(int playerIndex) {
-		if(isPlayerTurn(playerIndex) && clientModel.getTurnTracker().getStatus() == "Rolling"){
+		if (isPlayerTurn(playerIndex)
+				&& clientModel.getTurnTracker().getStatus() == "Rolling") {
 			return true;
 		}
 		return false;
@@ -66,9 +75,11 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildRoad(int playerIndex) {
-		//TODO:HSW check location and connecting buildings/roads/pre-existing buildings
-		ResourceList resourceList = new ResourceList(1,0,0,0,1);
-		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList)){
+		// TODO:HSW check location and connecting buildings/roads/pre-existing
+		// buildings
+		ResourceList resourceList = new ResourceList(1, 0, 0, 0, 1);
+		if (isPlayerTurn(playerIndex)
+				&& playerHasResources(playerIndex, resourceList)) {
 			return true;
 		}
 		return false;
@@ -84,9 +95,10 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildCity(int playerIndex) {
-		//TODO:HSW check if built on existing settlement	
-		ResourceList resourceList = new ResourceList(0,3,0,2,0);
-		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList)){
+		// TODO:HSW check if built on existing settlement
+		ResourceList resourceList = new ResourceList(0, 3, 0, 2, 0);
+		if (isPlayerTurn(playerIndex)
+				&& playerHasResources(playerIndex, resourceList)) {
 			return true;
 		}
 		return false;
@@ -102,9 +114,10 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildSettlement(int playerIndex) {
-		//TODO: HSW check for roads/settlements/pre-existing buildings
-		ResourceList resourceList = new ResourceList(1,0,1,1,1);
-		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList)){
+		// TODO: HSW check for roads/settlements/pre-existing buildings
+		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
+		if (isPlayerTurn(playerIndex)
+				&& playerHasResources(playerIndex, resourceList)) {
 			return true;
 		}
 		return false;
@@ -117,7 +130,8 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canDiscardCards(int playerIndex) {
-		if(clientModel.getPlayers()[playerIndex].getResources().count() > 7 && !clientModel.getPlayers()[playerIndex].alreadyDiscarded()){
+		if (clientModel.getPlayers()[playerIndex].getResources().count() > 7
+				&& !clientModel.getPlayers()[playerIndex].alreadyDiscarded()) {
 			return true;
 		}
 		return false;
@@ -132,8 +146,9 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
-		//TODO:HSW figure out how to figure out if a trade has been offered
-		if(clientModel.getPlayers()[playerIndex].getResources().contains(resourceList)){
+		// TODO:HSW figure out how to figure out if a trade has been offered
+		if (clientModel.getPlayers()[playerIndex].getResources().contains(
+				resourceList)) {
 			return true;
 		}
 		return false;
@@ -149,7 +164,9 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canAcceptTrade(int playerIndex, ResourceList resourceList) {
-		if(isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getResources().contains(resourceList)){
+		if (isPlayerTurn(playerIndex)
+				&& clientModel.getPlayers()[playerIndex].getResources()
+						.contains(resourceList)) {
 			return true;
 		}
 		return false;
@@ -163,9 +180,12 @@ public class ClientModelController {
 	 * @Pre the player has the required ratio of resources
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canMaritimeTrade(int playerIndex, ResourceList resourceList, int ratioNumerator) {
-		//TODO:HSW check locations
-		if(isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getResources().ofAKind(ratioNumerator)) {
+	public boolean canMaritimeTrade(int playerIndex, ResourceList resourceList,
+			int ratioNumerator) {
+		// TODO:HSW check locations
+		if (isPlayerTurn(playerIndex)
+				&& clientModel.getPlayers()[playerIndex].getResources()
+						.ofAKind(ratioNumerator)) {
 			return true;
 		}
 		return false;
@@ -181,7 +201,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRobPlayer(HexLocation hexLocation, int playerIndex) {
-		//TODO:HSW everything here
+		// TODO:HSW everything here
 		return false;
 
 	}
@@ -194,8 +214,9 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuyDevCard(int playerIndex) {
-		ResourceList resourceList = new ResourceList(0,1,1,1,0);
-		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList)){
+		ResourceList resourceList = new ResourceList(0, 1, 1, 1, 0);
+		if (isPlayerTurn(playerIndex)
+				&& playerHasResources(playerIndex, resourceList)) {
 			return true;
 		}
 		return false;
@@ -212,8 +233,13 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canPlaySoldierCard(HexLocation hexLocation, int playerIndex) {
+		if (isPlayerTurn(playerIndex)
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getSoldier() > 0
+				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()
+				&& !clientModel.getMap().getRobber().equals(hexLocation)) { //ensures the robber isn't placed on the same tile, which is illegal, might be better to check elsewhere though
+			return true;
+		}
 		return false;
-
 	}
 
 	/**
@@ -225,8 +251,12 @@ public class ClientModelController {
 	 * @Pre this dev card was not purchased this turn
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canPlayYearOfPlentyCard(ResourceList resourceList1,
-			ResourceList resourceList2) {
+	public boolean canPlayYearOfPlentyCard(int playerIndex) {
+		if (isPlayerTurn(playerIndex)
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getYearOfPlenty() > 0
+				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
+			return true;
+		}
 		return false;
 
 	}
@@ -240,8 +270,14 @@ public class ClientModelController {
 	 * @Pre this dev card was not purchased this turn
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canPlayRoadBuildingCard(EdgeLocation edgeLocation1,
+	public boolean canPlayRoadBuildingCard(int playerIndex, EdgeLocation edgeLocation1,
 			EdgeLocation edgeLocation2) {
+		if (isPlayerTurn(playerIndex)
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getRoadBuilding() > 0
+				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
+			//TODO:HSW figure out location checking
+			return true;
+		}
 		return false;
 
 	}

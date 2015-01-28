@@ -166,7 +166,7 @@ public class Player {
 		this.oldDevCards = oldDevCards;
 	}
 
-	public boolean isPlayedDevCard() {
+	public boolean hasPlayedDevCard() {
 		return playedDevCard;
 	}
 

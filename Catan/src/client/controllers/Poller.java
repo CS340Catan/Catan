@@ -46,7 +46,7 @@ public class Poller {
 	public void setTimer() {
 		TimerTask timerTask = new PollerTimerTask(this);
 		timer = new Timer(true);
-		timer.scheduleAtFixedRate(timerTask, 0, 1000);
+		timer.scheduleAtFixedRate(timerTask, 0, 1000); //(timerTask, 0 means starts now, 1000 means 1/second)
 	}
 	
 	/**
