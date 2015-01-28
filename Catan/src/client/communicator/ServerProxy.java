@@ -21,6 +21,11 @@ import client.model.ResourceList;
  */
 public class ServerProxy implements IServer {
 
+	/**stores the encoded user info received from the server as a cookie*/
+	private String user;
+	/**Stores the gameid received from the server as a cookie*/
+	private int gameid;
+	
 	public HTTPCommunicator getHttpCommunicator() {
 		return httpCommunicator;
 	}
@@ -50,7 +55,7 @@ public class ServerProxy implements IServer {
 	 * @pre none
 	 * @post ClientModel is updated
 	 */
-	public ClientModel poll() {
+	public ClientModel updateModel() {
 		return null;
 
 	}
