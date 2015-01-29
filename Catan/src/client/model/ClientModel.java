@@ -58,6 +58,12 @@ public class ClientModel {
 		this.version = version;
 		this.winner = winner;
 	}
+	/**
+	 * Default constructor
+	 */
+	public ClientModel(){
+		
+	}
 
 	public ResourceList getBank() {
 		return bank;

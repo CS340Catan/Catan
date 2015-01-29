@@ -23,7 +23,7 @@ import shared.locations.HexLocation;
 public class Map {
 	private Hex[] hexes;
 	private Port[] ports;
-	private EdgeLocation[] roads;
+	private Road[] roads;
 	private VertexObject[] settlements;
 	private VertexObject[] cities;
 	private int radius;
@@ -42,7 +42,7 @@ public class Map {
 	 * @param radius
 	 * @param robber
 	 */
-	public Map(Hex[] hexes, Port[] ports, EdgeLocation[] roads,
+	public Map(Hex[] hexes, Port[] ports, Road[] roads,
 			VertexObject[] settlements, VertexObject[] cities, int radius,
 			HexLocation robber) {
 		super();
@@ -71,11 +71,11 @@ public class Map {
 		this.ports = ports;
 	}
 
-	public EdgeLocation[] getRoads() {
+	public Road[] getRoads() {
 		return roads;
 	}
 
-	public void setRoads(EdgeLocation[] roads) {
+	public void setRoads(Road[] roads) {
 		this.roads = roads;
 	}
 
