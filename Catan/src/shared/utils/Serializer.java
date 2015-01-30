@@ -42,8 +42,9 @@ public class Serializer {
 	 * @param jsonString
 	 * @return
 	 */
-	public static Object genericDeserialize (String jsonString) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Object deserialize (String jsonString, Class classType) {
 		Gson gson = new Gson();
-		return gson.fromJson(jsonString,Object.class);
+		return gson.fromJson(jsonString,classType);
 	}
 }

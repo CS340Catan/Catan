@@ -39,9 +39,7 @@ public class SerializerTest {
 	public void testGenericDeserializer(){
 		LoginResponse loginResponse = new LoginResponse("test", "testpass");
 		String json = Serializer.serialize(loginResponse);
-		Object loginResponseObj = Serializer.genericDeserialize(json);
-		System.out.println(loginResponseObj);
-		LoginResponse deserializedLoginResponse = (LoginResponse) loginResponseObj;
+		LoginResponse deserializedLoginResponse = (LoginResponse) Serializer.deserialize(json,LoginResponse.class);
 		assertEquals("testpass",deserializedLoginResponse.getPassword());
 	}
 }
