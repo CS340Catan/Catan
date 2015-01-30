@@ -58,15 +58,16 @@ public class ClientModelController {
 		}
 		return true;
 	}
-	public boolean legitRoadPlacement(EdgeLocation edgeLocation){
-		HexLocation hexLocation = edgeLocation.getHexLoc();
+	public boolean legitRoadPlacement(Road road){
+		EdgeLocation edgeLocation = road.getLocation();
+		HexLocation hexLocation = edgeLocation.getHexLoc();		
 		System.out.println(edgeLocation.getDir());
 		hexLocation.getNeighborLoc(edgeLocation.getDir());
 		return false;
 	}
 	/**
 	 * tests if the player can roll
-	 * 
+	 *  
 	 * @Pre it is the current turn of the player attempting to roll
 	 * @Post result: a boolean reporting success/fail
 	 */
