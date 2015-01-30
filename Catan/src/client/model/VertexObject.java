@@ -1,6 +1,5 @@
 package client.model;
 
-import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 
 /**
