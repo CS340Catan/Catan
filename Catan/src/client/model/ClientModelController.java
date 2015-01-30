@@ -50,22 +50,24 @@ public class ClientModelController {
 		}
 		return false;
 	}
-	public boolean roadExists(EdgeLocation roadLocation){
-		for(EdgeLocation existingRoad : clientModel.getMap().getRoads()){
-			if(roadLocation.equals(existingRoad)){
-				return true;
+	public boolean roadExists(Road road){
+		for(Road existingRoad : clientModel.getMap().getRoads()){
+			if(existingRoad.checkAvailability(road)){
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
-	public boolean legitRoadPlacement(EdgeLocation edgeLocation){
-		HexLocation hexLocation = edgeLocation.getHexLoc();
-		
+	public boolean legitRoadPlacement(Road road){
+		EdgeLocation edgeLocation = road.getLocation();
+		HexLocation hexLocation = edgeLocation.getHexLoc();		
+		System.out.println(edgeLocation.getDir());
+		hexLocation.getNeighborLoc(edgeLocation.getDir());
 		return false;
 	}
 	/**
 	 * tests if the player can roll
-	 * 
+	 *  
 	 * @Pre it is the current turn of the player attempting to roll
 	 * @Post result: a boolean reporting success/fail
 	 */
@@ -86,13 +88,13 @@ public class ClientModelController {
 	 * @Pre the road is not over another road
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildRoad(int playerIndex, EdgeLocation edgeLocation) {
+	public boolean canBuildRoad(int playerIndex, Road road) {
 		// TODO:HSW check location and connecting buildings/roads/pre-existing
 		// buildings
 		ResourceList resourceList = new ResourceList(1, 0, 0, 0, 1);
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, resourceList)
-				&& !roadExists(edgeLocation)) {
+				&& !roadExists(road)) {
 			return true;
 		}
 		return false;

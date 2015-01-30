@@ -1,11 +1,9 @@
 package shared.communication;
 
-import shared.definitions.CatanColor;
-
 /**
  * This class wraps up the information the server needs to add a user to a game.
  * 
- * Domain: color:CatanColor id:Integer value
+ * Domain: color:String id:Integer value
  * 
  * @author winstonhurst
  */
@@ -14,7 +12,7 @@ public class JoinGameParams {
 	/**
 	 * The color the player wished to join as
 	 */
-	CatanColor color;
+	String color;
 	/**
 	 * The id of the game the player wishes to join
 	 */
@@ -28,16 +26,16 @@ public class JoinGameParams {
 	 * @param color
 	 * @param id
 	 */
-	public JoinGameParams(CatanColor color, int id) {
+	public JoinGameParams(String color, int id) {
 		this.color = color;
 		this.id = id;
 	}
 
-	public CatanColor getColor() {
+	public String getColor() {
 		return color;
 	}
 
-	public void setColor(CatanColor color) {
+	public void setColor(String color) {
 		this.color = color;
 	}
 

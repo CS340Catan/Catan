@@ -21,8 +21,9 @@ public class GamesList {
 	 *       the client
 	 * @param games
 	 */
-	public GamesList(ArrayList<GameSummary> games) {
+	public GamesList(ArrayList<GameSummary> games, boolean success) {
 		this.games = games;
+		this.success = success;
 	}
 
 	public ArrayList<GameSummary> getGames() {
