@@ -1,17 +1,16 @@
-package shared.communication;
+package shared.communication;	
+	/**
+	 * This is the response sent back from the server after a join() request
+	 * the only thing sent back is either the string "Success" or "Invalid request"
+	 */
+public class JoinResponse{
+	String response;
 
-public class JoinResponse {
-	boolean success;
-	
-	public JoinResponse(boolean success){
-		this.success = success;
+	public String getResponse() {
+		return response;
 	}
-	
-	public boolean wasSuccessful(){
-		return success;
-	}
-	
-	public void setSuccess(boolean success){
-		this.success = success;
+
+	public void setResponse(String response) {
+		this.response = response;
 	}
 }

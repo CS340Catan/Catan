@@ -48,4 +48,10 @@ public class Road {
 	public void setLocation(EdgeLocation location) {
 		this.location = location;
 	}
+	public boolean checkAvailability(Road road){
+		if(this.getLocation().getHexLoc().equals(road.getLocation().getHexLoc()) && this.getLocation().getDir() == road.getLocation().getDir()){
+			return false;
+		}
+		return true;
+	}
 }

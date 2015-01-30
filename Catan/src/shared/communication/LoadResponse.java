@@ -1,17 +1,19 @@
 package shared.communication;
 
+/**
+ * This is the response sent back from the server after a load() request
+ * the only thing sent back is either the string "Success" or "Invalid request"
+ */
 public class LoadResponse {
-	boolean success;
 	
-	public LoadResponse(boolean success){
-		this.success = success;
+	String response;
+
+	public String getResponse() {
+		return response;
 	}
-	
-	public boolean wasSuccessful(){
-		return success;
+
+	public void setResponse(String response) {
+		this.response = response;
 	}
-	
-	public void setSuccess(boolean success){
-		this.success = success;
-	}
+
 }

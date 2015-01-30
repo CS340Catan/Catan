@@ -8,8 +8,15 @@ public class HTTPCommunicator {
 	 * @Pre url is valid, object is valid
 	 * @Post A valid Java Object returned
 	 */
-	public Object doPost(URL url, Object params){
-		return null;
+	public Object doPost(String url, Object params){
+		if(params != null) {
+			
+			
+		}
+		else {
+			
+			
+		}
 	}
 	
 	
@@ -17,7 +24,14 @@ public class HTTPCommunicator {
 	 * @Pre url is valid, object is valid
 	 * @Post A valid Java Object returned
 	 */
-	public Object doGet(URL url, Object params){
-		return null;
+	public Object doGet(String url, Object params){
+		if(params != null) {
+			
+			
+		}
+		else {
+			
+			
+		}
 	}
 }

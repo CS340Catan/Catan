@@ -1,19 +1,25 @@
 package shared.communication;
 
-import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * This is the class returned by the server when the function listAI() is called
+ * Domain:
+ * 	AIList:list
+ * DomainConstraints
+ * 	For now it can only contain "LARGEST_ARMY"
+ *
+ */
 public class ListAIResponse {
-	ArrayList<String> AItypes;
 	
-	public ListAIResponse(ArrayList<String> types){
-		this.AItypes = types;
+	List<String> AITypes;
+
+	public List<String> getAITypes() {
+		return AITypes;
 	}
-	
-	public ArrayList<String> getAITypes(){
-		return this.AItypes;
+
+	public void setAITypes(List<String> aITypes) {
+		AITypes = aITypes;
 	}
-	
-	public void setAITypes(ArrayList<String> types){
-		this.AItypes = types;
-	}
+
 }
