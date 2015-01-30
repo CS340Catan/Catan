@@ -1,7 +1,7 @@
 package test;
 
-import client.model.ClientModel;
-import client.model.ResourceList;
+import java.util.ArrayList;
+
 import shared.communication.AddAIParams;
 import shared.communication.AddAIResponse;
 import shared.communication.ChangeLogLevelParams;
@@ -15,6 +15,7 @@ import shared.communication.JoinResponse;
 import shared.communication.ListAIResponse;
 import shared.communication.LoadResponse;
 import shared.communication.LoginResponse;
+import shared.communication.PlayerSummary;
 import shared.communication.SaveParams;
 import shared.communication.SaveResponse;
 import shared.communication.UserCredentials;
@@ -22,6 +23,14 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.utils.IServer;
+import client.model.ClientModel;
+import client.model.Map;
+import client.model.MessageLine;
+import client.model.MessageList;
+import client.model.Player;
+import client.model.ResourceList;
+import client.model.TradeOffer;
+import client.model.TurnTracker;
 
 /**
  * This class implements the IServer interface, such that it may be used as a
@@ -78,8 +87,12 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public LoginResponse Register(UserCredentials credentials) {
-		// TODO Auto-generated method stub
-		return null;
+		LoginResponse response = null;
+		if (credentials.getUsername() != "test") {
+			response = new LoginResponse(credentials.getUsername(),
+					credentials.getPassword());
+		}
+		return response;
 	}
 
 	/**
@@ -91,8 +104,19 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public GamesList getGameList() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<GameSummary> games = new ArrayList<GameSummary>();
+		boolean success = false;
+		String[] names = {"bill","ted","sheila","parker"};
+		String[] colors = {"red","white","blue","green"};
+		String[] gameNames = {"game1","game2"}; 
+		for(int i = 0 ; i<2; ++i){
+			PlayerSummary players[] = new PlayerSummary[4];
+			for(int j = i; i<5; ++i){
+				players[j] = new PlayerSummary(colors[j],names[j],j);
+			}
+			games.add(new GameSummary(gameNames[i],i,players));
+		}
+		return new GamesList(games,success);
 	}
 
 	/**
@@ -104,8 +128,11 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public GameSummary createGame(CreateGameParams params) {
-		// TODO Auto-generated method stub
-		return null;
+		PlayerSummary[] players = new PlayerSummary[4];
+		for(int i = 0; i<5; i++){
+			players[i] = new PlayerSummary();
+		}
+		return new GameSummary("game1",1,players);
 	}
 
 	/**
@@ -120,7 +147,9 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public JoinResponse joinGame(JoinGameParams params) {
-		return null;
+		if(params.getColor()=="green")//let's say green is already in
+			return new JoinResponse(false);
+		return new JoinResponse(true);
 	}
 
 	/**
@@ -134,7 +163,12 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public SaveResponse saveGame(SaveParams params) {
-		return null;
+		if(params.getId()==1 || params.getId()==0){
+			if(params.getFileName().equals("game0.txt")||params.getFileName().equals("game1.txt")){
+				return new SaveResponse(true);
+			}
+		}
+		return new SaveResponse(false);
 	}
 
 	/**
@@ -148,7 +182,9 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public LoadResponse loadGame(String fileName) {
-		return null;
+		if(fileName.equals("game0.txt"))
+			return new LoadResponse(true);
+		return new LoadResponse(false);
 	}
 
 	/**
@@ -162,8 +198,9 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel getCurrentGame(int version) {
-		// TODO Auto-generated method stub
-		return null;
+		if(version<0)
+			return null;
+		return clientMockModel;
 	}
 
 	/**
@@ -180,8 +217,8 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel resetGame() {
-		// TODO Auto-generated method stub
-		return null;
+		clientMockModel.setLog(new MessageList(new MessageLine[1]));
+		return clientMockModel;
 	}
 
 	/**
@@ -192,8 +229,18 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public CommandList getCommands() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> commandList = new ArrayList<String>();
+		commandList.add("games/create");
+		commandList.add("games/join");
+		commandList.add("games/join");
+		commandList.add("games/join");
+		commandList.add("games/join");
+		commandList.add("moves/buildSettlement");
+		commandList.add("move/buildRoad");
+		commandList.add("moves/buildRoad");
+		commandList.add("moves/buildSettlement");
+		
+		return new CommandList(commandList);
 	}
 
 	/**
@@ -208,8 +255,9 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel setCommands(CommandList commands) {
-		// TODO Auto-generated method stub
-		return null;
+		int current = (clientMockModel.getTurnTracker().getCurrentTurn() +1)%4;
+		clientMockModel.getTurnTracker().setCurrentTurn(current);
+		return clientMockModel;
 	}
 
 	/**
@@ -220,7 +268,9 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ListAIResponse getAITypes() {
-		return null;
+		ArrayList<String> types = new ArrayList<String>();
+		types.add("LARGEST ARMY");
+		return new ListAIResponse(types);
 	}
 
 	/**
@@ -236,8 +286,9 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public AddAIResponse addAI(AddAIParams params) {
-		// TODO Auto-generated method stub
-		return null;
+		if(params.getType()!="LARGEST ARMY")
+			return null;
+		return new AddAIResponse();
 	}
 
 	/**
@@ -262,8 +313,16 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel sendChat(String content) {
-		// TODO Auto-generated method stub
-		return null;
+		MessageLine newMessage = new MessageLine(content, "billy");
+		MessageLine[] oldMessages = clientMockModel.getChat().getLines();
+		int size = oldMessages.length+1;
+		MessageLine[] newMessages = new MessageLine[size];
+		System.arraycopy(oldMessages, 0, newMessages, 0, size-1);
+		newMessages[size-1] = newMessage;
+		MessageList newList = new MessageList(newMessages);
+		clientMockModel.setChat(newList);
+		
+		return clientMockModel;
 	}
 
 	/**
@@ -280,8 +339,23 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel acceptTrade(boolean willAccept) {
-		// TODO Auto-generated method stub
-		return null;
+		if(willAccept==false)
+			return clientMockModel;
+		Player player0 = clientMockModel.getPlayers()[0];
+		Player player1 = clientMockModel.getPlayers()[1];
+		//Our canned trade will be 1 sheep for 2 grain
+		ResourceList p0Res = player0.getResources();
+		ResourceList p1Res = player1.getResources();
+		int newWheat0 = p0Res.getWheat() +2;
+		p0Res.setWheat(newWheat0);
+		int newSheep0 = p0Res.getSheep() -1;
+		p0Res.setSheep(newSheep0);
+		int newWheat1 = p1Res.getWheat() -2;
+		p1Res.setWheat(newWheat1);
+		int newSheep1 = p1Res.getSheep() +1;
+		p1Res.setSheep(newSheep1);
+		clientMockModel.setTradeOffer(new TradeOffer(-1,-1,null));//what does an empty Trade offer look like
+		return clientMockModel;	
 	}
 
 	/**
@@ -298,8 +372,7 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel discardCards(ResourceList discardedCards) {
-		// TODO Auto-generated method stub
-		return null;
+		return clientMockModel;
 	}
 
 	/**
@@ -314,8 +387,7 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel rollNumber(int number) {
-		// TODO Auto-generated method stub
-		return null;
+		return clientMockModel;
 	}
 
 	/**
@@ -355,7 +427,9 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel buildSettlement(boolean free,
 			VertexLocation vertexLocation) {
-		// TODO Auto-generated method stub
+		if(!free)
+			return clientMockModel;
+//		VertexLocation[] cities = clientMockModel.getMap().getSettlements();
 		return null;
 	}
 
@@ -559,13 +633,13 @@ public class MockServer implements IServer {
 	 * correctly updated ClientModel.
 	 * 
 	 * @Pre None.
-	 * @Post Gets an updated version of the model from the server.
+	 * @Post Gets an updated version of the model from the server. We will just change the turn tracker
 	 */
 	@Override
 	public ClientModel updateModel() {
-		return null;
-		// TODO Auto-generated method stub
-
+		int current = (clientMockModel.getTurnTracker().getCurrentTurn() +1)%4;
+		clientMockModel.getTurnTracker().setCurrentTurn(current);
+		return clientMockModel;
 	}
 
 }

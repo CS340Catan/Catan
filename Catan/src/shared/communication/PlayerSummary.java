@@ -13,11 +13,11 @@ public class PlayerSummary {
 	/**
 	 * The player's color
 	 */
-	String color;
+	String color="";
 	/**
 	 * The player's username
 	 */
-	String name;
+	String name="";
 	/**
 	 * The Player's id
 	 */
@@ -35,6 +35,10 @@ public class PlayerSummary {
 		this.color = color;
 		this.name = name;
 		this.id = id;
+	}
+	
+	public PlayerSummary(){
+		
 	}
 
 	public String getColor() {

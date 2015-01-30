@@ -92,7 +92,7 @@ public class ServerProxy implements IServer {
 	 * @post A valid CurrentGames returned
 	 */
 	public GamesList getGameList() {
-		GamesList currentGames = new GamesList(null);
+		GamesList currentGames = new GamesList(null,false);
 		return currentGames;
 	}
 
