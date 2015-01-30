@@ -42,7 +42,12 @@ public class ClientModelController {
 		}
 		return false;
 	}
-
+/**
+ * checks if a player has the list of resources passed in
+ * @param playerIndex
+ * @param resourceList
+ * @return
+ */
 	public boolean playerHasResources(int playerIndex, ResourceList resourceList) {
 		if (clientModel.getPlayers()[playerIndex].getResources().contains(
 				resourceList)) {
@@ -50,6 +55,11 @@ public class ClientModelController {
 		}
 		return false;
 	}
+	/**
+	 * Checks to see if a given road exists in the location inside the given road
+	 * @param road
+	 * @return
+	 */
 	public boolean roadExists(Road road){
 		for(Road existingRoad : clientModel.getMap().getRoads()){
 			if(existingRoad.checkAvailability(road)){
@@ -58,6 +68,11 @@ public class ClientModelController {
 		}
 		return true;
 	}
+	/**
+	 * Checks to see if the road is able to be placed at the location inside the given road
+	 * @param road
+	 * @return
+	 */
 	public boolean legitRoadPlacement(Road road){
 		EdgeLocation edgeLocation = road.getLocation();
 		HexLocation hexLocation = edgeLocation.getHexLoc();		
