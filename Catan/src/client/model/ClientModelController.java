@@ -18,7 +18,7 @@ public class ClientModelController {
 	private ClientModel clientModel;
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 * 
 	 * @Pre clientModel may not be null
 	 * @Post result: a ClientModel
@@ -29,11 +29,13 @@ public class ClientModelController {
 	}
 
 	/**
-	 * Checks if it is the given player's turn
+	 * Check if it is the given player's turn. If it is the player's turn,
+	 * return true.
 	 * 
 	 * @pre none
-	 * @post boolean if it is the player's turn or not
+	 * @post Boolean if it is the player's turn or not
 	 * @param playerIndex
+	 *            Player being queried.
 	 * @return
 	 */
 	public boolean isPlayerTurn(int playerIndex) {
@@ -42,12 +44,17 @@ public class ClientModelController {
 		}
 		return false;
 	}
-/**
- * checks if a player has the list of resources passed in
- * @param playerIndex
- * @param resourceList
- * @return
- */
+
+	/**
+	 * Check if a player has the list of resources passed in. If the inputed
+	 * resourceList is a subset of player[playerIndex], then return true.
+	 * 
+	 * @param playerIndex
+	 *            Player being queried.
+	 * @param resourceList
+	 *            Resources being queried.
+	 * @return
+	 */
 	public boolean playerHasResources(int playerIndex, ResourceList resourceList) {
 		if (clientModel.getPlayers()[playerIndex].getResources().contains(
 				resourceList)) {
@@ -55,34 +62,41 @@ public class ClientModelController {
 		}
 		return false;
 	}
+
 	/**
-	 * Checks to see if a given road exists in the location inside the given road
+	 * Check if a given road exists in the location inside the given road.
+	 * 
 	 * @param road
+	 *            Road being queried.
 	 * @return
 	 */
-	public boolean roadExists(Road road){
-		for(Road existingRoad : clientModel.getMap().getRoads()){
-			if(existingRoad.checkAvailability(road)){
+	public boolean roadExists(Road road) {
+		for (Road existingRoad : clientModel.getMap().getRoads()) {
+			if (existingRoad.checkAvailability(road)) {
 				return false;
 			}
 		}
 		return true;
 	}
+
 	/**
-	 * Checks to see if the road is able to be placed at the location inside the given road
+	 * Check to see if the road is able to be placed at the location inside the
+	 * given road
+	 * 
 	 * @param road
 	 * @return
 	 */
-	public boolean legitRoadPlacement(Road road){
+	public boolean legitRoadPlacement(Road road) {
 		EdgeLocation edgeLocation = road.getLocation();
-		HexLocation hexLocation = edgeLocation.getHexLoc();		
+		HexLocation hexLocation = edgeLocation.getHexLoc();
 		System.out.println(edgeLocation.getDir());
 		hexLocation.getNeighborLoc(edgeLocation.getDir());
 		return false;
 	}
+
 	/**
 	 * tests if the player can roll
-	 *  
+	 * 
 	 * @Pre it is the current turn of the player attempting to roll
 	 * @Post result: a boolean reporting success/fail
 	 */
@@ -106,9 +120,9 @@ public class ClientModelController {
 	public boolean canBuildRoad(int playerIndex, Road road) {
 		// TODO:HSW check location and connecting buildings/roads/pre-existing
 		// buildings
-		ResourceList resourceList = new ResourceList(1, 0, 0, 0, 1);
+		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		if (isPlayerTurn(playerIndex)
-				&& playerHasResources(playerIndex, resourceList)
+				&& playerHasResources(playerIndex, requiredResourceList)
 				&& !roadExists(road)) {
 			return true;
 		}
@@ -264,9 +278,28 @@ public class ClientModelController {
 	 */
 	public boolean canPlaySoldierCard(HexLocation hexLocation, int playerIndex) {
 		if (isPlayerTurn(playerIndex)
-				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getSoldier() > 0
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards()
+						.getSoldier() > 0
 				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()
-				&& !clientModel.getMap().getRobber().equals(hexLocation)) { //ensures the robber isn't placed on the same tile, which is illegal, might be better to check elsewhere though
+				&& !clientModel.getMap().getRobber().equals(hexLocation)) { // ensures
+																			// the
+																			// robber
+																			// isn't
+																			// placed
+																			// on
+																			// the
+																			// same
+																			// tile,
+																			// which
+																			// is
+																			// illegal,
+																			// might
+																			// be
+																			// better
+																			// to
+																			// check
+																			// elsewhere
+																			// though
 			return true;
 		}
 		return false;
@@ -283,7 +316,8 @@ public class ClientModelController {
 	 */
 	public boolean canPlayYearOfPlentyCard(int playerIndex) {
 		if (isPlayerTurn(playerIndex)
-				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getYearOfPlenty() > 0
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards()
+						.getYearOfPlenty() > 0
 				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
 			return true;
 		}
@@ -300,11 +334,13 @@ public class ClientModelController {
 	 * @Pre this dev card was not purchased this turn
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canPlayRoadBuildingCard(int playerIndex, EdgeLocation edgeLocation) {
+	public boolean canPlayRoadBuildingCard(int playerIndex,
+			EdgeLocation edgeLocation) {
 		if (isPlayerTurn(playerIndex)
-				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getRoadBuilding() > 0
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards()
+						.getRoadBuilding() > 0
 				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
-			//TODO:HSW figure out location checking
+			// TODO:HSW figure out location checking
 			return true;
 		}
 		return false;
