@@ -24,7 +24,14 @@ public class ClientModelTest {
 	@Test
 	public void enumTest() {
 		EdgeDirection thing = EdgeDirection.NorthEast;
-		System.out.println(thing);
+		EdgeDirection otherThing = EdgeDirection.NorthEast;
+		switch(thing){
+		case NorthEast:
+			System.out.println("it works!");
+		default:
+			break;
+		}
+		System.out.println(thing.equals(otherThing));
 	}
 
 }
