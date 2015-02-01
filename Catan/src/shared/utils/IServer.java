@@ -1,8 +1,6 @@
 package shared.utils;
 
 import shared.communication.*;
-import shared.locations.*;
-import client.model.ResourceList;
 import client.model.ClientModel;
 
 /**
