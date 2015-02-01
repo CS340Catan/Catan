@@ -112,7 +112,7 @@ public class ClientModelController {
 	}
 
 	/**
-	 * tests if the player can build a road
+	 * Tests if the player can build a road
 	 * 
 	 * @Pre it is the current turn of the player attempting to build a road
 	 * @Pre player has the required resources to buy the road
