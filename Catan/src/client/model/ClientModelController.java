@@ -67,22 +67,6 @@ public class ClientModelController {
 	}
 
 	/**
-	 * Check if a given road exists in the location inside the given road.
-	 * 
-	 * @param road
-	 *            Road being queried.
-	 * @return
-	 */
-	public boolean roadExists(Road road) {
-		for (Road existingRoad : clientModel.getMap().getRoads()) {
-			if (existingRoad.checkAvailability(road)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * Check to see if the road is able to be placed at the location inside the
 	 * given road
 	 * 
@@ -118,10 +102,19 @@ public class ClientModelController {
 	 * @Pre player has the required resources to buy the road
 	 * @Pre the road is attached to another road or building
 	 * @Pre the road is not over another road
+	 * @Pre player has available road piece
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildRoad(int playerIndex, Road road) {
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
+		/*
+		 * Check pre-conditions. I.e. check if it is the current player's turn,
+		 * if the player has the required resources, the road is not covering
+		 * another road, the road is attached to a road or a building, and if
+		 * the player has an available road piece.
+		 */
+		
+		//TODO: Check if player has available road piece
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, requiredResourceList)
 				&& !roadExists(road)
@@ -129,7 +122,22 @@ public class ClientModelController {
 			return true;
 		}
 		return false;
+	}
 
+	/**
+	 * Check if a given road exists in the location inside the given road.
+	 * 
+	 * @param road
+	 *            Road being queried.
+	 * @return
+	 */
+	public boolean roadExists(Road road) {
+		for (Road existingRoad : clientModel.getMap().getRoads()) {
+			if (existingRoad.checkAvailability(road)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -598,7 +606,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildSettlement(VertexObject settlement) {
-		//TODO:check adjacent buildings/road
+		// TODO:check adjacent buildings/road
 		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
 		if (isPlayerTurn(playerIndex)
