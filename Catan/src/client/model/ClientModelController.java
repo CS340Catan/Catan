@@ -604,6 +604,7 @@ public class ClientModelController {
 	 */
 	public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
 		// TODO:HSW figure out how to figure out if a trade has been offered
+
 		if (clientModel.getPlayers()[playerIndex].getResources().contains(
 				resourceList)) {
 			return true;
@@ -748,7 +749,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canPlayRoadBuildingCard(int playerIndex,
-			EdgeLocation edgeLocation) {
+			EdgeLocation edgeLocation1, EdgeLocation edgeLocation2) {
 		if (isPlayerTurn(playerIndex)
 				&& clientModel.getPlayers()[playerIndex].getOldDevCards()
 						.getRoadBuilding() > 0
