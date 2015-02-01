@@ -598,7 +598,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildSettlement(VertexObject settlement) {
-		//TODO:check adjacent buildings
+		//TODO:check adjacent buildings/road
 		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
 		if (isPlayerTurn(playerIndex)
