@@ -8,6 +8,10 @@ public class SaveResponse {
 	
 	String response;
 
+	public SaveResponse(String response) {
+		this.response = response;
+	}
+
 	public String getResponse() {
 		return response;
 	}

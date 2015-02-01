@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import shared.communication.AddAIParams;
 import shared.communication.AddAIResponse;
+import shared.communication.BuildSettlementParams;
 import shared.communication.ChangeLogLevelParams;
 import shared.communication.ChangeLogLevelResponse;
 import shared.communication.CommandList;
@@ -148,8 +149,8 @@ public class MockServer implements IServer {
 	@Override
 	public JoinResponse joinGame(JoinGameParams params) {
 		if(params.getColor()=="green")//let's say green is already in
-			return new JoinResponse(false);
-		return new JoinResponse(true);
+			return new JoinResponse("Invalid Request");
+		return new JoinResponse("Success");
 	}
 
 	/**
@@ -165,10 +166,10 @@ public class MockServer implements IServer {
 	public SaveResponse saveGame(SaveParams params) {
 		if(params.getId()==1 || params.getId()==0){
 			if(params.getFileName().equals("game0.txt")||params.getFileName().equals("game1.txt")){
-				return new SaveResponse(true);
+				return new SaveResponse("Success");
 			}
 		}
-		return new SaveResponse(false);
+		return new SaveResponse("Invalid Request");
 	}
 
 	/**
@@ -183,8 +184,8 @@ public class MockServer implements IServer {
 	@Override
 	public LoadResponse loadGame(String fileName) {
 		if(fileName.equals("game0.txt"))
-			return new LoadResponse(true);
-		return new LoadResponse(false);
+			return new LoadResponse("Success");
+		return new LoadResponse("Invalid Request");
 	}
 
 	/**
@@ -286,7 +287,7 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public AddAIResponse addAI(AddAIParams params) {
-		if(params.getType()!="LARGEST ARMY")
+		if(params.getAIType()!="LARGEST ARMY")
 			return null;
 		return new AddAIResponse();
 	}
@@ -425,9 +426,8 @@ public class MockServer implements IServer {
 	 * @Post The settlement is on the map at the specified location.
 	 */
 	@Override
-	public ClientModel buildSettlement(boolean free,
-			VertexLocation vertexLocation) {
-		if(!free)
+	public ClientModel buildSettlement(BuildSettlementParams param){
+		if(param.isFree())
 			return clientMockModel;
 //		VertexLocation[] cities = clientMockModel.getMap().getSettlements();
 		return null;
@@ -479,8 +479,7 @@ public class MockServer implements IServer {
 	 *       and the requested resource has been received).
 	 */
 	@Override
-	public ClientModel maritimeTrade(int ratio, String inputResource,
-			String outputResource) {
+	public ClientModel maritimeTrade(int ratio, String inputResource, String outputResource) {
 		// TODO Auto-generated method stub
 		return null;
 	}

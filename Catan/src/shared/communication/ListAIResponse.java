@@ -1,5 +1,6 @@
 package shared.communication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,10 @@ import java.util.List;
 public class ListAIResponse {
 	
 	List<String> AITypes;
+
+	public ListAIResponse(ArrayList<String> types) {
+		this.AITypes = types;
+	}
 
 	public List<String> getAITypes() {
 		return AITypes;

@@ -5,6 +5,10 @@ package shared.communication;
 	 */
 public class JoinResponse{
 	String response;
+	
+	public JoinResponse(String response){
+		this.response = response;
+	}
 
 	public String getResponse() {
 		return response;

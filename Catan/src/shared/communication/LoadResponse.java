@@ -8,6 +8,10 @@ public class LoadResponse {
 	
 	String response;
 
+	public LoadResponse(String response) {
+		this.response = response;
+	}
+
 	public String getResponse() {
 		return response;
 	}
