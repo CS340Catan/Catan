@@ -121,21 +121,29 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildRoad(int playerIndex, Road road) {
-		// TODO:HSW check location and connecting buildings/roads/pre-existing
-		// buildings
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, requiredResourceList)
-				&& !roadExists(road)) {
+				&& !roadExists(road)
+				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))) {
 			return true;
 		}
 		return false;
 
 	}
-	private boolean buildingCheck(VertexObject building, EdgeLocation roadLocation, HexLocation platformHex){
+
+	/**
+	 * Generically checks for cities and settlements
+	 * 
+	 * @param building
+	 * @param roadLocation
+	 * @param platformHex
+	 * @return
+	 */
+	private boolean buildingCheckForRoadBuilding(VertexObject building,
+			EdgeLocation roadLocation, HexLocation platformHex) {
 		VertexLocation settlementLoc = building.getLocation();
 		VertexDirection settlementDirection = settlementLoc.getDir();
-		
 		if (building.getLocation().equals(platformHex)) {
 
 			switch (roadLocation.getDir()) {
@@ -152,8 +160,7 @@ public class ClientModelController {
 				}
 			case NorthEast:
 				if (settlementDirection.equals(VertexDirection.NorthEast)
-						|| settlementDirection
-								.equals(VertexDirection.East)) {
+						|| settlementDirection.equals(VertexDirection.East)) {
 					return true;
 				}
 			case SouthEast:
@@ -170,8 +177,7 @@ public class ClientModelController {
 				}
 			case SouthWest:
 				if (settlementDirection.equals(VertexDirection.SouthWest)
-						|| settlementDirection
-								.equals(VertexDirection.West)) {
+						|| settlementDirection.equals(VertexDirection.West)) {
 					return true;
 				}
 			}
@@ -180,7 +186,6 @@ public class ClientModelController {
 	}
 
 	public boolean hasConnectingBuilding(Road road) {
-		// TODO: Implement switch method
 		EdgeLocation roadLocation = road.getLocation();
 		HexLocation platformHex = null;
 		for (Hex hex : clientModel.getMap().getHexes()) {
@@ -189,10 +194,16 @@ public class ClientModelController {
 			}
 		}
 		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
-			buildingCheck(settlement, roadLocation, platformHex);
+			if (settlement.getOwner() == road.getOwner()) {
+				return buildingCheckForRoadBuilding(settlement, roadLocation,
+						platformHex);
+			}
 		}
 		for (VertexObject city : clientModel.getMap().getCities()) {
-			buildingCheck(city, roadLocation, platformHex);			
+			if (city.getOwner() == road.getOwner()) {
+				return buildingCheckForRoadBuilding(city, roadLocation,
+						platformHex);
+			}
 		}
 		return false;
 	}
@@ -205,6 +216,7 @@ public class ClientModelController {
 	 * @return
 	 */
 	public boolean hasConnectingRoad(Road road) {
+		// TODO check for owner
 		EdgeLocation roadLocation = road.getLocation();
 
 		/*
@@ -534,6 +546,30 @@ public class ClientModelController {
 		return false;
 	}
 
+	public boolean preexistingBuilding(VertexObject building,
+			boolean dontCheckOwner) {
+		HexLocation platformHex = null;
+		for (Hex hex : clientModel.getMap().getHexes()) {
+			if (hex.equals(building.getLocation().getHexLoc())) {
+				platformHex = hex.getLocation();
+			}
+		}
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			if (building.getOwner() == settlement.getOwner() || dontCheckOwner) {
+				HexLocation settlementLocation = settlement.getLocation()
+						.getHexLoc();
+				if (settlementLocation.equals(platformHex)) {
+					if (building.getLocation().getDir()
+							.equals(settlement.getLocation().getDir())) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+
+	}
+
 	/**
 	 * tests if the player can build a city
 	 * 
@@ -542,11 +578,11 @@ public class ClientModelController {
 	 * @Pre the city is replacing an existing settlement
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildCity(int playerIndex) {
-		// TODO:HSW check if built on existing settlement
+	public boolean canBuildCity(VertexObject city) {
 		ResourceList resourceList = new ResourceList(0, 3, 0, 2, 0);
-		if (isPlayerTurn(playerIndex)
-				&& playerHasResources(playerIndex, resourceList)) {
+		if (isPlayerTurn(city.getOwner())
+				&& playerHasResources(city.getOwner(), resourceList)
+				&& preexistingBuilding(city, false)) {
 			return true;
 		}
 		return false;
@@ -561,11 +597,13 @@ public class ClientModelController {
 	 * @Pre Settlement is two edges away from all other settlements
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildSettlement(int playerIndex) {
-		// TODO: HSW check for roads/settlements/pre-existing buildings
+	public boolean canBuildSettlement(VertexObject settlement) {
+		//TODO:check adjacent buildings
+		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
 		if (isPlayerTurn(playerIndex)
-				&& playerHasResources(playerIndex, resourceList)) {
+				&& playerHasResources(playerIndex, resourceList)
+				&& !preexistingBuilding(settlement, true)) {
 			return true;
 		}
 		return false;
