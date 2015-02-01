@@ -108,13 +108,13 @@ public class ClientModelController {
 	public boolean canBuildRoad(int playerIndex, Road road) {
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		/*
-		 * Check pre-conditions. I.e. check if it is the current player's turn,
+		 * Check Pre-conditions. I.e. check if it is the current player's turn,
 		 * if the player has the required resources, the road is not covering
 		 * another road, the road is attached to a road or a building, and if
 		 * the player has an available road piece.
 		 */
-		
-		//TODO: Check if player has available road piece
+
+		// TODO: Check if player has available road piece
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, requiredResourceList)
 				&& !roadExists(road)
@@ -138,6 +138,32 @@ public class ClientModelController {
 			}
 		}
 		return true;
+	}
+
+	public boolean hasConnectingBuilding(Road road) {
+		EdgeLocation roadLocation = road.getLocation();
+		HexLocation platformHex = null;
+
+		for (Hex hex : clientModel.getMap().getHexes()) {
+			if (hex.getLocation().equals(roadLocation)) {
+				platformHex = hex.getLocation();
+			}
+		}
+
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			if (settlement.getOwner() == road.getOwner()) {
+				return buildingCheckForRoadBuilding(settlement, roadLocation,
+						platformHex);
+			}
+		}
+
+		for (VertexObject city : clientModel.getMap().getCities()) {
+			if (city.getOwner() == road.getOwner()) {
+				return buildingCheckForRoadBuilding(city, roadLocation,
+						platformHex);
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -193,29 +219,6 @@ public class ClientModelController {
 		return false;
 	}
 
-	public boolean hasConnectingBuilding(Road road) {
-		EdgeLocation roadLocation = road.getLocation();
-		HexLocation platformHex = null;
-		for (Hex hex : clientModel.getMap().getHexes()) {
-			if (hex.getLocation().equals(roadLocation)) {
-				platformHex = hex.getLocation();
-			}
-		}
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
-			if (settlement.getOwner() == road.getOwner()) {
-				return buildingCheckForRoadBuilding(settlement, roadLocation,
-						platformHex);
-			}
-		}
-		for (VertexObject city : clientModel.getMap().getCities()) {
-			if (city.getOwner() == road.getOwner()) {
-				return buildingCheckForRoadBuilding(city, roadLocation,
-						platformHex);
-			}
-		}
-		return false;
-	}
-
 	/**
 	 * Check if there is a road that already exists that connects the queried
 	 * road. If so, return true.
@@ -224,329 +227,289 @@ public class ClientModelController {
 	 * @return
 	 */
 	public boolean hasConnectingRoad(Road road) {
-		// TODO check for owner
-		EdgeLocation roadLocation = road.getLocation();
+		HexLocation roadHexLoc = road.getLocation().getHexLoc();
+		EdgeDirection roadEdgeDir = road.getLocation().getDir();
+		HexLocation roadNeighbor = roadHexLoc.getNeighborLoc(roadEdgeDir);
 
 		/*
 		 * Loop through each existing road to see if an existing road connects
 		 * to the road that is being queried.
 		 */
 		for (Road existingRoad : clientModel.getMap().getRoads()) {
-			EdgeLocation existingRoadLocation = existingRoad.getLocation();
-			HexLocation neighbor = roadLocation.getHexLoc().getNeighborLoc(
-					roadLocation.getDir());
+			/*
+			 * If the existing road's owner does not match the inputed road's
+			 * owner, continue to next iteration
+			 */
+			if (existingRoad.getOwner() != road.getOwner()) {
+				continue;
+			}
+
+			HexLocation existingRoadHexLoc = existingRoad.getLocation()
+					.getHexLoc();
+			EdgeDirection exisitingRoadEdgeDir = existingRoad.getLocation()
+					.getDir();
 
 			/*
 			 * For each different direction of the road location, check
 			 * different edge positions
 			 */
-			switch (roadLocation.getDir()) {
+			switch (roadEdgeDir) {
 			case NorthWest:
 				/*
 				 * Check on road's hex for connecting roads
 				 */
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc())) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.SouthWest)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.North)) {
+				if (existingRoadHexLoc.equals(roadHexLoc)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.SouthWest)
+							|| exisitingRoadEdgeDir.equals(EdgeDirection.North)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.North))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.South)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.North))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.South)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.SouthWest))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.NorthEast)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.SouthWest))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.NorthEast)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.NorthEast)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.South)) {
+				if (existingRoadHexLoc.equals(roadNeighbor)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.NorthEast)
+							|| exisitingRoadEdgeDir.equals(EdgeDirection.South)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						neighbor.getNeighborLoc(EdgeDirection.NorthEast))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.SouthWest)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.NorthEast))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.SouthWest)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.South))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.North)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.South))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.North)) {
 					return true;
 				}
 
 			case North:
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc())) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.NorthWest)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.NorthEast)) {
+				/*
+				 * Check on road's hex for connecting roads
+				 */
+				if (existingRoadHexLoc.equals(roadHexLoc)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.NorthWest)
+							|| exisitingRoadEdgeDir
+									.equals(EdgeDirection.NorthEast)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.NorthWest))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.SouthEast)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.NorthWest))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.SouthEast)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.NorthEast))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.SouthWest)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.NorthEast))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.SouthWest)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.SouthWest)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.SouthEast)) {
+				if (existingRoadHexLoc.equals(roadNeighbor)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.SouthWest)
+							|| exisitingRoadEdgeDir
+									.equals(EdgeDirection.SouthEast)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						neighbor.getNeighborLoc(EdgeDirection.SouthWest))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.NorthEast)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.SouthWest))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.NorthEast)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.SouthEast))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.SouthWest)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.SouthEast))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.NorthWest)) {
 					return true;
 				}
 
 			case NorthEast:
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc())) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.North)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.SouthEast)) {
+				/*
+				 * Check on road's hex for connecting roads
+				 */
+				if (existingRoadHexLoc.equals(roadHexLoc)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.North)
+							|| exisitingRoadEdgeDir
+									.equals(EdgeDirection.SouthEast)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.North))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.South)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.North))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.South)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.SouthEast))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.NorthWest)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.SouthEast))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.NorthWest)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.South)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.NorthWest)) {
+				if (existingRoadHexLoc.equals(roadNeighbor)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.NorthWest)
+							|| exisitingRoadEdgeDir.equals(EdgeDirection.South)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						neighbor.getNeighborLoc(EdgeDirection.South))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.North)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.NorthWest))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.SouthEast)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.NorthWest))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.SouthEast)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.South))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.North)) {
 					return true;
 				}
 
 			case SouthWest:
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc())) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.NorthWest)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.South)) {
+				/*
+				 * Check on road's hex for connecting roads
+				 */
+				if (existingRoadHexLoc.equals(roadHexLoc)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.NorthWest)
+							|| exisitingRoadEdgeDir.equals(EdgeDirection.South)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.NorthWest))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.SouthEast)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.NorthWest))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.SouthEast)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.South))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.North)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.South))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.North)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.North)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.SouthEast)) {
+				if (existingRoadHexLoc.equals(roadNeighbor)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.North)
+							|| exisitingRoadEdgeDir
+									.equals(EdgeDirection.SouthEast)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						neighbor.getNeighborLoc(EdgeDirection.North))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.South)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.North))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.South)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.SouthEast))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.NorthWest)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.SouthEast))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.NorthWest)) {
 					return true;
 				}
 
 			case South:
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc())) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.SouthEast)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.SouthWest)) {
+				/*
+				 * Check on road's hex for connecting roads
+				 */
+				if (existingRoadHexLoc.equals(roadHexLoc)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.SouthWest)
+							|| exisitingRoadEdgeDir
+									.equals(EdgeDirection.SouthEast)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.SouthEast))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.NorthWest)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.SouthWest))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.NorthEast)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.SouthWest))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.NorthEast)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.SouthEast))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.NorthWest)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.NorthWest)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.NorthEast)) {
+				if (existingRoadHexLoc.equals(roadNeighbor)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.NorthWest)
+							|| exisitingRoadEdgeDir
+									.equals(EdgeDirection.NorthEast)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						neighbor.getNeighborLoc(EdgeDirection.NorthWest))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.SouthEast)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.NorthWest))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.SouthEast)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.NorthEast))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.SouthWest)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.NorthEast))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.SouthWest)) {
 					return true;
 				}
 
 			case SouthEast:
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc())) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.NorthEast)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.South)) {
+				/*
+				 * Check on road's hex for connecting roads
+				 */
+				if (existingRoadHexLoc.equals(roadHexLoc)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.NorthEast)
+							|| exisitingRoadEdgeDir.equals(EdgeDirection.South)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.NorthEast))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.SouthWest)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.NorthWest))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.SouthEast)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.South))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.North)) {
+				if (existingRoadHexLoc.equals(roadHexLoc
+						.getNeighborLoc(EdgeDirection.South))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.North)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
-					if (existingRoadLocation.getDir().equals(
-							EdgeDirection.North)
-							|| existingRoadLocation.getDir().equals(
-									EdgeDirection.SouthWest)) {
+				if (existingRoadHexLoc.equals(roadNeighbor)) {
+					if (exisitingRoadEdgeDir.equals(EdgeDirection.North)
+							|| exisitingRoadEdgeDir
+									.equals(EdgeDirection.SouthWest)) {
 						return true;
 					}
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						neighbor.getNeighborLoc(EdgeDirection.North))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.South)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.North))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.South)) {
 					return true;
 				}
 
-				if (existingRoadLocation.getHexLoc().equals(
-						roadLocation.getHexLoc().getNeighborLoc(
-								EdgeDirection.SouthWest))
-						&& existingRoadLocation.getDir().equals(
-								EdgeDirection.NorthEast)) {
+				if (existingRoadHexLoc.equals(roadNeighbor
+						.getNeighborLoc(EdgeDirection.SouthWest))
+						&& exisitingRoadEdgeDir.equals(EdgeDirection.NorthEast)) {
 					return true;
 				}
 			}
