@@ -70,7 +70,7 @@ public class ServerProxy implements IServer {
 	 */
 	public LoginResponse Login(UserCredentials credentials) {
 		
-		return (LoginResponse)httpCommunicator.doPost("/user/login", credentials);
+		return (LoginResponse)httpCommunicator.doPost("/user/login", credentials,null);
 	}
 
 	/**

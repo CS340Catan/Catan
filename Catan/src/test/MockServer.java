@@ -2,24 +2,7 @@ package test;
 
 import java.util.ArrayList;
 
-import shared.communication.AddAIParams;
-import shared.communication.AddAIResponse;
-import shared.communication.BuildSettlementParams;
-import shared.communication.ChangeLogLevelParams;
-import shared.communication.ChangeLogLevelResponse;
-import shared.communication.CommandList;
-import shared.communication.CreateGameParams;
-import shared.communication.GameSummary;
-import shared.communication.GamesList;
-import shared.communication.JoinGameParams;
-import shared.communication.JoinResponse;
-import shared.communication.ListAIResponse;
-import shared.communication.LoadResponse;
-import shared.communication.LoginResponse;
-import shared.communication.PlayerSummary;
-import shared.communication.SaveParams;
-import shared.communication.SaveResponse;
-import shared.communication.UserCredentials;
+import shared.communication.*;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -339,8 +322,8 @@ public class MockServer implements IServer {
 	 * @Post The trade offer is removed.
 	 */
 	@Override
-	public ClientModel acceptTrade(boolean willAccept) {
-		if(willAccept==false)
+	public ClientModel acceptTrade(AcceptTradeParams param) {
+		if(param.isWillAccept()==false)
 			return clientMockModel;
 		Player player0 = clientMockModel.getPlayers()[0];
 		Player player1 = clientMockModel.getPlayers()[1];
@@ -372,7 +355,7 @@ public class MockServer implements IServer {
 	 *       to 'Robbing'.
 	 */
 	@Override
-	public ClientModel discardCards(ResourceList discardedCards) {
+	public ClientModel discardCards(DiscardCardsParams params) {
 		return clientMockModel;
 	}
 
@@ -404,8 +387,10 @@ public class MockServer implements IServer {
 	 *      no adjacent road.
 	 */
 	@Override
-	public ClientModel buildRoad(boolean free, EdgeLocation roadLocation) {
+	public ClientModel buildRoad(BuildRoadParams params) {
 		// TODO Auto-generated method stub
+		if(!params.isFree())
+			return clientMockModel;
 		return null;
 	}
 
@@ -446,7 +431,7 @@ public class MockServer implements IServer {
 	 * @Post You got a settlement back.
 	 */
 	@Override
-	public ClientModel buildCity(VertexLocation vertexLocation) {
+	public ClientModel buildCity(BuildCityParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -462,7 +447,7 @@ public class MockServer implements IServer {
 	 *       model).
 	 */
 	@Override
-	public ClientModel offerTrade(ResourceList offer, int receiver) {
+	public ClientModel offerTrade(TradeOfferParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -479,7 +464,7 @@ public class MockServer implements IServer {
 	 *       and the requested resource has been received).
 	 */
 	@Override
-	public ClientModel maritimeTrade(int ratio, String inputResource, String outputResource) {
+	public ClientModel maritimeTrade(MaritimeTradeParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -498,7 +483,7 @@ public class MockServer implements IServer {
 	 *       (randomly selected).
 	 */
 	@Override
-	public ClientModel robPlayer(HexLocation location, int victimIndex) {
+	public ClientModel robPlayer(MoveRoberParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -555,7 +540,7 @@ public class MockServer implements IServer {
 	 *       turn (except for monument cards, which may still be played).
 	 */
 	@Override
-	public ClientModel playSoldierCard(HexLocation location, int victimIndex) {
+	public ClientModel playSoldierCard(MoveSoldierParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -570,7 +555,7 @@ public class MockServer implements IServer {
 	 * @Post You gained the two specified resources.
 	 */
 	@Override
-	public ClientModel playYearOfPlentyCard(String resource1, String resource2) {
+	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -590,8 +575,7 @@ public class MockServer implements IServer {
 	 *       the longest road.
 	 */
 	@Override
-	public ClientModel playRoadBuildingCard(EdgeLocation spot1,
-			EdgeLocation spot2) {
+	public ClientModel playRoadBuildingCard(BuildRoadCardParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -606,7 +590,7 @@ public class MockServer implements IServer {
 	 *       of the specified type.
 	 */
 	@Override
-	public ClientModel playMonopolyCard(String resource) {
+	public ClientModel playMonopolyCard(PlayMonopoly params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
