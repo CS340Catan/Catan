@@ -1,7 +1,10 @@
 package client.model;
 
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 
 /**
  * Handles all "CanDo" methods and provides access to the client model
@@ -18,7 +21,7 @@ public class ClientModelController {
 	private ClientModel clientModel;
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 * 
 	 * @Pre clientModel may not be null
 	 * @Post result: a ClientModel
@@ -29,11 +32,13 @@ public class ClientModelController {
 	}
 
 	/**
-	 * Checks if it is the given player's turn
+	 * Check if it is the given player's turn. If it is the player's turn,
+	 * return true.
 	 * 
 	 * @pre none
-	 * @post boolean if it is the player's turn or not
+	 * @post Boolean if it is the player's turn or not
 	 * @param playerIndex
+	 *            Player being queried.
 	 * @return
 	 */
 	public boolean isPlayerTurn(int playerIndex) {
@@ -43,6 +48,16 @@ public class ClientModelController {
 		return false;
 	}
 
+	/**
+	 * Check if a player has the list of resources passed in. If the inputed
+	 * resourceList is a subset of player[playerIndex], then return true.
+	 * 
+	 * @param playerIndex
+	 *            Player being queried.
+	 * @param resourceList
+	 *            Resources being queried.
+	 * @return
+	 */
 	public boolean playerHasResources(int playerIndex, ResourceList resourceList) {
 		if (clientModel.getPlayers()[playerIndex].getResources().contains(
 				resourceList)) {
@@ -50,20 +65,38 @@ public class ClientModelController {
 		}
 		return false;
 	}
-	public boolean roadExists(Road road){
-		for(Road existingRoad : clientModel.getMap().getRoads()){
-			if(existingRoad.checkAvailability(road)){
+
+	/**
+	 * Check if a given road exists in the location inside the given road.
+	 * 
+	 * @param road
+	 *            Road being queried.
+	 * @return
+	 */
+	public boolean roadExists(Road road) {
+		for (Road existingRoad : clientModel.getMap().getRoads()) {
+			if (existingRoad.checkAvailability(road)) {
 				return false;
 			}
 		}
 		return true;
 	}
-	public boolean legitRoadPlacement(EdgeLocation edgeLocation){
+
+	/**
+	 * Check to see if the road is able to be placed at the location inside the
+	 * given road
+	 * 
+	 * @param road
+	 * @return
+	 */
+	public boolean legitRoadPlacement(Road road) {
+		EdgeLocation edgeLocation = road.getLocation();
 		HexLocation hexLocation = edgeLocation.getHexLoc();
 		System.out.println(edgeLocation.getDir());
 		hexLocation.getNeighborLoc(edgeLocation.getDir());
 		return false;
 	}
+
 	/**
 	 * tests if the player can roll
 	 * 
@@ -88,13 +121,450 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildRoad(int playerIndex, Road road) {
-		// TODO:HSW check location and connecting buildings/roads/pre-existing
-		// buildings
-		ResourceList resourceList = new ResourceList(1, 0, 0, 0, 1);
+		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		if (isPlayerTurn(playerIndex)
-				&& playerHasResources(playerIndex, resourceList)
-				&& !roadExists(road)) {
+				&& playerHasResources(playerIndex, requiredResourceList)
+				&& !roadExists(road)
+				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))) {
 			return true;
+		}
+		return false;
+
+	}
+
+	/**
+	 * Generically checks for cities and settlements
+	 * 
+	 * @param building
+	 * @param roadLocation
+	 * @param platformHex
+	 * @return
+	 */
+	private boolean buildingCheckForRoadBuilding(VertexObject building,
+			EdgeLocation roadLocation, HexLocation platformHex) {
+		VertexLocation settlementLoc = building.getLocation();
+		VertexDirection settlementDirection = settlementLoc.getDir();
+		if (building.getLocation().equals(platformHex)) {
+
+			switch (roadLocation.getDir()) {
+			case NorthWest:
+				if (settlementDirection.equals(VertexDirection.NorthWest)
+						|| settlementDirection.equals(VertexDirection.West)) {
+					return true;
+				}
+			case North:
+				if (settlementDirection.equals(VertexDirection.NorthWest)
+						|| settlementDirection
+								.equals(VertexDirection.NorthEast)) {
+					return true;
+				}
+			case NorthEast:
+				if (settlementDirection.equals(VertexDirection.NorthEast)
+						|| settlementDirection.equals(VertexDirection.East)) {
+					return true;
+				}
+			case SouthEast:
+				if (settlementDirection.equals(VertexDirection.East)
+						|| settlementDirection
+								.equals(VertexDirection.SouthEast)) {
+					return true;
+				}
+			case South:
+				if (settlementDirection.equals(VertexDirection.SouthEast)
+						|| settlementDirection
+								.equals(VertexDirection.SouthWest)) {
+					return true;
+				}
+			case SouthWest:
+				if (settlementDirection.equals(VertexDirection.SouthWest)
+						|| settlementDirection.equals(VertexDirection.West)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean hasConnectingBuilding(Road road) {
+		EdgeLocation roadLocation = road.getLocation();
+		HexLocation platformHex = null;
+		for (Hex hex : clientModel.getMap().getHexes()) {
+			if (hex.getLocation().equals(roadLocation)) {
+				platformHex = hex.getLocation();
+			}
+		}
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			if (settlement.getOwner() == road.getOwner()) {
+				return buildingCheckForRoadBuilding(settlement, roadLocation,
+						platformHex);
+			}
+		}
+		for (VertexObject city : clientModel.getMap().getCities()) {
+			if (city.getOwner() == road.getOwner()) {
+				return buildingCheckForRoadBuilding(city, roadLocation,
+						platformHex);
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Check if there is a road that already exists that connects the queried
+	 * road. If so, return true.
+	 * 
+	 * @param road
+	 * @return
+	 */
+	public boolean hasConnectingRoad(Road road) {
+		// TODO check for owner
+		EdgeLocation roadLocation = road.getLocation();
+
+		/*
+		 * Loop through each existing road to see if an existing road connects
+		 * to the road that is being queried.
+		 */
+		for (Road existingRoad : clientModel.getMap().getRoads()) {
+			EdgeLocation existingRoadLocation = existingRoad.getLocation();
+			HexLocation neighbor = roadLocation.getHexLoc().getNeighborLoc(
+					roadLocation.getDir());
+
+			/*
+			 * For each different direction of the road location, check
+			 * different edge positions
+			 */
+			switch (roadLocation.getDir()) {
+			case NorthWest:
+				/*
+				 * Check on road's hex for connecting roads
+				 */
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc())) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.SouthWest)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.North)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.North))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.South)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.SouthWest))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.NorthEast)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.NorthEast)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.South)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						neighbor.getNeighborLoc(EdgeDirection.NorthEast))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.SouthWest)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.South))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.North)) {
+					return true;
+				}
+
+			case North:
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc())) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.NorthWest)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.NorthEast)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.NorthWest))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.SouthEast)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.NorthEast))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.SouthWest)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.SouthWest)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.SouthEast)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						neighbor.getNeighborLoc(EdgeDirection.SouthWest))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.NorthEast)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.SouthEast))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.SouthWest)) {
+					return true;
+				}
+
+			case NorthEast:
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc())) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.North)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.SouthEast)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.North))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.South)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.SouthEast))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.NorthWest)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.South)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.NorthWest)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						neighbor.getNeighborLoc(EdgeDirection.South))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.North)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.NorthWest))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.SouthEast)) {
+					return true;
+				}
+
+			case SouthWest:
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc())) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.NorthWest)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.South)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.NorthWest))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.SouthEast)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.South))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.North)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.North)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.SouthEast)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						neighbor.getNeighborLoc(EdgeDirection.North))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.South)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.SouthEast))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.NorthWest)) {
+					return true;
+				}
+
+			case South:
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc())) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.SouthEast)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.SouthWest)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.SouthEast))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.NorthWest)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.SouthWest))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.NorthEast)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.NorthWest)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.NorthEast)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						neighbor.getNeighborLoc(EdgeDirection.NorthWest))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.SouthEast)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.NorthEast))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.SouthWest)) {
+					return true;
+				}
+
+			case SouthEast:
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc())) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.NorthEast)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.South)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.NorthEast))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.SouthWest)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.South))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.North)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(neighbor)) {
+					if (existingRoadLocation.getDir().equals(
+							EdgeDirection.North)
+							|| existingRoadLocation.getDir().equals(
+									EdgeDirection.SouthWest)) {
+						return true;
+					}
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						neighbor.getNeighborLoc(EdgeDirection.North))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.South)) {
+					return true;
+				}
+
+				if (existingRoadLocation.getHexLoc().equals(
+						roadLocation.getHexLoc().getNeighborLoc(
+								EdgeDirection.SouthWest))
+						&& existingRoadLocation.getDir().equals(
+								EdgeDirection.NorthEast)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean preexistingBuilding(VertexObject building,
+			boolean dontCheckOwner) {
+		HexLocation platformHex = null;
+		for (Hex hex : clientModel.getMap().getHexes()) {
+			if (hex.equals(building.getLocation().getHexLoc())) {
+				platformHex = hex.getLocation();
+			}
+		}
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			if (building.getOwner() == settlement.getOwner() || dontCheckOwner) {
+				HexLocation settlementLocation = settlement.getLocation()
+						.getHexLoc();
+				if (settlementLocation.equals(platformHex)) {
+					if (building.getLocation().getDir()
+							.equals(settlement.getLocation().getDir())) {
+						return true;
+					}
+				}
+			}
 		}
 		return false;
 
@@ -108,11 +578,11 @@ public class ClientModelController {
 	 * @Pre the city is replacing an existing settlement
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildCity(int playerIndex) {
-		// TODO:HSW check if built on existing settlement
+	public boolean canBuildCity(VertexObject city) {
 		ResourceList resourceList = new ResourceList(0, 3, 0, 2, 0);
-		if (isPlayerTurn(playerIndex)
-				&& playerHasResources(playerIndex, resourceList)) {
+		if (isPlayerTurn(city.getOwner())
+				&& playerHasResources(city.getOwner(), resourceList)
+				&& preexistingBuilding(city, false)) {
 			return true;
 		}
 		return false;
@@ -127,11 +597,13 @@ public class ClientModelController {
 	 * @Pre Settlement is two edges away from all other settlements
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildSettlement(int playerIndex) {
-		// TODO: HSW check for roads/settlements/pre-existing buildings
+	public boolean canBuildSettlement(VertexObject settlement) {
+		//TODO:check adjacent buildings/road
+		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
 		if (isPlayerTurn(playerIndex)
-				&& playerHasResources(playerIndex, resourceList)) {
+				&& playerHasResources(playerIndex, resourceList)
+				&& !preexistingBuilding(settlement, true)) {
 			return true;
 		}
 		return false;
@@ -248,9 +720,28 @@ public class ClientModelController {
 	 */
 	public boolean canPlaySoldierCard(HexLocation hexLocation, int playerIndex) {
 		if (isPlayerTurn(playerIndex)
-				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getSoldier() > 0
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards()
+						.getSoldier() > 0
 				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()
-				&& !clientModel.getMap().getRobber().equals(hexLocation)) { //ensures the robber isn't placed on the same tile, which is illegal, might be better to check elsewhere though
+				&& !clientModel.getMap().getRobber().equals(hexLocation)) { // ensures
+																			// the
+																			// robber
+																			// isn't
+																			// placed
+																			// on
+																			// the
+																			// same
+																			// tile,
+																			// which
+																			// is
+																			// illegal,
+																			// might
+																			// be
+																			// better
+																			// to
+																			// check
+																			// elsewhere
+																			// though
 			return true;
 		}
 		return false;
@@ -267,7 +758,8 @@ public class ClientModelController {
 	 */
 	public boolean canPlayYearOfPlentyCard(int playerIndex) {
 		if (isPlayerTurn(playerIndex)
-				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getYearOfPlenty() > 0
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards()
+						.getYearOfPlenty() > 0
 				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
 			return true;
 		}
@@ -284,11 +776,13 @@ public class ClientModelController {
 	 * @Pre this dev card was not purchased this turn
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canPlayRoadBuildingCard(int playerIndex, EdgeLocation edgeLocation) {
+	public boolean canPlayRoadBuildingCard(int playerIndex,
+			EdgeLocation edgeLocation) {
 		if (isPlayerTurn(playerIndex)
-				&& clientModel.getPlayers()[playerIndex].getOldDevCards().getRoadBuilding() > 0
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards()
+						.getRoadBuilding() > 0
 				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
-			//TODO:HSW figure out location checking
+			// TODO:HSW figure out location checking
 			return true;
 		}
 		return false;

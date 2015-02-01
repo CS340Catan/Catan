@@ -1,21 +1,6 @@
 package shared.utils;
 
-import shared.communication.AddAIParams;
-import shared.communication.AddAIResponse;
-import shared.communication.ChangeLogLevelResponse;
-import shared.communication.ChangeLogLevelParams;
-import shared.communication.CommandList;
-import shared.communication.CreateGameParams;
-import shared.communication.GameSummary;
-import shared.communication.GamesList;
-import shared.communication.JoinGameParams;
-import shared.communication.JoinResponse;
-import shared.communication.ListAIResponse;
-import shared.communication.LoadResponse;
-import shared.communication.LoginResponse;
-import shared.communication.SaveParams;
-import shared.communication.SaveResponse;
-import shared.communication.UserCredentials;
+import shared.communication.*;
 import shared.locations.*;
 import client.model.ResourceList;
 import client.model.ClientModel;
@@ -246,7 +231,7 @@ public interface IServer {
 	 * @Post The trade offer is removed
 	 * @param willAccept
 	 */
-	public ClientModel acceptTrade(boolean willAccept);
+	public ClientModel acceptTrade(AcceptTradeParams params);
 
 	/**
 	 * This method will discard a set of cards from the client's hand.
@@ -262,7 +247,7 @@ public interface IServer {
 	 * @param discardedCards
 	 * 
 	 */
-	public ClientModel discardCards(ResourceList discardedCards);
+	public ClientModel discardCards(DiscardCardsParams params);
 
 	/**
 	 * This method will roll the dice for the client if current turn. Following
@@ -297,7 +282,7 @@ public interface IServer {
 	 * @param roadLocation
 	 * 
 	 */
-	public ClientModel buildRoad(boolean free, EdgeLocation roadLocation);
+	public ClientModel buildRoad(BuildRoadParams params);
 
 	/**
 	 * This method will build a settlement for the client. A new ClientModel
@@ -315,8 +300,7 @@ public interface IServer {
 	 * @param vertexLocation
 	 * 
 	 */
-	public ClientModel buildSettlement(boolean free,
-			VertexLocation vertexLocation);
+	public ClientModel buildSettlement(BuildSettlementParams params);
 
 	/**
 	 * This method will build a city for the client. A new ClientModel will be
@@ -331,7 +315,7 @@ public interface IServer {
 	 * @Post the city is on the map at the specified location
 	 * @Post you got a settlement back
 	 */
-	public ClientModel buildCity(VertexLocation vertexLocation);
+	public ClientModel buildCity(BuildCityParams params);
 
 	/**
 	 * This method will offer a trade with another player. A new ClientModel
@@ -343,7 +327,7 @@ public interface IServer {
 	 * @Post the trade is offered to the other player (stored in the server
 	 *       model)
 	 */
-	public ClientModel offerTrade(ResourceList offer, int receiver);
+	public ClientModel offerTrade(TradeOfferParams params);
 
 	/**
 	 * This method will complete trade with a maritime port. A new ClientModel
@@ -356,8 +340,7 @@ public interface IServer {
 	 * @Post trade has been executed (offered resources are in the bank, and the
 	 *       requested resource has been received)
 	 */
-	public ClientModel maritimeTrade(int ratio, String inputResource,
-			String outputResource);
+	public ClientModel maritimeTrade(MaritimeTradeParams params);
 
 	/**
 	 * This method will move the robber and steal from a specific victim. A new
@@ -370,7 +353,7 @@ public interface IServer {
 	 * @Post player being robbed (if any) gave you one of his resource cards
 	 *       (randomly selected)
 	 */
-	public ClientModel robPlayer(HexLocation location, int victimIndex);
+	public ClientModel robPlayer(MoveRoberParams params);
 
 	/**
 	 * This method will end the client's turn and start a new players turn. A
@@ -409,7 +392,7 @@ public interface IServer {
 	 * @Post The player to rob gives one random resource card to the player
 	 *       playing the soldier
 	 */
-	public ClientModel playSoldierCard(HexLocation location, int victimIndex);
+	public ClientModel playSoldierCard(MoveSoldierParams params);
 
 	/**
 	 * This method will play a year of plenty card from a player's hand. A new
@@ -423,7 +406,7 @@ public interface IServer {
 	 * @Pre The two resources you specify are in the bank
 	 * @Post Player gains the two resources specified
 	 */
-	public ClientModel playYearOfPlentyCard(String resource1, String resource2);
+	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params);
 
 	/**
 	 * This method will play a road building card from a player's hand. A new
@@ -442,8 +425,7 @@ public interface IServer {
 	 * @Post Player uses two roads
 	 * @Post The map lists the roads correctly
 	 */
-	public ClientModel playRoadBuildingCard(EdgeLocation spot1,
-			EdgeLocation spot2);
+	public ClientModel playRoadBuildingCard(BuildRoadCardParams params);
 
 	/**
 	 * This method plays a monopoly card from the player's hand. A new
@@ -457,7 +439,7 @@ public interface IServer {
 	 * @Post All other players lose the resource card type chosen
 	 * @Post The player of the card gets an equal number of that resource type
 	 */
-	public ClientModel playMonopolyCard(String resource);
+	public ClientModel playMonopolyCard(PlayMonopoly params);
 
 	/**
 	 * This method plays a monument card from the player's hand. A new

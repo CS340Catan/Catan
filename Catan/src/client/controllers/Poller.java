@@ -35,8 +35,10 @@ public class Poller {
 	 * @post has either left current ClientModel alone, or updated it
 	 */
 	public void updateModel() {
-		ClientModel updatedClientModel = server.updateModel(); //change this to server.updateModel()
-		clientModelController.setClientModel(updatedClientModel);
+		ClientModel updatedClientModel = server.updateModel();
+		if (clientModelController.getClientModel().getVersion() != updatedClientModel.getVersion()) {
+			clientModelController.setClientModel(updatedClientModel);
+		}
 	}
 	
 	/**

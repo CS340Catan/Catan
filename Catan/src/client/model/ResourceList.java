@@ -101,7 +101,7 @@ public class ResourceList {
 	}
 
 	/**
-	 * Checks if the given resource list is a subset of this resource list
+	 * Checks if the given resource list is a subset of this resource list.
 	 * 
 	 * @Pre none
 	 * @Post boolean
@@ -129,7 +129,9 @@ public class ResourceList {
 	}
 
 	/**
-	 * Tests if there exists a number of a kind in the list, 3 of a kind, 4 of a kind, etc
+	 * Tests if there exists a number of a kind in the list, 3 of a kind, 4 of a
+	 * kind, etc
+	 * 
 	 * @Pre none
 	 * @Post boolean
 	 * @param number

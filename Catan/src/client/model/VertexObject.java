@@ -1,6 +1,6 @@
 package client.model;
 
-import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 
 /**
  * An object placed on a vertex, city or settlement
@@ -16,7 +16,7 @@ import shared.locations.EdgeLocation;
  */
 public class VertexObject {
 	private int owner;
-	private EdgeLocation location;
+	private VertexLocation location;
 
 	/**
 	 * Default constructor, requires all fields
@@ -26,7 +26,7 @@ public class VertexObject {
 	 * @param owner
 	 * @param location
 	 */
-	public VertexObject(int owner, EdgeLocation location) {
+	public VertexObject(int owner, VertexLocation location) {
 		this.owner = owner;
 		this.location = location;
 	}
@@ -39,11 +39,11 @@ public class VertexObject {
 		this.owner = owner;
 	}
 
-	public EdgeLocation getLocation() {
+	public VertexLocation getLocation() {
 		return location;
 	}
 
-	public void setLocation(EdgeLocation location) {
+	public void setLocation(VertexLocation location) {
 		this.location = location;
 	}
 }
