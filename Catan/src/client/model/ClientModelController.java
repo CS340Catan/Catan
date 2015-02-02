@@ -97,7 +97,7 @@ public class ClientModelController {
 		 */
 
 		if (isPlayerTurn(playerIndex)
-				&& (playerHasResources(playerIndex, requiredResourceList)||usingDevCard)
+				&& (playerHasResources(playerIndex, requiredResourceList) || usingDevCard)
 				&& !roadExists(road)
 				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))
 				&& playerHasAvailableRoadPiece(playerIndex)) {
@@ -403,135 +403,187 @@ public class ClientModelController {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * looks in a specific neighbor hex for a building at a given location
+	 * 
 	 * @param edgeDirection
 	 * @param vertexDirection
 	 * @param platformHex
 	 * @return
 	 */
-	public boolean neighborHasAdjacentBuilding(EdgeDirection edgeDirection, VertexDirection vertexDirection, HexLocation platformHex){
-		for(VertexObject existingSettlement : clientModel.getMap().getSettlements()){
-			if(platformHex.getNeighborLoc(edgeDirection).equals(existingSettlement.getLocation().getHexLoc()) && existingSettlement.getLocation().getDir().equals(vertexDirection)){
+	public boolean neighborHasAdjacentBuilding(EdgeDirection edgeDirection,
+			VertexDirection vertexDirection, HexLocation platformHex) {
+		for (VertexObject existingSettlement : clientModel.getMap()
+				.getSettlements()) {
+			if (platformHex.getNeighborLoc(edgeDirection).equals(
+					existingSettlement.getLocation().getHexLoc())
+					&& existingSettlement.getLocation().getDir()
+							.equals(vertexDirection)) {
 				return true;
 			}
 		}
 		return false;
 	}
+
 	/**
-	 * Returns false if adjacent buildings exist, name can be changed, wasn't feeling very creative
+	 * Returns false if adjacent buildings exist, name can be changed, wasn't
+	 * feeling very creative
+	 * 
 	 * @param existingBuilding
 	 * @param newBuilding
 	 * @param platformHex
 	 * @return
 	 */
-	public boolean crawlForBuildings(VertexObject existingBuilding, VertexObject newBuilding, HexLocation platformHex) {
-		if(existingBuilding.getLocation().getHexLoc().equals(platformHex) ){
-			VertexDirection existingBuildingDirection = existingBuilding.getLocation().getDir();
+	public boolean crawlForBuildings(VertexObject existingBuilding,
+			VertexObject newBuilding, HexLocation platformHex) {
+		if (existingBuilding.getLocation().getHexLoc().equals(platformHex)) {
+			VertexDirection existingBuildingDirection = existingBuilding
+					.getLocation().getDir();
 			switch (newBuilding.getLocation().getDir()) {
 			case NorthWest:
 				if (existingBuildingDirection.equals(VertexDirection.West)
-						|| existingBuildingDirection.equals(VertexDirection.NorthEast)
-								|| neighborHasAdjacentBuilding(EdgeDirection.NorthWest,VertexDirection.NorthEast,platformHex)) {
+						|| existingBuildingDirection
+								.equals(VertexDirection.NorthEast)
+						|| neighborHasAdjacentBuilding(EdgeDirection.NorthWest,
+								VertexDirection.NorthEast, platformHex)) {
 					return false;
 				}
 			case East:
 				if (existingBuildingDirection.equals(VertexDirection.NorthEast)
-						 || existingBuildingDirection.equals(VertexDirection.SouthEast)
-								|| neighborHasAdjacentBuilding(EdgeDirection.NorthEast,VertexDirection.SouthEast,platformHex)) {
+						|| existingBuildingDirection
+								.equals(VertexDirection.SouthEast)
+						|| neighborHasAdjacentBuilding(EdgeDirection.NorthEast,
+								VertexDirection.SouthEast, platformHex)) {
 					return false;
 				}
 			case NorthEast:
 				if (existingBuildingDirection.equals(VertexDirection.NorthWest)
-						|| existingBuildingDirection.equals(VertexDirection.East)
-								|| neighborHasAdjacentBuilding(EdgeDirection.NorthEast,VertexDirection.NorthWest,platformHex)) {
+						|| existingBuildingDirection
+								.equals(VertexDirection.East)
+						|| neighborHasAdjacentBuilding(EdgeDirection.NorthEast,
+								VertexDirection.NorthWest, platformHex)) {
 					return false;
 				}
 			case SouthEast:
 				if (existingBuildingDirection.equals(VertexDirection.East)
-						|| existingBuildingDirection.equals(VertexDirection.SouthWest)
-								|| neighborHasAdjacentBuilding(EdgeDirection.SouthEast,VertexDirection.SouthWest,platformHex)) {
+						|| existingBuildingDirection
+								.equals(VertexDirection.SouthWest)
+						|| neighborHasAdjacentBuilding(EdgeDirection.SouthEast,
+								VertexDirection.SouthWest, platformHex)) {
 					return false;
 				}
 			case West:
 				if (existingBuildingDirection.equals(VertexDirection.NorthWest)
-						|| existingBuildingDirection.equals(VertexDirection.SouthWest)
-								|| neighborHasAdjacentBuilding(EdgeDirection.SouthWest,VertexDirection.NorthWest,platformHex)) {
+						|| existingBuildingDirection
+								.equals(VertexDirection.SouthWest)
+						|| neighborHasAdjacentBuilding(EdgeDirection.SouthWest,
+								VertexDirection.NorthWest, platformHex)) {
 					return false;
 				}
 			case SouthWest:
 				if (existingBuildingDirection.equals(VertexDirection.West)
-						|| existingBuildingDirection.equals(VertexDirection.SouthEast)
-								|| neighborHasAdjacentBuilding(EdgeDirection.SouthWest,VertexDirection.SouthEast,platformHex)) {
+						|| existingBuildingDirection
+								.equals(VertexDirection.SouthEast)
+						|| neighborHasAdjacentBuilding(EdgeDirection.SouthWest,
+								VertexDirection.SouthEast, platformHex)) {
 					return false;
 				}
 			}
 		}
 		return true;
 	}
+
 	/**
-	 * Returns true if there are no adjacent buildings to the proposed new settlement
+	 * Returns true if there are no adjacent buildings to the proposed new
+	 * settlement
+	 * 
 	 * @param newSettlement
 	 * @return
 	 */
-	public boolean noAdjacentBuildings(VertexObject newSettlement){
+	public boolean noAdjacentBuildings(VertexObject newSettlement) {
 		HexLocation platformHex = null;
-		for(Hex hex : clientModel.getMap().getHexes()){
-			if(hex.getLocation().equals(newSettlement.getLocation().getHexLoc())){
+		for (Hex hex : clientModel.getMap().getHexes()) {
+			if (hex.getLocation().equals(
+					newSettlement.getLocation().getHexLoc())) {
 				platformHex = hex.getLocation();
 			}
-			for(VertexObject existingSettlement : clientModel.getMap().getSettlements()){
-				return crawlForBuildings(existingSettlement,newSettlement,platformHex);
+			for (VertexObject existingSettlement : clientModel.getMap()
+					.getSettlements()) {
+				return crawlForBuildings(existingSettlement, newSettlement,
+						platformHex);
 			}
-			for(VertexObject existingCity: clientModel.getMap().getCities()){
-				return crawlForBuildings(existingCity,newSettlement,platformHex);
+			for (VertexObject existingCity : clientModel.getMap().getCities()) {
+				return crawlForBuildings(existingCity, newSettlement,
+						platformHex);
 			}
 		}
 		return false;
 	}
-	private boolean roadTouchingNewSettlement(VertexObject newSettlement){
+
+	private boolean roadTouchingNewSettlement(VertexObject newSettlement) {
 		HexLocation platformHex = null;
-		for(Hex hex : clientModel.getMap().getHexes()){
-			if(hex.getLocation().equals(newSettlement.getLocation().getHexLoc())){
+		for (Hex hex : clientModel.getMap().getHexes()) {
+			if (hex.getLocation().equals(
+					newSettlement.getLocation().getHexLoc())) {
 				platformHex = hex.getLocation();
 			}
-			for(Road road: clientModel.getMap().getRoads()){
-				if(road.getLocation().getHexLoc().equals(platformHex) && road.getOwner() == newSettlement.getOwner()){
+			for (Road road : clientModel.getMap().getRoads()) {
+				if (road.getLocation().getHexLoc().equals(platformHex)
+						&& road.getOwner() == newSettlement.getOwner()) {
 					switch (newSettlement.getLocation().getDir()) {
 					case NorthWest:
-						if(road.getLocation().getDir().equals(EdgeDirection.North) || road.getLocation().getDir().equals(EdgeDirection.NorthWest)){
+						if (road.getLocation().getDir()
+								.equals(EdgeDirection.North)
+								|| road.getLocation().getDir()
+										.equals(EdgeDirection.NorthWest)) {
 							return true;
 						}
 					case East:
-						if(road.getLocation().getDir().equals(EdgeDirection.NorthWest) || road.getLocation().getDir().equals(EdgeDirection.SouthWest)){
+						if (road.getLocation().getDir()
+								.equals(EdgeDirection.NorthWest)
+								|| road.getLocation().getDir()
+										.equals(EdgeDirection.SouthWest)) {
 							return true;
 						}
 					case NorthEast:
-						if(road.getLocation().getDir().equals(EdgeDirection.North) || road.getLocation().getDir().equals(EdgeDirection.NorthEast)){
+						if (road.getLocation().getDir()
+								.equals(EdgeDirection.North)
+								|| road.getLocation().getDir()
+										.equals(EdgeDirection.NorthEast)) {
 							return true;
 						}
-						
+
 					case SouthEast:
-						if(road.getLocation().getDir().equals(EdgeDirection.SouthEast) || road.getLocation().getDir().equals(EdgeDirection.South)){
+						if (road.getLocation().getDir()
+								.equals(EdgeDirection.SouthEast)
+								|| road.getLocation().getDir()
+										.equals(EdgeDirection.South)) {
 							return true;
 						}
-						
+
 					case West:
-						if(road.getLocation().getDir().equals(EdgeDirection.SouthWest) || road.getLocation().getDir().equals(EdgeDirection.NorthWest)){
+						if (road.getLocation().getDir()
+								.equals(EdgeDirection.SouthWest)
+								|| road.getLocation().getDir()
+										.equals(EdgeDirection.NorthWest)) {
 							return true;
 						}
-						
+
 					case SouthWest:
-						if(road.getLocation().getDir().equals(EdgeDirection.South) || road.getLocation().getDir().equals(EdgeDirection.NorthWest)){
+						if (road.getLocation().getDir()
+								.equals(EdgeDirection.South)
+								|| road.getLocation().getDir()
+										.equals(EdgeDirection.NorthWest)) {
 							return true;
 						}
 					}
 				}
 			}
 		}
-		return false;	
+		return false;
 	}
+
 	/**
 	 * tests if the player can build a settlement
 	 * 
@@ -553,12 +605,14 @@ public class ClientModelController {
 		}
 		return false;
 	}
-/**
- * checks that a settlement exists on the proposed city spot 
- * @param building
- * @param dontCheckOwner
- * @return
- */
+
+	/**
+	 * checks that a settlement exists on the proposed city spot
+	 * 
+	 * @param building
+	 * @param dontCheckOwner
+	 * @return
+	 */
 	private boolean preexistingBuilding(VertexObject building,
 			boolean dontCheckOwner) {
 		HexLocation platformHex = null;
@@ -633,10 +687,28 @@ public class ClientModelController {
 		return false;
 	}
 
-	public boolean playerOnMaritimeTradeHex(){
-		//TODO:fill this out
+	public boolean buildingOnPort(int playerIndex, VertexObject building) {
+		if (building.getOwner() == playerIndex) {
+			for (Port port : clientModel.getMap().getPorts()) {
+				if (building.getLocation().getHexLoc()
+						.equals(port.getLocation())) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
+
+	public boolean playerOnPort(int playerIndex) {
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			return buildingOnPort(playerIndex, settlement);
+		}
+		for (VertexObject city : clientModel.getMap().getCities()) {
+			return buildingOnPort(playerIndex, city);
+		}
+		return false;
+	}
+
 	/**
 	 * tests if the player can maritime trade
 	 * 
@@ -647,11 +719,29 @@ public class ClientModelController {
 	 */
 	public boolean canMaritimeTrade(int playerIndex, ResourceList resourceList,
 			int ratioNumerator) {
-		// TODO:HSW check locations
 		if (isPlayerTurn(playerIndex)
 				&& clientModel.getPlayers()[playerIndex].getResources()
-						.ofAKind(ratioNumerator)) {
+						.ofAKind(ratioNumerator) && playerOnPort(playerIndex)) {
 			return true;
+		}
+		return false;
+	}
+
+	public boolean playerTouchingRobber(int robbedPlayer,
+			HexLocation robberLocation) {
+		// TODO: account for location ambiguity
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			if (settlement.getOwner() == robbedPlayer
+					&& settlement.getLocation().getHexLoc()
+							.equals(robberLocation)) {
+				return true;
+			}
+		}
+		for (VertexObject city : clientModel.getMap().getCities()) {
+			if (city.getOwner() == robbedPlayer
+					&& city.getLocation().getHexLoc().equals(robberLocation)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -665,8 +755,13 @@ public class ClientModelController {
 	 * @Pre the victim player is adjacent to the hex the robber is on
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canRobPlayer(HexLocation hexLocation, int playerIndex) {
-		// TODO:HSW everything here
+	public boolean canRobPlayer(HexLocation robberLocation, int robbingPlayer,
+			int robbedPlayer) {
+		if (isPlayerTurn(robbingPlayer)
+				&& clientModel.getTurnTracker().getStatus().equals("Robbing")
+				&& playerTouchingRobber(robbedPlayer, robberLocation)) {
+			return true;
+		}
 		return false;
 
 	}
