@@ -139,10 +139,11 @@ public class ClientModelController {
 
 	private boolean hasConnectingBuilding(Road road) {
 		EdgeLocation roadLocation = road.getLocation();
+		HexLocation roadHexLocation = road.getLocation().getHexLoc();
 		HexLocation platformHex = null;
 
 		for (Hex hex : clientModel.getMap().getHexes()) {
-			if (hex.getLocation().equals(roadLocation)) {
+			if (hex.getLocation().equals(roadHexLocation)) {
 				platformHex = hex.getLocation();
 			}
 		}
