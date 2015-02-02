@@ -39,7 +39,7 @@ public class HTTPCommunicator {
 	 * @Post A valid Java Object returned
 	 */
 	public String doGet(String urlString, String gsonString){
-		return communicate(urlString, gsonString, null,GET);
+		return communicate(urlString, gsonString, GET);
 	}
 	
 	
@@ -47,11 +47,11 @@ public class HTTPCommunicator {
 	 * @Pre url is valid, object is valid
 	 * @Post A valid Java Object returned
 	 */
-	public String doPost(String url, String gsonString, String[] postQueries){
-		return communicate(url,gsonString, postQueries, POST);
+	public String doPost(String url, String gsonString){
+		return communicate(url,gsonString, POST);
 	}
 	
-	private String communicate(String urlString, String gsonString, String[] postQueries, int requestType){
+	private String communicate(String urlString, String gsonString, int requestType){
 		if(gsonString != null) {
 			try 
 			{
@@ -83,7 +83,6 @@ public class HTTPCommunicator {
 				{
 					//Look for cookies
 					String cookie = connection.getHeaderField("Set-Cookie");
-//					int cookieSet
 					if(cookie!=null)
 						parseSetCookie(cookie, connection);
 					
@@ -113,6 +112,12 @@ public class HTTPCommunicator {
 		}
 	}
 	
+	/**
+	 * will only set cookie if they aren't set already
+	 * @param cookieString
+	 * @param connection
+	 * @return
+	 */
 	private int parseSetCookie(String cookieString, HttpURLConnection connection)
 	{
 		//if cookies have already been set, don't worry about setting them again.
