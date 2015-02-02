@@ -447,5 +447,5 @@ public interface IServer {
 	 * @Post current player gains a victory point
 	 *
 	 */
-	public ClientModel playMonument();
+	public ClientModel playMonument(PlayMonumentParams params);
 }
