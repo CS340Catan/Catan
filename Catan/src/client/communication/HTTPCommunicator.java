@@ -58,10 +58,14 @@ public class HTTPCommunicator {
 				URL url = new URL(URL_PREFIX + urlString);
 				
 				HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+				//set Cookie
+				String cookieValue = "";
 				if(userCookie!=null)
-					connection.setRequestProperty("catan.user", userCookie);
+					cookieValue+=userCookie;
 				if(gameCookie!=null)
-					connection.setRequestProperty("catan.game",gameCookie);
+					cookieValue+=gameCookie;
+				if(cookieValue!="")
+					connection.setRequestProperty("Cookie",cookieValue);
 				
 				if(requestType==POST)
 					connection.setRequestMethod(HTTP_POST);
@@ -79,6 +83,7 @@ public class HTTPCommunicator {
 				{
 					//Look for cookies
 					String cookie = connection.getHeaderField("Set-Cookie");
+//					int cookieSet
 					if(cookie!=null)
 						parseSetCookie(cookie, connection);
 					
@@ -108,17 +113,25 @@ public class HTTPCommunicator {
 		}
 	}
 	
-	private void parseSetCookie(String cookieString, HttpURLConnection connection)
+	private int parseSetCookie(String cookieString, HttpURLConnection connection)
 	{
-		//strip ;Path=/; and catan.****
-		cookieString = cookieString.replace(";Path=/","");
-		String cleaned = cookieString.replace("catan.game=","");
-		if(!cleaned.equals(cookieString))
-			gameCookie = cookieString;
-		else{
-			cleaned = cookieString.replace("catan.player=","");
-			userCookie = cookieString;
+		//if cookies have already been set, don't worry about setting them again.
+		if(gameCookie==null || userCookie==null){
+			//strip ;Path=/; and catan.****
+			cookieString = cookieString.replace(";Path=/;","");
+			if(userCookie==null){
+				String cleaned = cookieString.replace("catan.player=","");
+				userCookie=cleaned;
+				return 1;
+			}
+			else{
+				String cleaned = cookieString.replace("catan.game=","");
+				gameCookie=cleaned;
+				return 2;
+			}
+			// TODO we may need to still do some decoding, but we need to decide where
 		}
-		// TODO we may need to still do some decoding, but we need to decide where
+		
+		return 0;
 	}
 }
