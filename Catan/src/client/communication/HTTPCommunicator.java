@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
 
 
 public class HTTPCommunicator {
@@ -52,62 +50,60 @@ public class HTTPCommunicator {
 	}
 	
 	private String communicate(String urlString, String gsonString, int requestType){
-		if(gsonString != null) {
-			try 
-			{
-				URL url = new URL(URL_PREFIX + urlString);
-				
-				HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-				//set Cookie
-				String cookieValue = "";
-				if(userCookie!=null)
-					cookieValue+=userCookie;
-				if(gameCookie!=null)
-					cookieValue+=gameCookie;
-				if(cookieValue!="")
-					connection.setRequestProperty("Cookie",cookieValue);
-				
-				if(requestType==POST)
-					connection.setRequestMethod(HTTP_POST);
-				else if(requestType==GET)
-					connection.setRequestMethod(HTTP_GET);
-				
-				connection.setDoOutput(true);
-				connection.connect();
-				
+		try 
+		{
+			URL url = new URL(URL_PREFIX + urlString);
+			
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			//set Cookie
+			String cookieValue = "";
+			if(userCookie!=null)
+				cookieValue+=userCookie;
+			if(gameCookie!=null)
+				cookieValue+=gameCookie;
+			if(cookieValue!="")
+				connection.setRequestProperty("Cookie",cookieValue);
+			
+			if(requestType==POST)
+				connection.setRequestMethod(HTTP_POST);
+			else if(requestType==GET)
+				connection.setRequestMethod(HTTP_GET);
+			
+			connection.setDoOutput(true);
+			connection.connect();
+			
+			if(gsonString!=null){
 				DataOutputStream out = new DataOutputStream(connection.getOutputStream());
 				out.writeBytes(gsonString);
 				connection.getOutputStream().close();
-				
-				if(connection.getResponseCode() == HttpURLConnection.HTTP_OK)
-				{
-					//Look for cookies
-					String cookie = connection.getHeaderField("Set-Cookie");
-					if(cookie!=null)
-						parseSetCookie(cookie, connection);
-					
-					BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	                StringBuilder sb = new StringBuilder();
-	                String line;
-	                while ((line = br.readLine()) != null) {
-	                    sb.append(line+"\n");
-	                }
-	                br.close();
-	                return sb.toString();
-				}
-				else
-				{
-					return null;
-				}
-				
 			}
-			catch (IOException e)
+			
+			if(connection.getResponseCode() == HttpURLConnection.HTTP_OK)
+			{
+				//Look for cookies
+				String cookie = connection.getHeaderField("Set-Cookie");
+				if(cookie!=null)
+					parseSetCookie(cookie, connection);
+				
+				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+                br.close();
+                String body = sb.toString();
+                if(body==null)
+                	body="";
+                return body;
+			}
+			else
 			{
 				return null;
 			}
 		}
-		else {
-			
+		catch (IOException e)
+		{
 			return null;
 		}
 	}
@@ -134,7 +130,6 @@ public class HTTPCommunicator {
 				gameCookie=cleaned;
 				return 2;
 			}
-			// TODO we may need to still do some decoding, but we need to decide where
 		}
 		
 		return 0;
