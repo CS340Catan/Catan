@@ -49,24 +49,6 @@ public class ClientModelController {
 	}
 
 	/**
-	 * Check if a player has the list of resources passed in. If the inputed
-	 * resourceList is a subset of player[playerIndex], then return true.
-	 * 
-	 * @param playerIndex
-	 *            Player being queried.
-	 * @param resourceList
-	 *            Resources being queried.
-	 * @return
-	 */
-	public boolean playerHasResources(int playerIndex, ResourceList resourceList) {
-		if (clientModel.getPlayers()[playerIndex].getResources().contains(
-				resourceList)) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Check to see if the road is able to be placed at the location inside the
 	 * given road
 	 * 
@@ -114,11 +96,30 @@ public class ClientModelController {
 		 * the player has an available road piece.
 		 */
 
-		// TODO: Check if player has available road piece
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, requiredResourceList)
 				&& !roadExists(road)
-				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))) {
+				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))
+				&& playerHasAvailableRoadPiece(playerIndex)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check if a player has the list of resources passed in. If the inputed
+	 * resourceList is a subset of player[playerIndex], then return true.
+	 * 
+	 * @param playerIndex
+	 *            Player being queried.
+	 * @param resourceList
+	 *            Resources being queried.
+	 * @return
+	 */
+	private boolean playerHasResources(int playerIndex,
+			ResourceList resourceList) {
+		if (clientModel.getPlayers()[playerIndex].getResources().contains(
+				resourceList)) {
 			return true;
 		}
 		return false;
@@ -131,7 +132,7 @@ public class ClientModelController {
 	 *            Road being queried.
 	 * @return
 	 */
-	public boolean roadExists(Road road) {
+	private boolean roadExists(Road road) {
 		for (Road existingRoad : clientModel.getMap().getRoads()) {
 			if (existingRoad.checkAvailability(road)) {
 				return false;
@@ -539,6 +540,13 @@ public class ClientModelController {
 		}
 		return false;
 
+	}
+
+	private boolean playerHasAvailableRoadPiece(int playerIndex) {
+		if (clientModel.getPlayers()[playerIndex].getRoads() > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
