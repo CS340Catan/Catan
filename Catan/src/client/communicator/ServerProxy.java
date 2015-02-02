@@ -4,7 +4,7 @@ import shared.communication.*;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
-import shared.utils.IServer;
+import shared.utils.*;
 import client.communication.HTTPCommunicator;
 import client.model.ClientModel;
 import client.model.ResourceList;
@@ -20,11 +20,7 @@ import client.model.ResourceList;
  *
  */
 public class ServerProxy implements IServer {
-
-	/**stores the encoded user info received from the server as a cookie*/
-	private String user;
-	/**Stores the gameid received from the server as a cookie*/
-	private int gameid;
+	
 	
 	public HTTPCommunicator getHttpCommunicator() {
 		return httpCommunicator;
@@ -55,9 +51,9 @@ public class ServerProxy implements IServer {
 	 * @pre none
 	 * @post ClientModel is updated
 	 */
-	public ClientModel updateModel() {
-		return null;
-		
+	public ClientModel updateModel(int version) {
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doGet("/game/model?version=" + version, null));
+		return model;
 	}
 
 	/**
@@ -249,6 +245,10 @@ public class ServerProxy implements IServer {
 		return (ChangeLogLevelResponse)httpCommunicator.doPost("/util/changeLogLevel", level);
 	}
 
+	
+	/* ----------------------Move APIs ------------------------ */
+	
+	
 	/**
 	 * @Pre none
 	 * @Post chat contains the player's message at the end
@@ -257,8 +257,9 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel sendChat(String content) {
-
-		return (ClientModel)httpCommunicator.doPost("/moves/sendChat", content);
+		String gsonString = Serializer.serialize(content);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/sendChat", gsonString));
+		return model;
 	}
 
 	/**
@@ -272,9 +273,10 @@ public class ServerProxy implements IServer {
 	 * @param willAccept
 	 */
 	@Override
-	public ClientModel acceptTrade(boolean willAccept) {
-		//---need to convert boolean to Object somehow
-		return (ClientModel)httpCommunicator.doPost("/moves/acceptTrade", willAccept);
+	public ClientModel acceptTrade(AcceptTradeParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/acceptTrade", gsonString));
+		return model;
 	}
 
 	/**
@@ -290,9 +292,10 @@ public class ServerProxy implements IServer {
 	 * @return
 	 */
 	@Override
-	public ClientModel discardCards(ResourceList discardedCards) {
-
-		return (ClientModel)httpCommunicator.doPost("/moves/discardCards", discardedCards);
+	public ClientModel discardCards(DiscardCardsParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/discardCards", gsonString));
+		return model;
 	}
 
 	/**
@@ -305,8 +308,9 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel rollNumber(int number) {
-
-		return (ClientModel)httpCommunicator.doPost("/moves/rollNumber", (Integer)number);
+		String gsonString = Serializer.serialize(new Integer(number));
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/rollNumber", gsonString));
+		return model;
 	}
 
 	/**
@@ -327,9 +331,10 @@ public class ServerProxy implements IServer {
 	 * @return
 	 */
 	@Override
-	public ClientModel buildRoad(boolean free, EdgeLocation roadLocation) {
-
-		return (ClientModel)httpCommunicator.doPost("/moves/buildRoad", roadLocation);
+	public ClientModel buildRoad(BuildRoadParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/buildRoad", gsonString));
+		return model;
 	}
 
 	/**
@@ -346,10 +351,10 @@ public class ServerProxy implements IServer {
 	 * @return
 	 */
 	@Override
-	public ClientModel buildSettlement(boolean free,
-			VertexLocation vertexLocation) {
-		//------need to wrap free and vertexLocation in one object
-		return (ClientModel)httpCommunicator.doPost("/moves/buildSettlement", null);
+	public ClientModel buildSettlement(BuildSettlementParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/buildSettlement", gsonString));
+		return model;
 	}
 
 	/**
@@ -363,9 +368,10 @@ public class ServerProxy implements IServer {
 	 * @post you got a settlement back
 	 */
 	@Override
-	public ClientModel buildCity(VertexLocation vertexLocation) {
-
-		return (ClientModel)httpCommunicator.doPost("/moves/buildCity", vertexLocation);
+	public ClientModel buildCity(BuildCityParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/buildCity", gsonString));
+		return model;
 	}
 
 	/**
@@ -376,9 +382,10 @@ public class ServerProxy implements IServer {
 	 *       model)
 	 */
 	@Override
-	public ClientModel offerTrade(ResourceList offer, int receiver) {
-		//-----need to wrap offer and receiver in one object
-		return (ClientModel)httpCommunicator.doPost("/moves/offerTrade", null);
+	public ClientModel offerTrade(TradeOfferParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/offerTrade", gsonString));
+		return model;
 	}
 
 	/**
@@ -390,10 +397,10 @@ public class ServerProxy implements IServer {
 	 *       requested resource has been received)
 	 */
 	@Override
-	public ClientModel maritimeTrade(int ratio, String inputResource,
-			String outputResource) {
-		//-----need to wrap resources and ratio in one object
-		return (ClientModel)httpCommunicator.doPost("/moves/maritimeTrade", null);
+	public ClientModel maritimeTrade(MaritimeTradeParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/maritimeTrade", gsonString));
+		return model;
 	}
 
 	/**
@@ -407,9 +414,10 @@ public class ServerProxy implements IServer {
 	 *       (randomly selected)
 	 */
 	@Override
-	public ClientModel robPlayer(HexLocation location, int victimIndex) {
-		//-----need to wrap objects together
-		return (ClientModel)httpCommunicator.doPost("/moves/robPlayer", null);
+	public ClientModel robPlayer(MoveRobberParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/robPlayer", gsonString));
+		return model;
 	}
 
 	/**
@@ -421,8 +429,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel finishTurn() {
-
-		return (ClientModel)httpCommunicator.doPost("/moves/finishTurn", null);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/finishTurn", null));
+		return model;
 	}
 
 	/**
@@ -436,8 +444,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel buyDevCard() {
-
-		return (ClientModel)httpCommunicator.doPost("/moves/buyDevCard", null);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/buyDevCard", null));
+		return model;
 	}
 
 	/**
@@ -453,9 +461,10 @@ public class ServerProxy implements IServer {
 	 *       playing the soldier
 	 */
 	@Override
-	public ClientModel playSoldierCard(HexLocation location, int victimIndex) {
-		//----need to wrap objects together
-		return (ClientModel)httpCommunicator.doPost("/moves/Soldier", null);
+	public ClientModel playSoldierCard(MoveSoldierParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/Soldier", gsonString));
+		return model;
 	}
 
 	/**
@@ -468,9 +477,10 @@ public class ServerProxy implements IServer {
 	 * @Post Player gains the two resources specified
 	 */
 	@Override
-	public ClientModel playYearOfPlentyCard(String resource1, String resource2) {
-		//---need to wrap objects together
-		return (ClientModel)httpCommunicator.doPost("/moves/Year_of_Plenty", null);
+	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/Year_of_Plenty", gsonString));
+		return model;
 	}
 
 	/**
@@ -488,10 +498,10 @@ public class ServerProxy implements IServer {
 	 * @Post The map lists the roads correctly
 	 */
 	@Override
-	public ClientModel playRoadBuildingCard(EdgeLocation spot1,
-			EdgeLocation spot2) {
-		//---need to wrap objects together
-		return (ClientModel)httpCommunicator.doPost("/moves/Road_Building", null);
+	public ClientModel playRoadBuildingCard(BuildRoadCardParams params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/Road_Building", gsonString));
+		return model;
 	}
 
 	/**
@@ -504,9 +514,10 @@ public class ServerProxy implements IServer {
 	 * @Post The player of the card gets an equal number of that resource type
 	 */
 	@Override
-	public ClientModel playMonopolyCard(String resource) {
-
-		return (ClientModel)httpCommunicator.doPost("/moves/Monopoly", resource);
+	public ClientModel playMonopolyCard(PlayMonopoly params) {
+		String gsonString = Serializer.serialize(params);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/Monopoly", gsonString));
+		return model;
 	}
 
 	/**
@@ -516,8 +527,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playMonument() {
-		
-		return (ClientModel)httpCommunicator.doPost("/moves/Monument", null);
+		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/Monument", gsonString));
+		return model;
 	}
 
 }
