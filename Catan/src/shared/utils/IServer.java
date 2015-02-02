@@ -202,7 +202,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post Gets an updated version of the model from the server.
 	 */
-	public ClientModel updateModel();
+	public ClientModel updateModel(int versionNumber);
 
 	// ----MOVE APIs--------
 	/**
