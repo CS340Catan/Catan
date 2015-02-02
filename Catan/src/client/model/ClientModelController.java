@@ -633,6 +633,10 @@ public class ClientModelController {
 		return false;
 	}
 
+	public boolean playerOnMaritimeTradeHex(){
+		//TODO:fill this out
+		return false;
+	}
 	/**
 	 * tests if the player can maritime trade
 	 * 
