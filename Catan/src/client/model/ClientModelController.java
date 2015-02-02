@@ -420,7 +420,7 @@ public class ClientModelController {
 		return false;
 	}
 	/**
-	 * Checks each possible location adjacent to the new building
+	 * Returns false if adjacent buildings exist, name can be changed, wasn't feeling very creative
 	 * @param existingBuilding
 	 * @param newBuilding
 	 * @param platformHex
@@ -431,44 +431,44 @@ public class ClientModelController {
 			VertexDirection existingBuildingDirection = existingBuilding.getLocation().getDir();
 			switch (newBuilding.getLocation().getDir()) {
 			case NorthWest:
-				if (!existingBuildingDirection.equals(VertexDirection.West)
-						&& !existingBuildingDirection.equals(VertexDirection.NorthEast)
-								&& !neighborHasAdjacentBuilding(EdgeDirection.NorthWest,VertexDirection.NorthEast,platformHex)) {
-					return true;
+				if (existingBuildingDirection.equals(VertexDirection.West)
+						|| existingBuildingDirection.equals(VertexDirection.NorthEast)
+								|| neighborHasAdjacentBuilding(EdgeDirection.NorthWest,VertexDirection.NorthEast,platformHex)) {
+					return false;
 				}
 			case East:
-				if (!existingBuildingDirection.equals(VertexDirection.NorthEast)
-						&& !existingBuildingDirection.equals(VertexDirection.SouthEast)
-								&& !neighborHasAdjacentBuilding(EdgeDirection.NorthEast,VertexDirection.SouthEast,platformHex)) {
-					return true;
+				if (existingBuildingDirection.equals(VertexDirection.NorthEast)
+						 || existingBuildingDirection.equals(VertexDirection.SouthEast)
+								|| neighborHasAdjacentBuilding(EdgeDirection.NorthEast,VertexDirection.SouthEast,platformHex)) {
+					return false;
 				}
 			case NorthEast:
-				if (!existingBuildingDirection.equals(VertexDirection.NorthWest)
-						&& !existingBuildingDirection.equals(VertexDirection.East)
-								&& !neighborHasAdjacentBuilding(EdgeDirection.NorthEast,VertexDirection.NorthWest,platformHex)) {
-					return true;
+				if (existingBuildingDirection.equals(VertexDirection.NorthWest)
+						|| existingBuildingDirection.equals(VertexDirection.East)
+								|| neighborHasAdjacentBuilding(EdgeDirection.NorthEast,VertexDirection.NorthWest,platformHex)) {
+					return false;
 				}
 			case SouthEast:
-				if (!existingBuildingDirection.equals(VertexDirection.East)
-						&& !existingBuildingDirection.equals(VertexDirection.SouthWest)
-								&& !neighborHasAdjacentBuilding(EdgeDirection.SouthEast,VertexDirection.SouthWest,platformHex)) {
-					return true;
+				if (existingBuildingDirection.equals(VertexDirection.East)
+						|| existingBuildingDirection.equals(VertexDirection.SouthWest)
+								|| neighborHasAdjacentBuilding(EdgeDirection.SouthEast,VertexDirection.SouthWest,platformHex)) {
+					return false;
 				}
 			case West:
-				if (!existingBuildingDirection.equals(VertexDirection.NorthWest)
-						&& !existingBuildingDirection.equals(VertexDirection.SouthWest)
-								&& !neighborHasAdjacentBuilding(EdgeDirection.SouthWest,VertexDirection.NorthWest,platformHex)) {
-					return true;
+				if (existingBuildingDirection.equals(VertexDirection.NorthWest)
+						|| existingBuildingDirection.equals(VertexDirection.SouthWest)
+								|| neighborHasAdjacentBuilding(EdgeDirection.SouthWest,VertexDirection.NorthWest,platformHex)) {
+					return false;
 				}
 			case SouthWest:
-				if (!existingBuildingDirection.equals(VertexDirection.West)
-						&& !existingBuildingDirection.equals(VertexDirection.SouthEast)
-								&& !neighborHasAdjacentBuilding(EdgeDirection.SouthWest,VertexDirection.SouthEast,platformHex)) {
-					return true;
+				if (existingBuildingDirection.equals(VertexDirection.West)
+						|| existingBuildingDirection.equals(VertexDirection.SouthEast)
+								|| neighborHasAdjacentBuilding(EdgeDirection.SouthWest,VertexDirection.SouthEast,platformHex)) {
+					return false;
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 	/**
 	 * Returns true if there are no adjacent buildings to the proposed new settlement
@@ -490,6 +490,48 @@ public class ClientModelController {
 		}
 		return false;
 	}
+	private boolean roadTouchingNewSettlement(VertexObject newSettlement){
+		HexLocation platformHex = null;
+		for(Hex hex : clientModel.getMap().getHexes()){
+			if(hex.getLocation().equals(newSettlement.getLocation().getHexLoc())){
+				platformHex = hex.getLocation();
+			}
+			for(Road road: clientModel.getMap().getRoads()){
+				if(road.getLocation().getHexLoc().equals(platformHex) && road.getOwner() == newSettlement.getOwner()){
+					switch (newSettlement.getLocation().getDir()) {
+					case NorthWest:
+						if(road.getLocation().getDir().equals(EdgeDirection.North) || road.getLocation().getDir().equals(EdgeDirection.NorthWest)){
+							return true;
+						}
+					case East:
+						if(road.getLocation().getDir().equals(EdgeDirection.NorthWest) || road.getLocation().getDir().equals(EdgeDirection.SouthWest)){
+							return true;
+						}
+					case NorthEast:
+						if(road.getLocation().getDir().equals(EdgeDirection.North) || road.getLocation().getDir().equals(EdgeDirection.NorthEast)){
+							return true;
+						}
+						
+					case SouthEast:
+						if(road.getLocation().getDir().equals(EdgeDirection.SouthEast) || road.getLocation().getDir().equals(EdgeDirection.South)){
+							return true;
+						}
+						
+					case West:
+						if(road.getLocation().getDir().equals(EdgeDirection.SouthWest) || road.getLocation().getDir().equals(EdgeDirection.NorthWest)){
+							return true;
+						}
+						
+					case SouthWest:
+						if(road.getLocation().getDir().equals(EdgeDirection.South) || road.getLocation().getDir().equals(EdgeDirection.NorthWest)){
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;	
+	}
 	/**
 	 * tests if the player can build a settlement
 	 * 
@@ -500,17 +542,23 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canBuildSettlement(VertexObject settlement) {
-		// TODO:check adjacent buildings/road
 		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, resourceList)
-				&& !preexistingBuilding(settlement, true)) {
+				&& !preexistingBuilding(settlement, true)
+				&& noAdjacentBuildings(settlement)
+				&& roadTouchingNewSettlement(settlement)) {
 			return true;
 		}
 		return false;
 	}
-
+/**
+ * checks that a settlement exists on the proposed city spot 
+ * @param building
+ * @param dontCheckOwner
+ * @return
+ */
 	private boolean preexistingBuilding(VertexObject building,
 			boolean dontCheckOwner) {
 		HexLocation platformHex = null;
