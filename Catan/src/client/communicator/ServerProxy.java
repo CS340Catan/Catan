@@ -52,7 +52,15 @@ public class ServerProxy implements IServer {
 	 * @post ClientModel is updated
 	 */
 	public ClientModel updateModel(int version) {
-		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doGet("/game/model?version=" + version, null));
+		String gsonResponseString = httpCommunicator.doGet("/game/model?version=" + version, null);
+		ClientModel model;
+		if(!gsonResponseString.equals("true")) {
+			model = Serializer.deserializeClientModel(gsonResponseString);
+		}
+		else {
+			//model = same as old model
+			model = new ClientModel();
+		}
 		return model;
 	}
 
@@ -65,8 +73,15 @@ public class ServerProxy implements IServer {
 	 * @post a valid LoginResponse returned
 	 */
 	public LoginResponse Login(UserCredentials credentials) {
+		String gsonString = Serializer.serialize(credentials);
+		String response = httpCommunicator.doPost("/user/login", gsonString);
+		//create, set, and return the response
+		LoginResponse loginResponse = new LoginResponse(credentials.getUsername(), credentials.getPassword());
+		loginResponse.setSuccess(response.equals("Success"));
+		//do we need playerid in response? tricky to pass back here
 		
-		return (LoginResponse)httpCommunicator.doPost("/user/login", credentials,null);
+		
+		return loginResponse;
 	}
 
 	/**
@@ -78,8 +93,15 @@ public class ServerProxy implements IServer {
 	 * @post a valid LoginResponse returned
 	 */
 	public LoginResponse Register(UserCredentials credentials) {
+		String gsonString = Serializer.serialize(credentials);
+		String response = httpCommunicator.doPost("/user/register", gsonString);
+		//create, set, and return the response
+		LoginResponse loginResponse = new LoginResponse(credentials.getUsername(), credentials.getPassword());
+		loginResponse.setSuccess(response.equals("Success"));
+		//do we need playerid in response?
 		
-		return (LoginResponse)httpCommunicator.doPost("/user/register", credentials);
+		
+		return loginResponse;
 	}
 
 	/**
@@ -90,7 +112,7 @@ public class ServerProxy implements IServer {
 	 */
 	public GamesList getGameList() {
 		
-		return (GamesList)httpCommunicator.doGet("/games/list", null);
+		return (GamesList)Serializer.deserialize(httpCommunicator.doGet("/games/list", null), GamesList.class);
 	}
 
 	/**
@@ -102,8 +124,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid GameSummary returned
 	 */
 	public GameSummary createGame(CreateGameParams params) {
-		
-		return (GameSummary)httpCommunicator.doPost("/games/create", params);
+		String gsonString = Serializer.serialize(params);
+		return (GameSummary)Serializer.deserialize(httpCommunicator.doPost("/games/create", gsonString), GameSummary.class);
 	}
 
 	/**
@@ -118,8 +140,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid boolean returned
 	 */
 	public JoinResponse joinGame(JoinGameParams params) {
-		
-		return (JoinResponse)httpCommunicator.doPost("/games/join", params);
+		String gsonString = Serializer.serialize(params);
+		return (JoinResponse)Serializer.deserialize(httpCommunicator.doPost("/games/join", gsonString), JoinResponse.class);
 		//----------still need to get cookie somehow
 	}
 
@@ -132,8 +154,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid boolean returned
 	 */
 	public SaveResponse saveGame(SaveParams params) {
-
-		return (SaveResponse)httpCommunicator.doPost("/games/save", params);
+		String gsonString = Serializer.serialize(params);
+		return (SaveResponse)Serializer.deserialize(httpCommunicator.doPost("/games/save", gsonString), SaveResponse.class);
 	}
 
 	/**
@@ -144,8 +166,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid boolean returned
 	 */
 	public LoadResponse loadGame(String fileName) {
-
-		return (LoadResponse)httpCommunicator.doPost("/games/load", fileName);
+		String gsonString = Serializer.serialize(fileName);
+		return (LoadResponse)Serializer.deserialize(httpCommunicator.doPost("/games/load", gsonString), LoadResponse.class);
 	}
 
 	/**
@@ -158,7 +180,7 @@ public class ServerProxy implements IServer {
 	 */
 	public ClientModel getCurrentGame(int version) {
 		
-		return (ClientModel)httpCommunicator.doGet("/game/model?version=" + version, null);
+		return (ClientModel)Serializer.deserializeClientModel(httpCommunicator.doGet("/game/model?version=" + version, null));
 	}
 
 	/**
@@ -169,7 +191,7 @@ public class ServerProxy implements IServer {
 	 */
 	public ClientModel resetGame() {
 		
-		return (ClientModel)httpCommunicator.doPost("/game/reset", null);
+		return (ClientModel)Serializer.deserialize(httpCommunicator.doPost("/game/reset", null), ClientModel.class);
 	}
 
 	/**
@@ -180,7 +202,7 @@ public class ServerProxy implements IServer {
 	 */
 	public CommandList getCommands() {
 
-		return (CommandList)httpCommunicator.doGet("/game/commands", null);
+		return (CommandList)Serializer.deserialize(httpCommunicator.doGet("/game/commands", null), CommandList.class);
 	}
 
 	/**
@@ -191,20 +213,20 @@ public class ServerProxy implements IServer {
 	 * @post a valid ClientModel returned
 	 */
 	public ClientModel setCommands(CommandList commands) {
-
-		return (ClientModel)httpCommunicator.doPost("/game/commands", commands);
+		String gsonString = Serializer.serialize(commands);
+		return (ClientModel)Serializer.deserializeClientModel(httpCommunicator.doPost("/game/commands", gsonString));
 	}
 
 	/**
 	 * Retrieves a list from the server of the different types of AI players
-	 * available available
+	 * available
 	 * 
 	 * @pre none
 	 * @post a valid list of AI types returned
 	 */
 	public ListAIResponse getAITypes() {
 
-		return (ListAIResponse)httpCommunicator.doGet("/game/listAI", null);
+		return (ListAIResponse)Serializer.deserialize(httpCommunicator.doGet("/game/listAI", null), ListAIResponse.class);
 	}
 
 	/**
@@ -218,8 +240,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public AddAIResponse addAI(AddAIParams params) {
-
-		return (AddAIResponse)httpCommunicator.doPost("/game/addAI", params);
+		String gsonString = Serializer.serialize(params);
+		return (AddAIResponse)Serializer.deserialize(httpCommunicator.doPost("/game/addAI", gsonString), AddAIResponse.class);
 	}
 
 	/**
@@ -241,8 +263,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level) {
-
-		return (ChangeLogLevelResponse)httpCommunicator.doPost("/util/changeLogLevel", level);
+		String gsonString = Serializer.serialize(level);
+		return (ChangeLogLevelResponse)Serializer.deserialize(httpCommunicator.doPost("/util/changeLogLevel", gsonString), ChangeLogLevelResponse.class);
 	}
 
 	
@@ -514,7 +536,7 @@ public class ServerProxy implements IServer {
 	 * @Post The player of the card gets an equal number of that resource type
 	 */
 	@Override
-	public ClientModel playMonopolyCard(PlayMonopoly params) {
+	public ClientModel playMonopolyCard(PlayMonopolyParams params) {
 		String gsonString = Serializer.serialize(params);
 		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/Monopoly", gsonString));
 		return model;
@@ -526,7 +548,8 @@ public class ServerProxy implements IServer {
 	 *
 	 */
 	@Override
-	public ClientModel playMonument() {
+	public ClientModel playMonument(PlayMonumentParams params) {
+		String gsonString = Serializer.serialize(params);
 		ClientModel model = Serializer.deserializeClientModel(httpCommunicator.doPost("/moves/Monument", gsonString));
 		return model;
 	}
