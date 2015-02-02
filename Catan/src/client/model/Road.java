@@ -48,8 +48,30 @@ public class Road {
 	public void setLocation(EdgeLocation location) {
 		this.location = location;
 	}
-	public boolean checkAvailability(Road road){
-		if(this.getLocation().getHexLoc().equals(road.getLocation().getHexLoc()) && this.getLocation().getDir() == road.getLocation().getDir()){
+
+	public boolean checkAvailability(Road road) {
+		/*
+		 * Check if the inputed road has the same hex location as this (same x,y
+		 * indices) and the same directionality
+		 */
+		if (this.getLocation().getHexLoc()
+				.equals(road.getLocation().getHexLoc())
+				&& this.getLocation().getDir() == road.getLocation().getDir()) {
+			return false;
+		}
+
+		/*
+		 * Check if the inputed has the same hex location as this.nieghbor
+		 * (neighbor or this's x,y) and the opposite directionality. So you need
+		 * to check for the road's corresponding availability and the adjacent
+		 * hex location.
+		 */
+		if (this.getLocation()
+				.getHexLoc()
+				.equals(road.getLocation().getHexLoc()
+						.getNeighborLoc(road.getLocation().getDir()))
+				&& this.getLocation().getDir() == road.getLocation().getDir()
+						.getOppositeDirection()) {
 			return false;
 		}
 		return true;
