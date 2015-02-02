@@ -48,7 +48,11 @@ public class Road {
 	public void setLocation(EdgeLocation location) {
 		this.location = location;
 	}
-
+/**
+ * see if the spot is available for a road
+ * @param road
+ * @return
+ */
 	public boolean checkAvailability(Road road) {
 		/*
 		 * Check if the inputed road has the same hex location as this (same x,y
