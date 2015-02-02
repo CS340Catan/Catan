@@ -6,7 +6,7 @@ import shared.locations.HexLocation;
  * @author winstonhurst
  *
  */
-public class MoveRoberParams {
+public class MoveRobberParams {
 	
 	String type =  "robPlayer";
 	/**
@@ -21,7 +21,7 @@ public class MoveRoberParams {
 	 * the new location of the robber
 	 */
 	HexLocation location;
-	public MoveRoberParams(int playerIndex, int victimIndex,HexLocation location) {
+	public MoveRobberParams(int playerIndex, int victimIndex,HexLocation location) {
 		this.playerIndex = playerIndex;
 		this.victimIndex = victimIndex;
 		this.location = location;
