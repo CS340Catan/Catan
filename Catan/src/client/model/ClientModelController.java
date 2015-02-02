@@ -140,7 +140,7 @@ public class ClientModelController {
 		return true;
 	}
 
-	public boolean hasConnectingBuilding(Road road) {
+	private boolean hasConnectingBuilding(Road road) {
 		EdgeLocation roadLocation = road.getLocation();
 		HexLocation platformHex = null;
 
@@ -226,7 +226,7 @@ public class ClientModelController {
 	 * @param road
 	 * @return
 	 */
-	public boolean hasConnectingRoad(Road road) {
+	private boolean hasConnectingRoad(Road road) {
 		HexLocation roadHexLoc = road.getLocation().getHexLoc();
 		EdgeDirection roadEdgeDir = road.getLocation().getDir();
 		HexLocation roadNeighbor = roadHexLoc.getNeighborLoc(roadEdgeDir);
@@ -517,7 +517,7 @@ public class ClientModelController {
 		return false;
 	}
 
-	public boolean preexistingBuilding(VertexObject building,
+	private boolean preexistingBuilding(VertexObject building,
 			boolean dontCheckOwner) {
 		HexLocation platformHex = null;
 		for (Hex hex : clientModel.getMap().getHexes()) {
