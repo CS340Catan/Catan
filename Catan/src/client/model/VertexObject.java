@@ -46,4 +46,19 @@ public class VertexObject {
 	public void setLocation(VertexLocation location) {
 		this.location = location;
 	}
+
+	public boolean checkAvailability(VertexObject vertexObj) {
+		/*
+		 * Check if the inputed road has the same hex location as this (same x,y
+		 * indices) and the same directionality
+		 */
+		// TODO: Add check availability on all other adjoining vertices
+		if (this.getLocation().getHexLoc() == (vertexObj.getLocation()
+				.getHexLoc())
+				&& this.getLocation().getDir() == vertexObj.getLocation()
+						.getDir()) {
+			return false;
+		}
+		return true;
+	}
 }

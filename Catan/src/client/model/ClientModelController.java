@@ -124,7 +124,11 @@ public class ClientModelController {
 		return true;
 	}
 
-	private int roadEmpty(Road road) {
+	private int roadOwner(Road road) {
+		/*
+		 * Find owner of road given inputed road. If none, return -1 index.
+		 * Else, return index of owner.
+		 */
 		for (Road existingRoad : clientModel.getMap().getRoads()) {
 			if (existingRoad.checkAvailability(road)) {
 				return existingRoad.getOwner();
@@ -204,30 +208,6 @@ public class ClientModelController {
 		return false;
 	}
 
-	private boolean preexistingBuilding(VertexObject building,
-			boolean dontCheckOwner) {
-		HexLocation platformHex = null;
-		for (Hex hex : clientModel.getMap().getHexes()) {
-			if (hex.equals(building.getLocation().getHexLoc())) {
-				platformHex = hex.getLocation();
-			}
-		}
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
-			if (building.getOwner() == settlement.getOwner() || dontCheckOwner) {
-				HexLocation settlementLocation = settlement.getLocation()
-						.getHexLoc();
-				if (settlementLocation.equals(platformHex)) {
-					if (building.getLocation().getDir()
-							.equals(settlement.getLocation().getDir())) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-
-	}
-
 	private boolean hasConnectingRoad(Road road) {
 		HexLocation roadHexLoc = road.getLocation().getHexLoc();
 		EdgeDirection roadEdgeDir = road.getLocation().getDir();
@@ -240,158 +220,158 @@ public class ClientModelController {
 		case NorthWest:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.North);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.SouthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor,
 					EdgeDirection.NorthEast);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor, EdgeDirection.South);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 		case North:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.NorthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.NorthEast);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor,
 					EdgeDirection.SouthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor,
 					EdgeDirection.SouthEast);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 		case NorthEast:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.North);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.SouthEast);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor, EdgeDirection.South);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor,
 					EdgeDirection.NorthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 		case SouthWest:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.South);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.NorthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor, EdgeDirection.North);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor,
 					EdgeDirection.SouthEast);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 		case South:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.SouthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.SouthEast);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor,
 					EdgeDirection.NorthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor,
 					EdgeDirection.NorthEast);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 		case SouthEast:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.South);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.NorthEast);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor, EdgeDirection.North);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 
 			testLocation = new EdgeLocation(roadNeighbor,
 					EdgeDirection.SouthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
-			if (road.getOwner() == roadEmpty(testRoad)) {
+			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
 		}
@@ -443,6 +423,30 @@ public class ClientModelController {
 			return true;
 		}
 		return false;
+	}
+
+	private boolean preexistingBuilding(VertexObject building,
+			boolean dontCheckOwner) {
+		HexLocation platformHex = null;
+		for (Hex hex : clientModel.getMap().getHexes()) {
+			if (hex.equals(building.getLocation().getHexLoc())) {
+				platformHex = hex.getLocation();
+			}
+		}
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			if (building.getOwner() == settlement.getOwner() || dontCheckOwner) {
+				HexLocation settlementLocation = settlement.getLocation()
+						.getHexLoc();
+				if (settlementLocation.equals(platformHex)) {
+					if (building.getLocation().getDir()
+							.equals(settlement.getLocation().getDir())) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	
 	}
 
 	/**
