@@ -351,7 +351,7 @@ public interface IServer {
 	 * @Post player being robbed (if any) gave you one of his resource cards
 	 *       (randomly selected)
 	 */
-	public ClientModel robPlayer(MoveRoberParams params);
+	public ClientModel robPlayer(MoveRobberParams params);
 
 	/**
 	 * This method will end the client's turn and start a new players turn. A
@@ -437,7 +437,7 @@ public interface IServer {
 	 * @Post All other players lose the resource card type chosen
 	 * @Post The player of the card gets an equal number of that resource type
 	 */
-	public ClientModel playMonopolyCard(PlayMonopoly params);
+	public ClientModel playMonopolyCard(PlayMonopolyParams params);
 
 	/**
 	 * This method plays a monument card from the player's hand. A new

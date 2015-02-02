@@ -4,7 +4,7 @@ package shared.communication;
  * @author winstonhurst
  *
  */
-public class PlayMonopoly {
+public class PlayMonopolyParams {
 	
 		String type =  "Monopoly";
 		String resource;
@@ -13,7 +13,7 @@ public class PlayMonopoly {
 		 */
 		int playerIndex;
 		
-		public PlayMonopoly(String resource, int playerIndex) {
+		public PlayMonopolyParams(String resource, int playerIndex) {
 			this.resource = resource;
 			this.playerIndex = playerIndex;
 		}

@@ -483,7 +483,7 @@ public class MockServer implements IServer {
 	 *       (randomly selected).
 	 */
 	@Override
-	public ClientModel robPlayer(MoveRoberParams params) {
+	public ClientModel robPlayer(MoveRobberParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -590,7 +590,7 @@ public class MockServer implements IServer {
 	 *       of the specified type.
 	 */
 	@Override
-	public ClientModel playMonopolyCard(PlayMonopoly params) {
+	public ClientModel playMonopolyCard(PlayMonopolyParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
