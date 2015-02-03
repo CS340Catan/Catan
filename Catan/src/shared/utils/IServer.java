@@ -29,7 +29,7 @@ public interface IServer {
 	 *            Information containing username and password.
 	 * 
 	 */
-	public LoginResponse Login(UserCredentials credentials);
+	public boolean Login(UserCredentials credentials);
 
 	/**
 	 * This method will take UserCredentials and determine if the inputed
@@ -51,7 +51,7 @@ public interface IServer {
 	 *            Information containing username and password.
 	 * 
 	 */
-	public LoginResponse Register(UserCredentials credentials);
+	public boolean Register(UserCredentials credentials);
 
 	/**
 	 * This method will get a list containing the current list of games stored
