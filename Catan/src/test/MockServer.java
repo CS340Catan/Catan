@@ -606,7 +606,7 @@ public class MockServer implements IServer {
 	 * @Post Player gains a victory point.
 	 */
 	@Override
-	public ClientModel playMonument() {
+	public ClientModel playMonument(PlayMonumentParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -624,12 +624,6 @@ public class MockServer implements IServer {
 		int current = (clientMockModel.getTurnTracker().getCurrentTurn() +1)%4;
 		clientMockModel.getTurnTracker().setCurrentTurn(current);
 		return clientMockModel;
-	}
-
-	@Override
-	public ClientModel playMonument(PlayMonumentParams params) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
