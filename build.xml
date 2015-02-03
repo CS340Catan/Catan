@@ -49,7 +49,16 @@
 		</java>
 	</target>
 	
-	
+	<target name="tests" description="Runs the model and server tests">
+		<java classname="test.TestRunner" fork="yes">
+			<classpath>
+				<path refid="all-classpath"/>
+			</classpath>
+			<assertions>
+				<enable/>
+			</assertions>
+		</java>
+	</target>
     
 	<target name="client" description="Runs the demo client">
 		<java jar="${client.jar.file}" fork="true" dir="${demo.dir}">
