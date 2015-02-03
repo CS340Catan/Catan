@@ -625,4 +625,16 @@ public class MockServer implements IServer {
 		return clientMockModel;
 	}
 
+	@Override
+	public ClientModel updateModel(int versionNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ClientModel playMonument(PlayMonumentParams params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

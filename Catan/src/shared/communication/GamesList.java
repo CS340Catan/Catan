@@ -13,7 +13,6 @@ public class GamesList {
 	 * A list of games currently on the server
 	 */
 	ArrayList<GameSummary> games;
-	boolean success = false;
 
 	/**
 	 * @pre A list of valid GameSummary objects
@@ -21,9 +20,8 @@ public class GamesList {
 	 *       the client
 	 * @param games
 	 */
-	public GamesList(ArrayList<GameSummary> games, boolean success) {
+	public GamesList(ArrayList<GameSummary> games) {
 		this.games = games;
-		this.success = success;
 	}
 
 	public ArrayList<GameSummary> getGames() {
@@ -32,14 +30,6 @@ public class GamesList {
 
 	public void setGames(ArrayList<GameSummary> games) {
 		this.games = games;
-	}
-
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
 	}
 
 }
