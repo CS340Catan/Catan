@@ -166,7 +166,7 @@ public class ClientModelController {
 
 	private boolean buildingCheckForRoadBuilding(VertexObject building,
 			EdgeLocation roadLocation, HexLocation platformHex) {
-		VertexLocation settlementLoc = building.getLocation();
+		VertexLocation settlementLoc = building.getLocation().getNormalizedLocation();
 		VertexDirection settlementDirection = settlementLoc.getDir();
 		if (building.getLocation().equals(platformHex)) {
 
@@ -418,8 +418,8 @@ public class ClientModelController {
 		for (VertexObject existingSettlement : clientModel.getMap()
 				.getSettlements()) {
 			if (platformHex.getNeighborLoc(edgeDirection).equals(
-					existingSettlement.getLocation().getHexLoc())
-					&& existingSettlement.getLocation().getDir()
+					existingSettlement.getLocation().getNormalizedLocation().getHexLoc())
+					&& existingSettlement.getLocation().getNormalizedLocation().getDir()
 							.equals(vertexDirection)) {
 				return true;
 			}
@@ -440,7 +440,7 @@ public class ClientModelController {
 			VertexObject newBuilding, HexLocation platformHex) {
 		if (existingBuilding.getLocation().getHexLoc().equals(platformHex)) {
 			VertexDirection existingBuildingDirection = existingBuilding
-					.getLocation().getDir();
+					.getLocation().getNormalizedLocation().getDir();
 			switch (newBuilding.getLocation().getDir()) {
 			case NorthWest:
 				if (existingBuildingDirection.equals(VertexDirection.West)
@@ -530,7 +530,7 @@ public class ClientModelController {
 				platformHex = hex.getLocation();
 			}
 			for (Road road : clientModel.getMap().getRoads()) {
-				if (road.getLocation().getHexLoc().equals(platformHex)
+				if (road.getLocation().getNormalizedLocation().getHexLoc().equals(platformHex)
 						&& road.getOwner() == newSettlement.getOwner()) {
 					switch (newSettlement.getLocation().getDir()) {
 					case NorthWest:
@@ -618,13 +618,13 @@ public class ClientModelController {
 			boolean dontCheckOwner) {
 		HexLocation platformHex = null;
 		for (Hex hex : clientModel.getMap().getHexes()) {
-			if (hex.equals(building.getLocation().getHexLoc())) {
+			if (hex.equals(building.getLocation().getNormalizedLocation().getHexLoc())) {
 				platformHex = hex.getLocation();
 			}
 		}
 		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
 			if (building.getOwner() == settlement.getOwner() || dontCheckOwner) {
-				HexLocation settlementLocation = settlement.getLocation()
+				HexLocation settlementLocation = settlement.getLocation().getNormalizedLocation()
 						.getHexLoc();
 				if (settlementLocation.equals(platformHex)) {
 					if (building.getLocation().getDir()
@@ -661,9 +661,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
-		// TODO:HSW figure out how to figure out if a trade has been offered
-
-		if (clientModel.getPlayers()[playerIndex].getResources().contains(
+		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getResources().contains(
 				resourceList)) {
 			return true;
 		}
@@ -691,7 +689,7 @@ public class ClientModelController {
 	public boolean buildingOnPort(int playerIndex, VertexObject building) {
 		if (building.getOwner() == playerIndex) {
 			for (Port port : clientModel.getMap().getPorts()) {
-				if (building.getLocation().getHexLoc()
+				if (building.getLocation().getNormalizedLocation().getHexLoc()
 						.equals(port.getLocation())) {
 					return true;
 				}
@@ -730,17 +728,16 @@ public class ClientModelController {
 
 	public boolean playerTouchingRobber(int robbedPlayer,
 			HexLocation robberLocation) {
-		// TODO: account for location ambiguity
 		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
 			if (settlement.getOwner() == robbedPlayer
-					&& settlement.getLocation().getHexLoc()
+					&& settlement.getLocation().getNormalizedLocation().getHexLoc()
 							.equals(robberLocation)) {
 				return true;
 			}
 		}
 		for (VertexObject city : clientModel.getMap().getCities()) {
 			if (city.getOwner() == robbedPlayer
-					&& city.getLocation().getHexLoc().equals(robberLocation)) {
+					&& city.getLocation().getNormalizedLocation().getHexLoc().equals(robberLocation)) {
 				return true;
 			}
 		}
