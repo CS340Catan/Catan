@@ -6,7 +6,8 @@ public class TestRunner {
 
 		String[] testClasses = new String[] {
 				"test.SerializerTest",
-				"test.ClientModelTest"
+				"test.ClientModelTest",
+				"test.ServerProxyTest"
 		};
 		org.junit.runner.JUnitCore.main(testClasses);
 	}
