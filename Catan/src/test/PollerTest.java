@@ -32,6 +32,7 @@ public class PollerTest {
 		mockServerModel.setVersion(clientModel.getVersion()); //start off with the versions the same
 		int originalVersion = clientModel.getVersion(); //keep track of what the version is to start with
 		Poller poller = new Poller(server, clientModelController); //set the poller
+		poller.setTimer();
 		try {
 			Thread.sleep(2000); //let the poller update a few times
 		} catch (InterruptedException e) {
