@@ -16,8 +16,8 @@ public class EdgeLocation {
 		setDir(dir);
 	}
 	public void convertToPrimitives(){
-		int x = hexLoc.getX();
-		int y = hexLoc.getY();
+		x = hexLoc.getX();
+		y = hexLoc.getY();
 		switch(dir){
 		case NorthWest:
 			direction = "NW";

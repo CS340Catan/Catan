@@ -49,21 +49,23 @@ public class Road {
 	public void setLocation(EdgeLocation location) {
 		this.location = location;
 	}
-/**
- * see if the spot is available for a road
- * @param road
- * @return
- */
-	public boolean checkAvailability(Road road) {
+
+	/**
+	 * see if the spot is available for a road
+	 * 
+	 * @param newRoad
+	 * @return
+	 */
+	public boolean checkAvailability(Road newRoad) {
 		/*
 		 * Check if the inputed road has the same hex location as this (same x,y
 		 * indices) and the same directionality
 		 */
-		
+
 		HexLocation hexLocation = this.getLocation().getHexLoc();
-		
-		if (hexLocation.equals(road.getLocation().getHexLoc())
-				&& this.getLocation().getDir() == road.getLocation().getDir()) {
+
+		if (hexLocation.equals(newRoad.getLocation().getHexLoc())
+				&& this.getLocation().getDir() == newRoad.getLocation().getDir()) {
 			return false;
 		}
 
@@ -75,9 +77,9 @@ public class Road {
 		 */
 		if (this.getLocation()
 				.getHexLoc()
-				.equals(road.getLocation().getHexLoc()
-						.getNeighborLoc(road.getLocation().getDir()))
-				&& this.getLocation().getDir() == road.getLocation().getDir()
+				.equals(newRoad.getLocation().getHexLoc()
+						.getNeighborLoc(newRoad.getLocation().getDir()))
+				&& this.getLocation().getDir() == newRoad.getLocation().getDir()
 						.getOppositeDirection()) {
 			return false;
 		}

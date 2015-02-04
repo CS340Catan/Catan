@@ -145,6 +145,7 @@ public class ClientModelController {
 		for (Hex hex : clientModel.getMap().getHexes()) {
 			if (hex.getLocation().equals(roadHexLocation)) {
 				platformHex = hex.getLocation();
+				break;
 			}
 		}
 

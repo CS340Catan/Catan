@@ -2,6 +2,7 @@ package shared.utils;
 
 import client.model.ClientModel;
 import client.model.Road;
+import client.model.VertexObject;
 
 import com.google.gson.Gson;
 
@@ -38,12 +39,24 @@ public class Serializer {
 		for(Road road : clientModel.getMap().getRoads()) {
 			road.getLocation().convertFromPrimitives();
 		}
+		for(VertexObject settlement : clientModel.getMap().getSettlements()){
+			settlement.getLocation().convertFromPrimitives();
+		}
+		for(VertexObject city : clientModel.getMap().getCities()){
+			city.getLocation().convertFromPrimitives();
+		}
 		return clientModel;
 	}
 	public static String serializeClientModel(ClientModel clientModel){
 		Gson gson = new Gson();
 		for(Road road : clientModel.getMap().getRoads()){
 			road.getLocation().convertToPrimitives();
+		}
+		for(VertexObject settlement : clientModel.getMap().getSettlements()){
+			settlement.getLocation().convertToPrimitives();
+		}
+		for(VertexObject city : clientModel.getMap().getCities()){
+			city.getLocation().convertToPrimitives();
 		}
 		return gson.toJson(clientModel);
 	}
