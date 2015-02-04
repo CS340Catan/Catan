@@ -50,14 +50,13 @@ public class MockServer implements IServer {
 	 * @Post A valid LoginResponse returned.
 	 */
 	@Override
-	public LoginResponse Login(UserCredentials credentials) {
-		LoginResponse response = null;
+	public boolean Login(UserCredentials credentials) {
+		boolean wasSuccess = true;
 		if (credentials.getUsername() == "test"
 				&& credentials.getPassword() == "pass") {
-			response = new LoginResponse(credentials.getUsername(),
-					credentials.getPassword());
+			wasSuccess = true;
 		}
-		return response;
+		return wasSuccess;
 	}
 
 	/**
@@ -70,13 +69,19 @@ public class MockServer implements IServer {
 	 * @Post A valid LoginResponse returned.
 	 */
 	@Override
-	public LoginResponse Register(UserCredentials credentials) {
-		LoginResponse response = null;
-		if (credentials.getUsername() != "test") {
-			response = new LoginResponse(credentials.getUsername(),
-					credentials.getPassword());
+	public boolean Register(UserCredentials credentials) {
+		boolean wasSuccess = false;
+		try{
+			 new Username(credentials.getUsername());
+			 new Password(credentials.getPassword());
 		}
-		return response;
+		catch(InvalidInputException e){
+			return false;
+		}
+		if (credentials.getUsername() != "test") {
+			wasSuccess = true;
+		}
+		return wasSuccess;
 	}
 
 	/**
@@ -89,7 +94,6 @@ public class MockServer implements IServer {
 	@Override
 	public GamesList getGameList() {
 		ArrayList<GameSummary> games = new ArrayList<GameSummary>();
-		boolean success = false;
 		String[] names = {"bill","ted","sheila","parker"};
 		String[] colors = {"red","white","blue","green"};
 		String[] gameNames = {"game1","game2"}; 
@@ -100,7 +104,8 @@ public class MockServer implements IServer {
 			}
 			games.add(new GameSummary(gameNames[i],i,players));
 		}
-		return new GamesList(games,success);
+
+		return new GamesList(games);
 	}
 
 	/**
@@ -112,6 +117,8 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public GameSummary createGame(CreateGameParams params) {
+		if(params.getname()==null)
+			return null;
 		PlayerSummary[] players = new PlayerSummary[4];
 		for(int i = 0; i<5; i++){
 			players[i] = new PlayerSummary();
@@ -131,7 +138,10 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public JoinResponse joinGame(JoinGameParams params) {
-		if(params.getColor()=="green")//let's say green is already in
+		String validColor="red,orange,blue,green,yellow,purple,puce,white,brown";
+		//check if it is a valid Catan color given.
+		//Also, we will say that the color green is already taken.
+		if(!(validColor.contains(params.getColor().toLowerCase()))||params.getColor().toLowerCase()=="green")
 			return new JoinResponse("Invalid Request");
 		return new JoinResponse("Success");
 	}
@@ -147,7 +157,7 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public SaveResponse saveGame(SaveParams params) {
-		if(params.getId()==1 || params.getId()==0){
+		if((params.getId()==1 || params.getId()==0)&&params.getFileName()!=null){
 			if(params.getFileName().equals("game0.txt")||params.getFileName().equals("game1.txt")){
 				return new SaveResponse("Success");
 			}
@@ -166,8 +176,11 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public LoadResponse loadGame(String fileName) {
-		if(fileName.equals("game0.txt"))
-			return new LoadResponse("Success");
+		if(fileName!=null)
+		{
+			if(fileName.equals("game0.txt"))
+				return new LoadResponse("Success");
+		}
 		return new LoadResponse("Invalid Request");
 	}
 
@@ -201,7 +214,7 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel resetGame() {
-		clientMockModel.setLog(new MessageList(new MessageLine[1]));
+		clientMockModel.setLog(new MessageList(new MessageLine[1]));//should message line be an arraylist? I think so, because it will be sized dynamically
 		return clientMockModel;
 	}
 
@@ -239,6 +252,7 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel setCommands(CommandList commands) {
+		//COORDINATE THIS WITH WHO EVER IS RUNNING THE TEST SO WE CAN DECIDE WHAT COMMAND TO MANUALLY EXECUTE HERE"
 		int current = (clientMockModel.getTurnTracker().getCurrentTurn() +1)%4;
 		clientMockModel.getTurnTracker().setCurrentTurn(current);
 		return clientMockModel;
@@ -270,9 +284,16 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public AddAIResponse addAI(AddAIParams params) {
+		AddAIResponse response =  new AddAIResponse();
 		if(params.getAIType()!="LARGEST ARMY")
-			return null;
-		return new AddAIResponse();
+			response.setResponse("Invalid Request");
+		else
+			response.setResponse("Success");
+		return response;
+		
+		
+		
+		
 	}
 
 	/**
@@ -285,7 +306,15 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level) {
-		return null;
+		String levels = "severe,warning,info,config,fine,finer,finest";
+		ChangeLogLevelResponse response = new ChangeLogLevelResponse();
+		response.setResponse("Invalid Request");
+		if(level.getLogLevel()!=null)
+		{
+			if(levels.contains(level.getLogLevel().toLowerCase()))
+				response.setResponse("Success");
+		}
+		return response;
 	}
 
 	/**
@@ -621,9 +650,10 @@ public class MockServer implements IServer {
 
 	@Override
 	public ClientModel updateModel(int versionNumber) {
-		int current = (clientMockModel.getTurnTracker().getCurrentTurn() +1)%4;
-		clientMockModel.getTurnTracker().setCurrentTurn(current);
-		return clientMockModel;
+		int currentVersion = clientMockModel.getVersion();
+		if(currentVersion!=versionNumber)
+			return clientMockModel;
+		return null;
 	}
 
 }
