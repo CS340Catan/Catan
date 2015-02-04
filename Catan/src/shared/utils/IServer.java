@@ -65,7 +65,7 @@ public interface IServer {
 	 *       response, and the body contains an error message.
 	 * 
 	 */
-	public GamesList getGameList();
+	public GameSummary[] getGameList();
 
 	/**
 	 * This method will create a game using the inputed game parameters within
@@ -107,7 +107,7 @@ public interface IServer {
 	 * @param params
 	 * 
 	 */
-	public JoinResponse joinGame(JoinGameParams params);
+	public String joinGame(JoinGameParams params);
 
 	/**
 	 * This method will save the game parameters to the server. The client will
@@ -118,7 +118,7 @@ public interface IServer {
 	 * @Pre Filename is not null or empty.
 	 * @Post A valid boolean returned.
 	 */
-	public SaveResponse saveGame(SaveParams params);
+	public String saveGame(SaveParams params);
 
 	/**
 	 * This method will take a filename and try and load the game matching the
@@ -128,7 +128,7 @@ public interface IServer {
 	 * @Pre A saved game with the specified filename exists on the server.
 	 * @Post A valid boolean returned.
 	 */
-	public LoadResponse loadGame(String fileName);
+	public String loadGame(LoadGameParams params);
 
 	/**
 	 * Prepares the version number to be sent to the server, then retrieves

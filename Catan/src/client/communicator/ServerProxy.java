@@ -52,11 +52,11 @@ public class ServerProxy implements IServer {
 	 * @post ClientModel is updated
 	 */
 	public ClientModel updateModel(int version) {
-		String gsonResponseString = httpCommunicator.doGet("/game/model?version=" + version, null);
+		String jsonResponseString = httpCommunicator.doGet("/game/model?version=" + version, null);
 		ClientModel model = null;		//Returns null if current model is already correct or there was an error
-		if(gsonResponseString != null) {
-			if(!gsonResponseString.equals("true")) {
-				model = Serializer.deserializeClientModel(gsonResponseString);
+		if(jsonResponseString != null) {
+			if(!jsonResponseString.equals("true")) {
+				model = Serializer.deserializeClientModel(jsonResponseString);
 			}
 		}
 		return model;
@@ -71,8 +71,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid LoginResponse returned
 	 */
 	public boolean Login(UserCredentials credentials) {
-		String gsonString = Serializer.serialize(credentials);
-		String response = httpCommunicator.doPost("/user/login", gsonString);
+		String jsonString = Serializer.serialize(credentials);
+		String response = httpCommunicator.doPost("/user/login", jsonString);
 		if(response == null) {
 			return false;
 		}
@@ -90,8 +90,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid LoginResponse returned
 	 */
 	public boolean Register(UserCredentials credentials) {
-		String gsonString = Serializer.serialize(credentials);
-		String response = httpCommunicator.doPost("/user/login", gsonString);
+		String jsonString = Serializer.serialize(credentials);
+		String response = httpCommunicator.doPost("/user/register", jsonString);
 		if(response == null) {
 			return false;
 		}
@@ -106,10 +106,10 @@ public class ServerProxy implements IServer {
 	 * @pre none
 	 * @post A valid CurrentGames returned
 	 */
-	public GamesList getGameList() {
+	public GameSummary[] getGameList() {
 		String response = httpCommunicator.doGet("/games/list", null);
 		if(response != null) {
-			return (GamesList)Serializer.deserialize(response, GamesList.class);
+			return (GameSummary[])Serializer.deserialize(response, GameSummary[].class);
 		}
 		else {
 			return null;
@@ -125,8 +125,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid GameSummary returned
 	 */
 	public GameSummary createGame(CreateGameParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/games/create", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/games/create", jsonString);
 		if(response != null) {
 			return (GameSummary)Serializer.deserialize(response, GameSummary.class);
 		}
@@ -146,16 +146,10 @@ public class ServerProxy implements IServer {
 	 *      purple, orange)
 	 * @post a valid boolean returned
 	 */
-	public JoinResponse joinGame(JoinGameParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/games/join", gsonString);
-		if(response != null) {
-			return (JoinResponse)Serializer.deserialize(response, JoinResponse.class);
-		}
-		else {
-			return null;
-		}
-		//----------still need to get cookie somehow, actually just stored in HTTPCommunicator right, not needed in model?
+	public String joinGame(JoinGameParams params) {
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/games/join", jsonString);
+		return response;
 	}
 
 	/**
@@ -166,15 +160,10 @@ public class ServerProxy implements IServer {
 	 * @pre filname is not null or empty
 	 * @post a valid boolean returned
 	 */
-	public SaveResponse saveGame(SaveParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/games/save", gsonString);
-		if(response != null) {
-			return (SaveResponse)Serializer.deserialize(response, SaveResponse.class);
-		}
-		else {
-			return null;
-		}
+	public String saveGame(SaveParams params) {
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/games/save", jsonString);
+		return response;
 	}
 
 	/**
@@ -184,15 +173,10 @@ public class ServerProxy implements IServer {
 	 * @pre a saved game with the specified filename exists on the server
 	 * @post a valid boolean returned
 	 */
-	public LoadResponse loadGame(String fileName) {
-		String gsonString = Serializer.serialize(fileName);
-		String response = httpCommunicator.doPost("/games/load", gsonString);
-		if(response != null) {
-			return (LoadResponse)Serializer.deserialize(response, LoadResponse.class);
-		}
-		else {
-			return null;
-		}
+	public String loadGame(LoadGameParams params) {
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/games/load", jsonString);
+		return response;
 	}
 
 	/**
@@ -204,13 +188,14 @@ public class ServerProxy implements IServer {
 	 * @post a valid ClientModel returned
 	 */
 	public ClientModel getCurrentGame(int version) {
-		String response = httpCommunicator.doGet("/game/model?version=" + version, null);
-		if(response != null) {
-			return Serializer.deserializeClientModel(response);
+		String jsonResponseString = httpCommunicator.doGet("/game/model?version=" + version, null);
+		ClientModel model = null;		//Returns null if current model is already correct or there was an error
+		if(jsonResponseString != null) {
+			if(!jsonResponseString.equals("true")) {
+				model = Serializer.deserializeClientModel(jsonResponseString);
+			}
 		}
-		else {
-			return null;
-		}
+		return model;
 	}
 
 	/**
@@ -253,8 +238,8 @@ public class ServerProxy implements IServer {
 	 * @post a valid ClientModel returned
 	 */
 	public ClientModel setCommands(CommandList commands) {
-		String gsonString = Serializer.serialize(commands);
-		String response = httpCommunicator.doPost("/game/commands", gsonString);
+		String jsonString = Serializer.serialize(commands);
+		String response = httpCommunicator.doPost("/game/commands", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -291,8 +276,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public AddAIResponse addAI(AddAIParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/game/addAI", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/game/addAI", jsonString);
 		if(response != null) {
 			return (AddAIResponse)Serializer.deserialize(response, AddAIResponse.class);
 		}
@@ -320,8 +305,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level) {
-		String gsonString = Serializer.serialize(level);
-		String response = httpCommunicator.doPost("/util/changeLogLevel", gsonString);
+		String jsonString = Serializer.serialize(level);
+		String response = httpCommunicator.doPost("/util/changeLogLevel", jsonString);
 		if(response != null) {
 			return (ChangeLogLevelResponse)Serializer.deserialize(response, ChangeLogLevelResponse.class);
 		}
@@ -342,8 +327,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel sendChat(String content) {
-		String gsonString = Serializer.serialize(content);
-		String response = httpCommunicator.doPost("/moves/sendChat", gsonString);
+		String jsonString = Serializer.serialize(content);
+		String response = httpCommunicator.doPost("/moves/sendChat", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -364,8 +349,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel acceptTrade(AcceptTradeParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/acceptTrade", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/acceptTrade", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -388,8 +373,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel discardCards(DiscardCardsParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/discardCards", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/discardCards", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -408,8 +393,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel rollNumber(int number) {
-		String gsonString = Serializer.serialize(new Integer(number));
-		String response = httpCommunicator.doPost("/moves/rollNumber", gsonString);
+		String jsonString = Serializer.serialize(new Integer(number));
+		String response = httpCommunicator.doPost("/moves/rollNumber", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -437,8 +422,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel buildRoad(BuildRoadParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/buildRoad", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/buildRoad", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -462,8 +447,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel buildSettlement(BuildSettlementParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/buildSettlement", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/buildSettlement", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -484,8 +469,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel buildCity(BuildCityParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/buildCity", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/buildCity", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -503,8 +488,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel offerTrade(TradeOfferParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/offerTrade", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/offerTrade", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -523,8 +508,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel maritimeTrade(MaritimeTradeParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/maritimeTrade", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/maritimeTrade", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -545,8 +530,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel robPlayer(MoveRobberParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/robPlayer", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/robPlayer", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -607,8 +592,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playSoldierCard(MoveSoldierParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/Soldier", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/Soldier", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -628,8 +613,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/Year_of_Plenty", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/Year_of_Plenty", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -654,8 +639,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playRoadBuildingCard(BuildRoadCardParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/Road_Building", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/Road_Building", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -675,8 +660,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playMonopolyCard(PlayMonopolyParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/Monopoly", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/Monopoly", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}
@@ -692,8 +677,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel playMonument(PlayMonumentParams params) {
-		String gsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/Monument", gsonString);
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/Monument", jsonString);
 		if(response != null) {
 			return Serializer.deserializeClientModel(response);
 		}

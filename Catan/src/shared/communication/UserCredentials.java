@@ -18,7 +18,7 @@ package shared.communication;
  */
 public class UserCredentials {
 
-	String name;
+	String username;
 	String password;
 
 	/**
@@ -28,16 +28,16 @@ public class UserCredentials {
 	 * 
 	 */
 	public UserCredentials(String username, String password) {
-		this.name = username;
+		this.username = username;
 		this.password = password;
 	}
 
 	public String getUsername() {
-		return name;
+		return username;
 	}
 
 	public void setUsername(String username) {
-		this.name = username;
+		this.username = username;
 	}
 
 	public String getPassword() {
