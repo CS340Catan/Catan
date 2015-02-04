@@ -41,7 +41,7 @@ public class ClientModelController {
 	 *            Player being queried.
 	 * @return
 	 */
-	public boolean isPlayerTurn(int playerIndex) {
+	private boolean isPlayerTurn(int playerIndex) {
 		if (clientModel.getTurnTracker().getCurrentTurn() == playerIndex) {
 			return true;
 		}
@@ -55,7 +55,7 @@ public class ClientModelController {
 	 * @param road
 	 * @return
 	 */
-	public boolean legitRoadPlacement(Road road) {
+	private boolean legitRoadPlacement(Road road) {
 		EdgeLocation edgeLocation = road.getLocation();
 		HexLocation hexLocation = edgeLocation.getHexLoc();
 		System.out.println(edgeLocation.getDir());

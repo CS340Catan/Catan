@@ -1,6 +1,7 @@
 package shared.utils;
 
 import client.model.ClientModel;
+import client.model.Road;
 
 import com.google.gson.Gson;
 
@@ -33,7 +34,18 @@ public class Serializer {
 	 */
 	public static ClientModel deserializeClientModel(String jsonString) {
 		Gson gson = new Gson();
-		return gson.fromJson(jsonString,ClientModel.class);
+		ClientModel clientModel = gson.fromJson(jsonString,ClientModel.class);
+		for(Road road : clientModel.getMap().getRoads()) {
+			road.getLocation().convertFromPrimitives();
+		}
+		return clientModel;
+	}
+	public static String serializeClientModel(ClientModel clientModel){
+		Gson gson = new Gson();
+		for(Road road : clientModel.getMap().getRoads()){
+			road.getLocation().convertToPrimitives();
+		}
+		return gson.toJson(clientModel);
 	}
 	/**
 	 * Generic deserializer for non-move API responses

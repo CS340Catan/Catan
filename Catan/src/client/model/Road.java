@@ -1,6 +1,7 @@
 package client.model;
 
 import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 
 /**
  * Contains the location and owner of a Road, changed from EdgeValue in the
@@ -58,8 +59,10 @@ public class Road {
 		 * Check if the inputed road has the same hex location as this (same x,y
 		 * indices) and the same directionality
 		 */
-		if (this.getLocation().getHexLoc()
-				.equals(road.getLocation().getHexLoc())
+		
+		HexLocation hexLocation = this.getLocation().getHexLoc();
+		
+		if (hexLocation.equals(road.getLocation().getHexLoc())
 				&& this.getLocation().getDir() == road.getLocation().getDir()) {
 			return false;
 		}
