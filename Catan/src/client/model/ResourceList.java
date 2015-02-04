@@ -20,7 +20,7 @@ public class ResourceList {
 	private int ore;
 	private int sheep;
 	private int wheat;
-	private int lumber;
+	private int wood;
 
 	/**
 	 * Default constructor, requires all fields
@@ -38,7 +38,7 @@ public class ResourceList {
 		this.ore = ore;
 		this.sheep = sheep;
 		this.wheat = wheat;
-		this.lumber = lumber;
+		this.wood = lumber;
 	}
 
 	public int getBrick() {
@@ -73,12 +73,12 @@ public class ResourceList {
 		this.wheat = wheat;
 	}
 
-	public int getLumber() {
-		return lumber;
+	public int getWood() {
+		return wood;
 	}
 
-	public void setLumber(int lumber) {
-		this.lumber = lumber;
+	public void setWood(int lumber) {
+		this.wood = lumber;
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class ResourceList {
 	 */
 	public boolean equals(ResourceList resourceList) {
 		if (resourceList.getBrick() == this.getBrick()
-				&& resourceList.getLumber() == this.getLumber()
+				&& resourceList.getWood() == this.getWood()
 				&& resourceList.getOre() == this.getOre()
 				&& resourceList.getSheep() == this.getSheep()
 				&& resourceList.getWheat() == this.getWheat()) {
@@ -110,7 +110,7 @@ public class ResourceList {
 	 */
 	public boolean contains(ResourceList resourceList) {
 		if (resourceList.getBrick() <= this.getBrick()
-				&& resourceList.getLumber() <= this.getLumber()
+				&& resourceList.getWood() <= this.getWood()
 				&& resourceList.getOre() <= this.getOre()
 				&& resourceList.getSheep() <= this.getSheep()
 				&& resourceList.getWheat() <= this.getWheat()) {
@@ -125,7 +125,7 @@ public class ResourceList {
 	 * @return
 	 */
 	public int count() {
-		return brick + lumber + ore + sheep + wheat;
+		return brick + wood + ore + sheep + wheat;
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class ResourceList {
 	 * @return
 	 */
 	public boolean ofAKind(int number) {
-		if (this.getBrick() >= number || this.getLumber() >= number
+		if (this.getBrick() >= number || this.getWood() >= number
 				|| this.getOre() >= number || this.getSheep() >= number
 				|| this.getWheat() >= number) {
 			return true;

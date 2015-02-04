@@ -23,6 +23,7 @@ public class ClientModel {
 	private ResourceList bank;
 	private MessageList chat;
 	private MessageList log;
+	private Deck deck;
 	private Map map;
 	private Player[] players;
 	private TradeOffer tradeOffer;
