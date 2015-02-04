@@ -606,7 +606,7 @@ public class MockServer implements IServer {
 	 * @Post Player gains a victory point.
 	 */
 	@Override
-	public ClientModel playMonument() {
+	public ClientModel playMonument(PlayMonumentParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -618,23 +618,12 @@ public class MockServer implements IServer {
 	 * @Pre None.
 	 * @Post Gets an updated version of the model from the server. We will just change the turn tracker
 	 */
-	@Override
-	public ClientModel updateModel() {
-		int current = (clientMockModel.getTurnTracker().getCurrentTurn() +1)%4;
-		clientMockModel.getTurnTracker().setCurrentTurn(current);
-		return clientMockModel;
-	}
 
 	@Override
 	public ClientModel updateModel(int versionNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ClientModel playMonument(PlayMonumentParams params) {
-		// TODO Auto-generated method stub
-		return null;
+		int current = (clientMockModel.getTurnTracker().getCurrentTurn() +1)%4;
+		clientMockModel.getTurnTracker().setCurrentTurn(current);
+		return clientMockModel;
 	}
 
 }

@@ -7,10 +7,50 @@ public class EdgeLocation {
 
 	private HexLocation hexLoc;
 	private EdgeDirection dir;
+	private String direction;
+	private int x;
+	private int y;
 
 	public EdgeLocation(HexLocation hexLoc, EdgeDirection dir) {
 		setHexLoc(hexLoc);
 		setDir(dir);
+	}
+	public void convertToPrimitives(){
+		x = hexLoc.getX();
+		y = hexLoc.getY();
+		switch(dir){
+		case NorthWest:
+			direction = "NW";
+		case North:
+			direction = "N";			
+		case NorthEast:
+			direction = "NE";			
+		case SouthEast:
+			direction = "SE";			
+		case South:
+			direction = "S";			
+		case SouthWest:
+			direction = "SW";			
+			
+		}
+	}
+//	public void 
+	public void convertFromPrimitives() {
+		this.hexLoc = new HexLocation(x, y);
+		switch (direction) {
+		case ("N"):
+			dir = EdgeDirection.North;
+		case ("NE"):
+			dir = EdgeDirection.NorthEast;
+		case ("SE"):
+			dir = EdgeDirection.SouthEast;
+		case ("S"):
+			dir = EdgeDirection.South;
+		case ("SW"):
+			dir = EdgeDirection.SouthWest;
+		case ("NW"):
+			dir = EdgeDirection.NorthWest;
+		}
 	}
 
 	public HexLocation getHexLoc() {
@@ -91,5 +131,29 @@ public class EdgeLocation {
 			assert false;
 			return null;
 		}
+	}
+
+	public String getStringDirection() {
+		return direction;
+	}
+
+	public void setStringDirection(String direction) {
+		this.direction = direction;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 }

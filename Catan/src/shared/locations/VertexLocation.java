@@ -7,12 +7,51 @@ public class VertexLocation {
 
 	private HexLocation hexLoc;
 	private VertexDirection dir;
+	private String direction;
+	private int x;
+	private int y;
 
 	public VertexLocation(HexLocation hexLoc, VertexDirection dir) {
 		setHexLoc(hexLoc);
 		setDir(dir);
 	}
-
+	public void convertToPrimitives(){
+		x = hexLoc.getX();
+		y = hexLoc.getY();
+		switch(dir){
+		case NorthWest:
+			direction = "NW";
+		case East:
+			direction = "E";			
+		case NorthEast:
+			direction = "NE";			
+		case SouthEast:
+			direction = "SE";			
+		case West:
+			direction = "W";			
+		case SouthWest:
+			direction = "SW";			
+			
+		}
+	}
+//	public void 
+	public void convertFromPrimitives() {
+		this.hexLoc = new HexLocation(x, y);
+		switch (direction) {
+		case ("E"):
+			dir = VertexDirection.East;
+		case ("NE"):
+			dir = VertexDirection.NorthEast;
+		case ("SE"):
+			dir = VertexDirection.SouthEast;
+		case ("W"):
+			dir = VertexDirection.West;
+		case ("SW"):
+			dir = VertexDirection.SouthWest;
+		case ("NW"):
+			dir = VertexDirection.NorthWest;
+		}
+	}
 	public HexLocation getHexLoc() {
 		return hexLoc;
 	}

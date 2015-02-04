@@ -19,7 +19,7 @@ import shared.locations.HexLocation;
 public class Hex {
 	private HexLocation location;
 	private String resource;
-	private int numberToken;
+	private int number;
 
 	/**
 	 * Default constructor, requires all fields
@@ -34,7 +34,7 @@ public class Hex {
 		super();
 		this.location = location;
 		this.resource = resource;
-		this.numberToken = numberToken;
+		this.number = numberToken;
 	}
 
 	public HexLocation getLocation() {
@@ -53,11 +53,11 @@ public class Hex {
 		this.resource = resource;
 	}
 
-	public int getNumberToken() {
-		return numberToken;
+	public int getNumber() {
+		return number;
 	}
 
-	public void setNumberToken(int numberToken) {
-		this.numberToken = numberToken;
+	public void setNumber(int numberToken) {
+		this.number = numberToken;
 	}
 }
