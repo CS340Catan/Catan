@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import shared.utils.ServerResponseException;
+
 
 public class HTTPCommunicator {
 	
@@ -33,23 +35,25 @@ public class HTTPCommunicator {
 		URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
 	}
 	/**
+	 * @throws ServerResponseException 
 	 * @Pre url is valid, object is valid
 	 * @Post A valid Java Object returned
 	 */
-	public String doGet(String urlString, String gsonString){
+	public String doGet(String urlString, String gsonString) throws ServerResponseException{
 		return communicate(urlString, gsonString, GET);
 	}
 	
 	
 	/**
+	 * @throws ServerResponseException 
 	 * @Pre url is valid, object is valid
 	 * @Post A valid Java Object returned
 	 */
-	public String doPost(String url, String gsonString){
+	public String doPost(String url, String gsonString) throws ServerResponseException{
 		return communicate(url,gsonString, POST);
 	}
 	
-	private String communicate(String urlString, String gsonString, int requestType){
+	private String communicate(String urlString, String gsonString, int requestType) throws ServerResponseException{
 		try 
 		{
 			URL url = new URL(URL_PREFIX + urlString);
@@ -99,7 +103,18 @@ public class HTTPCommunicator {
 			}
 			else
 			{
-				return null;
+				String response = "ERROR"+ connection.getResponseCode() + "\n";
+				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+                br.close();
+                String body = sb.toString();
+                
+                response = response + body;
+                throw new ServerResponseException(response);
 			}
 		}
 		catch (IOException e)
