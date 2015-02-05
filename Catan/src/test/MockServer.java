@@ -7,6 +7,7 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.utils.IServer;
+import shared.utils.ServerResponseException;
 import client.model.ClientModel;
 import client.model.Map;
 import client.model.MessageLine;
@@ -37,7 +38,7 @@ public class MockServer implements IServer {
 	 *            Inputed ClientModel that will be the original ClientModel
 	 *            which other methods may use in return statements.
 	 */
-	public MockServer(ClientModel clientMockModel) {
+	public MockServer(ClientModel clientMockModel) throws ServerResponseException {
 		this.clientMockModel = clientMockModel;
 	}
 
@@ -50,7 +51,7 @@ public class MockServer implements IServer {
 	 * @Post A valid LoginResponse returned.
 	 */
 	@Override
-	public boolean Login(UserCredentials credentials) {
+	public boolean Login(UserCredentials credentials) throws ServerResponseException {
 		boolean wasSuccess = true;
 		if (credentials.getUsername() == "test"
 				&& credentials.getPassword() == "pass") {
@@ -69,7 +70,7 @@ public class MockServer implements IServer {
 	 * @Post A valid LoginResponse returned.
 	 */
 	@Override
-	public boolean Register(UserCredentials credentials) {
+	public boolean Register(UserCredentials credentials) throws ServerResponseException {
 		boolean wasSuccess = false;
 		try{
 			 new Username(credentials.getUsername());
@@ -92,7 +93,7 @@ public class MockServer implements IServer {
 	 * @Post Returns a hard coded GamesList object.
 	 */
 	@Override
-	public GameSummary[] getGameList() {
+	public GameSummary[] getGameList() throws ServerResponseException {
 		GameSummary[] games = new GameSummary[2];
 		String[] names = {"bill","ted","sheila","parker"};
 		String[] colors = {"red","white","blue","green"};
@@ -116,7 +117,7 @@ public class MockServer implements IServer {
 	 * @Post Returns a canned GameSummary object.
 	 */
 	@Override
-	public GameSummary createGame(CreateGameParams params) {
+	public GameSummary createGame(CreateGameParams params) throws ServerResponseException {
 		if(params.getname()==null)
 			return null;
 		PlayerSummary[] players = new PlayerSummary[4];
@@ -137,7 +138,7 @@ public class MockServer implements IServer {
 	 * @Post Returns true if the player was added.
 	 */
 	@Override
-	public String joinGame(JoinGameParams params) {
+	public String joinGame(JoinGameParams params) throws ServerResponseException {
 		String validColor="red,orange,blue,green,yellow,purple,puce,white,brown";
 		//check if it is a valid Catan color given.
 		//Also, we will say that the color green is already taken.
@@ -156,7 +157,7 @@ public class MockServer implements IServer {
 	 * @Post If bad input, will return false and doesn't write to file.
 	 */
 	@Override
-	public String saveGame(SaveParams params) {
+	public String saveGame(SaveParams params) throws ServerResponseException {
 		if((params.getId()==1 || params.getId()==0)&&params.getname()!=null){
 			if(params.getname().equals("game0.txt")||params.getname().equals("game1.txt")){
 				return "Success";
@@ -175,7 +176,7 @@ public class MockServer implements IServer {
 	 * @Post If bad parameters, throw an error.
 	 */
 	@Override
-	public String loadGame(LoadGameParams params) {
+	public String loadGame(LoadGameParams params) throws ServerResponseException {
 		if(params!=null)
 		{
 			if(params.getName().equals("game0.txt"))
@@ -194,7 +195,7 @@ public class MockServer implements IServer {
 	 * @Post If the operation fails, an exception is thrown
 	 */
 	@Override
-	public ClientModel getCurrentGame(int version) {
+	public ClientModel getCurrentGame(int version) throws ServerResponseException {
 		if(version<0)
 			return null;
 		return clientMockModel;
@@ -213,7 +214,7 @@ public class MockServer implements IServer {
 	 *       client model JSON.
 	 */
 	@Override
-	public ClientModel resetGame() {
+	public ClientModel resetGame() throws ServerResponseException {
 		clientMockModel.setLog(new MessageList(new MessageLine[1]));//should message line be an arraylist? I think so, because it will be sized dynamically
 		return clientMockModel;
 	}
@@ -225,7 +226,7 @@ public class MockServer implements IServer {
 	 * @Post If the operation succeeds, returns a valid CommandList.
 	 */
 	@Override
-	public CommandList getCommands() {
+	public CommandList getCommands() throws ServerResponseException {
 		ArrayList<String> commandList = new ArrayList<String>();
 		commandList.add("games/create");
 		commandList.add("games/join");
@@ -251,7 +252,7 @@ public class MockServer implements IServer {
 	 *       model.
 	 */
 	@Override
-	public ClientModel setCommands(CommandList commands) {
+	public ClientModel setCommands(CommandList commands) throws ServerResponseException {
 		//COORDINATE THIS WITH WHO EVER IS RUNNING THE TEST SO WE CAN DECIDE WHAT COMMAND TO MANUALLY EXECUTE HERE"
 		int current = (clientMockModel.getTurnTracker().getCurrentTurn() +1)%4;
 		clientMockModel.getTurnTracker().setCurrentTurn(current);
@@ -265,7 +266,7 @@ public class MockServer implements IServer {
 	 * @Post If the operation succeeds, returns a list of AI types.
 	 */
 	@Override
-	public String[] getAITypes() {
+	public String[] getAITypes() throws ServerResponseException {
 		String[] types = new String[1];
 		types[0] = ("LARGEST ARMY");
 		return types;
@@ -283,7 +284,7 @@ public class MockServer implements IServer {
 	 *       has been added to the current game.
 	 */
 	@Override
-	public AddAIResponse addAI(AddAIParams params) {
+	public AddAIResponse addAI(AddAIParams params) throws ServerResponseException {
 		AddAIResponse response =  new AddAIResponse();
 		if(params.getAIType()!="LARGEST ARMY")
 			response.setResponse("Invalid Request");
@@ -305,7 +306,7 @@ public class MockServer implements IServer {
 	 *      returned
 	 */
 	@Override
-	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level) {
+	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level) throws ServerResponseException {
 		String levels = "severe,warning,info,config,fine,finer,finest";
 		ChangeLogLevelResponse response = new ChangeLogLevelResponse();
 		response.setResponse("Invalid Request");
@@ -325,7 +326,7 @@ public class MockServer implements IServer {
 	 * @Post The chat contains your message at the end.
 	 */
 	@Override
-	public ClientModel sendChat(String content) {
+	public ClientModel sendChat(String content) throws ServerResponseException {
 		MessageLine newMessage = new MessageLine(content, "billy");
 		MessageLine[] oldMessages = clientMockModel.getChat().getLines();
 		int size = oldMessages.length+1;
@@ -351,7 +352,7 @@ public class MockServer implements IServer {
 	 * @Post The trade offer is removed.
 	 */
 	@Override
-	public ClientModel acceptTrade(AcceptTradeParams param) {
+	public ClientModel acceptTrade(AcceptTradeParams param) throws ServerResponseException {
 		if(param.isWillAccept()==false)
 			return clientMockModel;
 		Player player0 = clientMockModel.getPlayers()[0];
@@ -384,7 +385,7 @@ public class MockServer implements IServer {
 	 *       to 'Robbing'.
 	 */
 	@Override
-	public ClientModel discardCards(DiscardCardsParams params) {
+	public ClientModel discardCards(DiscardCardsParams params) throws ServerResponseException {
 		return clientMockModel;
 	}
 
@@ -399,7 +400,7 @@ public class MockServer implements IServer {
 	 *       "Playing"
 	 */
 	@Override
-	public ClientModel rollNumber(int number) {
+	public ClientModel rollNumber(int number) throws ServerResponseException {
 		return clientMockModel;
 	}
 
@@ -416,7 +417,7 @@ public class MockServer implements IServer {
 	 *      no adjacent road.
 	 */
 	@Override
-	public ClientModel buildRoad(BuildRoadParams params) {
+	public ClientModel buildRoad(BuildRoadParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		if(!params.isFree())
 			return clientMockModel;
@@ -440,7 +441,7 @@ public class MockServer implements IServer {
 	 * @Post The settlement is on the map at the specified location.
 	 */
 	@Override
-	public ClientModel buildSettlement(BuildSettlementParams param){
+	public ClientModel buildSettlement(BuildSettlementParams param) throws ServerResponseException {
 		if(param.isFree())
 			return clientMockModel;
 //		VertexLocation[] cities = clientMockModel.getMap().getSettlements();
@@ -460,7 +461,7 @@ public class MockServer implements IServer {
 	 * @Post You got a settlement back.
 	 */
 	@Override
-	public ClientModel buildCity(BuildCityParams params) {
+	public ClientModel buildCity(BuildCityParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -476,7 +477,7 @@ public class MockServer implements IServer {
 	 *       model).
 	 */
 	@Override
-	public ClientModel offerTrade(TradeOfferParams params) {
+	public ClientModel offerTrade(TradeOfferParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -493,7 +494,7 @@ public class MockServer implements IServer {
 	 *       and the requested resource has been received).
 	 */
 	@Override
-	public ClientModel maritimeTrade(MaritimeTradeParams params) {
+	public ClientModel maritimeTrade(MaritimeTradeParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -512,7 +513,7 @@ public class MockServer implements IServer {
 	 *       (randomly selected).
 	 */
 	@Override
-	public ClientModel robPlayer(MoveRobberParams params) {
+	public ClientModel robPlayer(MoveRobberParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -528,7 +529,7 @@ public class MockServer implements IServer {
 	 * @Post It is the next player's turn.
 	 */
 	@Override
-	public ClientModel finishTurn() {
+	public ClientModel finishTurn() throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -548,7 +549,7 @@ public class MockServer implements IServer {
 	 *       development card hand (unplayable this turn).
 	 */
 	@Override
-	public ClientModel buyDevCard() {
+	public ClientModel buyDevCard() throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -569,7 +570,7 @@ public class MockServer implements IServer {
 	 *       turn (except for monument cards, which may still be played).
 	 */
 	@Override
-	public ClientModel playSoldierCard(MoveSoldierParams params) {
+	public ClientModel playSoldierCard(MoveSoldierParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -584,7 +585,7 @@ public class MockServer implements IServer {
 	 * @Post You gained the two specified resources.
 	 */
 	@Override
-	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params) {
+	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -604,7 +605,7 @@ public class MockServer implements IServer {
 	 *       the longest road.
 	 */
 	@Override
-	public ClientModel playRoadBuildingCard(BuildRoadCardParams params) {
+	public ClientModel playRoadBuildingCard(BuildRoadCardParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -619,7 +620,7 @@ public class MockServer implements IServer {
 	 *       of the specified type.
 	 */
 	@Override
-	public ClientModel playMonopolyCard(PlayMonopolyParams params) {
+	public ClientModel playMonopolyCard(PlayMonopolyParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -635,7 +636,7 @@ public class MockServer implements IServer {
 	 * @Post Player gains a victory point.
 	 */
 	@Override
-	public ClientModel playMonument(PlayMonumentParams params) {
+	public ClientModel playMonument(PlayMonumentParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -649,7 +650,7 @@ public class MockServer implements IServer {
 	 */
 
 	@Override
-	public ClientModel updateModel(int versionNumber) {
+	public ClientModel updateModel(int versionNumber) throws ServerResponseException {
 		int currentVersion = clientMockModel.getVersion();
 		if(currentVersion!=versionNumber)
 			return clientMockModel;
