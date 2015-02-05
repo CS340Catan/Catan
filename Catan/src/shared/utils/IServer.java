@@ -172,7 +172,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post A valid list of AI types returned.
 	 */
-	public ListAIResponse getAITypes();
+	public String[] getAITypes();
 
 	/**
 	 * Prepares the AIType to the server, then sends it to server to create a

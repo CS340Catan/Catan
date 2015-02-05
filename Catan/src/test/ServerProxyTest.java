@@ -55,7 +55,7 @@ public class ServerProxyTest {
 		UserCredentials credentials;
 		boolean response;
 		
-		//correct test
+		//correct test, only if the first time this test is run
 		credentials = new UserCredentials("Freddy", "freddy");
 		response = serverProxy.Register(credentials);
 		assertTrue(response);
@@ -104,6 +104,7 @@ public class ServerProxyTest {
 	@Test
 	public void testJoinGame() throws InvalidInputException {
 		
+		/*
 		//login so game can be joined
 		UserCredentials credentials;
 		boolean loginResponse;
@@ -116,11 +117,11 @@ public class ServerProxyTest {
 		CreateGameParams gameParams = new CreateGameParams(false, false, false, title);
 		GameSummary game = serverProxy.createGame(gameParams);
 		assertNotEquals(game, null);
+		*/
 		
 		//join game
-		JoinGameParams params = new JoinGameParams("yellow", game.getId());
+		JoinGameParams params = new JoinGameParams("blue", 0);
 		String response = serverProxy.joinGame(params);
-		System.out.println(response);
 		assertEquals(response, "Success");
 	}
 	
@@ -149,131 +150,223 @@ public class ServerProxyTest {
 	}
 	
 	@Test
-	public void testResetGame() {
+	public void testResetGame() throws InvalidInputException {
 		
-		//login so game can be reset
+		/*
+		//login and join game so it can be reset
 		UserCredentials credentials;
 		boolean response;
 		credentials = new UserCredentials("Sam", "sam");
 		response = serverProxy.Login(credentials);
 		assertTrue(response);
 		
+		//create game
+		String title = "New Game C";
+		CreateGameParams gameParams = new CreateGameParams(false, false, false, title);
+		GameSummary game = serverProxy.createGame(gameParams);
+		assertNotEquals(game, null);
+		
+		//join game
+		JoinGameParams params = new JoinGameParams("yellow", game.getId());
+		String joinResponse = serverProxy.joinGame(params);
+		assertEquals(joinResponse, "Success");
+		*/
+		
 		//reset game
 		ClientModel resetModel = serverProxy.resetGame();
-		assertNotEquals(resetModel, null);
-		//assertEquals(resetModel.getVersion(), 0);
+		assertEquals(resetModel, null);
 		
 	}
 	
 	@Test
 	public void testGetCommands() {
-		//fail("Not yet implemented");
+		
+		CommandList commands = serverProxy.getCommands();
+		assertEquals(commands, null);
+		
 	}
 	
 	@Test
 	public void testSetCommands() {
-		//fail("Not yet implemented");
+		
+		CommandList commands = new CommandList(null);
+		ClientModel model = serverProxy.setCommands(commands);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testGetAITypes() {
-		//fail("Not yet implemented");
+		
+		String[] response = serverProxy.getAITypes();
+		assertEquals(response.length, 1);
+		
 	}
 	
 	@Test
 	public void testAddAI() {
-		//fail("Not yet implemented");
+		
+		AddAIParams params = new AddAIParams();
+		AddAIResponse response = serverProxy.addAI(params);
+		assertEquals(response, null);
 	}
 	
 	@Test
 	public void testChangeLogLevel() {
-		//fail("Not yet implemented");
+		ChangeLogLevelParams level = new ChangeLogLevelParams();
+		ChangeLogLevelResponse response = serverProxy.changeLogLevel(level);
+		assertEquals(response, null);
 	}
 	
 	/* -----Move API Tests--------*/
 	
 	@Test
 	public void testSendChat() {
-		//fail("Not yet implemented");
+		
+		String content = "My Message";
+		ClientModel model = serverProxy.sendChat(content);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testAcceptTrade() {
-		//fail("Not yet implemented");
+		
+		AcceptTradeParams params = new AcceptTradeParams(0, false);
+		ClientModel model = serverProxy.acceptTrade(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testDiscardCards() {
-		//fail("Not yet implemented");
+		
+		DiscardCardsParams params = new DiscardCardsParams(0, null);
+		ClientModel model = serverProxy.discardCards(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testRollNumber() {
-		//fail("Not yet implemented");
+		
+		ClientModel model = serverProxy.rollNumber(4);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testBuildRoad() {
-		//fail("Not yet implemented");
+		
+		BuildRoadParams params = new BuildRoadParams(0, null, false);
+		ClientModel model = serverProxy.buildRoad(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testBuildSettlement() {
-		//fail("Not yet implemented");
+		
+		BuildSettlementParams params = new BuildSettlementParams(0, null, false);
+		ClientModel model = serverProxy.buildSettlement(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testBuildCity() {
-		//fail("Not yet implemented");
+				
+		BuildCityParams params = new BuildCityParams(0, null);
+		ClientModel model = serverProxy.buildCity(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testOfferTrade() {
-		//fail("Not yet implemented");
+				
+		TradeOfferParams params = new TradeOfferParams(0, null, 0);
+		ClientModel model = serverProxy.offerTrade(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testMaritimeTrade() {
-		//fail("Not yet implemented");
+				
+		MaritimeTradeParams params = new MaritimeTradeParams(0, 0, "Wheat", "Sheep");
+		ClientModel model = serverProxy.maritimeTrade(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testRobPlayer() {
-		//fail("Not yet implemented");
+				
+		MoveRobberParams params = new MoveRobberParams(0, 0, null);
+		ClientModel model = serverProxy.robPlayer(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testFinishTurn() {
-		//fail("Not yet implemented");
+		
+		ClientModel model = serverProxy.finishTurn();
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testBuyDevCard() {
-		//fail("Not yet implemented");
+				
+		ClientModel model = serverProxy.buyDevCard();
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testPlaySoldierCard() {
-		//fail("Not yet implemented");
+				
+		MoveSoldierParams params = new MoveSoldierParams(0, 0, null);
+		ClientModel model = serverProxy.playSoldierCard(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testPlayYearOfPlentyCard() {
-		//fail("Not yet implemented");
+				
+		YearOfPlentyParams params = new YearOfPlentyParams(0, null, null);
+		ClientModel model = serverProxy.playYearOfPlentyCard(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testPlayRoadBuildingCard() {
-		//fail("Not yet implemented");
+				
+		BuildRoadCardParams params = new BuildRoadCardParams(0, null, null);
+		ClientModel model = serverProxy.playRoadBuildingCard(params);
+		assertEquals(model, null);
+		
 	}
 	
 	@Test
 	public void testPlayMonopolyCard() {
-		//fail("Not yet implemented");
+				
+		PlayMonopolyParams params = new PlayMonopolyParams(clientModelJson, 0);
+		ClientModel model = serverProxy.playMonopolyCard(params);
+		assertEquals(model, null);
+		
 	}
 
 	@Test
 	public void testMonumentCard() {
-		//fail("Not yet implemented");
+				
+		PlayMonumentParams params = new PlayMonumentParams(0);
+		ClientModel model = serverProxy.playMonument(params);
+		assertEquals(model, null);
+		
 	}
 }

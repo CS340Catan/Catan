@@ -255,10 +255,10 @@ public class ServerProxy implements IServer {
 	 * @pre none
 	 * @post a valid list of AI types returned
 	 */
-	public ListAIResponse getAITypes() {
+	public String[] getAITypes() {
 		String response = httpCommunicator.doGet("/game/listAI", null);
 		if(response != null) {
-			return (ListAIResponse)Serializer.deserialize(response, ListAIResponse.class);
+			return (String[])Serializer.deserialize(response, String[].class);
 		}
 		else {
 			return null;
