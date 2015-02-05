@@ -104,16 +104,6 @@ public class HTTPCommunicator {
 			else
 			{
 				String response = "ERROR"+ connection.getResponseCode() + "\n";
-				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line);
-                }
-                br.close();
-                String body = sb.toString();
-                
-                response = response + body;
                 throw new ServerResponseException(response);
 			}
 		}
