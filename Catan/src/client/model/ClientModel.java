@@ -137,4 +137,10 @@ public class ClientModel {
 	public void setWinner(int winner) {
 		this.winner = winner;
 	}
+	public Deck getDeck() {
+		return deck;
+	}
+	public void setDeck(Deck deck) {
+		this.deck = deck;
+	}
 }

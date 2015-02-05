@@ -3,19 +3,11 @@ package test;
 import java.util.ArrayList;
 
 import shared.communication.*;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
-import shared.locations.VertexLocation;
+import shared.locations.*;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.model.ClientModel;
-import client.model.Map;
-import client.model.MessageLine;
-import client.model.MessageList;
-import client.model.Player;
-import client.model.ResourceList;
-import client.model.TradeOffer;
-import client.model.TurnTracker;
+import client.model.*;
 
 /**
  * This class implements the IServer interface, such that it may be used as a
@@ -38,7 +30,8 @@ public class MockServer implements IServer {
 	 *            Inputed ClientModel that will be the original ClientModel
 	 *            which other methods may use in return statements.
 	 */
-	public MockServer(ClientModel clientMockModel) throws ServerResponseException {
+	public MockServer(ClientModel clientMockModel)
+			throws ServerResponseException {
 		this.clientMockModel = clientMockModel;
 	}
 
@@ -51,7 +44,8 @@ public class MockServer implements IServer {
 	 * @Post A valid LoginResponse returned.
 	 */
 	@Override
-	public boolean Login(UserCredentials credentials) throws ServerResponseException {
+	public boolean Login(UserCredentials credentials)
+			throws ServerResponseException {
 		boolean wasSuccess = true;
 		if (credentials.getUsername() == "test"
 				&& credentials.getPassword() == "pass") {
@@ -70,13 +64,13 @@ public class MockServer implements IServer {
 	 * @Post A valid LoginResponse returned.
 	 */
 	@Override
-	public boolean Register(UserCredentials credentials) throws ServerResponseException {
+	public boolean Register(UserCredentials credentials)
+			throws ServerResponseException {
 		boolean wasSuccess = false;
-		try{
-			 new Username(credentials.getUsername());
-			 new Password(credentials.getPassword());
-		}
-		catch(InvalidInputException e){
+		try {
+			new Username(credentials.getUsername());
+			new Password(credentials.getPassword());
+		} catch (InvalidInputException e) {
 			return false;
 		}
 		if (credentials.getUsername() != "test") {
@@ -95,15 +89,15 @@ public class MockServer implements IServer {
 	@Override
 	public GameSummary[] getGameList() throws ServerResponseException {
 		GameSummary[] games = new GameSummary[2];
-		String[] names = {"bill","ted","sheila","parker"};
-		String[] colors = {"red","white","blue","green"};
-		String[] gameNames = {"game1","game2"}; 
-		for(int i = 0 ; i<2; ++i){
+		String[] names = { "bill", "ted", "sheila", "parker" };
+		String[] colors = { "red", "white", "blue", "green" };
+		String[] gameNames = { "game1", "game2" };
+		for (int i = 0; i < 2; ++i) {
 			PlayerSummary players[] = new PlayerSummary[4];
-			for(int j = i; i<5; ++i){
-				players[j] = new PlayerSummary(colors[j],names[j],j);
+			for (int j = i; i < 5; ++i) {
+				players[j] = new PlayerSummary(colors[j], names[j], j);
 			}
-			games[i] = (new GameSummary(gameNames[i],i,players));
+			games[i] = (new GameSummary(gameNames[i], i, players));
 		}
 
 		return games;
@@ -117,14 +111,15 @@ public class MockServer implements IServer {
 	 * @Post Returns a canned GameSummary object.
 	 */
 	@Override
-	public GameSummary createGame(CreateGameParams params) throws ServerResponseException {
-		if(params.getname()==null)
+	public GameSummary createGame(CreateGameParams params)
+			throws ServerResponseException {
+		if (params.getname() == null)
 			return null;
 		PlayerSummary[] players = new PlayerSummary[4];
-		for(int i = 0; i<5; i++){
+		for (int i = 0; i < 5; i++) {
 			players[i] = new PlayerSummary();
 		}
-		return new GameSummary("game1",1,players);
+		return new GameSummary("game1", 1, players);
 	}
 
 	/**
@@ -138,11 +133,13 @@ public class MockServer implements IServer {
 	 * @Post Returns true if the player was added.
 	 */
 	@Override
-	public String joinGame(JoinGameParams params) throws ServerResponseException {
-		String validColor="red,orange,blue,green,yellow,purple,puce,white,brown";
-		//check if it is a valid Catan color given.
-		//Also, we will say that the color green is already taken.
-		if(!(validColor.contains(params.getColor().toLowerCase()))||params.getColor().toLowerCase()=="green")
+	public String joinGame(JoinGameParams params)
+			throws ServerResponseException {
+		String validColor = "red,orange,blue,green,yellow,purple,puce,white,brown";
+		// check if it is a valid Catan color given.
+		// Also, we will say that the color green is already taken.
+		if (!(validColor.contains(params.getColor().toLowerCase()))
+				|| params.getColor().toLowerCase() == "green")
 			return "Invalid Request";
 		return "Success";
 	}
@@ -158,8 +155,10 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public String saveGame(SaveParams params) throws ServerResponseException {
-		if((params.getId()==1 || params.getId()==0)&&params.getname()!=null){
-			if(params.getname().equals("game0.txt")||params.getname().equals("game1.txt")){
+		if ((params.getId() == 1 || params.getId() == 0)
+				&& params.getname() != null) {
+			if (params.getname().equals("game0.txt")
+					|| params.getname().equals("game1.txt")) {
 				return "Success";
 			}
 		}
@@ -176,10 +175,10 @@ public class MockServer implements IServer {
 	 * @Post If bad parameters, throw an error.
 	 */
 	@Override
-	public String loadGame(LoadGameParams params) throws ServerResponseException {
-		if(params!=null)
-		{
-			if(params.getName().equals("game0.txt"))
+	public String loadGame(LoadGameParams params)
+			throws ServerResponseException {
+		if (params != null) {
+			if (params.getName().equals("game0.txt"))
 				return "Success";
 		}
 		return "Invalid Request";
@@ -195,8 +194,9 @@ public class MockServer implements IServer {
 	 * @Post If the operation fails, an exception is thrown
 	 */
 	@Override
-	public ClientModel getCurrentGame(int version) throws ServerResponseException {
-		if(version<0)
+	public ClientModel getCurrentGame(int version)
+			throws ServerResponseException {
+		if (version < 0)
 			return null;
 		return clientMockModel;
 	}
@@ -215,7 +215,17 @@ public class MockServer implements IServer {
 	 */
 	@Override
 	public ClientModel resetGame() throws ServerResponseException {
-		clientMockModel.setLog(new MessageList(new MessageLine[1]));//should message line be an arraylist? I think so, because it will be sized dynamically
+		clientMockModel.setLog(new MessageList(new MessageLine[1]));// should
+																	// message
+																	// line be
+																	// an
+																	// arraylist?
+																	// I think
+																	// so,
+																	// because
+																	// it will
+																	// be sized
+																	// dynamically
 		return clientMockModel;
 	}
 
@@ -237,7 +247,7 @@ public class MockServer implements IServer {
 		commandList.add("move/buildRoad");
 		commandList.add("moves/buildRoad");
 		commandList.add("moves/buildSettlement");
-		
+
 		return new CommandList(commandList);
 	}
 
@@ -252,9 +262,11 @@ public class MockServer implements IServer {
 	 *       model.
 	 */
 	@Override
-	public ClientModel setCommands(CommandList commands) throws ServerResponseException {
-		//COORDINATE THIS WITH WHO EVER IS RUNNING THE TEST SO WE CAN DECIDE WHAT COMMAND TO MANUALLY EXECUTE HERE"
-		int current = (clientMockModel.getTurnTracker().getCurrentTurn() +1)%4;
+	public ClientModel setCommands(CommandList commands)
+			throws ServerResponseException {
+		// COORDINATE THIS WITH WHO EVER IS RUNNING THE TEST SO WE CAN DECIDE
+		// WHAT COMMAND TO MANUALLY EXECUTE HERE"
+		int current = (clientMockModel.getTurnTracker().getCurrentTurn() + 1) % 4;
 		clientMockModel.getTurnTracker().setCurrentTurn(current);
 		return clientMockModel;
 	}
@@ -284,17 +296,15 @@ public class MockServer implements IServer {
 	 *       has been added to the current game.
 	 */
 	@Override
-	public AddAIResponse addAI(AddAIParams params) throws ServerResponseException {
-		AddAIResponse response =  new AddAIResponse();
-		if(params.getAIType()!="LARGEST ARMY")
+	public AddAIResponse addAI(AddAIParams params)
+			throws ServerResponseException {
+		AddAIResponse response = new AddAIResponse();
+		if (params.getAIType() != "LARGEST ARMY")
 			response.setResponse("Invalid Request");
 		else
 			response.setResponse("Success");
 		return response;
-		
-		
-		
-		
+
 	}
 
 	/**
@@ -306,13 +316,13 @@ public class MockServer implements IServer {
 	 *      returned
 	 */
 	@Override
-	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level) throws ServerResponseException {
+	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams level)
+			throws ServerResponseException {
 		String levels = "severe,warning,info,config,fine,finer,finest";
 		ChangeLogLevelResponse response = new ChangeLogLevelResponse();
 		response.setResponse("Invalid Request");
-		if(level.getLogLevel()!=null)
-		{
-			if(levels.contains(level.getLogLevel().toLowerCase()))
+		if (level.getLogLevel() != null) {
+			if (levels.contains(level.getLogLevel().toLowerCase()))
 				response.setResponse("Success");
 		}
 		return response;
@@ -329,13 +339,13 @@ public class MockServer implements IServer {
 	public ClientModel sendChat(String content) throws ServerResponseException {
 		MessageLine newMessage = new MessageLine(content, "billy");
 		MessageLine[] oldMessages = clientMockModel.getChat().getLines();
-		int size = oldMessages.length+1;
+		int size = oldMessages.length + 1;
 		MessageLine[] newMessages = new MessageLine[size];
-		System.arraycopy(oldMessages, 0, newMessages, 0, size-1);
-		newMessages[size-1] = newMessage;
+		System.arraycopy(oldMessages, 0, newMessages, 0, size - 1);
+		newMessages[size - 1] = newMessage;
 		MessageList newList = new MessageList(newMessages);
 		clientMockModel.setChat(newList);
-		
+
 		return clientMockModel;
 	}
 
@@ -352,24 +362,29 @@ public class MockServer implements IServer {
 	 * @Post The trade offer is removed.
 	 */
 	@Override
-	public ClientModel acceptTrade(AcceptTradeParams param) throws ServerResponseException {
-		if(param.isWillAccept()==false)
+	public ClientModel acceptTrade(AcceptTradeParams param)
+			throws ServerResponseException {
+		if (param.isWillAccept() == false)
 			return clientMockModel;
 		Player player0 = clientMockModel.getPlayers()[0];
 		Player player1 = clientMockModel.getPlayers()[1];
-		//Our canned trade will be 1 sheep for 2 grain
+		// Our canned trade will be 1 sheep for 2 grain
 		ResourceList p0Res = player0.getResources();
 		ResourceList p1Res = player1.getResources();
-		int newWheat0 = p0Res.getWheat() +2;
+		int newWheat0 = p0Res.getWheat() + 2;
 		p0Res.setWheat(newWheat0);
-		int newSheep0 = p0Res.getSheep() -1;
+		int newSheep0 = p0Res.getSheep() - 1;
 		p0Res.setSheep(newSheep0);
-		int newWheat1 = p1Res.getWheat() -2;
+		int newWheat1 = p1Res.getWheat() - 2;
 		p1Res.setWheat(newWheat1);
-		int newSheep1 = p1Res.getSheep() +1;
+		int newSheep1 = p1Res.getSheep() + 1;
 		p1Res.setSheep(newSheep1);
-		clientMockModel.setTradeOffer(new TradeOffer(-1,-1,null));//what does an empty Trade offer look like
-		return clientMockModel;	
+		clientMockModel.setTradeOffer(new TradeOffer(-1, -1, null));// what does
+																	// an empty
+																	// Trade
+																	// offer
+																	// look like
+		return clientMockModel;
 	}
 
 	/**
@@ -385,7 +400,8 @@ public class MockServer implements IServer {
 	 *       to 'Robbing'.
 	 */
 	@Override
-	public ClientModel discardCards(DiscardCardsParams params) throws ServerResponseException {
+	public ClientModel discardCards(DiscardCardsParams params)
+			throws ServerResponseException {
 		return clientMockModel;
 	}
 
@@ -417,9 +433,10 @@ public class MockServer implements IServer {
 	 *      no adjacent road.
 	 */
 	@Override
-	public ClientModel buildRoad(BuildRoadParams params) throws ServerResponseException {
+	public ClientModel buildRoad(BuildRoadParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		if(!params.isFree())
+		if (!params.isFree())
 			return clientMockModel;
 		return null;
 	}
@@ -429,8 +446,8 @@ public class MockServer implements IServer {
 	 * 
 	 * @Pre Player is logged in and part of the game.
 	 * @Pre It is the player's turn.
-	 * @Pre The settlement location is open–  The settlement location is not on
-	 *      water.
+	 * @Pre The settlement location is open–  The settlement location is not
+	 *      on water.
 	 * @Pre The settlement location is connected to one of your roads except
 	 *      during setup.
 	 * @Pre You have the required resources (1 wood, 1 brick, 1 wheat, 1 sheep &
@@ -441,10 +458,11 @@ public class MockServer implements IServer {
 	 * @Post The settlement is on the map at the specified location.
 	 */
 	@Override
-	public ClientModel buildSettlement(BuildSettlementParams param) throws ServerResponseException {
-		if(param.isFree())
+	public ClientModel buildSettlement(BuildSettlementParams param)
+			throws ServerResponseException {
+		if (param.isFree())
 			return clientMockModel;
-//		VertexLocation[] cities = clientMockModel.getMap().getSettlements();
+		// VertexLocation[] cities = clientMockModel.getMap().getSettlements();
 		return null;
 	}
 
@@ -461,7 +479,8 @@ public class MockServer implements IServer {
 	 * @Post You got a settlement back.
 	 */
 	@Override
-	public ClientModel buildCity(BuildCityParams params) throws ServerResponseException {
+	public ClientModel buildCity(BuildCityParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -477,7 +496,8 @@ public class MockServer implements IServer {
 	 *       model).
 	 */
 	@Override
-	public ClientModel offerTrade(TradeOfferParams params) throws ServerResponseException {
+	public ClientModel offerTrade(TradeOfferParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -494,7 +514,8 @@ public class MockServer implements IServer {
 	 *       and the requested resource has been received).
 	 */
 	@Override
-	public ClientModel maritimeTrade(MaritimeTradeParams params) throws ServerResponseException {
+	public ClientModel maritimeTrade(MaritimeTradeParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -513,7 +534,8 @@ public class MockServer implements IServer {
 	 *       (randomly selected).
 	 */
 	@Override
-	public ClientModel robPlayer(MoveRobberParams params) throws ServerResponseException {
+	public ClientModel robPlayer(MoveRobberParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -570,7 +592,8 @@ public class MockServer implements IServer {
 	 *       turn (except for monument cards, which may still be played).
 	 */
 	@Override
-	public ClientModel playSoldierCard(MoveSoldierParams params) throws ServerResponseException {
+	public ClientModel playSoldierCard(MoveSoldierParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -585,7 +608,8 @@ public class MockServer implements IServer {
 	 * @Post You gained the two specified resources.
 	 */
 	@Override
-	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params) throws ServerResponseException {
+	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -605,7 +629,8 @@ public class MockServer implements IServer {
 	 *       the longest road.
 	 */
 	@Override
-	public ClientModel playRoadBuildingCard(BuildRoadCardParams params) throws ServerResponseException {
+	public ClientModel playRoadBuildingCard(BuildRoadCardParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -620,7 +645,8 @@ public class MockServer implements IServer {
 	 *       of the specified type.
 	 */
 	@Override
-	public ClientModel playMonopolyCard(PlayMonopolyParams params) throws ServerResponseException {
+	public ClientModel playMonopolyCard(PlayMonopolyParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -636,7 +662,8 @@ public class MockServer implements IServer {
 	 * @Post Player gains a victory point.
 	 */
 	@Override
-	public ClientModel playMonument(PlayMonumentParams params) throws ServerResponseException {
+	public ClientModel playMonument(PlayMonumentParams params)
+			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -646,13 +673,15 @@ public class MockServer implements IServer {
 	 * correctly updated ClientModel.
 	 * 
 	 * @Pre None.
-	 * @Post Gets an updated version of the model from the server. We will just change the turn tracker
+	 * @Post Gets an updated version of the model from the server. We will just
+	 *       change the turn tracker
 	 */
 
 	@Override
-	public ClientModel updateModel(int versionNumber) throws ServerResponseException {
+	public ClientModel updateModel(int versionNumber)
+			throws ServerResponseException {
 		int currentVersion = clientMockModel.getVersion();
-		if(currentVersion!=versionNumber)
+		if (currentVersion != versionNumber)
 			return clientMockModel;
 		return null;
 	}
