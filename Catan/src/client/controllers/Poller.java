@@ -3,6 +3,7 @@ package client.controllers;
 import client.model.ClientModel;
 import client.model.ClientModelController;
 import shared.utils.IServer;
+import shared.utils.ServerResponseException;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,9 +37,15 @@ public class Poller {
 	 * @post has either left current ClientModel alone, or updated it
 	 */
 	public void updateModel() {
-		ClientModel updatedClientModel = server.updateModel(clientModelController.getClientModel().getVersion());
-		if (updatedClientModel != null) {
-			clientModelController.setClientModel(updatedClientModel);
+		ClientModel updatedClientModel;
+		try {
+			updatedClientModel = server.updateModel(clientModelController.getClientModel().getVersion());
+		
+			if (updatedClientModel != null) {
+				clientModelController.setClientModel(updatedClientModel);
+			}
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
 		}
 	}
 	
