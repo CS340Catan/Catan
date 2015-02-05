@@ -37,7 +37,7 @@ public class ClientModelController {
 	 *            Player being queried.
 	 * @return
 	 */
-	private boolean isPlayerTurn(int playerIndex) {
+	public boolean isPlayerTurn(int playerIndex) {
 		if (clientModel.getTurnTracker().getCurrentTurn() == playerIndex) {
 			return true;
 		}
@@ -879,6 +879,46 @@ public class ClientModelController {
 				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
 			return true;
 		}
+		return false;
+	}
+
+	/**
+	 * Tests if the player can play a monument card.
+	 * 
+	 * @param playerIndex
+	 * @return
+	 */
+	public boolean canPlayMonumentCard(int playerIndex) {
+		// TODO make sure pre-conditions are met
+		if (isPlayerTurn(playerIndex)
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards()
+						.getMonument() > 0
+				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Tests if the player can play a monopoly card.
+	 * 
+	 * @param playerIndex
+	 * @return
+	 */
+	public boolean canPlayMonopolyCard(int playerIndex) {
+		// TODO make sure pre-conditions are met
+		if (isPlayerTurn(playerIndex)
+				&& clientModel.getPlayers()[playerIndex].getOldDevCards()
+						.getMonopoly() > 0
+				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean canFinishTurn(int playerIndex) {
+		// TODO Fill in this function (IDK how exactly. one of the can-do's the
+		// TA's are looking for)
 		return false;
 	}
 
