@@ -229,7 +229,7 @@ public interface IServer {
 	 * @Post The trade offer is removed
 	 * @param willAccept
 	 */
-	public ClientModel acceptTrade(AcceptTradeParams params);
+	public ClientModel acceptTrade(AcceptTradeParams params)throws ServerResponseException;
 
 	/**
 	 * This method will discard a set of cards from the client's hand.
