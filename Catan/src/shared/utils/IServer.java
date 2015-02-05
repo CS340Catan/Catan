@@ -29,7 +29,7 @@ public interface IServer {
 	 *            Information containing username and password.
 	 * 
 	 */
-	public boolean Login(UserCredentials credentials);
+	public boolean Login(UserCredentials credentials) throws ServerResponseException;
 
 	/**
 	 * This method will take UserCredentials and determine if the inputed
@@ -51,7 +51,7 @@ public interface IServer {
 	 *            Information containing username and password.
 	 * 
 	 */
-	public boolean Register(UserCredentials credentials);
+	public boolean Register(UserCredentials credentials) throws ServerResponseException;
 
 	/**
 	 * This method will get a list containing the current list of games stored
@@ -65,7 +65,7 @@ public interface IServer {
 	 *       response, and the body contains an error message.
 	 * 
 	 */
-	public GameSummary[] getGameList();
+	public GameSummary[] getGameList() throws ServerResponseException;
 
 	/**
 	 * This method will create a game using the inputed game parameters within
@@ -82,7 +82,7 @@ public interface IServer {
 	 * @param params
 	 * 
 	 */
-	public GameSummary createGame(CreateGameParams params);
+	public GameSummary createGame(CreateGameParams params)throws ServerResponseException;
 
 	/**
 	 * This method will add a user to a game that requires a player. The client
@@ -107,7 +107,7 @@ public interface IServer {
 	 * @param params
 	 * 
 	 */
-	public String joinGame(JoinGameParams params);
+	public String joinGame(JoinGameParams params)throws ServerResponseException;
 
 	/**
 	 * This method will save the game parameters to the server. The client will
@@ -118,7 +118,7 @@ public interface IServer {
 	 * @Pre Filename is not null or empty.
 	 * @Post A valid boolean returned.
 	 */
-	public String saveGame(SaveParams params);
+	public String saveGame(SaveParams params)throws ServerResponseException;
 
 	/**
 	 * This method will take a filename and try and load the game matching the
@@ -128,7 +128,7 @@ public interface IServer {
 	 * @Pre A saved game with the specified filename exists on the server.
 	 * @Post A valid boolean returned.
 	 */
-	public String loadGame(LoadGameParams params);
+	public String loadGame(LoadGameParams params)throws ServerResponseException;
 
 	/**
 	 * Prepares the version number to be sent to the server, then retrieves
@@ -138,7 +138,7 @@ public interface IServer {
 	 * @Pre Version is a valid integer.
 	 * @Post A valid ClientModel returned.
 	 */
-	public ClientModel getCurrentGame(int version);
+	public ClientModel getCurrentGame(int version)throws ServerResponseException;
 
 	/**
 	 * This method resets the game within the server.
@@ -146,7 +146,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post A valid ClientModel returned.
 	 */
-	public ClientModel resetGame();
+	public ClientModel resetGame()throws ServerResponseException;
 
 	/**
 	 * Retrieves all the past commands in the current game from the server.
@@ -154,7 +154,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post A valid set of commands returned.
 	 */
-	public CommandList getCommands();
+	public CommandList getCommands()throws ServerResponseException;
 
 	/**
 	 * Prepares commands to be sent to the server, then sends them to server to
@@ -163,7 +163,7 @@ public interface IServer {
 	 * @Pre User has logged on and joined a game, and therefore has cookies.
 	 * @Post A valid ClientModel returned.
 	 */
-	public ClientModel setCommands(CommandList commands);
+	public ClientModel setCommands(CommandList commands)throws ServerResponseException;
 
 	/**
 	 * Retrieves a list from the server of the different types of AI players
@@ -172,7 +172,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post A valid list of AI types returned.
 	 */
-	public String[] getAITypes();
+	public String[] getAITypes()throws ServerResponseException;
 
 	/**
 	 * Prepares the AIType to the server, then sends it to server to create a
@@ -183,7 +183,7 @@ public interface IServer {
 	 * @Pre The AIType is a valid type returned by the getAITypes method.
 	 * @Post A valid boolean returned.
 	 */
-	public AddAIResponse addAI(AddAIParams params);
+	public AddAIResponse addAI(AddAIParams params)throws ServerResponseException;
 
 	/**
 	 * Prepares the log level to the server, then sends it to server to change
@@ -193,7 +193,7 @@ public interface IServer {
 	 *      FINER, FINEST).
 	 * @Post A valid boolean returned.
 	 */
-	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams params);
+	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams params)throws ServerResponseException;
 
 	/**
 	 * This method will send a signal to the server checking to see if the
@@ -202,7 +202,7 @@ public interface IServer {
 	 * @Pre none
 	 * @Post Gets an updated version of the model from the server.
 	 */
-	public ClientModel updateModel(int versionNumber);
+	public ClientModel updateModel(int versionNumber)throws ServerResponseException;
 
 	// ----MOVE APIs--------
 	/**
@@ -214,7 +214,7 @@ public interface IServer {
 	 * @param content
 	 * 
 	 */
-	public ClientModel sendChat(String content);
+	public ClientModel sendChat(String content)throws ServerResponseException;
 
 	/**
 	 * This method will send a response to the server for a trade offer given to
@@ -245,7 +245,7 @@ public interface IServer {
 	 * @param discardedCards
 	 * 
 	 */
-	public ClientModel discardCards(DiscardCardsParams params);
+	public ClientModel discardCards(DiscardCardsParams params)throws ServerResponseException;
 
 	/**
 	 * This method will roll the dice for the client if current turn. Following
@@ -258,7 +258,7 @@ public interface IServer {
 	 * @param number
 	 * 
 	 */
-	public ClientModel rollNumber(int number);
+	public ClientModel rollNumber(int number)throws ServerResponseException;
 
 	/**
 	 * This method will build a road for the client. A new ClientModel will be
@@ -280,7 +280,7 @@ public interface IServer {
 	 * @param roadLocation
 	 * 
 	 */
-	public ClientModel buildRoad(BuildRoadParams params);
+	public ClientModel buildRoad(BuildRoadParams params)throws ServerResponseException;
 
 	/**
 	 * This method will build a settlement for the client. A new ClientModel
@@ -298,7 +298,7 @@ public interface IServer {
 	 * @param vertexLocation
 	 * 
 	 */
-	public ClientModel buildSettlement(BuildSettlementParams params);
+	public ClientModel buildSettlement(BuildSettlementParams params)throws ServerResponseException;
 
 	/**
 	 * This method will build a city for the client. A new ClientModel will be
@@ -313,7 +313,7 @@ public interface IServer {
 	 * @Post the city is on the map at the specified location
 	 * @Post you got a settlement back
 	 */
-	public ClientModel buildCity(BuildCityParams params);
+	public ClientModel buildCity(BuildCityParams params)throws ServerResponseException;
 
 	/**
 	 * This method will offer a trade with another player. A new ClientModel
@@ -325,7 +325,7 @@ public interface IServer {
 	 * @Post the trade is offered to the other player (stored in the server
 	 *       model)
 	 */
-	public ClientModel offerTrade(TradeOfferParams params);
+	public ClientModel offerTrade(TradeOfferParams params)throws ServerResponseException;
 
 	/**
 	 * This method will complete trade with a maritime port. A new ClientModel
@@ -338,7 +338,7 @@ public interface IServer {
 	 * @Post trade has been executed (offered resources are in the bank, and the
 	 *       requested resource has been received)
 	 */
-	public ClientModel maritimeTrade(MaritimeTradeParams params);
+	public ClientModel maritimeTrade(MaritimeTradeParams params)throws ServerResponseException;
 
 	/**
 	 * This method will move the robber and steal from a specific victim. A new
@@ -351,7 +351,7 @@ public interface IServer {
 	 * @Post player being robbed (if any) gave you one of his resource cards
 	 *       (randomly selected)
 	 */
-	public ClientModel robPlayer(MoveRobberParams params);
+	public ClientModel robPlayer(MoveRobberParams params)throws ServerResponseException;
 
 	/**
 	 * This method will end the client's turn and start a new players turn. A
@@ -361,7 +361,7 @@ public interface IServer {
 	 * @Post cards in new dev card hand have been transferred to old dev card
 	 * @Post it is the next player's turn
 	 */
-	public ClientModel finishTurn();
+	public ClientModel finishTurn()throws ServerResponseException;
 
 	/**
 	 * This method removes resource cards from player's in return for a
@@ -373,7 +373,7 @@ public interface IServer {
 	 * @Post if it is monument card, add it to old devcard hand else, add it to
 	 *       new devcard hand
 	 */
-	public ClientModel buyDevCard();
+	public ClientModel buyDevCard()throws ServerResponseException;
 
 	/**
 	 * This method will play a soldier card from a player's hand. A new
@@ -390,7 +390,7 @@ public interface IServer {
 	 * @Post The player to rob gives one random resource card to the player
 	 *       playing the soldier
 	 */
-	public ClientModel playSoldierCard(MoveSoldierParams params);
+	public ClientModel playSoldierCard(MoveSoldierParams params)throws ServerResponseException;
 
 	/**
 	 * This method will play a year of plenty card from a player's hand. A new
@@ -404,7 +404,7 @@ public interface IServer {
 	 * @Pre The two resources you specify are in the bank
 	 * @Post Player gains the two resources specified
 	 */
-	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params);
+	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params)throws ServerResponseException;
 
 	/**
 	 * This method will play a road building card from a player's hand. A new
@@ -423,7 +423,7 @@ public interface IServer {
 	 * @Post Player uses two roads
 	 * @Post The map lists the roads correctly
 	 */
-	public ClientModel playRoadBuildingCard(BuildRoadCardParams params);
+	public ClientModel playRoadBuildingCard(BuildRoadCardParams params)throws ServerResponseException;
 
 	/**
 	 * This method plays a monopoly card from the player's hand. A new
@@ -437,7 +437,7 @@ public interface IServer {
 	 * @Post All other players lose the resource card type chosen
 	 * @Post The player of the card gets an equal number of that resource type
 	 */
-	public ClientModel playMonopolyCard(PlayMonopolyParams params);
+	public ClientModel playMonopolyCard(PlayMonopolyParams params)throws ServerResponseException;
 
 	/**
 	 * This method plays a monument card from the player's hand. A new
@@ -447,5 +447,5 @@ public interface IServer {
 	 * @Post current player gains a victory point
 	 *
 	 */
-	public ClientModel playMonument(PlayMonumentParams params);
+	public ClientModel playMonument(PlayMonumentParams params)throws ServerResponseException;
 }
