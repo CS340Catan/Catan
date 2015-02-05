@@ -92,8 +92,8 @@ public class MockServer implements IServer {
 	 * @Post Returns a hard coded GamesList object.
 	 */
 	@Override
-	public GamesList getGameList() {
-		ArrayList<GameSummary> games = new ArrayList<GameSummary>();
+	public GameSummary[] getGameList() {
+		GameSummary[] games = new GameSummary[2];
 		String[] names = {"bill","ted","sheila","parker"};
 		String[] colors = {"red","white","blue","green"};
 		String[] gameNames = {"game1","game2"}; 
@@ -102,10 +102,10 @@ public class MockServer implements IServer {
 			for(int j = i; i<5; ++i){
 				players[j] = new PlayerSummary(colors[j],names[j],j);
 			}
-			games.add(new GameSummary(gameNames[i],i,players));
+			games[i] = (new GameSummary(gameNames[i],i,players));
 		}
 
-		return new GamesList(games);
+		return games;
 	}
 
 	/**
@@ -137,13 +137,13 @@ public class MockServer implements IServer {
 	 * @Post Returns true if the player was added.
 	 */
 	@Override
-	public JoinResponse joinGame(JoinGameParams params) {
+	public String joinGame(JoinGameParams params) {
 		String validColor="red,orange,blue,green,yellow,purple,puce,white,brown";
 		//check if it is a valid Catan color given.
 		//Also, we will say that the color green is already taken.
 		if(!(validColor.contains(params.getColor().toLowerCase()))||params.getColor().toLowerCase()=="green")
-			return new JoinResponse("Invalid Request");
-		return new JoinResponse("Success");
+			return "Invalid Request";
+		return "Success";
 	}
 
 	/**
@@ -156,13 +156,13 @@ public class MockServer implements IServer {
 	 * @Post If bad input, will return false and doesn't write to file.
 	 */
 	@Override
-	public SaveResponse saveGame(SaveParams params) {
-		if((params.getId()==1 || params.getId()==0)&&params.getFileName()!=null){
-			if(params.getFileName().equals("game0.txt")||params.getFileName().equals("game1.txt")){
-				return new SaveResponse("Success");
+	public String saveGame(SaveParams params) {
+		if((params.getId()==1 || params.getId()==0)&&params.getname()!=null){
+			if(params.getname().equals("game0.txt")||params.getname().equals("game1.txt")){
+				return "Success";
 			}
 		}
-		return new SaveResponse("Invalid Request");
+		return "Invalid Request";
 	}
 
 	/**
@@ -175,13 +175,13 @@ public class MockServer implements IServer {
 	 * @Post If bad parameters, throw an error.
 	 */
 	@Override
-	public LoadResponse loadGame(String fileName) {
-		if(fileName!=null)
+	public String loadGame(LoadGameParams params) {
+		if(params!=null)
 		{
-			if(fileName.equals("game0.txt"))
-				return new LoadResponse("Success");
+			if(params.getName().equals("game0.txt"))
+				return "Success";
 		}
-		return new LoadResponse("Invalid Request");
+		return "Invalid Request";
 	}
 
 	/**
@@ -265,10 +265,10 @@ public class MockServer implements IServer {
 	 * @Post If the operation succeeds, returns a list of AI types.
 	 */
 	@Override
-	public ListAIResponse getAITypes() {
-		ArrayList<String> types = new ArrayList<String>();
-		types.add("LARGEST ARMY");
-		return new ListAIResponse(types);
+	public String[] getAITypes() {
+		String[] types = new String[1];
+		types[0] = ("LARGEST ARMY");
+		return types;
 	}
 
 	/**
