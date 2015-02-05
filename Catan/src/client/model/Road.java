@@ -70,7 +70,7 @@ public class Road {
 		}
 
 		/*
-		 * Check if the inputed has the same hex location as this.nieghbor
+		 * Check if the inputed has the same hex location as this.nieghbor 
 		 * (neighbor or this's x,y) and the opposite directionality. So you need
 		 * to check for the road's corresponding availability and the adjacent
 		 * hex location.
@@ -84,5 +84,8 @@ public class Road {
 			return false;
 		}
 		return true;
+	}
+	public String toString() {
+		return "Owner: " + owner + " direction: " + location.getDir() + " x: " + location.getX() + " y: " + location.getY(); 
 	}
 }

@@ -19,6 +19,7 @@ import shared.locations.HexLocation;
 public class Port {
 	private String resource;
 	private HexLocation location;
+	
 	private String direction;
 	private int ratio;
 

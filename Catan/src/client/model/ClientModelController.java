@@ -95,7 +95,12 @@ public class ClientModelController {
 		 * another road, the road is attached to a road or a building, and if
 		 * the player has an available road piece.
 		 */
-
+		boolean thing1 = playerHasResources(playerIndex, requiredResourceList);
+		boolean thing2 = !roadExists(road);
+		boolean thing3 = hasConnectingBuilding(road) ;
+		boolean thing4 = hasConnectingRoad(road);
+		boolean thing5 = playerHasAvailableRoadPiece(playerIndex);
+		
 		if (isPlayerTurn(playerIndex)
 				&& (playerHasResources(playerIndex, requiredResourceList) || usingDevCard)
 				&& !roadExists(road)
@@ -115,13 +120,15 @@ public class ClientModelController {
 		return false;
 	}
 
-	private boolean roadExists(Road road) {
+	private boolean roadExists(Road newRoad) {
 		for (Road existingRoad : clientModel.getMap().getRoads()) {
-			if (existingRoad.checkAvailability(road)) {
-				return false;
+			if (!existingRoad.checkAvailability(newRoad)) {
+//				System.out.println("Existing Road: " + existingRoad.toString());
+//				System.out.println("New Road: " + newRoad.toString());				
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	private int roadOwner(Road road) {
@@ -130,7 +137,7 @@ public class ClientModelController {
 		 * Else, return index of owner.
 		 */
 		for (Road existingRoad : clientModel.getMap().getRoads()) {
-			if (existingRoad.checkAvailability(road)) {
+			if (!existingRoad.checkAvailability(road)) {
 				return existingRoad.getOwner();
 			}
 		}
@@ -139,72 +146,74 @@ public class ClientModelController {
 
 	private boolean hasConnectingBuilding(Road road) {
 		EdgeLocation roadLocation = road.getLocation();
-		HexLocation roadHexLocation = road.getLocation().getHexLoc();
-		HexLocation platformHex = null;
-
-		for (Hex hex : clientModel.getMap().getHexes()) {
-			if (hex.getLocation().equals(roadHexLocation)) {
-				platformHex = hex.getLocation();
-				break;
-			}
-		}
+		HexLocation roadHexLocation = road.getLocation().getNormalizedLocation().getHexLoc();
+		HexLocation platformHex = roadHexLocation;
 
 		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
 			if (settlement.getOwner() == road.getOwner()) {
-				return buildingCheckForRoadBuilding(settlement, roadLocation,
-						platformHex);
+				if(buildingExistsForRoad(settlement, roadLocation,
+						platformHex)){
+					return true;
+				}
 			}
 		}
 
 		for (VertexObject city : clientModel.getMap().getCities()) {
 			if (city.getOwner() == road.getOwner()) {
-				return buildingCheckForRoadBuilding(city, roadLocation,
-						platformHex);
+				if(buildingExistsForRoad(city, roadLocation,
+						platformHex)) {
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
-	private boolean buildingCheckForRoadBuilding(VertexObject building,
+	private boolean buildingExistsForRoad(VertexObject building,
 			EdgeLocation roadLocation, HexLocation platformHex) {
 		VertexLocation settlementLoc = building.getLocation().getNormalizedLocation();
 		VertexDirection settlementDirection = settlementLoc.getDir();
-		if (building.getLocation().equals(platformHex)) {
-
+		if (building.getLocation().getHexLoc().equals(platformHex)) {
 			switch (roadLocation.getDir()) {
 			case NorthWest:
 				if (settlementDirection.equals(VertexDirection.NorthWest)
 						|| settlementDirection.equals(VertexDirection.West)) {
 					return true;
 				}
+				break;
 			case North:
 				if (settlementDirection.equals(VertexDirection.NorthWest)
 						|| settlementDirection
 								.equals(VertexDirection.NorthEast)) {
 					return true;
 				}
+				break;
 			case NorthEast:
 				if (settlementDirection.equals(VertexDirection.NorthEast)
 						|| settlementDirection.equals(VertexDirection.East)) {
 					return true;
 				}
+				break;
 			case SouthEast:
 				if (settlementDirection.equals(VertexDirection.East)
 						|| settlementDirection
 								.equals(VertexDirection.SouthEast)) {
 					return true;
 				}
+				break;
 			case South:
 				if (settlementDirection.equals(VertexDirection.SouthEast)
 						|| settlementDirection
 								.equals(VertexDirection.SouthWest)) {
 					return true;
 				}
+				break;
 			case SouthWest:
 				if (settlementDirection.equals(VertexDirection.SouthWest)
 						|| settlementDirection.equals(VertexDirection.West)) {
 					return true;
 				}
+				break;
 			}
 		}
 		return false;
@@ -244,7 +253,7 @@ public class ClientModelController {
 			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
-
+			break;
 		case North:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.NorthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
@@ -271,7 +280,7 @@ public class ClientModelController {
 			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
-
+			break;
 		case NorthEast:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.North);
 			testRoad = new Road(road.getOwner(), testLocation);
@@ -297,7 +306,7 @@ public class ClientModelController {
 			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
-
+			break;
 		case SouthWest:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.South);
 			testRoad = new Road(road.getOwner(), testLocation);
@@ -323,7 +332,7 @@ public class ClientModelController {
 			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
-
+			break;
 		case South:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.SouthWest);
 			testRoad = new Road(road.getOwner(), testLocation);
@@ -350,7 +359,7 @@ public class ClientModelController {
 			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
-
+			break;
 		case SouthEast:
 			testLocation = new EdgeLocation(roadHexLoc, EdgeDirection.South);
 			testRoad = new Road(road.getOwner(), testLocation);
@@ -376,6 +385,7 @@ public class ClientModelController {
 			if (road.getOwner() == roadOwner(testRoad)) {
 				return true;
 			}
+			break;
 		}
 
 		return false;
@@ -451,6 +461,7 @@ public class ClientModelController {
 								VertexDirection.NorthEast, platformHex)) {
 					return false;
 				}
+				break;
 			case East:
 				if (existingBuildingDirection.equals(VertexDirection.NorthEast)
 						|| existingBuildingDirection
@@ -459,6 +470,7 @@ public class ClientModelController {
 								VertexDirection.SouthEast, platformHex)) {
 					return false;
 				}
+				break;
 			case NorthEast:
 				if (existingBuildingDirection.equals(VertexDirection.NorthWest)
 						|| existingBuildingDirection
@@ -467,6 +479,7 @@ public class ClientModelController {
 								VertexDirection.NorthWest, platformHex)) {
 					return false;
 				}
+				break;
 			case SouthEast:
 				if (existingBuildingDirection.equals(VertexDirection.East)
 						|| existingBuildingDirection
@@ -475,6 +488,7 @@ public class ClientModelController {
 								VertexDirection.SouthWest, platformHex)) {
 					return false;
 				}
+				break;
 			case West:
 				if (existingBuildingDirection.equals(VertexDirection.NorthWest)
 						|| existingBuildingDirection
@@ -491,8 +505,10 @@ public class ClientModelController {
 								VertexDirection.SouthEast, platformHex)) {
 					return false;
 				}
+				break;
 			}
 		}
+		
 		return true;
 	}
 
@@ -504,22 +520,20 @@ public class ClientModelController {
 	 * @return
 	 */
 	public boolean noAdjacentBuildings(VertexObject newSettlement) {
-		HexLocation platformHex = null;
-		for (Hex hex : clientModel.getMap().getHexes()) {
-			if (hex.getLocation().equals(
-					newSettlement.getLocation().getHexLoc())) {
-				platformHex = hex.getLocation();
-			}
+		HexLocation platformHex = newSettlement.getLocation().getHexLoc();
 			for (VertexObject existingSettlement : clientModel.getMap()
 					.getSettlements()) {
-				return crawlForBuildings(existingSettlement, newSettlement,
-						platformHex);
+				if(crawlForBuildings(existingSettlement, newSettlement,
+						platformHex)){
+					return true;
+				}
 			}
 			for (VertexObject existingCity : clientModel.getMap().getCities()) {
-				return crawlForBuildings(existingCity, newSettlement,
-						platformHex);
+				if(crawlForBuildings(existingCity, newSettlement,
+						platformHex)){
+					return true;
+				}
 			}
-		}
 		return false;
 	}
 
@@ -541,6 +555,7 @@ public class ClientModelController {
 										.equals(EdgeDirection.NorthWest)) {
 							return true;
 						}
+						break;
 					case East:
 						if (road.getLocation().getDir()
 								.equals(EdgeDirection.NorthWest)
@@ -548,6 +563,7 @@ public class ClientModelController {
 										.equals(EdgeDirection.SouthWest)) {
 							return true;
 						}
+						break;
 					case NorthEast:
 						if (road.getLocation().getDir()
 								.equals(EdgeDirection.North)
@@ -555,7 +571,7 @@ public class ClientModelController {
 										.equals(EdgeDirection.NorthEast)) {
 							return true;
 						}
-
+						break;
 					case SouthEast:
 						if (road.getLocation().getDir()
 								.equals(EdgeDirection.SouthEast)
@@ -563,7 +579,7 @@ public class ClientModelController {
 										.equals(EdgeDirection.South)) {
 							return true;
 						}
-
+						break;
 					case West:
 						if (road.getLocation().getDir()
 								.equals(EdgeDirection.SouthWest)
@@ -571,7 +587,7 @@ public class ClientModelController {
 										.equals(EdgeDirection.NorthWest)) {
 							return true;
 						}
-
+						break;
 					case SouthWest:
 						if (road.getLocation().getDir()
 								.equals(EdgeDirection.South)
@@ -579,6 +595,7 @@ public class ClientModelController {
 										.equals(EdgeDirection.NorthWest)) {
 							return true;
 						}
+						break;
 					}
 				}
 			}
@@ -598,6 +615,10 @@ public class ClientModelController {
 	public boolean canBuildSettlement(VertexObject settlement) {
 		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
+		boolean thing = playerHasResources(playerIndex, resourceList);
+		boolean thing2 = !preexistingBuilding(settlement, true);
+		boolean thing3 = noAdjacentBuildings(settlement);
+		boolean thing4 = roadTouchingNewSettlement(settlement);
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, resourceList)
 				&& !preexistingBuilding(settlement, true)

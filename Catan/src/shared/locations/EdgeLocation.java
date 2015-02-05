@@ -21,35 +21,46 @@ public class EdgeLocation {
 		switch(dir){
 		case NorthWest:
 			direction = "NW";
+			break;
 		case North:
-			direction = "N";			
+			direction = "N";
+			break;
 		case NorthEast:
-			direction = "NE";			
+			direction = "NE";
+			break;
 		case SouthEast:
-			direction = "SE";			
+			direction = "SE";
+			break;
 		case South:
-			direction = "S";			
+			direction = "S";
+			break;
 		case SouthWest:
-			direction = "SW";			
-			
+			direction = "SW";
+			break;
 		}
 	}
 //	public void 
 	public void convertFromPrimitives() {
 		this.hexLoc = new HexLocation(x, y);
 		switch (direction) {
-		case ("N"):
+		case "N":
 			dir = EdgeDirection.North;
-		case ("NE"):
+			break;
+		case "NE":
 			dir = EdgeDirection.NorthEast;
-		case ("SE"):
+			break;
+		case "SE":
 			dir = EdgeDirection.SouthEast;
-		case ("S"):
+			break;
+		case "S":
 			dir = EdgeDirection.South;
-		case ("SW"):
+			break;
+		case "SW":
 			dir = EdgeDirection.SouthWest;
-		case ("NW"):
+			break;
+		case "NW":
 			dir = EdgeDirection.NorthWest;
+			break;
 		}
 	}
 

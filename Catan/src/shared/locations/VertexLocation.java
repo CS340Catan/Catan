@@ -21,16 +21,22 @@ public class VertexLocation {
 		switch(dir){
 		case NorthWest:
 			direction = "NW";
+			break;
 		case East:
-			direction = "E";			
+			direction = "E";
+			break;
 		case NorthEast:
-			direction = "NE";			
+			direction = "NE";
+			break;
 		case SouthEast:
-			direction = "SE";			
+			direction = "SE";
+			break;
 		case West:
-			direction = "W";			
+			direction = "W";
+			break;
 		case SouthWest:
-			direction = "SW";			
+			direction = "SW";
+			break;
 			
 		}
 	}
@@ -40,16 +46,22 @@ public class VertexLocation {
 		switch (direction) {
 		case ("E"):
 			dir = VertexDirection.East;
+		break;
 		case ("NE"):
 			dir = VertexDirection.NorthEast;
+		break;
 		case ("SE"):
 			dir = VertexDirection.SouthEast;
+		break;
 		case ("W"):
 			dir = VertexDirection.West;
+		break;
 		case ("SW"):
 			dir = VertexDirection.SouthWest;
+		break;
 		case ("NW"):
 			dir = VertexDirection.NorthWest;
+		break;
 		}
 	}
 	public HexLocation getHexLoc() {
