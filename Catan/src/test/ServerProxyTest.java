@@ -11,6 +11,7 @@ import client.communicator.ServerProxy;
 import client.model.ClientModel;
 import shared.communication.*;
 import shared.utils.Serializer;
+import shared.utils.ServerResponseException;
 
 public class ServerProxyTest {
 
@@ -39,13 +40,25 @@ public class ServerProxyTest {
 		
 		//correct test
 		credentials = new UserCredentials("Sam", "sam");
-		response = serverProxy.Login(credentials);
-		assertTrue(response);
+		try {
+			response = serverProxy.Login(credentials);
+			assertTrue(response);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 		//wrong test
 		credentials = new UserCredentials("Sam", "notsam");
-		response = serverProxy.Login(credentials);
-		assertFalse(response);
+		try {
+			response = serverProxy.Login(credentials);
+			assertFalse(response);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 
 	}
 	
@@ -57,37 +70,75 @@ public class ServerProxyTest {
 		
 		//correct test, only if the first time this test is run
 		credentials = new UserCredentials("Freddy", "freddy");
-		response = serverProxy.Register(credentials);
-		assertTrue(response);
+		try {
+			response = serverProxy.Register(credentials);
+			assertTrue(response);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 		//null test
 		credentials = new UserCredentials("Johnny", null);
-		response = serverProxy.Register(credentials);
-		assertFalse(response);
+		try {
+			response = serverProxy.Register(credentials);
+			assertFalse(response);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 		//user already exists test
 		credentials = new UserCredentials("Sam", "sam");
-		response = serverProxy.Register(credentials);
-		assertFalse(response);
+		try {
+			response = serverProxy.Register(credentials);
+			assertFalse(response);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 	}
 	
 	@Test
 	public void testUpdateModel() {
 		//same version
-		ClientModel newModel = serverProxy.updateModel(0);
-		assertEquals(newModel, null);
+		ClientModel newModel;
+		try {
+			newModel = serverProxy.updateModel(0);
+			assertNotEquals(newModel, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 		//new version
-		newModel = serverProxy.updateModel(1);
-		assertNotEquals(model, null);
-		assertNotEquals(model, newModel);
+		try {
+			newModel = serverProxy.updateModel(1);
+			assertNotEquals(model, null);
+			assertNotEquals(model, newModel);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 	}
 
 	@Test
 	public void testGetGameList() {
 		
-		GameSummary[] gameList = serverProxy.getGameList();
-		assertEquals(gameList[0].getTitle(), "Default Game");
+		GameSummary[] gameList;
+		try {
+			gameList = serverProxy.getGameList();
+			assertNotNull(gameList);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -97,8 +148,15 @@ public class ServerProxyTest {
 		String title = "New Game A";
 		CreateGameParams params = new CreateGameParams(false, false, false, title);
 		
-		GameSummary game = serverProxy.createGame(params);
-		assertEquals(game.getTitle(), title);
+		GameSummary game;
+		try {
+			game = serverProxy.createGame(params);
+			assertNotNull(game);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 	}
 	
 	@Test
@@ -121,8 +179,15 @@ public class ServerProxyTest {
 		
 		//join game
 		JoinGameParams params = new JoinGameParams("blue", 0);
-		String response = serverProxy.joinGame(params);
-		assertEquals(response, "Success");
+		String response;
+		try {
+			response = serverProxy.joinGame(params);
+			assertEquals(response, "Success");
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 	}
 	
 	@Test
@@ -130,8 +195,15 @@ public class ServerProxyTest {
 		
 		String filename = "My Saved Game";
 		SaveParams params = new SaveParams(0, filename);
-		String response = serverProxy.saveGame(params);
-		assertEquals(response, "Success");
+		String response;
+		try {
+			response = serverProxy.saveGame(params);
+			assertEquals(response, "Success");
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 	}
 	
 	@Test
@@ -140,13 +212,27 @@ public class ServerProxyTest {
 		//save a game to load
 		String filename = "Test Saved Game";
 		SaveParams saveParams = new SaveParams(0, filename);
-		String saveResponse = serverProxy.saveGame(saveParams);
-		assertEquals(saveResponse, "Success");
+		String saveResponse;
+		try {
+			saveResponse = serverProxy.saveGame(saveParams);
+			assertEquals(saveResponse, "Success");
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 		//load game
 		LoadGameParams params = new LoadGameParams(filename);
-		String response = serverProxy.loadGame(params);
-		assertEquals(response, "Success");
+		String response;
+		try {
+			response = serverProxy.loadGame(params);
+			assertEquals(response, "Success");
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 	}
 	
 	@Test
@@ -173,16 +259,30 @@ public class ServerProxyTest {
 		*/
 		
 		//reset game
-		ClientModel resetModel = serverProxy.resetGame();
-		assertEquals(resetModel, null);
+		ClientModel resetModel;
+		try {
+			resetModel = serverProxy.resetGame();
+			assertNotEquals(resetModel, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
 	@Test
 	public void testGetCommands() {
 		
-		CommandList commands = serverProxy.getCommands();
-		assertEquals(commands, null);
+		CommandList commands;
+		try {
+			commands = serverProxy.getCommands();
+			assertNotEquals(commands, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -190,16 +290,30 @@ public class ServerProxyTest {
 	public void testSetCommands() {
 		
 		CommandList commands = new CommandList(null);
-		ClientModel model = serverProxy.setCommands(commands);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.setCommands(commands);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
 	@Test
 	public void testGetAITypes() {
 		
-		String[] response = serverProxy.getAITypes();
-		assertEquals(response.length, 1);
+		String[] response;
+		try {
+			response = serverProxy.getAITypes();
+			assertNotNull(response);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -207,15 +321,29 @@ public class ServerProxyTest {
 	public void testAddAI() {
 		
 		AddAIParams params = new AddAIParams();
-		AddAIResponse response = serverProxy.addAI(params);
-		assertEquals(response, null);
+		AddAIResponse response;
+		try {
+			response = serverProxy.addAI(params);
+			assertNotEquals(response, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 	}
 	
 	@Test
 	public void testChangeLogLevel() {
 		ChangeLogLevelParams level = new ChangeLogLevelParams();
-		ChangeLogLevelResponse response = serverProxy.changeLogLevel(level);
-		assertEquals(response, null);
+		ChangeLogLevelResponse response;
+		try {
+			response = serverProxy.changeLogLevel(level);
+			assertNotEquals(response, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 	}
 	
 	/* -----Move API Tests--------*/
@@ -224,8 +352,15 @@ public class ServerProxyTest {
 	public void testSendChat() {
 		
 		String content = "My Message";
-		ClientModel model = serverProxy.sendChat(content);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.sendChat(content);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -233,8 +368,15 @@ public class ServerProxyTest {
 	public void testAcceptTrade() {
 		
 		AcceptTradeParams params = new AcceptTradeParams(0, false);
-		ClientModel model = serverProxy.acceptTrade(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.acceptTrade(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -242,16 +384,29 @@ public class ServerProxyTest {
 	public void testDiscardCards() {
 		
 		DiscardCardsParams params = new DiscardCardsParams(0, null);
-		ClientModel model = serverProxy.discardCards(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.discardCards(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
 	@Test
 	public void testRollNumber() {
 		
-		ClientModel model = serverProxy.rollNumber(4);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.rollNumber(4);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
 		
 	}
 	
@@ -259,8 +414,14 @@ public class ServerProxyTest {
 	public void testBuildRoad() {
 		
 		BuildRoadParams params = new BuildRoadParams(0, null, false);
-		ClientModel model = serverProxy.buildRoad(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.buildRoad(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
 		
 	}
 	
@@ -268,8 +429,15 @@ public class ServerProxyTest {
 	public void testBuildSettlement() {
 		
 		BuildSettlementParams params = new BuildSettlementParams(0, null, false);
-		ClientModel model = serverProxy.buildSettlement(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.buildSettlement(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -277,8 +445,15 @@ public class ServerProxyTest {
 	public void testBuildCity() {
 				
 		BuildCityParams params = new BuildCityParams(0, null);
-		ClientModel model = serverProxy.buildCity(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.buildCity(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -286,8 +461,15 @@ public class ServerProxyTest {
 	public void testOfferTrade() {
 				
 		TradeOfferParams params = new TradeOfferParams(0, null, 0);
-		ClientModel model = serverProxy.offerTrade(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.offerTrade(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -295,8 +477,15 @@ public class ServerProxyTest {
 	public void testMaritimeTrade() {
 				
 		MaritimeTradeParams params = new MaritimeTradeParams(0, 0, "Wheat", "Sheep");
-		ClientModel model = serverProxy.maritimeTrade(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.maritimeTrade(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -304,24 +493,45 @@ public class ServerProxyTest {
 	public void testRobPlayer() {
 				
 		MoveRobberParams params = new MoveRobberParams(0, 0, null);
-		ClientModel model = serverProxy.robPlayer(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.robPlayer(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
 	@Test
 	public void testFinishTurn() {
 		
-		ClientModel model = serverProxy.finishTurn();
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.finishTurn();
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
 	@Test
 	public void testBuyDevCard() {
 				
-		ClientModel model = serverProxy.buyDevCard();
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.buyDevCard();
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -329,8 +539,15 @@ public class ServerProxyTest {
 	public void testPlaySoldierCard() {
 				
 		MoveSoldierParams params = new MoveSoldierParams(0, 0, null);
-		ClientModel model = serverProxy.playSoldierCard(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.playSoldierCard(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -338,8 +555,15 @@ public class ServerProxyTest {
 	public void testPlayYearOfPlentyCard() {
 				
 		YearOfPlentyParams params = new YearOfPlentyParams(0, null, null);
-		ClientModel model = serverProxy.playYearOfPlentyCard(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.playYearOfPlentyCard(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -347,8 +571,15 @@ public class ServerProxyTest {
 	public void testPlayRoadBuildingCard() {
 				
 		BuildRoadCardParams params = new BuildRoadCardParams(0, null, null);
-		ClientModel model = serverProxy.playRoadBuildingCard(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.playRoadBuildingCard(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 	
@@ -356,8 +587,15 @@ public class ServerProxyTest {
 	public void testPlayMonopolyCard() {
 				
 		PlayMonopolyParams params = new PlayMonopolyParams(clientModelJson, 0);
-		ClientModel model = serverProxy.playMonopolyCard(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.playMonopolyCard(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+		
 		
 	}
 
@@ -365,8 +603,15 @@ public class ServerProxyTest {
 	public void testMonumentCard() {
 				
 		PlayMonumentParams params = new PlayMonumentParams(0);
-		ClientModel model = serverProxy.playMonument(params);
-		assertEquals(model, null);
+		ClientModel model;
+		try {
+			model = serverProxy.playMonument(params);
+			assertNotEquals(model, null);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			assertTrue(e.getMessage().startsWith("ERROR"));
+		}
+
 		
 	}
 }
