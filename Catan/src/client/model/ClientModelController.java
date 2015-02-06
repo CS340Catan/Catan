@@ -813,7 +813,9 @@ public class ClientModelController {
 	private boolean buildingOnPort(int playerIndex, VertexObject building) {
 		if (building.getOwner() == playerIndex) {
 			for (Port port : clientModel.getMap().getPorts()) {
-				if (building.getLocation().getNormalizedLocation().getHexLoc().equals(port.getLocation())) {
+				EdgeLocation edgeLocation = new EdgeLocation(port.getLocation(), port.getDir());
+				Road road = new Road(playerIndex, edgeLocation);
+				if(hasConnectingBuilding(road)){
 					return true;
 				}
 			}
@@ -839,8 +841,10 @@ public class ClientModelController {
 	 * @Pre the player has the required ratio of resources
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canMaritimeTrade(int playerIndex, ResourceList resourceList, int ratioNumerator) {
-		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getResources().ofAKind(ratioNumerator) && playerOnPort(playerIndex)
+	public boolean canMaritimeTrade(int playerIndex,  int ratioNumerator) {
+		if (isPlayerTurn(playerIndex) 
+				&& clientModel.getPlayers()[playerIndex].getResources().ofAKind(ratioNumerator) 
+				&& playerOnPort(playerIndex)
 				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
@@ -932,7 +936,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRobPlayer(HexLocation robberLocation, int robbingPlayer, int robbedPlayer) {
-		if (isPlayerTurn(robbingPlayer) && clientModel.getTurnTracker().getStatus().equals("Robbing") && playerTouchingRobber(robbedPlayer, robberLocation)
+		if (isPlayerTurn(robbingPlayer) && clientModel.getTurnTracker().getStatus().equals("playing") && playerTouchingRobber(robbedPlayer, robberLocation)
 				&& clientModel.getPlayers()[robbedPlayer].getResources().count() > 0) {
 			return true;
 		}

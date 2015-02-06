@@ -3,6 +3,7 @@ package shared.utils;
 import com.google.gson.Gson;
 
 import client.model.ClientModel;
+import client.model.Port;
 import client.model.Road;
 import client.model.VertexObject;
 
@@ -45,6 +46,9 @@ public class Serializer {
 		}
 		for(VertexObject city : clientModel.getMap().getCities()){
 			city.getLocation().convertFromPrimitives();
+		}
+		for(Port port : clientModel.getMap().getPorts()){
+			port.convertFromPrimitives();
 		}
 		return clientModel;
 	}
