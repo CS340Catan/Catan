@@ -56,7 +56,7 @@ public class Road {
 	 * @param newRoad
 	 * @return
 	 */
-	public boolean checkAvailability(Road newRoad) {
+	public boolean isNotEquivalent(Road newRoad) {
 		/*
 		 * Check if the inputed road has the same hex location as this (same x,y
 		 * indices) and the same directionality

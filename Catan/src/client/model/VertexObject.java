@@ -50,7 +50,7 @@ public class VertexObject {
 		this.location = location;
 	}
 
-	public boolean checkAvailability(VertexObject vertexObj) {
+	public boolean isEquivalent(VertexObject vertexObj) {
 		/*
 		 * Check if the inputed road has the same hex location as this (same x,y
 		 * indices) and the same directionality
@@ -60,7 +60,7 @@ public class VertexObject {
 		if (vertLocation.getHexLoc().equals(
 				(vertexObj.getLocation().getHexLoc()))
 				&& vertLocation.getDir() == vertexObj.getLocation().getDir()) {
-			return false;
+			return true;
 		}
 
 		HexLocation neighbor1 = null;
@@ -75,12 +75,12 @@ public class VertexObject {
 
 			if (neighbor1.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.East) {
-				return false;
+				return true;
 			}
 
 			if (neighbor2.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.SouthWest) {
-				return false;
+				return true;
 			}
 			break;
 		case NorthEast:
@@ -91,12 +91,12 @@ public class VertexObject {
 
 			if (neighbor1.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.West) {
-				return false;
+				return true;
 			}
 
 			if (neighbor2.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.SouthEast) {
-				return false;
+				return true;
 			}
 			break;
 		case East:
@@ -107,12 +107,12 @@ public class VertexObject {
 
 			if (neighbor1.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.SouthWest) {
-				return false;
+				return true;
 			}
 
 			if (neighbor2.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.NorthWest) {
-				return false;
+				return true;
 			}
 			break;
 		case SouthEast:
@@ -123,12 +123,12 @@ public class VertexObject {
 
 			if (neighbor1.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.West) {
-				return false;
+				return true;
 			}
 
 			if (neighbor2.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.NorthEast) {
-				return false;
+				return true;
 			}
 			break;
 		case SouthWest:
@@ -139,12 +139,12 @@ public class VertexObject {
 
 			if (neighbor1.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.East) {
-				return false;
+				return true;
 			}
 
 			if (neighbor2.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.NorthWest) {
-				return false;
+				return true;
 			}
 			break;
 		case West:
@@ -155,16 +155,16 @@ public class VertexObject {
 
 			if (neighbor1.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.NorthEast) {
-				return false;
+				return true;
 			}
 
 			if (neighbor2.equals(vertexObj.getLocation().getHexLoc())
 					&& vertexObj.getLocation().getDir() == VertexDirection.SouthEast) {
-				return false;
+				return true;
 			}
 			break;
 		}
 
-		return true;
+		return false;
 	}
 }
