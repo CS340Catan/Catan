@@ -850,37 +850,37 @@ public class ClientModelController {
 	private boolean playerTouchingRobber(int robbedPlayer, HexLocation robberLocation) {
 		VertexObject testObject = null;
 		VertexLocation testLocation = null;
-		
+
 		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
 			if (settlement.getOwner() == robbedPlayer) {
 				testLocation = new VertexLocation(robberLocation, VertexDirection.NorthEast);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(settlement.isEquivalent(testObject)){
+				if (settlement.isEquivalent(testObject)) {
 					return true;
-				}				
+				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.NorthWest);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(settlement.isEquivalent(testObject)){
+				if (settlement.isEquivalent(testObject)) {
 					return true;
 				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.West);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(settlement.isEquivalent(testObject)){
+				if (settlement.isEquivalent(testObject)) {
 					return true;
 				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.SouthEast);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(settlement.isEquivalent(testObject)){
+				if (settlement.isEquivalent(testObject)) {
 					return true;
 				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.SouthWest);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(settlement.isEquivalent(testObject)){
+				if (settlement.isEquivalent(testObject)) {
 					return true;
 				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.East);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(settlement.isEquivalent(testObject)){
+				if (settlement.isEquivalent(testObject)) {
 					return true;
 				}
 			}
@@ -889,32 +889,32 @@ public class ClientModelController {
 			if (city.getOwner() == robbedPlayer) {
 				testLocation = new VertexLocation(robberLocation, VertexDirection.NorthEast);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(city.isEquivalent(testObject)){
+				if (city.isEquivalent(testObject)) {
 					return true;
-				}				
+				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.NorthWest);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(city.isEquivalent(testObject)){
+				if (city.isEquivalent(testObject)) {
 					return true;
 				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.West);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(city.isEquivalent(testObject)){
+				if (city.isEquivalent(testObject)) {
 					return true;
 				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.SouthEast);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(city.isEquivalent(testObject)){
+				if (city.isEquivalent(testObject)) {
 					return true;
 				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.SouthWest);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(city.isEquivalent(testObject)){
+				if (city.isEquivalent(testObject)) {
 					return true;
 				}
 				testLocation = new VertexLocation(robberLocation, VertexDirection.East);
 				testObject = new VertexObject(robbedPlayer, testLocation);
-				if(city.isEquivalent(testObject)){
+				if (city.isEquivalent(testObject)) {
 					return true;
 				}
 			}
@@ -932,7 +932,8 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRobPlayer(HexLocation robberLocation, int robbingPlayer, int robbedPlayer) {
-		if (isPlayerTurn(robbingPlayer) && clientModel.getTurnTracker().getStatus().equals("Robbing") && playerTouchingRobber(robbedPlayer, robberLocation)) {
+		if (isPlayerTurn(robbingPlayer) && clientModel.getTurnTracker().getStatus().equals("Robbing") && playerTouchingRobber(robbedPlayer, robberLocation)
+				&& clientModel.getPlayers()[robbedPlayer].getResources().count() > 0) {
 			return true;
 		}
 		return false;
@@ -948,7 +949,8 @@ public class ClientModelController {
 	 */
 	public boolean canBuyDevCard(int playerIndex) {
 		ResourceList resourceList = new ResourceList(0, 1, 1, 1, 0);
-		if (isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList) && clientModel.getTurnTracker().getStatus().equals("playing")) {
+		if (isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList) && clientModel.getDeck().hasDevCard()
+				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
@@ -964,10 +966,11 @@ public class ClientModelController {
 	 * @Pre this dev card was not purchased this turn
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canPlaySoldierCard(HexLocation hexLocation, int playerIndex) {
-		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getOldDevCards().getSoldier() > 0
-				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard() && !clientModel.getMap().getRobber().equals(hexLocation) && clientModel.getTurnTracker().getStatus().equals("playing")) { // ensures
-																																			
+	public boolean canPlaySoldierCard(HexLocation hexLocation, int robbingPlayer, int robbedPlayer) {
+		if (isPlayerTurn(robbingPlayer) && clientModel.getPlayers()[robbingPlayer].getOldDevCards().getSoldier() > 0
+				&& !clientModel.getPlayers()[robbingPlayer].hasPlayedDevCard() && canRobPlayer(hexLocation, robbingPlayer, robbedPlayer)
+				&& !clientModel.getMap().getRobber().equals(hexLocation) && clientModel.getTurnTracker().getStatus().equals("playing")) {
+
 			return true;
 		}
 		return false;
@@ -984,7 +987,8 @@ public class ClientModelController {
 	 */
 	public boolean canPlayYearOfPlentyCard(int playerIndex, ResourceList requestedResources) {
 		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getOldDevCards().getYearOfPlenty() > 0
-				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard() && clientModel.getBank().contains(requestedResources) && clientModel.getTurnTracker().getStatus().equals("playing")) {
+				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard() && clientModel.getBank().contains(requestedResources)
+				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
@@ -1002,7 +1006,8 @@ public class ClientModelController {
 	 */
 	public boolean canPlayRoadBuildingCard(int playerIndex) {
 		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getOldDevCards().getRoadBuilding() > 0
-				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard() && clientModel.getTurnTracker().getStatus().equals("playing")) {
+				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard() && clientModel.getTurnTracker().getStatus().equals("playing")
+				&& clientModel.getPlayers()[playerIndex].getRoads() >= 2) {
 			return true;
 		}
 		return false;
@@ -1015,9 +1020,10 @@ public class ClientModelController {
 	 * @return
 	 */
 	public boolean canPlayMonumentCard(int playerIndex) {
-		// TODO make sure pre-conditions are met
 		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getOldDevCards().getMonument() > 0
-				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard() && clientModel.getTurnTracker().getStatus().equals("playing")) {
+				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()
+				&& (clientModel.getPlayers()[playerIndex].getVictoryPoints() + clientModel.getPlayers()[playerIndex].getOldDevCards().getMonument()) >= 10
+				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
