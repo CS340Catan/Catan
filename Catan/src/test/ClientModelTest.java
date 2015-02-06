@@ -33,8 +33,7 @@ public class ClientModelTest {
 	@Test
 	public void testCanRoll() {
 		clientModel.getTurnTracker().setStatus("Rolling");
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 		assertTrue(clientModelController.canRollNumber(0));
 	}
 
@@ -42,11 +41,9 @@ public class ClientModelTest {
 	public void testCanBuildRoadOnTopOfRoadFail() {
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 		HexLocation hexLocation = new HexLocation(1, 0);
-		EdgeLocation edgeLocation = new EdgeLocation(hexLocation,
-				EdgeDirection.South);
+		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.South);
 		Road newRoad = new Road(0, edgeLocation);
 		boolean fail = clientModelController.canBuildRoad(0, newRoad, false);
 		assertFalse(fail);
@@ -56,11 +53,9 @@ public class ClientModelTest {
 	public void testCanBuildRoadNotConnectingFail() {
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 		HexLocation hexLocation = new HexLocation(1, 0);
-		EdgeLocation edgeLocation = new EdgeLocation(hexLocation,
-				EdgeDirection.NorthEast);
+		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.NorthEast);
 		Road newRoad = new Road(0, edgeLocation);
 		boolean fail = clientModelController.canBuildRoad(0, newRoad, false);
 		assertFalse(fail);
@@ -71,11 +66,9 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 		HexLocation hexLocation = new HexLocation(1, 0);
-		EdgeLocation edgeLocation = new EdgeLocation(hexLocation,
-				EdgeDirection.SouthEast);
+		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.SouthEast);
 
 		Road road = new Road(0, edgeLocation);
 
@@ -87,16 +80,12 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 		for (VertexObject thing : clientModel.getMap().getSettlements()) {
-			System.out.println(thing.getLocation().getDir() + " "
-					+ thing.getLocation().getHexLoc().getX() + " "
-					+ thing.getLocation().getHexLoc().getY());
+			System.out.println(thing.getLocation().getDir() + " " + thing.getLocation().getHexLoc().getX() + " " + thing.getLocation().getHexLoc().getY());
 		}
 		HexLocation hexLocation = new HexLocation(1, 0);
-		EdgeLocation edgeLocation = new EdgeLocation(hexLocation,
-				EdgeDirection.North);
+		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.North);
 		Road road = new Road(0, edgeLocation);
 
 		// TODO Re-test this j-unit test. We had failed to update the road's
@@ -105,13 +94,11 @@ public class ClientModelTest {
 		// instead of EdgeLocation(hexLocation1,...)
 
 		HexLocation hexLocation1 = new HexLocation(1, 0);
-		EdgeLocation edgeLocation1 = new EdgeLocation(hexLocation1,
-				EdgeDirection.NorthWest);
+		EdgeLocation edgeLocation1 = new EdgeLocation(hexLocation1, EdgeDirection.NorthWest);
 		Road road1 = new Road(0, edgeLocation1);
 
 		HexLocation hexLocation2 = new HexLocation(1, -1);
-		EdgeLocation edgeLocation2 = new EdgeLocation(hexLocation2,
-				EdgeDirection.SouthWest);
+		EdgeLocation edgeLocation2 = new EdgeLocation(hexLocation2, EdgeDirection.SouthWest);
 		Road road2 = new Road(0, edgeLocation2);
 
 		assertTrue(clientModelController.canBuildRoad(0, road, false));
@@ -125,16 +112,12 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 		for (VertexObject thing : clientModel.getMap().getSettlements()) {
-			System.out.println(thing.getLocation().getDir() + " "
-					+ thing.getLocation().getHexLoc().getX() + " "
-					+ thing.getLocation().getHexLoc().getY());
+			System.out.println(thing.getLocation().getDir() + " " + thing.getLocation().getHexLoc().getX() + " " + thing.getLocation().getHexLoc().getY());
 		}
 		HexLocation hexLocation = new HexLocation(1, 0);
-		EdgeLocation edgeLocation = new EdgeLocation(hexLocation,
-				EdgeDirection.North);
+		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.North);
 
 		Road road = new Road(1, edgeLocation);
 
@@ -146,16 +129,12 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setBrick(0);
 		clientModel.getPlayers()[0].getResources().setWood(0);
 
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 		for (VertexObject thing : clientModel.getMap().getSettlements()) {
-			System.out.println(thing.getLocation().getDir() + " "
-					+ thing.getLocation().getHexLoc().getX() + " "
-					+ thing.getLocation().getHexLoc().getY());
+			System.out.println(thing.getLocation().getDir() + " " + thing.getLocation().getHexLoc().getX() + " " + thing.getLocation().getHexLoc().getY());
 		}
 		HexLocation hexLocation = new HexLocation(1, 0);
-		EdgeLocation edgeLocation = new EdgeLocation(hexLocation,
-				EdgeDirection.North);
+		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.North);
 
 		Road road = new Road(1, edgeLocation);
 
@@ -167,11 +146,9 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 		HexLocation hexLocation = new HexLocation(1, 0);
-		EdgeLocation edgeLocation = new EdgeLocation(hexLocation,
-				EdgeDirection.SouthEast);
+		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.SouthEast);
 
 		Road road = new Road(0, edgeLocation);
 
@@ -185,11 +162,9 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setSheep(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 		HexLocation hexLocation = new HexLocation(1, 1);
-		VertexLocation vertexLocation = new VertexLocation(hexLocation,
-				VertexDirection.East);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.East);
 		VertexObject settlement = new VertexObject(0, vertexLocation);
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 
 		assertTrue(clientModelController.canBuildSettlement(settlement));
 	}
@@ -201,11 +176,9 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setSheep(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 		HexLocation hexLocation = new HexLocation(1, 0);
-		VertexLocation vertexLocation = new VertexLocation(hexLocation,
-				VertexDirection.East);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.East);
 		VertexObject settlement = new VertexObject(0, vertexLocation);
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 
 		assertFalse(clientModelController.canBuildSettlement(settlement));
 	}
@@ -217,11 +190,9 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setSheep(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 		HexLocation hexLocation = new HexLocation(1, 1);
-		VertexLocation vertexLocation = new VertexLocation(hexLocation,
-				VertexDirection.NorthWest);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.NorthWest);
 		VertexObject settlement = new VertexObject(0, vertexLocation);
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 
 		assertFalse(clientModelController.canBuildSettlement(settlement));
 	}
@@ -233,11 +204,9 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setSheep(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 		HexLocation hexLocation = new HexLocation(1, 1);
-		VertexLocation vertexLocation = new VertexLocation(hexLocation,
-				VertexDirection.West);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.West);
 		VertexObject settlement = new VertexObject(0, vertexLocation);
-		ClientModelController clientModelController = new ClientModelController(
-				clientModel);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
 
 		assertFalse(clientModelController.canBuildSettlement(settlement));
 	}
