@@ -23,6 +23,13 @@ public class ClientModelController {
 	 * @Post result: a ClientModel
 	 * @param clientModel
 	 */
+	public ClientModelController() {
+		this.clientModel = ClientModel.getSingleton();
+	}
+	/**
+	 * allows for legacy test, do not invoke!
+	 * @param clientModel
+	 */
 	public ClientModelController(ClientModel clientModel) {
 		this.clientModel = clientModel;
 	}

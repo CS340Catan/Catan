@@ -196,10 +196,10 @@ public class ServerProxy implements IServer {
 									// correct or there was an error
 		if (jsonResponseString != null) {
 			if (!jsonResponseString.equals("true")) {
-				model = Serializer.deserializeClientModel(jsonResponseString);
+				ClientModel.setClientModel(Serializer.deserializeClientModel(jsonResponseString));				
 			}
 		}
-		return model;
+		return ClientModel.getSingleton();
 	}
 
 	/**

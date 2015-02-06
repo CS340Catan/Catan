@@ -31,39 +31,19 @@ public class ClientModel {
 	private int version;
 	private int winner;
 
-	/**
-	 * Default constructor, requires all fields
-	 * 
-	 * @Pre no field may be null
-	 * @Post result: a ClientModel
-	 * @param bank
-	 * @param chat
-	 * @param log
-	 * @param map
-	 * @param players
-	 * @param tradeOffer
-	 * @param turnTracker
-	 * @param version
-	 * @param winner
-	 */
-	public ClientModel(ResourceList bank, MessageList chat, MessageList log,
-			Map map, Player[] players, TradeOffer tradeOffer,
-			TurnTracker turnTracker, int version, int winner) {
-		this.bank = bank;
-		this.chat = chat;
-		this.log = log;
-		this.map = map;
-		this.players = players;
-		this.tradeOffer = tradeOffer;
-		this.turnTracker = turnTracker;
-		this.version = version;
-		this.winner = winner;
-	}
+	
+	private static ClientModel clientModel = null;//singleton instance of ClientModel
 	/**
 	 * Default constructor
 	 */
-	public ClientModel(){
+	public ClientModel(){//empty constructor defeats instantiation
 		
+	}
+	public static ClientModel getSingleton(){//returns the singleton
+		if(getClientModel() == null){
+			setClientModel(new ClientModel());
+		}
+		return getClientModel();
 	}
 
 	public ResourceList getBank() {
@@ -142,5 +122,11 @@ public class ClientModel {
 	}
 	public void setDeck(Deck deck) {
 		this.deck = deck;
+	}
+	public static ClientModel getClientModel() {
+		return clientModel;
+	}
+	public static void setClientModel(ClientModel clientModel) {
+		ClientModel.clientModel = clientModel;
 	}
 }
