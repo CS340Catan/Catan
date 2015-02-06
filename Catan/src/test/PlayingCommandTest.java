@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import shared.locations.HexLocation;
 import shared.utils.Serializer;
 import client.model.ClientModel;
 import client.model.ClientModelController;
@@ -84,11 +85,27 @@ public class PlayingCommandTest {
 	public void canFinishTurnPass() {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
-		clientModel.getPlayers()[0].setResources(new ResourceList(0,1,1,1,0));
-		clientModel.setDeck(new Deck(1,0,0,0,0));
 		ClientModelController clientModelController = new ClientModelController(clientModel);
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertTrue(pass);
 	}
-
+	
+	@Test
+	public void canFinishTurnFail() { //not his turn
+		clientModel.getTurnTracker().setCurrentTurn(1);
+		clientModel.getTurnTracker().setStatus("playing");
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+		boolean pass = clientModelController.canBuyDevCard(0);
+		assertFalse(pass);
+	}
+	
+	@Test
+	public void canFinishTurnFailTwo() { //not his turn
+		clientModel.getTurnTracker().setCurrentTurn(0);
+		clientModel.getTurnTracker().setStatus("rolling");
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+		boolean pass = clientModelController.canBuyDevCard(0);
+		assertFalse(pass);
+	}
+	
 }
