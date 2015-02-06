@@ -11,9 +11,7 @@ public class TestRunner {
 				"test.PollerTest",
 				"test.CanPlayCardTest",
 				"test.MiscClientModelTest",
-				"test.MockServer",
-				"test.PlayingCommand",
-				"test.Serializer"
+				"test.PlayingCommandTest",
 		};
 		org.junit.runner.JUnitCore.main(testClasses);
 	}
