@@ -46,6 +46,7 @@ public class Poller {
 			}
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 	

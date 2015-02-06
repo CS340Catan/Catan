@@ -30,22 +30,21 @@ public class PollerTest {
 	@Test
 	public void pollerUpdating() {
 		mockServerModel.setVersion(clientModel.getVersion()); //start off with the versions the same
-		int originalVersion = clientModel.getVersion(); //keep track of what the version is to start with
+		int originalVersion = clientModelController.getClientModel().getVersion(); 
+		//keep track of what the version is to start with
 		Poller poller = new Poller(server, clientModelController); //set the poller
-		poller.setTimer();
-		try {
-			Thread.sleep(2000); //let the poller update a few times
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
-		assertEquals(clientModel.getVersion(), originalVersion); //the model should be the same (the poller shouldn't have updated it)
-		mockServerModel.setVersion(originalVersion + 1); //change the version number of the model on the server manually
-		try {
-			Thread.sleep(2000); //let the poller run
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
-		assertEquals(clientModel.getVersion(), originalVersion+1); //the client model should have updated to match the model on the server
+		
+		poller.updateModel();
+		//update the model
+		assertEquals(clientModelController.getClientModel().getVersion(), originalVersion); 
+		//the model should be the same as before(the poller shouldn't have updated it)
+		
+		mockServerModel.setVersion(originalVersion + 1); 
+		//change the version number of the model on the server manually
+		poller.updateModel();
+		//update the model
+		assertEquals(clientModelController.getClientModel().getVersion(), originalVersion+1); 
+		//the client model should have updated to match the model on the server
 	}
 
 }
