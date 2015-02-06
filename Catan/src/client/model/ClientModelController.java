@@ -450,6 +450,9 @@ public class ClientModelController {
 
 			switch (newBuilding.getLocation().getDir()) {
 			case NorthWest:
+				if(existingBuilding.checkAvailability(newBuilding)){
+					
+				}
 				if (existingBuildingDirection.equals(VertexDirection.West)
 						|| existingBuildingDirection
 								.equals(VertexDirection.NorthEast)
@@ -503,6 +506,7 @@ public class ClientModelController {
 				}
 				break;
 			}
+		
 		}
 
 		return true;
