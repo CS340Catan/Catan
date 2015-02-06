@@ -111,9 +111,6 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setWood(5);
 
 		ClientModelController clientModelController = new ClientModelController(clientModel);
-		for (VertexObject thing : clientModel.getMap().getSettlements()) {
-			System.out.println(thing.getLocation().getDir() + " " + thing.getLocation().getHexLoc().getX() + " " + thing.getLocation().getHexLoc().getY());
-		}
 		HexLocation hexLocation = new HexLocation(1, 0);
 		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.North);
 
@@ -129,9 +126,6 @@ public class ClientModelTest {
 		clientModel.getPlayers()[0].getResources().setWood(0);
 
 		ClientModelController clientModelController = new ClientModelController(clientModel);
-		for (VertexObject thing : clientModel.getMap().getSettlements()) {
-			System.out.println(thing.getLocation().getDir() + " " + thing.getLocation().getHexLoc().getX() + " " + thing.getLocation().getHexLoc().getY());
-		}
 		HexLocation hexLocation = new HexLocation(1, 0);
 		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.North);
 
