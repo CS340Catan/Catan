@@ -3,7 +3,6 @@ package test;
 import java.util.ArrayList;
 
 import shared.communication.*;
-import shared.locations.*;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.model.ClientModel;

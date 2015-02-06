@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import shared.locations.HexLocation;
 import shared.utils.Serializer;
 import client.model.ClientModel;
 import client.model.ClientModelController;
