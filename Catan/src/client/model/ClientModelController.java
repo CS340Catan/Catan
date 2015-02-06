@@ -449,11 +449,13 @@ public class ClientModelController {
 	 */
 	public boolean crawlForBuildings(VertexObject existingBuilding,
 			VertexObject newBuilding, HexLocation platformHex) {
-		if (existingBuilding.getLocation().getHexLoc().equals(platformHex)) {
 			VertexDirection existingBuildingDirection = existingBuilding
 					.getLocation().getNormalizedLocation().getDir();
 			switch (newBuilding.getLocation().getDir()) {
 			case NorthWest:
+				if(existingBuilding.checkAvailability(newBuilding)){
+					
+				}
 				if (existingBuildingDirection.equals(VertexDirection.West)
 						|| existingBuildingDirection
 								.equals(VertexDirection.NorthEast)
@@ -507,7 +509,6 @@ public class ClientModelController {
 				}
 				break;
 			}
-		}
 		
 		return true;
 	}
