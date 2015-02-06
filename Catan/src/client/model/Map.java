@@ -1,7 +1,6 @@
 package client.model;
 
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
+import shared.locations.*;
 
 /**
  * Represents the game map, stores relevant locations and layout
