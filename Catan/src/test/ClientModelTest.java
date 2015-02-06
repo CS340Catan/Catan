@@ -32,13 +32,14 @@ public class ClientModelTest {
 
 	@Test
 	public void testCanRoll() {
-		clientModel.getTurnTracker().setStatus("Rolling");
+		clientModel.getTurnTracker().setStatus("rolling");
 		ClientModelController clientModelController = new ClientModelController(clientModel);
 		assertTrue(clientModelController.canRollNumber(0));
 	}
 
 	@Test
 	public void testCanBuildRoadOnTopOfRoadFail() {
+		clientModel.getTurnTracker().setStatus("playing");		
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 		ClientModelController clientModelController = new ClientModelController(clientModel);
@@ -51,6 +52,7 @@ public class ClientModelTest {
 
 	@Test
 	public void testCanBuildRoadNotConnectingFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 		ClientModelController clientModelController = new ClientModelController(clientModel);
@@ -63,6 +65,7 @@ public class ClientModelTest {
 
 	@Test
 	public void testCanBuildRoadOffRoadDifferentOwnerFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 
@@ -77,21 +80,15 @@ public class ClientModelTest {
 
 	@Test
 	public void testCanBuildRoadOffBuildingSuccess() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 
 		ClientModelController clientModelController = new ClientModelController(clientModel);
-		for (VertexObject thing : clientModel.getMap().getSettlements()) {
-			System.out.println(thing.getLocation().getDir() + " " + thing.getLocation().getHexLoc().getX() + " " + thing.getLocation().getHexLoc().getY());
-		}
+		
 		HexLocation hexLocation = new HexLocation(1, 0);
 		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.North);
 		Road road = new Road(0, edgeLocation);
-
-		// TODO Re-test this j-unit test. We had failed to update the road's
-		// below with their new hex locations and edge locations. Ex.
-		// EdgeLocation edgeLocation1 was = EdgeLocation(hexLocation,...)
-		// instead of EdgeLocation(hexLocation1,...)
 
 		HexLocation hexLocation1 = new HexLocation(1, 0);
 		EdgeLocation edgeLocation1 = new EdgeLocation(hexLocation1, EdgeDirection.NorthWest);
@@ -109,6 +106,7 @@ public class ClientModelTest {
 
 	@Test
 	public void testCanBuildRoadOffBuildingBadOwnerFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 
@@ -126,6 +124,7 @@ public class ClientModelTest {
 
 	@Test
 	public void testCanBuildRoadNoResources() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(0);
 		clientModel.getPlayers()[0].getResources().setWood(0);
 
@@ -143,6 +142,7 @@ public class ClientModelTest {
 
 	@Test
 	public void testCanBuildRoadOffRoadSuccess() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWood(5);
 
@@ -154,9 +154,109 @@ public class ClientModelTest {
 
 		assertTrue(clientModelController.canBuildRoad(0, road, false));
 	}
+	
+	@Test
+	public void testCanBuildRoadOffRoadNotPlayingFail() {
+		clientModel.getTurnTracker().setStatus("rolling");				
+		clientModel.getPlayers()[0].getResources().setBrick(5);
+		clientModel.getPlayers()[0].getResources().setWood(5);
+
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+		HexLocation hexLocation = new HexLocation(1, 0);
+		EdgeLocation edgeLocation = new EdgeLocation(hexLocation, EdgeDirection.SouthEast);
+
+		Road road = new Road(0, edgeLocation);
+
+		assertFalse(clientModelController.canBuildRoad(0, road, false));
+	}
+
+	@Test
+	public void testCanBuildCitySuccess() {
+		clientModel.getTurnTracker().setStatus("playing");				
+		clientModel.getPlayers()[0].getResources().setBrick(5);
+		clientModel.getPlayers()[0].getResources().setWheat(5);
+		clientModel.getPlayers()[0].getResources().setSheep(5);
+		clientModel.getPlayers()[0].getResources().setWood(5);
+		clientModel.getPlayers()[0].getResources().setOre(5);
+		
+		HexLocation hexLocation = new HexLocation(1, 1);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.NorthWest);
+		VertexObject city = new VertexObject(0, vertexLocation);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+
+		assertTrue(clientModelController.canBuildCity(city));
+	}
+	
+	@Test
+	public void testCanBuildCityNotPlayingFail() {
+		clientModel.getTurnTracker().setStatus("rolling");				
+		clientModel.getPlayers()[0].getResources().setBrick(5);
+		clientModel.getPlayers()[0].getResources().setWheat(5);
+		clientModel.getPlayers()[0].getResources().setSheep(5);
+		clientModel.getPlayers()[0].getResources().setWood(5);
+		clientModel.getPlayers()[0].getResources().setOre(5);
+		
+		HexLocation hexLocation = new HexLocation(1, 1);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.NorthWest);
+		VertexObject city = new VertexObject(0, vertexLocation);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+
+		assertFalse(clientModelController.canBuildCity(city));
+	}
+
+	@Test
+	public void testCanBuildCityOnNothingFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
+		clientModel.getPlayers()[0].getResources().setBrick(5);
+		clientModel.getPlayers()[0].getResources().setWheat(5);
+		clientModel.getPlayers()[0].getResources().setSheep(5);
+		clientModel.getPlayers()[0].getResources().setWood(5);
+		clientModel.getPlayers()[0].getResources().setOre(5);
+		
+		HexLocation hexLocation = new HexLocation(1, 0);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.East);
+		VertexObject settlement = new VertexObject(0, vertexLocation);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+
+		assertFalse(clientModelController.canBuildSettlement(settlement));
+	}
+	
+	@Test
+	public void testCanBuildCityBadOwnerFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
+		clientModel.getPlayers()[0].getResources().setBrick(5);
+		clientModel.getPlayers()[0].getResources().setWheat(5);
+		clientModel.getPlayers()[0].getResources().setSheep(5);
+		clientModel.getPlayers()[0].getResources().setWood(5);
+		clientModel.getPlayers()[0].getResources().setOre(5);
+		
+		HexLocation hexLocation = new HexLocation(1, 1);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.NorthWest);
+		VertexObject settlement = new VertexObject(1, vertexLocation);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+
+		assertFalse(clientModelController.canBuildSettlement(settlement));
+	}
+	@Test
+	public void testCanBuildCityWrongResourcesFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
+		clientModel.getPlayers()[0].getResources().setBrick(5);
+		clientModel.getPlayers()[0].getResources().setWheat(5);
+		clientModel.getPlayers()[0].getResources().setSheep(5);
+		clientModel.getPlayers()[0].getResources().setWood(5);
+		clientModel.getPlayers()[0].getResources().setOre(0);		
+		
+		HexLocation hexLocation = new HexLocation(1, 1);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.NorthWest);
+		VertexObject settlement = new VertexObject(0, vertexLocation);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+
+		assertFalse(clientModelController.canBuildSettlement(settlement));
+	}
 
 	@Test
 	public void testCanBuildSettlementSuccess() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWheat(5);
 		clientModel.getPlayers()[0].getResources().setSheep(5);
@@ -168,9 +268,39 @@ public class ClientModelTest {
 
 		assertTrue(clientModelController.canBuildSettlement(settlement));
 	}
+	@Test
+	public void testCanBuildSettlementWrongResourcesFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
+		clientModel.getPlayers()[0].getResources().setBrick(5);
+		clientModel.getPlayers()[0].getResources().setWheat(5);
+		clientModel.getPlayers()[0].getResources().setSheep(5);
+		clientModel.getPlayers()[0].getResources().setWood(0);
+		HexLocation hexLocation = new HexLocation(1, 1);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.East);
+		VertexObject settlement = new VertexObject(0, vertexLocation);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+
+		assertFalse(clientModelController.canBuildSettlement(settlement));
+	}
+	
+	@Test
+	public void testCanBuildSettlementNotPlayingFail() {
+		clientModel.getTurnTracker().setStatus("rolling");				
+		clientModel.getPlayers()[0].getResources().setBrick(5);
+		clientModel.getPlayers()[0].getResources().setWheat(5);
+		clientModel.getPlayers()[0].getResources().setSheep(5);
+		clientModel.getPlayers()[0].getResources().setWood(5);
+		HexLocation hexLocation = new HexLocation(1, 1);
+		VertexLocation vertexLocation = new VertexLocation(hexLocation, VertexDirection.East);
+		VertexObject settlement = new VertexObject(0, vertexLocation);
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+
+		assertFalse(clientModelController.canBuildSettlement(settlement));
+	}
 
 	@Test
 	public void testCanBuildSettlementNotTouchingFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWheat(5);
 		clientModel.getPlayers()[0].getResources().setSheep(5);
@@ -185,6 +315,7 @@ public class ClientModelTest {
 
 	@Test
 	public void testCanBuildSettlementOnOtherSettlementFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWheat(5);
 		clientModel.getPlayers()[0].getResources().setSheep(5);
@@ -199,6 +330,7 @@ public class ClientModelTest {
 
 	@Test
 	public void testCanBuildSettlementOneSpaceFail() {
+		clientModel.getTurnTracker().setStatus("playing");				
 		clientModel.getPlayers()[0].getResources().setBrick(5);
 		clientModel.getPlayers()[0].getResources().setWheat(5);
 		clientModel.getPlayers()[0].getResources().setSheep(5);
@@ -210,5 +342,6 @@ public class ClientModelTest {
 
 		assertFalse(clientModelController.canBuildSettlement(settlement));
 	}
+
 
 }
