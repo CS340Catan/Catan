@@ -8,7 +8,12 @@ public class TestRunner {
 				"test.SerializerTest",
 				"test.ClientModelTest",
 				"test.ServerProxyTest",
-				"test.PollerTest"
+				"test.PollerTest",
+				"test.CanPlayCardTest",
+				"test.MiscClientModelTest",
+				"test.MockServer",
+				"test.PlayingCommand",
+				"test.Serializer"
 		};
 		org.junit.runner.JUnitCore.main(testClasses);
 	}
