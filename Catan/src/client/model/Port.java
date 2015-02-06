@@ -1,5 +1,6 @@
 package client.model;
 
+import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 
 /**
@@ -19,7 +20,7 @@ import shared.locations.HexLocation;
 public class Port {
 	private String resource;
 	private HexLocation location;
-	
+	private EdgeDirection dir;
 	private String direction;
 	private int ratio;
 
@@ -40,6 +41,28 @@ public class Port {
 		this.location = location;
 		this.direction = direction;
 		this.ratio = ratio;
+	}
+	public void convertFromPrimitives() {
+		switch (direction) {
+		case "N":
+			dir = EdgeDirection.North;
+			break;
+		case "NE":
+			dir = EdgeDirection.NorthEast;
+			break;
+		case "SE":
+			dir = EdgeDirection.SouthEast;
+			break;
+		case "S":
+			dir = EdgeDirection.South;
+			break;
+		case "SW":
+			dir = EdgeDirection.SouthWest;
+			break;
+		case "NW":
+			dir = EdgeDirection.NorthWest;
+			break;
+		}
 	}
 
 	public String getResource() {
@@ -72,5 +95,13 @@ public class Port {
 
 	public void setRatio(int ratio) {
 		this.ratio = ratio;
+	}
+
+	public EdgeDirection getDir() {
+		return dir;
+	}
+
+	public void setDir(EdgeDirection dir) {
+		this.dir = dir;
 	}
 }
