@@ -1,13 +1,26 @@
 package client.model;
 
 public class Deck {
-	public Deck(int yearOfPlenty, int monument, int soldier, int roadBuilding,
-			int monopoly) {
+
+	private int yearOfPlenty;
+	private int monument;
+	private int soldier;
+	private int roadBuilding;
+	private int monopoly;
+
+	public Deck(int yearOfPlenty, int monument, int soldier, int roadBuilding, int monopoly) {
 		this.yearOfPlenty = yearOfPlenty;
 		this.monument = monument;
 		this.soldier = soldier;
 		this.roadBuilding = roadBuilding;
 		this.monopoly = monopoly;
+	}
+
+	public boolean hasDevCard() {
+		if ((yearOfPlenty + monopoly + monument + soldier + roadBuilding) == 0) {
+			return false;
+		}
+		return true;
 	}
 
 	public int getYearOfPlenty() {
@@ -50,9 +63,4 @@ public class Deck {
 		this.monopoly = monopoly;
 	}
 
-	private int yearOfPlenty;
-	private int monument;
-	private int soldier;
-	private int roadBuilding;
-	private int monopoly;
 }
