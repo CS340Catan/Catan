@@ -86,7 +86,7 @@ public class PlayingCommandTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		ClientModelController clientModelController = new ClientModelController(clientModel);
-		boolean pass = clientModelController.canBuyDevCard(0);
+		boolean pass = clientModelController.canFinishTurn(0);
 		assertTrue(pass);
 	}
 	
@@ -95,7 +95,7 @@ public class PlayingCommandTest {
 		clientModel.getTurnTracker().setCurrentTurn(1);
 		clientModel.getTurnTracker().setStatus("playing");
 		ClientModelController clientModelController = new ClientModelController(clientModel);
-		boolean pass = clientModelController.canBuyDevCard(0);
+		boolean pass = clientModelController.canFinishTurn(0);
 		assertFalse(pass);
 	}
 	
@@ -104,7 +104,7 @@ public class PlayingCommandTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("rolling");
 		ClientModelController clientModelController = new ClientModelController(clientModel);
-		boolean pass = clientModelController.canBuyDevCard(0);
+		boolean pass = clientModelController.canFinishTurn(0);
 		assertFalse(pass);
 	}
 	
