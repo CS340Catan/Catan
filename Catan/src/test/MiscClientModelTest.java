@@ -135,7 +135,7 @@ public class MiscClientModelTest {
 		clientModel.getPlayers()[playerIndex].setDiscarded(false);
 		ClientModelController clientModelController = new ClientModelController(clientModel);
 		boolean result = clientModelController.canDiscardCards(playerIndex);
-		assertFalse(result);
+		assertTrue(result);
 	}
 	
 	/**
@@ -161,7 +161,7 @@ public class MiscClientModelTest {
 		int robberIndex = 1;
 		int victimIndex = 0;
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
-		clientModel.getTurnTracker().setStatus("robbing");
+		clientModel.getTurnTracker().setStatus("playing");
 		HexLocation newRobberLocal = new HexLocation(0,1);
 		ClientModelController clientModelController = new ClientModelController(clientModel);
 		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
@@ -175,7 +175,7 @@ public class MiscClientModelTest {
 		int robberIndex = 3;
 		int victimIndex = 0;
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
-		clientModel.getTurnTracker().setStatus("playing");
+		clientModel.getTurnTracker().setStatus("rolling");
 		HexLocation newRobberLocal = new HexLocation(0,1);
 		ClientModelController clientModelController = new ClientModelController(clientModel);
 		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
@@ -188,7 +188,7 @@ public class MiscClientModelTest {
 		int robberIndex = 3;
 		int victimIndex = 0;
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
-		clientModel.getTurnTracker().setStatus("robbing");
+		clientModel.getTurnTracker().setStatus("playing");
 		HexLocation newRobberLocal = new HexLocation(2,-1);
 		ClientModelController clientModelController = new ClientModelController(clientModel);
 		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
@@ -201,7 +201,7 @@ public class MiscClientModelTest {
 		int robberIndex = 3;
 		int victimIndex = 0;
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
-		clientModel.getTurnTracker().setStatus("robbing");
+		clientModel.getTurnTracker().setStatus("playing");
 		HexLocation newRobberLocal = new HexLocation(1,0);
 		ClientModelController clientModelController = new ClientModelController(clientModel);
 		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
