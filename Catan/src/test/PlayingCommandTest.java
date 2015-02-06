@@ -108,17 +108,4 @@ public class PlayingCommandTest {
 		assertFalse(pass);
 	}
 	
-	@Test
-	public void canRobPlayerPass() {
-		//player 1 is robbing from player 0
-		clientModel.getTurnTracker().setCurrentTurn(1);
-		clientModel.getTurnTracker().setStatus("playing");
-		
-		HexLocation currentHexLocation = new HexLocation(2,-1);
-		clientModel.getMap().setRobber(currentHexLocation);
-		HexLocation futureHexLocation = new HexLocation(0,1);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
-		boolean pass = clientModelController.canRobPlayer(futureHexLocation,1,0);
-		assertTrue(pass);
-	}
 }
