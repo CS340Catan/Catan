@@ -1,10 +1,11 @@
 package shared.utils;
 
+import com.google.gson.Gson;
+
 import client.model.ClientModel;
 import client.model.Road;
 import client.model.VertexObject;
 
-import com.google.gson.Gson;
 
 /**
  * Serializes and deserializes to and from JSON.

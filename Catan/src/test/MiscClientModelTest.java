@@ -34,32 +34,13 @@ public class MiscClientModelTest {
 	/**
 	 * Test when it is not the player's turn
 	 */
-	@Test
-	public void testCanAcceptTradeBadPlayerId(){
-		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
-		int testPlayer = (currentPlayer + 1)%4;
-		ClientModelController clientModelController = new ClientModelController(clientModel);
-		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
-		boolean result = clientModelController.canAcceptTrade(testPlayer, resourceList);
-		assertFalse(result);
-	}
 	
 	@Test
 	public void testCanAcceptTradeBadResourceList(){
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		ClientModelController clientModelController = new ClientModelController(clientModel);
-		ResourceList resourceList = new ResourceList(0,0,0,0,0);
+		ResourceList resourceList = new ResourceList(900,0,0,0,0);
 		boolean result = clientModelController.canAcceptTrade(currentPlayer, resourceList);
-		assertFalse(result);
-	}
-	
-	@Test
-	public void testCanAccpetBadIdAndResourceList(){
-		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
-		int testPlayer = (currentPlayer + 1)%4;
-		ClientModelController clientModelController = new ClientModelController(clientModel);
-		ResourceList resourceList = new ResourceList(0,0,0,0,0);
-		boolean result = clientModelController.canAcceptTrade(testPlayer, resourceList);
 		assertFalse(result);
 	}
 	
@@ -71,4 +52,55 @@ public class MiscClientModelTest {
 		boolean result = clientModelController.canAcceptTrade(currentPlayer, resourceList);
 		assertTrue(result);
 	}
+	
+	@Test
+	public void testCanOfferTradeBadPlayerId(){
+		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
+		int testPlayer = (currentPlayer + 1)%4;
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
+		boolean result = clientModelController.canOfferTrade(testPlayer, resourceList);
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testCanOfferTradeBadResource(){
+		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ResourceList resourceList = new ResourceList(900,0,0,0,0);
+		boolean result = clientModelController.canAcceptTrade(currentPlayer, resourceList);
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testCanOfferTradeBadIdAndResourceList(){
+		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
+		int testPlayer = (currentPlayer + 1)%4;
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ResourceList resourceList = new ResourceList(100,0,0,0,0);
+		boolean result = clientModelController.canOfferTrade(testPlayer, resourceList);
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testCanOfferTradeBadStatus(){
+		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
+		clientModel.getTurnTracker().setStatus("Rolling");
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
+		boolean result = clientModelController.canOfferTrade(currentPlayer, resourceList);
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testCanOfferTradeGood(){
+		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
+		clientModel.getTurnTracker().setStatus("Playing");
+		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
+		boolean result = clientModelController.canOfferTrade(currentPlayer, resourceList);
+		assertTrue(result);
+	}
+	
+	
 }
