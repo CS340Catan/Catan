@@ -932,7 +932,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRobPlayer(HexLocation robberLocation, int robbingPlayer, int robbedPlayer) {
-		if (isPlayerTurn(robbingPlayer) && clientModel.getTurnTracker().getStatus().equals("Robbing") && playerTouchingRobber(robbedPlayer, robberLocation)
+		if (isPlayerTurn(robbingPlayer) && clientModel.getTurnTracker().getStatus().equals("robbing") && playerTouchingRobber(robbedPlayer, robberLocation)
 				&& clientModel.getPlayers()[robbedPlayer].getResources().count() > 0) {
 			return true;
 		}
