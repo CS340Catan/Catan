@@ -1214,6 +1214,7 @@ public class ClientModelController {
 	}
 
 	public void setClientModel(ClientModel clientModel) {
-		this.clientModel = clientModel;
+		ClientModel.getSingleton().setClientModel(clientModel);
+		this.clientModel = ClientModel.getSingleton();
 	}
 }

@@ -1,5 +1,7 @@
 package client.model;
 
+import java.util.Observable;
+
 /**
  * Contains all data relevant to the game
  * 
@@ -19,7 +21,7 @@ package client.model;
  * @author Seth White
  *
  */
-public class ClientModel {
+public class ClientModel extends Observable{
 	private ResourceList bank;
 	private MessageList chat;
 	private MessageList log;
@@ -40,10 +42,10 @@ public class ClientModel {
 		
 	}
 	public static ClientModel getSingleton(){//returns the singleton
-		if(getClientModel() == null){
-			setClientModel(new ClientModel());
+		if(clientModel == null){
+			clientModel = new ClientModel();
 		}
-		return getClientModel();
+		return clientModel;
 	}
 
 	public ResourceList getBank() {
@@ -123,10 +125,11 @@ public class ClientModel {
 	public void setDeck(Deck deck) {
 		this.deck = deck;
 	}
-	public static ClientModel getClientModel() {
-		return clientModel;
-	}
-	public static void setClientModel(ClientModel clientModel) {
+	
+	public void setClientModel(ClientModel clientModel) {
 		ClientModel.clientModel = clientModel;
+		setChanged();
+		notifyObservers();
 	}
+	
 }

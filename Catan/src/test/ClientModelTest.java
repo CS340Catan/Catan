@@ -22,7 +22,7 @@ public class ClientModelTest {
 	ClientModel clientModel = null;
 	@Before
 	public void setUp() throws Exception {
-		ClientModel.setClientModel(Serializer.deserializeClientModel(clientModelJson));
+		ClientModel.getSingleton().setClientModel(Serializer.deserializeClientModel(clientModelJson));
 		clientModel = ClientModel.getSingleton();
 	}
 
