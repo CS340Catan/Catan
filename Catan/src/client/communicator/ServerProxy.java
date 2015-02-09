@@ -2,7 +2,6 @@ package client.communicator;
 
 import shared.communication.*;
 import shared.utils.*;
-import client.communication.HTTPCommunicator;
 import client.model.*;
 
 /**

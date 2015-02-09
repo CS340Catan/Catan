@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import client.communication.HTTPCommunicator;
+import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.model.ClientModel;
 import shared.communication.*;

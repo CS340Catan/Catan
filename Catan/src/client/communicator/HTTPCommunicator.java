@@ -1,4 +1,4 @@
-package client.communication;
+package client.communicator;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
