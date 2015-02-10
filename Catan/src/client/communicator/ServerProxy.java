@@ -191,8 +191,6 @@ public class ServerProxy implements IServer {
 			throws ServerResponseException {
 		String jsonResponseString = httpCommunicator.doGet(
 				"/game/model?version=" + version, null);
-		ClientModel model = null; // Returns null if current model is already
-									// correct or there was an error
 		if (jsonResponseString != null) {
 			if (!jsonResponseString.equals("true")) {
 				ClientModel.getSingleton().setClientModel(Serializer.deserializeClientModel(jsonResponseString));				
