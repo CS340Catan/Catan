@@ -7,7 +7,7 @@ public class TestRunner {
 		String[] testClasses = new String[] {
 				"test.SerializerTest",
 				"test.ClientModelTest",
-//				"test.ServerProxyTest",
+				"test.ServerProxyTest",
 				"test.PollerTest",
 				"test.CanPlayCardTest",
 				"test.MiscClientModelTest",

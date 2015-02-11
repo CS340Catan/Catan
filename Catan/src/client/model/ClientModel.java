@@ -1,6 +1,7 @@
 package client.model;
 
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Contains all data relevant to the game
@@ -21,7 +22,7 @@ import java.util.Observable;
  * @author Seth White
  *
  */
-public class ClientModel extends Observable{
+public  class ClientModel extends Observable{
 	private ResourceList bank;
 	private MessageList chat;
 	private MessageList log;
@@ -33,7 +34,6 @@ public class ClientModel extends Observable{
 	private int version;
 	private int winner;
 
-	
 	private static ClientModel clientModel = null;//singleton instance of ClientModel
 	/**
 	 * Default constructor

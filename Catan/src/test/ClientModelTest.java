@@ -6,11 +6,11 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.utils.Serializer;
+import client.communication.ChatController;
 import client.model.ClientModel;
 import client.model.ClientModelController;
 import client.model.Road;
 import client.model.VertexObject;
-
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -24,6 +24,7 @@ public class ClientModelTest {
 	public void setUp() throws Exception {
 		ClientModel.getSingleton().setClientModel(Serializer.deserializeClientModel(clientModelJson));
 		clientModel = ClientModel.getSingleton();
+		ChatController cController = new ChatController(null);
 	}
 
 	@After

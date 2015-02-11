@@ -1,5 +1,6 @@
 package client.model;
 
+import shared.definitions.CatanColor;
 import shared.locations.*;
 
 /**
@@ -33,6 +34,30 @@ public class ClientModelController {
 	public ClientModelController(ClientModel clientModel) {
 		this.clientModel = clientModel;
 	}
+	public  CatanColor getPlayerColor(int playerIndex){
+		switch(ClientModel.getSingleton().getPlayers()[playerIndex].getColor()){
+		case "red":
+			return CatanColor.RED;
+		case "green":
+			return CatanColor.GREEN;
+		case "blue":
+			return CatanColor.BLUE;
+		case "yellow":
+			return CatanColor.YELLOW;
+		case "puce":
+			return CatanColor.PUCE;
+		case "brown":
+			return CatanColor.BROWN;
+		case "white":
+			return CatanColor.WHITE;
+		case "purple":
+			return CatanColor.PURPLE;
+		case "orange":
+			return CatanColor.ORANGE;
+		}
+		return null;
+	}
+	
 
 	/**
 	 * Check if it is the given player's turn. If it is the player's turn,
