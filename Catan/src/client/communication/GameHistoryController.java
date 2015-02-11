@@ -1,22 +1,22 @@
 package client.communication;
 
 import java.util.*;
-import java.util.List;
 
 import client.base.*;
+import client.model.ClientModel;
 import shared.definitions.*;
 
 /**
  * Game history controller implementation
  */
 public class GameHistoryController extends Controller implements
-		IGameHistoryController {
+		IGameHistoryController, Observer {
 
 	public GameHistoryController(IGameHistoryView view) {
 
 		super(view);
-
 		initFromModel();
+		ClientModel.getSingleton().addObserver(this);		
 	}
 
 	@Override
@@ -50,6 +50,12 @@ public class GameHistoryController extends Controller implements
 		getView().setEntries(entries);
 
 		// </temp>
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Change the view, yay!
+		
 	}
 
 }

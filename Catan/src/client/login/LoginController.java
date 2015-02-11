@@ -2,6 +2,7 @@ package client.login;
 
 import client.base.*;
 import client.misc.*;
+import client.model.ClientModel;
 
 import java.net.*;
 import java.io.*;
@@ -14,7 +15,7 @@ import java.lang.reflect.*;
  * Implementation for the login controller
  */
 @SuppressWarnings("unused")
-public class LoginController extends Controller implements ILoginController {
+public class LoginController extends Controller implements ILoginController, Observer {
 
 	private IMessageView messageView;
 	private IAction loginAction;
@@ -33,6 +34,7 @@ public class LoginController extends Controller implements ILoginController {
 		super(view);
 
 		this.messageView = messageView;
+		ClientModel.getSingleton().addObserver(this);
 	}
 
 	public ILoginView getLoginView() {
@@ -90,6 +92,12 @@ public class LoginController extends Controller implements ILoginController {
 		// If register succeeded
 		getLoginView().closeModal();
 		loginAction.execute();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

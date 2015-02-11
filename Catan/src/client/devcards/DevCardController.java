@@ -1,12 +1,16 @@
 package client.devcards;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import shared.definitions.ResourceType;
 import client.base.*;
+import client.model.ClientModel;
 
 /**
  * "Dev card" controller implementation
  */
-public class DevCardController extends Controller implements IDevCardController {
+public class DevCardController extends Controller implements IDevCardController,Observer {
 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
@@ -35,6 +39,7 @@ public class DevCardController extends Controller implements IDevCardController 
 		this.buyCardView = buyCardView;
 		this.soldierAction = soldierAction;
 		this.roadAction = roadAction;
+		ClientModel.getSingleton().addObserver(this);
 	}
 
 	public IPlayDevCardView getPlayCardView() {
@@ -101,6 +106,12 @@ public class DevCardController extends Controller implements IDevCardController 
 	public void playYearOfPlentyCard(ResourceType resource1,
 			ResourceType resource2) {
 
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -3,12 +3,13 @@ package client.resources;
 import java.util.*;
 
 import client.base.*;
+import client.model.ClientModel;
 
 /**
  * Implementation for the resource bar controller
  */
 public class ResourceBarController extends Controller implements
-		IResourceBarController {
+		IResourceBarController, Observer {
 
 	private Map<ResourceBarElement, IAction> elementActions;
 
@@ -17,6 +18,7 @@ public class ResourceBarController extends Controller implements
 		super(view);
 
 		elementActions = new HashMap<ResourceBarElement, IAction>();
+		ClientModel.getSingleton().addObserver(this);
 	}
 
 	@Override
@@ -70,6 +72,12 @@ public class ResourceBarController extends Controller implements
 			IAction action = elementActions.get(element);
 			action.execute();
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

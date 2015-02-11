@@ -1,11 +1,15 @@
 package client.roll;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import client.base.*;
+import client.model.ClientModel;
 
 /**
  * Implementation for the roll controller
  */
-public class RollController extends Controller implements IRollController {
+public class RollController extends Controller implements IRollController, Observer {
 
 	private IRollResultView resultView;
 
@@ -22,6 +26,7 @@ public class RollController extends Controller implements IRollController {
 		super(view);
 
 		setResultView(resultView);
+		ClientModel.getSingleton().addObserver(this);
 	}
 
 	public IRollResultView getResultView() {
@@ -40,6 +45,12 @@ public class RollController extends Controller implements IRollController {
 	public void rollDice() {
 
 		getResultView().showModal();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

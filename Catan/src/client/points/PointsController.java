@@ -1,11 +1,15 @@
 package client.points;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import client.base.*;
+import client.model.ClientModel;
 
 /**
  * Implementation for the points controller
  */
-public class PointsController extends Controller implements IPointsController {
+public class PointsController extends Controller implements IPointsController, Observer {
 
 	private IGameFinishedView finishedView;
 
@@ -24,6 +28,7 @@ public class PointsController extends Controller implements IPointsController {
 		setFinishedView(finishedView);
 
 		initFromModel();
+		ClientModel.getSingleton().addObserver(this);
 	}
 
 	public IPointsView getPointsView() {
@@ -43,6 +48,12 @@ public class PointsController extends Controller implements IPointsController {
 		// <temp>
 		getPointsView().setPoints(5);
 		// </temp>
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
