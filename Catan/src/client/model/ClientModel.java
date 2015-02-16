@@ -3,6 +3,8 @@ package client.model;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.utils.Serializer;
+
 /**
  * Contains all data relevant to the game
  * 
@@ -130,6 +132,10 @@ public  class ClientModel extends Observable{
 		ClientModel.clientModel = clientModel;
 		setChanged();
 		notifyObservers();
+	}
+	
+	public String toString() {
+		return Serializer.serializeClientModel(this);
 	}
 	
 }
