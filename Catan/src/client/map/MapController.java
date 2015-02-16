@@ -6,6 +6,7 @@ import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
 import client.data.*;
+import client.map.state.IMapState;
 import client.model.ClientModel;
 
 /**
@@ -14,6 +15,7 @@ import client.model.ClientModel;
 public class MapController extends Controller implements IMapController, Observer {
 
 	private IRobView robView;
+	private IMapState mapState;
 
 	public MapController(IMapView view, IRobView robView) {
 
@@ -200,8 +202,15 @@ public class MapController extends Controller implements IMapController, Observe
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		mapState.mapAction(this);
+	}
+
+	public IMapState getMapState() {
+		return mapState;
+	}
+
+	public void setMapState(IMapState mapState) {
+		this.mapState = mapState;
 	}
 
 }
