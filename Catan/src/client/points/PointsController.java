@@ -3,13 +3,15 @@ package client.points;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.locations.HexLocation;
 import client.base.*;
 import client.model.ClientModel;
 
 /**
  * Implementation for the points controller
  */
-public class PointsController extends Controller implements IPointsController, Observer {
+public class PointsController extends Controller implements IPointsController,
+		Observer {
 
 	private IGameFinishedView finishedView;
 
@@ -52,8 +54,18 @@ public class PointsController extends Controller implements IPointsController, O
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		// TODO Check if this is how update would work for points controller.
+		// Need a way to find user's playerID.
+		int playerID = 0;
+		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerID]
+				.getVictoryPoints();
+		getPointsView().setPoints(victoryPoints);
+
+		// TODO If the victoryPoints are greater than 10, display
+		// gameFinishedView
+		if (victoryPoints == 10) {
+			finishedView.showModal();
+		}
 	}
 
 }
