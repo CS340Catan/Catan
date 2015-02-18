@@ -13,7 +13,7 @@ import client.model.ClientModel;
 public interface IServer {
 	// ----NON-MOVE APIs--------
 	/**
-	 * This method takes in UserCredentials, which contain a username and
+//	 * This method takes in UserCredentials, which contain a username and
 	 * password, and determine if the inputed username and password is a valid
 	 * combination. A LoginResponse will be returned back.
 	 * 

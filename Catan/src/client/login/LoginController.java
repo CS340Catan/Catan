@@ -8,6 +8,15 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
+
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+import shared.communication.UserCredentials;
+import shared.utils.IServer;
+import shared.utils.ServerResponseException;
 //import com.google.gson.*;
 //import com.google.gson.reflect.TypeToken;
 
@@ -15,10 +24,12 @@ import java.lang.reflect.*;
  * Implementation for the login controller
  */
 @SuppressWarnings("unused")
-public class LoginController extends Controller implements ILoginController, Observer {
+public class LoginController extends Controller implements ILoginController,
+		Observer {
 
 	private IMessageView messageView;
 	private IAction loginAction;
+	private IServer server;
 
 	/**
 	 * LoginController constructor
@@ -76,28 +87,98 @@ public class LoginController extends Controller implements ILoginController, Obs
 
 	@Override
 	public void signIn() {
+		/*
+		 * Grab sign in credentials from the LoginView and create a user
+		 * credentials object.
+		 */
+		String signInUsername = this.getLoginView().getLoginUsername();
+		String signInPassword = this.getLoginView().getLoginPassword();
+		UserCredentials signInCredentials = new UserCredentials(signInUsername,
+				signInPassword);
 
-		// TODO: log in user
+		try {
+			if (server.Login(signInCredentials)) {
+				/*
+				 * If the login succeeded, throw a success statement and execute
+				 * loginAction.
+				 */
+				String outputStr = "Welcome, " + signInUsername + ".\n";
+				JOptionPane.showMessageDialog(null, outputStr,
+						"Welcome to Catan!", JOptionPane.PLAIN_MESSAGE);
 
-		// If log in succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+				getLoginView().closeModal();
+				loginAction.execute();
+			} else {
+				/*
+				 * If the login does not succeed, throw an error message stating
+				 * invalid login credentials.
+				 */
+				String outputStr = "The Inputed Username/Password were invalid. Try again.";
+				JOptionPane.showMessageDialog(null, outputStr,
+						"Invalid User Login", JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (ServerResponseException e) {
+			/*
+			 * If the server throws an exception, i.e. the user is not connected
+			 * to the server.
+			 */
+			String outputStr = "The server is currently battling an illness. Please try again later.";
+			JOptionPane.showMessageDialog(null, outputStr,
+					"Invalid User Login", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void register() {
+		/*
+		 * Grab register credentials from the LoginView and create a user
+		 * credentials object.
+		 */
+		String registerUsername = this.getLoginView().getLoginUsername();
+		String registerPassword = this.getLoginView().getLoginPassword();
+		UserCredentials registerCredentials = new UserCredentials(
+				registerUsername, registerPassword);
 
-		// TODO: register new user (which, if successful, also logs them in)
+		try {
+			if (server.Register(registerCredentials)) {
+				/*
+				 * If the register succeeded, throw a success statement and
+				 * execute loginAction.
+				 */
+				String outputStr = "Congrats " + registerUsername
+						+ " for registering for Catan.\n";
+				JOptionPane.showMessageDialog(null, outputStr,
+						"Welcome to Catan!", JOptionPane.PLAIN_MESSAGE);
 
-		// If register succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+				getLoginView().closeModal();
+				loginAction.execute();
+			} else {
+				/*
+				 * If the login does not succeed, throw an error message stating
+				 * invalid register credentials.
+				 */
+				String outputStr = "The Inputed Username/Password were invalid. Try again.";
+				JOptionPane.showMessageDialog(null, outputStr,
+						"Invalid User Register", JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (ServerResponseException e) {
+			/*
+			 * If the server throws an exception, i.e. the user is not connected
+			 * to the server.
+			 */
+			String outputStr = "The server is currently battling an illness. Please try again later.";
+			JOptionPane.showMessageDialog(null, outputStr,
+					"Invalid User Register", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		// TODO Check to see if there needs to be anything updated (probably
+		// nothing).
+
 	}
 
 }
