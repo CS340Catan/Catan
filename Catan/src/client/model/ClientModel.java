@@ -137,5 +137,5 @@ public  class ClientModel extends Observable{
 	public String toString() {
 		return Serializer.serializeClientModel(this);
 	}
-	
+
 }

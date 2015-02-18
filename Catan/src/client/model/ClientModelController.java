@@ -115,7 +115,7 @@ public class ClientModelController {
 	 * @Pre player has available road piece
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildRoad(int playerIndex, Road road, boolean usingDevCard) {
+	public boolean canBuildRoad(int playerIndex, Road road, boolean isFree) {
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		/*
 		 * Check Pre-conditions. I.e. check if it is the current player's turn,
@@ -125,7 +125,7 @@ public class ClientModelController {
 		 */
 
 		if (isPlayerTurn(playerIndex)
-				&& (playerHasResources(playerIndex, requiredResourceList) || usingDevCard)
+				&& (playerHasResources(playerIndex, requiredResourceList) || isFree)
 				&& !roadExists(road)
 				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))
 				&& playerHasAvailableRoadPiece(playerIndex)
@@ -844,7 +844,7 @@ public class ClientModelController {
 	 * @Pre Settlement is two edges away from all other settlements
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildSettlement(VertexObject settlement) {
+	public boolean canBuildSettlement(VertexObject settlement, boolean isFree) {
 		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
 
@@ -991,7 +991,12 @@ public class ClientModelController {
 		}
 		return false;
 	}
-
+	public boolean canMoveRobber(HexLocation hexLocation){
+		if(!clientModel.getMap().getRobber().equals(hexLocation)){
+			return true;
+		}
+		return false;
+	}
 	private boolean playerTouchingRobber(int robbedPlayer,
 			HexLocation robberLocation) {
 		VertexObject testObject = null;

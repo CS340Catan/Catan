@@ -2,12 +2,21 @@ package client.map;
 
 import java.util.*;
 
+import shared.communication.BuildCityParams;
+import shared.communication.BuildRoadParams;
+import shared.communication.BuildSettlementParams;
 import shared.definitions.*;
 import shared.locations.*;
+import shared.utils.ServerResponseException;
 import client.base.*;
+import client.communicator.HTTPCommunicator;
+import client.communicator.ServerProxy;
 import client.data.*;
 import client.map.state.IMapState;
 import client.model.ClientModel;
+import client.model.ClientModelController;
+import client.model.Road;
+import client.model.VertexObject;
 
 /**
  * Implementation for the map controller
@@ -16,7 +25,13 @@ public class MapController extends Controller implements IMapController, Observe
 
 	private IRobView robView;
 	private IMapState mapState;
-
+	private ClientModelController clientModelController;
+	private ServerProxy serverProxy;
+	private boolean playingCard = false;
+	private boolean firstRoadPlaced = false;
+	private EdgeLocation firstEdge;
+	private EdgeLocation secondEdge;
+	
 	public MapController(IMapView view, IRobView robView) {
 
 		super(view);
@@ -25,6 +40,8 @@ public class MapController extends Controller implements IMapController, Observe
 
 		initFromModel();
 		ClientModel.getSingleton().addObserver(this);
+		HTTPCommunicator.setServer("localhost", 8081);
+		serverProxy = new ServerProxy(new HTTPCommunicator());
 	}
 
 	public IMapView getView() {
@@ -41,9 +58,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	protected void initFromModel() {
-
 		// <temp>
-
 		Random rand = new Random();
 
 		for (int x = 0; x <= 3; ++x) {
@@ -54,21 +69,11 @@ public class MapController extends Controller implements IMapController, Observe
 				HexType hexType = HexType.values()[r];
 				HexLocation hexLoc = new HexLocation(x, y);
 				getView().addHex(hexLoc, hexType);
-				getView().placeRoad(
-						new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-						CatanColor.RED);
-				getView().placeRoad(
-						new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-						CatanColor.BLUE);
-				getView().placeRoad(
-						new EdgeLocation(hexLoc, EdgeDirection.South),
-						CatanColor.ORANGE);
-				getView().placeSettlement(
-						new VertexLocation(hexLoc, VertexDirection.NorthWest),
-						CatanColor.GREEN);
-				getView().placeCity(
-						new VertexLocation(hexLoc, VertexDirection.NorthEast),
-						CatanColor.PURPLE);
+				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest), CatanColor.RED);
+				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest), CatanColor.BLUE);
+				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South), CatanColor.ORANGE);
+				getView().placeSettlement(new VertexLocation(hexLoc, VertexDirection.NorthWest), CatanColor.GREEN);
+				getView().placeCity(new VertexLocation(hexLoc, VertexDirection.NorthEast), CatanColor.PURPLE);
 			}
 
 			if (x != 0) {
@@ -78,47 +83,22 @@ public class MapController extends Controller implements IMapController, Observe
 					HexType hexType = HexType.values()[r];
 					HexLocation hexLoc = new HexLocation(-x, y);
 					getView().addHex(hexLoc, hexType);
-					getView().placeRoad(
-							new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-							CatanColor.RED);
-					getView().placeRoad(
-							new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-							CatanColor.BLUE);
-					getView().placeRoad(
-							new EdgeLocation(hexLoc, EdgeDirection.South),
-							CatanColor.ORANGE);
-					getView().placeSettlement(
-							new VertexLocation(hexLoc,
-									VertexDirection.NorthWest),
-							CatanColor.GREEN);
-					getView().placeCity(
-							new VertexLocation(hexLoc,
-									VertexDirection.NorthEast),
-							CatanColor.PURPLE);
+					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest), CatanColor.RED);
+					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest), CatanColor.BLUE);
+					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South), CatanColor.ORANGE);
+					getView().placeSettlement(new VertexLocation(hexLoc, VertexDirection.NorthWest), CatanColor.GREEN);
+					getView().placeCity(new VertexLocation(hexLoc, VertexDirection.NorthEast), CatanColor.PURPLE);
 				}
 			}
 		}
 
 		PortType portType = PortType.BRICK;
-		getView().addPort(
-				new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North),
-				portType);
-		getView().addPort(
-				new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South),
-				portType);
-		getView().addPort(
-				new EdgeLocation(new HexLocation(-3, 3),
-						EdgeDirection.NorthEast), portType);
-		getView().addPort(
-				new EdgeLocation(new HexLocation(-3, 0),
-						EdgeDirection.SouthEast), portType);
-		getView().addPort(
-				new EdgeLocation(new HexLocation(3, -3),
-						EdgeDirection.SouthWest), portType);
-		getView()
-				.addPort(
-						new EdgeLocation(new HexLocation(3, 0),
-								EdgeDirection.NorthWest), portType);
+		getView().addPort(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North), portType);
+		getView().addPort(new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South), portType);
+		getView().addPort(new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast), portType);
+		getView().addPort(new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast), portType);
+		getView().addPort(new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest), portType);
+		getView().addPort(new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest), portType);
 
 		getView().placeRobber(new HexLocation(0, 0));
 
@@ -137,55 +117,86 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-
-		return true;
+		int playerIndex = PlayerInfo.getPlayerIndex();
+		Road road = new Road(playerIndex, edgeLoc);
+			if(mapState.getClassName().equals("firstRoundState") || mapState.getClassName().equals("secondRoundState") || playingCard){
+				return clientModelController.canBuildRoad(playerIndex, road, true);			
+			}
+			return clientModelController.canBuildRoad(playerIndex, road, false);
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
-
-		return true;
+		int playerIndex =  PlayerInfo.getPlayerIndex();
+		VertexObject settlement = new VertexObject(playerIndex, vertLoc);
+		if(mapState.getClassName().equals("firstRoundState") || mapState.getClassName().equals("secondRoundState") || playingCard){
+			return clientModelController.canBuildSettlement(settlement, true);
+		}
+		return clientModelController.canBuildSettlement(settlement, false);
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-
-		return true;
+		int playerIndex =  PlayerInfo.getPlayerIndex();
+		VertexObject city = new VertexObject(playerIndex, vertLoc);
+		return clientModelController.canBuildCity(city);
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
-
-		return true;
+		return clientModelController.canMoveRobber(hexLoc);
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {
-
-		getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+		if(canPlaceRoad(edgeLoc)){
+			BuildRoadParams buildRoadParams = new BuildRoadParams(PlayerInfo.getPlayerIndex(), edgeLoc, false);
+			try {
+				serverProxy.buildRoad(buildRoadParams);
+			} catch (ServerResponseException e) {
+				e.printStackTrace();
+				System.out.println("Something broke in placeRoad in MapController");
+			}
+			getView().placeRoad(edgeLoc, PlayerInfo.getColor());			
+		}
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
-
-		getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+		if(canPlaceSettlement(vertLoc)){
+			BuildSettlementParams buildSettlementParams = new BuildSettlementParams(PlayerInfo.getPlayerIndex(), vertLoc, false);
+			try {
+				serverProxy.buildSettlement(buildSettlementParams);
+			} catch (ServerResponseException e) {
+				e.printStackTrace();
+				System.out.println("Something broke in placeSettlement in MapController");
+			}
+			getView().placeSettlement(vertLoc, PlayerInfo.getColor());			
+		}
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
-
-		getView().placeCity(vertLoc, CatanColor.ORANGE);
+		if(canPlaceCity(vertLoc)){
+			BuildCityParams buildCityParams = new BuildCityParams(PlayerInfo.getPlayerIndex(), vertLoc);
+			try {
+				serverProxy.buildCity(buildCityParams);
+			} catch (ServerResponseException e) {
+				e.printStackTrace();
+				System.out.println("Something broke in placeSettlement in MapController");
+			}
+			getView().placeCity(vertLoc, PlayerInfo.getColor());
+			
+		}
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
-
-		getView().placeRobber(hexLoc);
-
-		getRobView().showModal();
+		if(canPlaceRobber(hexLoc)){
+			getView().placeRobber(hexLoc);
+			getRobView().showModal();
+		}
 	}
 
-	public void startMove(PieceType pieceType, boolean isFree,
-			boolean allowDisconnected) {
-
-		getView().startDrop(pieceType, CatanColor.ORANGE, true);
+	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {
+		int playerIndex = PlayerInfo.getPlayerIndex();
+		this.getView().startDrop(pieceType, clientModelController.getPlayerColor(playerIndex), true);
 	}
 
 	public void cancelMove() {
-
 	}
 
 	public void playSoldierCard() {
@@ -202,6 +213,7 @@ public class MapController extends Controller implements IMapController, Observe
 
 	@Override
 	public void update(Observable o, Object arg) {
+		clientModelController = new ClientModelController();
 		mapState.mapAction(this);
 	}
 

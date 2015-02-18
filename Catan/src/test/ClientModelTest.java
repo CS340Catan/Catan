@@ -24,7 +24,6 @@ public class ClientModelTest {
 	public void setUp() throws Exception {
 		ClientModel.getSingleton().setClientModel(Serializer.deserializeClientModel(clientModelJson));
 		clientModel = ClientModel.getSingleton();
-		ChatController cController = new ChatController(null);
 	}
 
 	@After
@@ -213,7 +212,7 @@ public class ClientModelTest {
 		VertexObject settlement = new VertexObject(0, vertexLocation);
 		ClientModelController clientModelController = new ClientModelController();
 
-		assertFalse(clientModelController.canBuildSettlement(settlement));
+		assertFalse(clientModelController.canBuildSettlement(settlement,false));
 	}
 	
 	@Test
@@ -230,7 +229,7 @@ public class ClientModelTest {
 		VertexObject settlement = new VertexObject(1, vertexLocation);
 		ClientModelController clientModelController = new ClientModelController();
 
-		assertFalse(clientModelController.canBuildSettlement(settlement));
+		assertFalse(clientModelController.canBuildSettlement(settlement, false));
 	}
 	@Test
 	public void testCanBuildCityWrongResourcesFail() {
@@ -246,7 +245,7 @@ public class ClientModelTest {
 		VertexObject settlement = new VertexObject(0, vertexLocation);
 		ClientModelController clientModelController = new ClientModelController();
 
-		assertFalse(clientModelController.canBuildSettlement(settlement));
+		assertFalse(clientModelController.canBuildSettlement(settlement, false));
 	}
 
 	@Test
@@ -261,7 +260,7 @@ public class ClientModelTest {
 		VertexObject settlement = new VertexObject(0, vertexLocation);
 		ClientModelController clientModelController = new ClientModelController();
 
-		assertTrue(clientModelController.canBuildSettlement(settlement));
+		assertTrue(clientModelController.canBuildSettlement(settlement, false));
 	}
 	@Test
 	public void testCanBuildSettlementWrongResourcesFail() {
@@ -275,7 +274,7 @@ public class ClientModelTest {
 		VertexObject settlement = new VertexObject(0, vertexLocation);
 		ClientModelController clientModelController = new ClientModelController();
 
-		assertFalse(clientModelController.canBuildSettlement(settlement));
+		assertFalse(clientModelController.canBuildSettlement(settlement, false));
 	}
 	
 	@Test
@@ -290,7 +289,7 @@ public class ClientModelTest {
 		VertexObject settlement = new VertexObject(0, vertexLocation);
 		ClientModelController clientModelController = new ClientModelController();
 
-		assertFalse(clientModelController.canBuildSettlement(settlement));
+		assertFalse(clientModelController.canBuildSettlement(settlement, false));
 	}
 
 	@Test
@@ -305,7 +304,7 @@ public class ClientModelTest {
 		VertexObject settlement = new VertexObject(0, vertexLocation);
 		ClientModelController clientModelController = new ClientModelController();
 
-		assertFalse(clientModelController.canBuildSettlement(settlement));
+		assertFalse(clientModelController.canBuildSettlement(settlement, false));
 	}
 
 	@Test
@@ -320,7 +319,7 @@ public class ClientModelTest {
 		VertexObject settlement = new VertexObject(0, vertexLocation);
 		ClientModelController clientModelController = new ClientModelController();
 
-		assertFalse(clientModelController.canBuildSettlement(settlement));
+		assertFalse(clientModelController.canBuildSettlement(settlement, false));
 	}
 
 	@Test
@@ -335,7 +334,7 @@ public class ClientModelTest {
 		VertexObject settlement = new VertexObject(0, vertexLocation);
 		ClientModelController clientModelController = new ClientModelController();
 
-		assertFalse(clientModelController.canBuildSettlement(settlement));
+		assertFalse(clientModelController.canBuildSettlement(settlement, false));
 	}
 	@Test 
 	public void testCanMaritimeTradeSuccess(){

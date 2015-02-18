@@ -10,4 +10,10 @@ public class DiscardingState implements IMapState {
 		
 	}
 
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -142,6 +142,7 @@ public class JoinGameController extends Controller implements
 		// If join succeeded
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
+		//TODO: store returned player index in PlayerInfo
 		joinAction.execute();
 	}
 
