@@ -20,7 +20,15 @@ public class PlayerInfo {
 	private static int playerIndex;
 	private static String name;
 	private static CatanColor color;
-
+	private static PlayerInfo playerInfo = null;
+	
+	public static PlayerInfo getSingleton(){
+		if(playerInfo == null){
+			playerInfo = new PlayerInfo();
+		}
+		return playerInfo;
+	}
+	
 	public PlayerInfo() {
 		setId(-1);
 		setPlayerIndex(-1);
@@ -36,27 +44,27 @@ public class PlayerInfo {
 		this.id = id;
 	}
 
-	public static int getPlayerIndex() {
+	public int getPlayerIndex() {
 		return playerIndex;
 	}
 
-	public static void setPlayerIndex(int playerIndex) {
+	public void setPlayerIndex(int playerIndex) {
 		PlayerInfo.playerIndex = playerIndex;
 	}
 
-	public static String getName() {
+	public String getName() {
 		return name;
 	}
 
-	public static void setName(String name) {
+	public void setName(String name) {
 		PlayerInfo.name = name;
 	}
 
-	public static CatanColor getColor() {
+	public CatanColor getColor() {
 		return color;
 	}
 
-	public static void setColor(CatanColor color) {
+	public void setColor(CatanColor color) {
 		PlayerInfo.color = color;
 	}
 

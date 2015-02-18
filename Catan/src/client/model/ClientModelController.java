@@ -849,7 +849,7 @@ public class ClientModelController {
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
 
 		if (isPlayerTurn(playerIndex)
-				&& playerHasResources(playerIndex, resourceList)
+				&& (playerHasResources(playerIndex, resourceList) || isFree)
 				&& !preexistingBuilding(settlement, true)
 				&& noAdjacentBuildings(settlement)
 				&& roadTouchingNewSettlement(settlement)
@@ -997,7 +997,7 @@ public class ClientModelController {
 		}
 		return false;
 	}
-	private boolean playerTouchingRobber(int robbedPlayer,
+	public boolean playerTouchingRobber(int robbedPlayer,
 			HexLocation robberLocation) {
 		VertexObject testObject = null;
 		VertexLocation testLocation = null;
