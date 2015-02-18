@@ -130,9 +130,9 @@ public class MapController extends Controller implements IMapController, Observe
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		VertexObject settlement = new VertexObject(playerIndex, vertLoc);
 		if (mapState.getClassName().equals("firstRoundState") || mapState.getClassName().equals("secondRoundState") || playingCard) {
-			return clientModelController.canBuildSettlement(settlement, true);
+			return clientModelController.canBuildSettlement(settlement, true,true);
 		}
-		return clientModelController.canBuildSettlement(settlement, false);
+		return clientModelController.canBuildSettlement(settlement, false,false);
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {

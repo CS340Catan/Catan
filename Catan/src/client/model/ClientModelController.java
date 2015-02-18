@@ -115,7 +115,8 @@ public class ClientModelController {
 	 * @Pre player has available road piece
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildRoad(int playerIndex, Road road, boolean isFree) {
+	//our implementation forces the player to build a settlement first
+	public boolean canBuildRoad(int playerIndex, Road road, boolean isFree) { 
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		/*
 		 * Check Pre-conditions. I.e. check if it is the current player's turn,
@@ -844,7 +845,7 @@ public class ClientModelController {
 	 * @Pre Settlement is two edges away from all other settlements
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canBuildSettlement(VertexObject settlement, boolean isFree) {
+	public boolean canBuildSettlement(VertexObject settlement, boolean isFree, boolean setupPhase) {
 		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
 
@@ -852,7 +853,7 @@ public class ClientModelController {
 				&& (playerHasResources(playerIndex, resourceList) || isFree)
 				&& !preexistingBuilding(settlement, true)
 				&& noAdjacentBuildings(settlement)
-				&& roadTouchingNewSettlement(settlement)
+				&& (roadTouchingNewSettlement(settlement) || setupPhase)
 				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
