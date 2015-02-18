@@ -3,7 +3,6 @@ package client.points;
 import java.util.Observable;
 import java.util.Observer;
 
-import shared.locations.HexLocation;
 import client.base.*;
 import client.model.ClientModel;
 
@@ -47,9 +46,10 @@ public class PointsController extends Controller implements IPointsController,
 	}
 
 	private void initFromModel() {
-		// <temp>
-		getPointsView().setPoints(5);
-		// </temp>
+		int playerID = 0; //Get PlayerID from playerInfo class
+		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerID]
+				.getVictoryPoints();
+		getPointsView().setPoints(victoryPoints);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class PointsController extends Controller implements IPointsController,
 
 		// TODO If the victoryPoints are greater than 10, display
 		// gameFinishedView
-		if (victoryPoints == 10) {
+		if (victoryPoints >= 10) {
 			finishedView.showModal();
 		}
 	}
