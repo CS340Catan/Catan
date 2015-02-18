@@ -97,7 +97,7 @@ public class LoginController extends Controller implements ILoginController,
 				signInPassword);
 
 		try {
-			if (server.Login(signInCredentials)) {
+			if (canLogin(signInCredentials) && server.Login(signInCredentials)) {
 				/*
 				 * If the login succeeded, throw a success statement and execute
 				 * loginAction.
@@ -113,7 +113,7 @@ public class LoginController extends Controller implements ILoginController,
 				 * If the login does not succeed, throw an error message stating
 				 * invalid login credentials.
 				 */
-				String outputStr = "The Inputed Username/Password were invalid. Try again.";
+				String outputStr = "The inputed Username/Password were invalid. Try again.";
 				JOptionPane.showMessageDialog(null, outputStr,
 						"Invalid User Login", JOptionPane.ERROR_MESSAGE);
 			}
@@ -122,7 +122,7 @@ public class LoginController extends Controller implements ILoginController,
 			 * If the server throws an exception, i.e. the user is not connected
 			 * to the server.
 			 */
-			String outputStr = "The server is currently battling an illness. Please try again later.";
+			String outputStr = "Could not reach the server. Please try again later.";
 			JOptionPane.showMessageDialog(null, outputStr,
 					"Invalid User Login", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
@@ -141,12 +141,13 @@ public class LoginController extends Controller implements ILoginController,
 				registerUsername, registerPassword);
 
 		try {
-			if (server.Register(registerCredentials)) {
+			if (canRegister(registerCredentials)
+					&& server.Register(registerCredentials)) {
 				/*
 				 * If the register succeeded, throw a success statement and
 				 * execute loginAction.
 				 */
-				String outputStr = "Congrats " + registerUsername
+				String outputStr = "Thank you " + registerUsername
 						+ " for registering for Catan.\n";
 				JOptionPane.showMessageDialog(null, outputStr,
 						"Welcome to Catan!", JOptionPane.PLAIN_MESSAGE);
@@ -158,7 +159,7 @@ public class LoginController extends Controller implements ILoginController,
 				 * If the login does not succeed, throw an error message stating
 				 * invalid register credentials.
 				 */
-				String outputStr = "The Inputed Username/Password were invalid. Try again.";
+				String outputStr = "The inputed Username/Password were invalid. Try again.";
 				JOptionPane.showMessageDialog(null, outputStr,
 						"Invalid User Register", JOptionPane.ERROR_MESSAGE);
 			}
@@ -167,7 +168,7 @@ public class LoginController extends Controller implements ILoginController,
 			 * If the server throws an exception, i.e. the user is not connected
 			 * to the server.
 			 */
-			String outputStr = "The server is currently battling an illness. Please try again later.";
+			String outputStr = "Could not reach the server. Please try again later.";
 			JOptionPane.showMessageDialog(null, outputStr,
 					"Invalid User Register", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
@@ -176,9 +177,32 @@ public class LoginController extends Controller implements ILoginController,
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Check to see if there needs to be anything updated (probably
-		// nothing).
+		/*
+		 * TODO Check to see if there needs to be anything updated (probably
+		 * nothing).
+		 */
 
 	}
 
+	private boolean canLogin(UserCredentials loginCredentials) {
+		/*
+		 * Check that username is not null and password not null
+		 */
+		if (loginCredentials.getUsername() == null)
+			return false;
+		if (loginCredentials.getPassword() == null)
+			return false;
+		return true;
+	}
+
+	private boolean canRegister(UserCredentials registerCredentials) {
+		/*
+		 * Check that username is not null and password is not null.
+		 */
+		if (registerCredentials.getUsername() == null)
+			return false;
+		if (registerCredentials.getPassword() == null)
+			return false;
+		return true;
+	}
 }
