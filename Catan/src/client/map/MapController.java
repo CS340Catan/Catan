@@ -150,7 +150,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	private void sendRoadToServer(EdgeLocation edgeLocation){
-		BuildRoadParams buildRoadParams = new BuildRoadParams(PlayerInfo.getSingleton().getPlayerIndex(), edgeLocation, false);
+		BuildRoadParams buildRoadParams = new BuildRoadParams(PlayerInfo.getSingleton().getPlayerIndex(), edgeLocation, playingRoadBuildingCard);
 		try {
 			server.buildRoad(buildRoadParams);
 		} catch (ServerResponseException e) {
