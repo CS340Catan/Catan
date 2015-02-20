@@ -237,7 +237,9 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void playSoldierCard() {
-		this.getView().startDrop(PieceType.ROBBER, clientModelController.getPlayerColor(PlayerInfo.getSingleton().getPlayerIndex()), false);
+		if(clientModelController.isPlayerTurn(PlayerInfo.getSingleton().getPlayerIndex())){
+			this.getView().startDrop(PieceType.ROBBER, clientModelController.getPlayerColor(PlayerInfo.getSingleton().getPlayerIndex()), false);
+		}
 	}
 
 	public void playRoadBuildingCard() {
