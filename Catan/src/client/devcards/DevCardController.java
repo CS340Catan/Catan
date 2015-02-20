@@ -50,24 +50,34 @@ public class DevCardController extends Controller implements IDevCardController,
 		return buyCardView;
 	}
 
+//==============================================Begin Implementation Below================================
+	
+	//===========================BUY CARD VIEW CONTROLLS======================
+	//perons needs ore, woord and grain. can i acces the model.contorller? 
+	//simply call ClientModelController.canBuyDevCard(); if true, generate proper communcaication class
+	//call ServerProxy.buyDevCard(//noparams) 
 	@Override
 	public void startBuyCard() {
-
+		//disable button if cannot do so
 		getBuyCardView().showModal();
 	}
 
 	@Override
 	public void cancelBuyCard() {
-
 		getBuyCardView().closeModal();
 	}
 
 	@Override
 	public void buyCard() {
-
+		//model needs to know who is playing
+		//just get turn? needs access to the model
+		//if(ClientModelController.canBuyDevCard(playerindex))
+			//ServerProxy.buyDevCard
+		//else -> error message
 		getBuyCardView().closeModal();
 	}
 
+	//===============================PLAY DEV CARD  CONTROLLS=====================
 	@Override
 	public void startPlayCard() {
 
@@ -82,7 +92,9 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
-
+		//had enum use toString? or large switchstatement
+		//(if(clientModelController.canPlayMonopolyCard(player index))
+			//ServerProxy.playMonopolyCard(new MonopolyCardParams(resource.toString(), playerindex))
 	}
 
 	@Override
@@ -105,7 +117,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1,
 			ResourceType resource2) {
-
+			
 	}
 
 	@Override
