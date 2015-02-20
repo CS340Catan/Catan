@@ -268,6 +268,13 @@ public class MapController extends Controller implements IMapController, Observe
 		updateRoads();
 		updateSettlements();
 		updateCities();
+		updateRobberPosition();
+	}
+
+	private void updateRobberPosition() {
+		HexLocation robberLocation =  ClientModel.getSingleton().getMap().getRobber();
+		this.getView().placeRobber(robberLocation);
+		
 	}
 
 	private void updateState(){
