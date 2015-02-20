@@ -48,7 +48,7 @@ public class PointsController extends Controller implements IPointsController,
 	}
 
 	private void initFromModel() {
-		if (PlayerInfo.getSingleton().getName() != null) {
+		if (PlayerInfo.getSingleton().getName() != "") {
 			int playerID = PlayerInfo.getSingleton().getPlayerIndex();
 			// Get PlayerID from playerInfo class
 			int victoryPoints = ClientModel.getSingleton().getPlayers()[playerID]
