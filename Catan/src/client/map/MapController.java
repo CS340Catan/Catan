@@ -15,7 +15,13 @@ import client.base.*;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.data.*;
+import client.map.state.DiscardingState;
+import client.map.state.FirstRoundState;
 import client.map.state.IMapState;
+import client.map.state.PlayingState;
+import client.map.state.RobbingState;
+import client.map.state.RollingState;
+import client.map.state.SecondRoundState;
 import client.model.ClientModel;
 import client.model.ClientModelController;
 import client.model.ResourceList;
@@ -238,6 +244,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void cancelMove() {
+//		this.getView()
 	}
 
 	public void playSoldierCard() {
@@ -251,8 +258,6 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
-		Random random = new Random();
-		int victimIndex = victim.getPlayerIndex();
 		MoveRobberParams robPlayerParams = new MoveRobberParams(PlayerInfo.getSingleton().getPlayerIndex(), victim.getPlayerIndex(), robberLocation);
 		try {
 			server.robPlayer(robPlayerParams);
@@ -265,7 +270,58 @@ public class MapController extends Controller implements IMapController, Observe
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModelController = new ClientModelController();
-		mapState.mapAction(this);
+		updateState();
+		updateRoads();
+		updateSettlements();
+		updateCities();
+	}
+
+	private void updateState(){
+		switch(ClientModel.getSingleton().getTurnTracker().getStatus().toUpperCase()){
+		case "FIRSTROUND":
+			mapState = new FirstRoundState();
+			break;
+		case "SECONDROUND":
+			mapState = new SecondRoundState();
+			break;
+		case "ROLLING":
+			mapState = new RollingState();
+			break;
+		case "ROBBING":
+			mapState = new RobbingState();
+			break;
+		case "PLAYING":
+			mapState = new PlayingState();
+			break;
+		case "DISCARDING":
+			mapState = new DiscardingState();
+			break;
+		default:
+			System.out.println("Somthing has gone terribly, horribly wrong in Update() in mapController.java");
+			break;
+		}
+	}
+
+	private void updateCities() {
+		for(VertexObject city: ClientModel.getSingleton().getMap().getCities()){
+			int ownerIndex = city.getOwner();
+			getView().placeCity(city.getLocation(), clientModelController.getPlayerColor(ownerIndex));
+		}
+	}
+
+	private void updateSettlements() {
+		for(VertexObject settlement: ClientModel.getSingleton().getMap().getSettlements()){
+			int ownerIndex = settlement.getOwner();
+			getView().placeSettlement(settlement.getLocation(), clientModelController.getPlayerColor(ownerIndex));
+		}
+	}
+
+	private void updateRoads() {
+		for(Road road : ClientModel.getSingleton().getMap().getRoads()){
+			int ownerIndex = road.getOwner();
+			getView().placeRoad(road.getLocation(), clientModelController.getPlayerColor(ownerIndex));
+		}
+		
 	}
 
 	public IMapState getMapState() {
