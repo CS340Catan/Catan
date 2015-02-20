@@ -124,19 +124,13 @@ public class MapController extends Controller implements IMapController, Observe
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		Road road = new Road(playerIndex, edgeLoc);
-		if (mapState.getClassName().equals("firstRoundState") || mapState.getClassName().equals("secondRoundState") || playingCard) {
-			return clientModelController.canBuildRoad(playerIndex, road, true);
-		}
-		return clientModelController.canBuildRoad(playerIndex, road, false);
+		return mapState.canPlaceRoad(playerIndex, road, playingCard, clientModelController);
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		VertexObject settlement = new VertexObject(playerIndex, vertLoc);
-		if (mapState.getClassName().equals("firstRoundState") || mapState.getClassName().equals("secondRoundState") || playingCard) {
-			return clientModelController.canBuildSettlement(settlement, true,true);
-		}
-		return clientModelController.canBuildSettlement(settlement, false,false);
+		return mapState.canPlaceSettlement(settlement, playingCard, clientModelController);
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
