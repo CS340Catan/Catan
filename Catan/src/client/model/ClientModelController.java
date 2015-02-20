@@ -966,11 +966,18 @@ public class ClientModelController {
 	}
 
 	private boolean playerOnPort(int playerIndex) {
+		boolean onPort = false;
 		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
-			return buildingOnPort(playerIndex, settlement);
+			onPort = buildingOnPort(playerIndex, settlement);
+			if(onPort){
+				return onPort;
+			}
 		}
 		for (VertexObject city : clientModel.getMap().getCities()) {
-			return buildingOnPort(playerIndex, city);
+			onPort = buildingOnPort(playerIndex, city);
+			if(onPort){
+				return onPort;
+			}
 		}
 		return false;
 	}

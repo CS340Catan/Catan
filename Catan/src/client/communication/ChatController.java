@@ -5,20 +5,33 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JOptionPane;
+
 import client.base.*;
+import client.communicator.HTTPCommunicator;
+import client.communicator.ServerProxy;
 import client.model.ClientModel;
 import client.model.ClientModelController;
 import client.model.MessageLine;
 import client.model.MessageList;
+import client.model.Player;
 import shared.definitions.*;
+import shared.utils.IServer;
+import shared.utils.ServerResponseException;
 
 /**
  * Chat controller implementation
  */
-public class ChatController extends Controller implements IChatController, Observer {
+public class ChatController extends Controller implements IChatController,
+		Observer {
+
+	private IServer server;
 
 	public ChatController(IChatView view) {
 		super(view);
+		server = new ServerProxy(new HTTPCommunicator());
+		// TODO update httpCommunicator if adding host and port numbers to
+		// constructor
 		ClientModel.getSingleton().addObserver(this);
 	}
 
@@ -29,21 +42,41 @@ public class ChatController extends Controller implements IChatController, Obser
 
 	@Override
 	public void sendMessage(String message) {
-		// Send the playerindex as the source
+		try {
+			server.sendChat(message);
+		} catch (ServerResponseException e) {
+			/*
+			 * If the server throws an exception, i.e. the user is not connected
+			 * to the server.
+			 */
+			String outputStr = "Could not reach the server. Please try again later.";
+			JOptionPane.showMessageDialog(null, outputStr, "Server Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		ClientModelController clientModelController = new ClientModelController();
-		MessageList messageList = ClientModel.getSingleton().getChat();
-		ChatView chatView = (ChatView) this.getView();
-		ArrayList<LogEntry> logEntries = new ArrayList<LogEntry>();
+		MessageList chatMessageList = ClientModel.getSingleton().getChat();
 
-		for (MessageLine messageLine : messageList.getLines()) {
-			LogEntry logEntry = new LogEntry(clientModelController.getPlayerColor(Integer.parseInt(messageLine.getSource())), messageLine.getMessage());
-			logEntries.add(logEntry);
+		ArrayList<LogEntry> logEntries = new ArrayList<LogEntry>();
+		if (chatMessageList != null) {
+			for (MessageLine chatMessage : chatMessageList.getLines()) {
+				String messageString = chatMessage.getMessage();
+				String messageSource = chatMessage.getSource();
+
+				CatanColor messageColor = null;
+				for (Player player : ClientModel.getSingleton().getPlayers()) {
+					if (player.getName() == messageSource) {
+						messageColor = CatanColor.valueOf(player.getColor());
+					}
+				}
+
+				logEntries.add(new LogEntry(messageColor, messageString));
+			}
 		}
-		chatView.setEntries(logEntries);
+		getView().setEntries(logEntries);
 	}
 
 }

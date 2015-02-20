@@ -4,6 +4,8 @@ import java.util.*;
 
 import client.base.*;
 import client.model.ClientModel;
+import client.model.MessageLine;
+import client.model.Player;
 import shared.definitions.*;
 
 /**
@@ -16,7 +18,7 @@ public class GameHistoryController extends Controller implements
 
 		super(view);
 		initFromModel();
-		ClientModel.getSingleton().addObserver(this);		
+		ClientModel.getSingleton().addObserver(this);
 	}
 
 	@Override
@@ -26,36 +28,54 @@ public class GameHistoryController extends Controller implements
 	}
 
 	private void initFromModel() {
-
-		// <temp>
+		/*
+		 * Sample of how to create a new gameHistory entry.
+		 * 
+		 * entries.add(new LogEntry(CatanColor.BROWN,"Message"));
+		 */
 
 		List<LogEntry> entries = new ArrayList<LogEntry>();
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(
-				CatanColor.ORANGE,
-				"This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(
-				CatanColor.ORANGE,
-				"This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(
-				CatanColor.ORANGE,
-				"This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(
-				CatanColor.ORANGE,
-				"This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
+		if (ClientModel.getSingleton().getLog() != null) {
+			for (MessageLine historyMessage : ClientModel.getSingleton()
+					.getLog().getLines()) {
+				String messageString = historyMessage.getMessage();
+				String messageSource = historyMessage.getSource();
+
+				CatanColor messageColor = null;
+				for (Player player : ClientModel.getSingleton().getPlayers()) {
+					if (player.getName() == messageSource) {
+						messageColor = CatanColor.valueOf(player.getColor());
+					}
+				}
+
+				entries.add(new LogEntry(messageColor, messageString));
+			}
+		}
 
 		getView().setEntries(entries);
-
-		// </temp>
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Change the view, yay!
-		
+		List<LogEntry> entries = new ArrayList<LogEntry>();
+		if (ClientModel.getSingleton().getLog() != null) {
+			for (MessageLine historyMessage : ClientModel.getSingleton()
+					.getLog().getLines()) {
+				String messageString = historyMessage.getMessage();
+				String messageSource = historyMessage.getSource();
+
+				CatanColor messageColor = null;
+				for (Player player : ClientModel.getSingleton().getPlayers()) {
+					if (player.getName() == messageSource) {
+						messageColor = CatanColor.valueOf(player.getColor());
+					}
+				}
+
+				entries.add(new LogEntry(messageColor, messageString));
+			}
+		}
+
+		getView().setEntries(entries);
 	}
 
 }
