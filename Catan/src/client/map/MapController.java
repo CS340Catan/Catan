@@ -37,7 +37,7 @@ public class MapController extends Controller implements IMapController, Observe
 	private IMapState mapState;
 	private ClientModelController clientModelController;
 	private IServer server;
-	private boolean playingCard = false;
+	private boolean playingRoadBuildingCard = false;
 	private boolean firstRoadPlaced = false;
 	private EdgeLocation firstEdge;
 	private EdgeLocation secondEdge;
@@ -130,13 +130,13 @@ public class MapController extends Controller implements IMapController, Observe
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		Road road = new Road(playerIndex, edgeLoc);
-		return mapState.canPlaceRoad(playerIndex, road, playingCard, clientModelController);
+		return mapState.canPlaceRoad(playerIndex, road, playingRoadBuildingCard, clientModelController);
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		VertexObject settlement = new VertexObject(playerIndex, vertLoc);
-		return mapState.canPlaceSettlement(settlement, playingCard, clientModelController);
+		return mapState.canPlaceSettlement(settlement, playingRoadBuildingCard, clientModelController);
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
@@ -159,7 +159,7 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 	}
 	public void placeRoad(EdgeLocation edgeLoc) {
-		if (!playingCard) {
+		if (!playingRoadBuildingCard) {
 			if (canPlaceRoad(edgeLoc)) {
 				sendRoadToServer(edgeLoc);
 				getView().placeRoad(edgeLoc, PlayerInfo.getSingleton().getColor());
@@ -169,15 +169,15 @@ public class MapController extends Controller implements IMapController, Observe
 			if(!firstRoadPlaced){
 				firstRoadPlaced = true;
 				firstEdge = edgeLoc;
-			}
-			else{
 				sendRoadToServer(firstEdge);
 				getView().placeRoad(firstEdge, PlayerInfo.getSingleton().getColor());
+			}
+			else{
 				sendRoadToServer(edgeLoc);
 				getView().placeRoad(edgeLoc, PlayerInfo.getSingleton().getColor());
 				firstEdge = null;
 				firstRoadPlaced = false;
-				playingCard = false;
+				playingRoadBuildingCard = false;
 			}
 		}
 	}
@@ -248,7 +248,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void playRoadBuildingCard() {
-//		this.getView().;
+		playingRoadBuildingCard = true;
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
