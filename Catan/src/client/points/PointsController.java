@@ -4,7 +4,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import client.base.*;
+import client.data.PlayerInfo;
 import client.model.ClientModel;
+import client.model.Player;
 
 /**
  * Implementation for the points controller
@@ -46,7 +48,7 @@ public class PointsController extends Controller implements IPointsController,
 	}
 
 	private void initFromModel() {
-		int playerID = 0; // Get PlayerID from playerInfo class
+		int playerID = PlayerInfo.getSingleton().getPlayerIndex(); // Get PlayerID from playerInfo class
 		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerID]
 				.getVictoryPoints();
 		getPointsView().setPoints(victoryPoints);
@@ -58,17 +60,26 @@ public class PointsController extends Controller implements IPointsController,
 		 * TODO Check if this is how update would work for points controller.
 		 * Need a way to find user's playerID.
 		 */
-		int playerID = 0;
-		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerID]
+		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerID = PlayerInfo.getSingleton().getId();
+		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerIndex]
 				.getVictoryPoints();
 		getPointsView().setPoints(victoryPoints);
 
 		/*
-		 * TODO If the victoryPoints are greater than 10, display //
+		 * TODO If the victoryPoints are greater than 10, display
 		 * gameFinishedView
 		 */
-		if (victoryPoints >= 10) {
-			finishedView.showModal();
+		for (Player player : ClientModel.getSingleton().getPlayers()) {
+			if (player.getVictoryPoints() >= 10) {
+				if (player.getPlayerid() == playerID) {
+					finishedView.setWinner(player.getName(), true);
+				} else {
+					finishedView.setWinner(player.getName(), false);
+				}
+				finishedView.showModal();
+				ClientModel.getSingleton().setWinner(player.getPlayerid());
+			}
 		}
 	}
 }
