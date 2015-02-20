@@ -48,10 +48,13 @@ public class PointsController extends Controller implements IPointsController,
 	}
 
 	private void initFromModel() {
-		int playerID = PlayerInfo.getSingleton().getPlayerIndex(); // Get PlayerID from playerInfo class
-		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerID]
-				.getVictoryPoints();
-		getPointsView().setPoints(victoryPoints);
+		if (PlayerInfo.getSingleton().getName() != null) {
+			int playerID = PlayerInfo.getSingleton().getPlayerIndex();
+			// Get PlayerID from playerInfo class
+			int victoryPoints = ClientModel.getSingleton().getPlayers()[playerID]
+					.getVictoryPoints();
+			getPointsView().setPoints(victoryPoints);
+		}
 	}
 
 	@Override
@@ -66,10 +69,6 @@ public class PointsController extends Controller implements IPointsController,
 				.getVictoryPoints();
 		getPointsView().setPoints(victoryPoints);
 
-		/*
-		 * TODO If the victoryPoints are greater than 10, display
-		 * gameFinishedView
-		 */
 		for (Player player : ClientModel.getSingleton().getPlayers()) {
 			if (player.getVictoryPoints() >= 10) {
 				if (player.getPlayerid() == playerID) {
@@ -79,6 +78,7 @@ public class PointsController extends Controller implements IPointsController,
 				}
 				finishedView.showModal();
 				ClientModel.getSingleton().setWinner(player.getPlayerid());
+				// TODO communicate to the map controller that a winner exists
 			}
 		}
 	}

@@ -1,6 +1,8 @@
 package client.login;
 
 import client.base.*;
+import client.communicator.HTTPCommunicator;
+import client.communicator.ServerProxy;
 import client.misc.*;
 import client.model.ClientModel;
 
@@ -8,7 +10,6 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -46,6 +47,11 @@ public class LoginController extends Controller implements ILoginController,
 
 		this.messageView = messageView;
 		ClientModel.getSingleton().addObserver(this);
+		server = new ServerProxy(new HTTPCommunicator());
+		/*
+		 * TODO how does the server proxy / HTTP communicator take into account
+		 * port, host, etc.
+		 */
 	}
 
 	public ILoginView getLoginView() {
