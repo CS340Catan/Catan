@@ -5,17 +5,26 @@ import java.util.*;
 import shared.communication.BuildCityParams;
 import shared.communication.BuildRoadParams;
 import shared.communication.BuildSettlementParams;
+import shared.communication.MoveRobberParams;
 import shared.communication.PlayerIndex;
 import shared.definitions.*;
 import shared.locations.*;
+import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.data.*;
+import client.map.state.DiscardingState;
+import client.map.state.FirstRoundState;
 import client.map.state.IMapState;
+import client.map.state.PlayingState;
+import client.map.state.RobbingState;
+import client.map.state.RollingState;
+import client.map.state.SecondRoundState;
 import client.model.ClientModel;
 import client.model.ClientModelController;
+import client.model.ResourceList;
 import client.model.Road;
 import client.model.VertexObject;
 
@@ -27,11 +36,12 @@ public class MapController extends Controller implements IMapController, Observe
 	private IRobView robView;
 	private IMapState mapState;
 	private ClientModelController clientModelController;
-	private ServerProxy serverProxy;
-	private boolean playingCard = false;
+	private IServer server;
+	private boolean playingRoadBuildingCard = false;
 	private boolean firstRoadPlaced = false;
 	private EdgeLocation firstEdge;
 	private EdgeLocation secondEdge;
+	private HexLocation robberLocation;
 
 	public MapController(IMapView view, IRobView robView) {
 
@@ -42,7 +52,7 @@ public class MapController extends Controller implements IMapController, Observe
 		initFromModel();
 		ClientModel.getSingleton().addObserver(this);
 		HTTPCommunicator.setServer("localhost", 8081);
-		serverProxy = new ServerProxy(new HTTPCommunicator());
+		server = new ServerProxy(new HTTPCommunicator());
 	}
 
 	public IMapView getView() {
@@ -120,19 +130,13 @@ public class MapController extends Controller implements IMapController, Observe
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		Road road = new Road(playerIndex, edgeLoc);
-		if (mapState.getClassName().equals("firstRoundState") || mapState.getClassName().equals("secondRoundState") || playingCard) {
-			return clientModelController.canBuildRoad(playerIndex, road, true);
-		}
-		return clientModelController.canBuildRoad(playerIndex, road, false);
+		return mapState.canPlaceRoad(playerIndex, road, playingRoadBuildingCard, clientModelController);
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		VertexObject settlement = new VertexObject(playerIndex, vertLoc);
-		if (mapState.getClassName().equals("firstRoundState") || mapState.getClassName().equals("secondRoundState") || playingCard) {
-			return clientModelController.canBuildSettlement(settlement, true,true);
-		}
-		return clientModelController.canBuildSettlement(settlement, false,false);
+		return mapState.canPlaceSettlement(settlement, playingRoadBuildingCard, clientModelController);
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
@@ -146,16 +150,16 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	private void sendRoadToServer(EdgeLocation edgeLocation){
-		BuildRoadParams buildRoadParams = new BuildRoadParams(PlayerInfo.getSingleton().getPlayerIndex(), edgeLocation, false);
+		BuildRoadParams buildRoadParams = new BuildRoadParams(PlayerInfo.getSingleton().getPlayerIndex(), edgeLocation, playingRoadBuildingCard);
 		try {
-			serverProxy.buildRoad(buildRoadParams);
+			server.buildRoad(buildRoadParams);
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
 			System.out.println("Something broke in sendRoadToServer in MapController");
 		}
 	}
 	public void placeRoad(EdgeLocation edgeLoc) {
-		if (!playingCard) {
+		if (!playingRoadBuildingCard) {
 			if (canPlaceRoad(edgeLoc)) {
 				sendRoadToServer(edgeLoc);
 				getView().placeRoad(edgeLoc, PlayerInfo.getSingleton().getColor());
@@ -165,15 +169,15 @@ public class MapController extends Controller implements IMapController, Observe
 			if(!firstRoadPlaced){
 				firstRoadPlaced = true;
 				firstEdge = edgeLoc;
-			}
-			else{
 				sendRoadToServer(firstEdge);
 				getView().placeRoad(firstEdge, PlayerInfo.getSingleton().getColor());
+			}
+			else{
 				sendRoadToServer(edgeLoc);
 				getView().placeRoad(edgeLoc, PlayerInfo.getSingleton().getColor());
 				firstEdge = null;
 				firstRoadPlaced = false;
-				playingCard = false;
+				playingRoadBuildingCard = false;
 			}
 		}
 	}
@@ -182,7 +186,7 @@ public class MapController extends Controller implements IMapController, Observe
 		if (canPlaceSettlement(vertLoc)) {
 			BuildSettlementParams buildSettlementParams = new BuildSettlementParams(PlayerInfo.getSingleton().getPlayerIndex(), vertLoc, false);
 			try {
-				serverProxy.buildSettlement(buildSettlementParams);
+				server.buildSettlement(buildSettlementParams);
 			} catch (ServerResponseException e) {
 				e.printStackTrace();
 				System.out.println("Something broke in placeSettlement in MapController");
@@ -195,7 +199,7 @@ public class MapController extends Controller implements IMapController, Observe
 		if (canPlaceCity(vertLoc)) {
 			BuildCityParams buildCityParams = new BuildCityParams(PlayerInfo.getSingleton().getPlayerIndex(), vertLoc);
 			try {
-				serverProxy.buildCity(buildCityParams);
+				server.buildCity(buildCityParams);
 			} catch (ServerResponseException e) {
 				e.printStackTrace();
 				System.out.println("Something broke in placeSettlement in MapController");
@@ -221,10 +225,10 @@ public class MapController extends Controller implements IMapController, Observe
 					infoArrayIndex += 1;
 				}
 			}
+			robberLocation = hexLoc;
 			getRobView().setPlayers(candidateVictims);
 			getView().placeRobber(hexLoc);
 			getRobView().showModal();
-			
 		}
 	}
 
@@ -234,6 +238,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void cancelMove() {
+//		this.getView()
 	}
 
 	public void playSoldierCard() {
@@ -243,17 +248,81 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void playRoadBuildingCard() {
-//		this.getView().;
+		playingRoadBuildingCard = true;
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
-
+		MoveRobberParams robPlayerParams = new MoveRobberParams(PlayerInfo.getSingleton().getPlayerIndex(), victim.getPlayerIndex(), robberLocation);
+		try {
+			server.robPlayer(robPlayerParams);
+		} catch (ServerResponseException e) {
+			System.out.println("Something broke in robPlayer in mapController.java");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModelController = new ClientModelController();
-		mapState.mapAction(this);
+		updateState();
+		updateRoads();
+		updateSettlements();
+		updateCities();
+		updateRobberPosition();
+	}
+
+	private void updateRobberPosition() {
+		HexLocation robberLocation =  ClientModel.getSingleton().getMap().getRobber();
+		this.getView().placeRobber(robberLocation);
+		
+	}
+
+	private void updateState(){
+		switch(ClientModel.getSingleton().getTurnTracker().getStatus().toUpperCase()){
+		case "FIRSTROUND":
+			mapState = new FirstRoundState();
+			break;
+		case "SECONDROUND":
+			mapState = new SecondRoundState();
+			break;
+		case "ROLLING":
+			mapState = new RollingState();
+			break;
+		case "ROBBING":
+			mapState = new RobbingState();
+			break;
+		case "PLAYING":
+			mapState = new PlayingState();
+			break;
+		case "DISCARDING":
+			mapState = new DiscardingState();
+			break;
+		default:
+			System.out.println("Somthing has gone terribly, horribly wrong in Update() in mapController.java");
+			break;
+		}
+	}
+
+	private void updateCities() {
+		for(VertexObject city: ClientModel.getSingleton().getMap().getCities()){
+			int ownerIndex = city.getOwner();
+			getView().placeCity(city.getLocation(), clientModelController.getPlayerColor(ownerIndex));
+		}
+	}
+
+	private void updateSettlements() {
+		for(VertexObject settlement: ClientModel.getSingleton().getMap().getSettlements()){
+			int ownerIndex = settlement.getOwner();
+			getView().placeSettlement(settlement.getLocation(), clientModelController.getPlayerColor(ownerIndex));
+		}
+	}
+
+	private void updateRoads() {
+		for(Road road : ClientModel.getSingleton().getMap().getRoads()){
+			int ownerIndex = road.getOwner();
+			getView().placeRoad(road.getLocation(), clientModelController.getPlayerColor(ownerIndex));
+		}
+		
 	}
 
 	public IMapState getMapState() {
