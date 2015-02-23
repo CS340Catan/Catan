@@ -30,6 +30,7 @@ public class JoinGameController extends Controller implements
 	private IAction joinAction;
 
 	private IServer server;
+	private GameInfo storeGame;
 
 	/**
 	 * JoinGameController constructor
@@ -119,7 +120,7 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void start() {
-		
+
 		getJoinGameView().showModal();
 	}
 
@@ -161,19 +162,7 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-		try {
-			CatanColor joinGameColor = this.selectColorView.getSelectedColor();
-			int joinGameID = game.getId();
-
-			JoinGameParams joinGameParams = new JoinGameParams(
-					joinGameColor.toString(), joinGameID);
-			server.joinGame(joinGameParams);
-		} catch (ServerResponseException e) {
-			String outputStr = "Could not reach the server.";
-			JOptionPane.showMessageDialog(null, outputStr,
-					"Server unavailable", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		}
+		this.storeGame = game;
 
 		getSelectColorView().showModal();
 	}
@@ -186,12 +175,27 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void joinGame(CatanColor color) {
-
 		// If join succeeded
-		getSelectColorView().closeModal();
-		getJoinGameView().closeModal();
-		// TODO: store returned player index in PlayerInfo
-		joinAction.execute();
+		try {
+			int joinGameID = this.storeGame.getId();
+
+			JoinGameParams joinGameParams = new JoinGameParams(
+					color.toString(), joinGameID);
+			server.joinGame(joinGameParams);
+
+			getSelectColorView().closeModal();
+			getJoinGameView().closeModal();
+			// TODO: store returned player index in PlayerInfo
+			PlayerInfo.getSingleton().setId(0);// TODO change so that the player
+												// index is updated in
+												// playerinfo
+			joinAction.execute();
+		} catch (ServerResponseException e) {
+			String outputStr = "Could not reach the server.";
+			JOptionPane.showMessageDialog(null, outputStr,
+					"Server unavailable", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
