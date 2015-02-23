@@ -102,10 +102,8 @@ public class HTTPCommunicator {
 				String body = sb.toString();
 				if (body == null)
 					body = "";
-				System.out.println("Return statement");
 				return body;
 			} else {
-				System.out.println("Hitting serverException original throw");
 				String response = "ERROR" + connection.getResponseCode() + "\n";
 				throw new ServerResponseException(response);
 			}
