@@ -6,6 +6,7 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 
 import shared.communication.CreateGameParams;
+import shared.communication.GameSummary;
 import shared.communication.InvalidInputException;
 import shared.communication.JoinGameParams;
 import shared.definitions.CatanColor;
@@ -120,6 +121,23 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void start() {
+		try {
+			GameInfo[] gameList = server.getGameList();			
+			getJoinGameView().setGames(gameList, PlayerInfo.getSingleton());
+
+			/*
+			 * GameInfo[] testGameList = new GameInfo[2]; GameInfo test = new
+			 * GameInfo(); test.setId(1); test.setTitle("New Game");
+			 * test.addPlayer(new PlayerInfo()); testGameList[0] = test;
+			 * GameInfo test2 = new GameInfo(); test2.setId(2);
+			 * test2.setTitle("New Game"); test2.addPlayer(new PlayerInfo());
+			 * testGameList[1] = test2; getJoinGameView().setGames(testgameList,
+			 * null);
+			 */
+
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+		}
 
 		getJoinGameView().showModal();
 	}
@@ -145,8 +163,9 @@ public class JoinGameController extends Controller implements
 					this.newGameView.getUseRandomPorts(),
 					this.newGameView.getTitle());
 
-			server.createGame(createGameParams);
+			GameInfo newGameSummary = server.createGame(createGameParams);
 			getNewGameView().closeModal();
+
 		} catch (ServerResponseException e) {
 			String outputStr = "Could not reach the server.";
 			JOptionPane.showMessageDialog(null, outputStr,

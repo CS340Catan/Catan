@@ -111,7 +111,7 @@ public class LoginController extends Controller implements ILoginController,
 				 */
 				String outputStr = "Welcome, " + signInUsername + ".\n";
 				String title = "Welcome to Catan!";
-				
+
 				messageView.setTitle(title);
 				messageView.setMessage(outputStr);
 				messageView.setController(this);
@@ -125,9 +125,9 @@ public class LoginController extends Controller implements ILoginController,
 				 * If the login does not succeed, throw an error message stating
 				 * invalid login credentials.
 				 */
-				String outputStr = "The inputed Username/Password were invalid. Try again.";								
+				String outputStr = "The inputed Username/Password were invalid. Try again.";
 				String title = "Invalid User Login";
-				
+
 				messageView.setTitle(title);
 				messageView.setMessage(outputStr);
 				messageView.setController(this);
@@ -140,12 +140,12 @@ public class LoginController extends Controller implements ILoginController,
 			 */
 			String outputStr = "Could not reach the server. Please try again later.";
 			String title = "Invalid User Login";
-			
+
 			messageView.setTitle(title);
 			messageView.setMessage(outputStr);
 			messageView.setController(this);
 			messageView.showModal();
-			
+
 			e.printStackTrace();
 		}
 
@@ -171,8 +171,8 @@ public class LoginController extends Controller implements ILoginController,
 				 */
 				String outputStr = "Thank you " + registerUsername
 						+ " for registering for Catan.\n";
-String title = "Welcome to Catan!";
-				
+				String title = "Welcome to Catan!";
+
 				messageView.setTitle(title);
 				messageView.setMessage(outputStr);
 				messageView.setController(this);
@@ -187,8 +187,8 @@ String title = "Welcome to Catan!";
 				 * invalid register credentials.
 				 */
 				String outputStr = "The inputed Username/Password were invalid. Try again.";
-String title = "Invalid User Login";
-				
+				String title = "Invalid User Login";
+
 				messageView.setTitle(title);
 				messageView.setMessage(outputStr);
 				messageView.setController(this);
@@ -201,7 +201,7 @@ String title = "Invalid User Login";
 			 */
 			String outputStr = "Could not reach the server. Please try again later.";
 			String title = "Invalid User Login";
-			
+
 			messageView.setTitle(title);
 			messageView.setMessage(outputStr);
 			messageView.setController(this);
@@ -235,7 +235,7 @@ String title = "Invalid User Login";
 		/*
 		 * Check that all strings inside of loginCredentials are not null
 		 */
-		//TODO check to see if password is right length
+		// TODO check to see if password is right length
 		if (registerCredentials.getUsername() == null)
 			return false;
 		if (registerCredentials.getPassword() == null)
