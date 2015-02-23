@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import client.data.PlayerInfo;
+import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
 public class HTTPCommunicator {
@@ -123,13 +125,25 @@ public class HTTPCommunicator {
 	private int parseSetCookie(String cookieString, HttpURLConnection connection) {
 		// if cookies have already been set, don't worry about setting them
 		// again.
+		
+		
 		if (gameCookie == null || userCookie == null) {
 			// strip ;Path=/; and catan.****
 			cookieString = cookieString.replace(";Path=/;", "");
 			if (userCookie == null) {
+				String decodedCookie = URLDecoder.decode(cookieString);
+				decodedCookie = decodedCookie.replace("catan.user=", "");
+				decodedCookie = decodedCookie.replace(";Path=/;", "");
+				System.out.println(decodedCookie);
+				Cookie cookie = (Cookie) Serializer.deserialize(decodedCookie, Cookie.class);
+				PlayerInfo.getSingleton().setId(cookie.getPlayerId());
+				PlayerInfo.getSingleton().setName(cookie.getName());
+				System.out.println(PlayerInfo.getSingleton().getName());
+				System.out.println(PlayerInfo.getSingleton().getId());
+				
+				
 				String cleaned = cookieString.replace("catan.player=", "");
 				userCookie = cleaned;
-				PlayerInfo.getSingleton().setId(Integer.parseInt(userCookie));
 				return 1;
 			} else {
 				String cleaned = cookieString.replace("catan.game=", "");
