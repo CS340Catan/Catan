@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import client.data.PlayerInfo;
 import shared.utils.ServerResponseException;
 
 public class HTTPCommunicator {
@@ -128,6 +129,7 @@ public class HTTPCommunicator {
 			if (userCookie == null) {
 				String cleaned = cookieString.replace("catan.player=", "");
 				userCookie = cleaned;
+				PlayerInfo.getSingleton().setId(Integer.parseInt(userCookie));
 				return 1;
 			} else {
 				String cleaned = cookieString.replace("catan.game=", "");
