@@ -239,6 +239,12 @@ public class DiscardView extends OverlayView implements IDiscardView {
 		resources.get(resource).setDiscardAmount(amount);
 		this.update();
 	}
+	
+	@Override
+	public int getResourceDiscardAmount(ResourceType resource)
+	{
+		return resources.get(resource).getDiscardAmount();
+	}
 
 	/**
 	 * Sets the maximum amount displayed for the specified resource.
@@ -254,7 +260,12 @@ public class DiscardView extends OverlayView implements IDiscardView {
 		resources.get(resource).setMaxAmount(maxAmount);
 		this.update();
 	}
-
+	
+	@Override
+	public int getResourceMaxAmount(ResourceType resource){
+		return resources.get(resource).getMaxAmount();
+	}
+	
 	/**
 	 * Used to specify whether or not the discard amount of the specified
 	 * resource can be increased and decreased. (The buttons for increasing or

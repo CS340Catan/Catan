@@ -29,7 +29,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	
 	private final String SERVER_ERROR = "Give us a minute to get the server working...";
 	private final String NO_CAN_DO = "Sorry buster, no can do right now";
-
+	//if done discarding, but others still are discarding, then display the wait window
 
 	/**
 	 * DiscardController constructor
@@ -43,7 +43,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	public DiscardController(IDiscardView view, IWaitView waitView) {
 
 		super(view);
-		//
+		
 		this.waitView = waitView;
 		ClientModel.getSingleton().addObserver(this);
 		modelController = new ClientModelController(ClientModel.getSingleton());
@@ -59,12 +59,34 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
 	public void increaseAmount(ResourceType resource) {
-		
+		//get current, decrease
+				int max = getDiscardView().getResourceMaxAmount(resource);
+				boolean canIncrease = true;
+				boolean canDecrease = true;
+				int newAmount = getDiscardView().getResourceDiscardAmount(resource) + 1 ;
+				if(newAmount>=0 && newAmount<=max)
+					getDiscardView().setResourceDiscardAmount(resource,newAmount);
+				if(newAmount<=0)
+					canDecrease = false;
+				if(newAmount>=max)
+					canIncrease = false;
+				getDiscardView().setResourceAmountChangeEnabled(resource, canIncrease, canDecrease);
 	}
 
 	@Override
 	public void decreaseAmount(ResourceType resource) {
-		
+		//get current, decrease
+		int max = getDiscardView().getResourceMaxAmount(resource);
+		boolean canIncrease = true;
+		boolean canDecrease = true;
+		int newAmount = getDiscardView().getResourceDiscardAmount(resource) -1 ;
+		if(newAmount>=0 && newAmount<=max)
+			getDiscardView().setResourceDiscardAmount(resource,newAmount);
+		if(newAmount<=0)
+			canDecrease = false;
+		if(newAmount>=max)
+			canIncrease = false;
+		getDiscardView().setResourceAmountChangeEnabled(resource, canIncrease, canDecrease);
 	}
 
 	@Override
@@ -99,7 +121,8 @@ public class DiscardController extends Controller implements IDiscardController,
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		if(modelController.canDiscardCards(playerIndex)){
 			getDiscardView().setDiscardButtonEnabled(true);
-			//do the re
+			//set maxes
+			//show  buttons
 		}
 		else{
 			getDiscardView().setDiscardButtonEnabled(false);
