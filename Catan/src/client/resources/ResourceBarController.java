@@ -3,6 +3,7 @@ package client.resources;
 import java.util.*;
 
 import client.base.*;
+import client.data.PlayerInfo;
 import client.model.ClientModel;
 
 /**
@@ -76,7 +77,17 @@ public class ResourceBarController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int ore = ClientModel.getSingleton().getPlayers()[playerIndex].getResources().getOre();
+		int wood = ClientModel.getSingleton().getPlayers()[playerIndex].getResources().getWood();
+		int sheep = ClientModel.getSingleton().getPlayers()[playerIndex].getResources().getSheep();
+		int brick = ClientModel.getSingleton().getPlayers()[playerIndex].getResources().getBrick();
+		int wheat = ClientModel.getSingleton().getPlayers()[playerIndex].getResources().getWheat();
+		this.getView().setElementAmount(ResourceBarElement.ORE, ore);
+		this.getView().setElementAmount(ResourceBarElement.WOOD, wood);
+		this.getView().setElementAmount(ResourceBarElement.SHEEP, sheep);
+		this.getView().setElementAmount(ResourceBarElement.BRICK, brick);
+		this.getView().setElementAmount(ResourceBarElement.WHEAT, wheat);
 		
 	}
 

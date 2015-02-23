@@ -3,8 +3,17 @@ package client.join;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JOptionPane;
+
+import shared.communication.CreateGameParams;
+import shared.communication.InvalidInputException;
+import shared.communication.JoinGameParams;
 import shared.definitions.CatanColor;
+import shared.utils.IServer;
+import shared.utils.ServerResponseException;
 import client.base.*;
+import client.communicator.HTTPCommunicator;
+import client.communicator.ServerProxy;
 import client.data.*;
 import client.misc.*;
 import client.model.ClientModel;
@@ -13,12 +22,15 @@ import client.model.ClientModel;
  * Implementation for the join game controller
  */
 public class JoinGameController extends Controller implements
-		IJoinGameController, Observer{
+		IJoinGameController, Observer {
 
 	private INewGameView newGameView;
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
+
+	private IServer server;
+	private GameInfo storeGame;
 
 	/**
 	 * JoinGameController constructor
@@ -41,7 +53,13 @@ public class JoinGameController extends Controller implements
 		setNewGameView(newGameView);
 		setSelectColorView(selectColorView);
 		setMessageView(messageView);
+
 		ClientModel.getSingleton().addObserver(this);
+		this.server = new ServerProxy(new HTTPCommunicator());
+		/*
+		 * TODO how does the server proxy / HTTP communicator take into account
+		 * port, host, etc.
+		 */
 	}
 
 	public IJoinGameView getJoinGameView() {
@@ -120,12 +138,31 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void createNewGame() {
+		try {
+			CreateGameParams createGameParams = new CreateGameParams(
+					this.newGameView.getRandomlyPlaceHexes(),
+					this.newGameView.getRandomlyPlaceNumbers(),
+					this.newGameView.getUseRandomPorts(),
+					this.newGameView.getTitle());
 
-		getNewGameView().closeModal();
+			server.createGame(createGameParams);
+			getNewGameView().closeModal();
+		} catch (ServerResponseException e) {
+			String outputStr = "Could not reach the server.";
+			JOptionPane.showMessageDialog(null, outputStr,
+					"Server unavailable", JOptionPane.ERROR_MESSAGE);
+
+			e.printStackTrace();
+		} catch (InvalidInputException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Server unavailable", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void startJoinGame(GameInfo game) {
+		this.storeGame = game;
 
 		getSelectColorView().showModal();
 	}
@@ -138,18 +175,33 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void joinGame(CatanColor color) {
-
 		// If join succeeded
-		getSelectColorView().closeModal();
-		getJoinGameView().closeModal();
-		//TODO: store returned player index in PlayerInfo
-		joinAction.execute();
+		try {
+			int joinGameID = this.storeGame.getId();
+
+			JoinGameParams joinGameParams = new JoinGameParams(
+					color.toString(), joinGameID);
+			server.joinGame(joinGameParams);
+
+			getSelectColorView().closeModal();
+			getJoinGameView().closeModal();
+			// TODO: store returned player index in PlayerInfo
+			PlayerInfo.getSingleton().setId(0);// TODO change so that the player
+												// index is updated in
+												// playerinfo
+			joinAction.execute();
+		} catch (ServerResponseException e) {
+			String outputStr = "Could not reach the server.";
+			JOptionPane.showMessageDialog(null, outputStr,
+					"Server unavailable", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -2,6 +2,7 @@ package client.communicator;
 
 import shared.communication.*;
 import shared.utils.*;
+import client.data.GameInfo;
 import client.model.*;
 
 /**
@@ -103,11 +104,11 @@ public class ServerProxy implements IServer {
 	 * @pre none
 	 * @post A valid CurrentGames returned
 	 */
-	public GameSummary[] getGameList() throws ServerResponseException {
+	public GameInfo[] getGameList() throws ServerResponseException {
 		String response = httpCommunicator.doGet("/games/list", null);
 		if (response != null) {
-			return (GameSummary[]) Serializer.deserialize(response,
-					GameSummary[].class);
+			return (GameInfo[]) Serializer.deserialize(response,
+					GameInfo[].class);
 		} else {
 			return null;
 		}
@@ -121,13 +122,13 @@ public class ServerProxy implements IServer {
 	 * @pre params contains only valid boolean values
 	 * @post a valid GameSummary returned
 	 */
-	public GameSummary createGame(CreateGameParams params)
+	public GameInfo createGame(CreateGameParams params)
 			throws ServerResponseException {
 		String jsonString = Serializer.serialize(params);
 		String response = httpCommunicator.doPost("/games/create", jsonString);
 		if (response != null) {
-			return (GameSummary) Serializer.deserialize(response,
-					GameSummary.class);
+			return (GameInfo) Serializer.deserialize(response,
+					GameInfo.class);
 		} else {
 			return null;
 		}

@@ -3,9 +3,11 @@ package test;
 import java.util.ArrayList;
 
 import shared.communication.*;
+import shared.definitions.CatanColor;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
-import client.model.ClientModel;
+import client.data.GameInfo;
+import client.data.PlayerInfo;
 import client.model.*;
 
 /**
@@ -86,17 +88,22 @@ public class MockServer implements IServer {
 	 * @Post Returns a hard coded GamesList object.
 	 */
 	@Override
-	public GameSummary[] getGameList() throws ServerResponseException {
-		GameSummary[] games = new GameSummary[2];
+	public GameInfo[] getGameList() throws ServerResponseException {
+		GameInfo[] games = new GameInfo[2];
 		String[] names = { "bill", "ted", "sheila", "parker" };
 		String[] colors = { "red", "white", "blue", "green" };
 		String[] gameNames = { "game1", "game2" };
+		
 		for (int i = 0; i < 2; ++i) {
-			PlayerSummary players[] = new PlayerSummary[4];
-			for (int j = i; i < 5; ++i) {
-				players[j] = new PlayerSummary(colors[j], names[j], j);
-			}
-			games[i] = (new GameSummary(gameNames[i], i, players));
+			GameInfo test = new GameInfo();
+			test.setTitle(gameNames[i]);
+			test.setId(1);
+			PlayerInfo newPlayer = new PlayerInfo();
+			newPlayer.setColor(CatanColor.valueOf(colors[i]));
+			newPlayer.setId(i);
+			newPlayer.setName(names[i]);
+			test.addPlayer(new PlayerInfo());			
+			games[i] = test;
 		}
 
 		return games;
@@ -110,15 +117,18 @@ public class MockServer implements IServer {
 	 * @Post Returns a canned GameSummary object.
 	 */
 	@Override
-	public GameSummary createGame(CreateGameParams params)
+	public GameInfo createGame(CreateGameParams params)
 			throws ServerResponseException {
 		if (params.getname() == null)
 			return null;
-		PlayerSummary[] players = new PlayerSummary[4];
+		
+		GameInfo test = new GameInfo();
+		test.setTitle("game1");
+		test.setId(1);
 		for (int i = 0; i < 5; i++) {
-			players[i] = new PlayerSummary();
+			test.addPlayer(new PlayerInfo());
 		}
-		return new GameSummary("game1", 1, players);
+		return test;
 	}
 
 	/**

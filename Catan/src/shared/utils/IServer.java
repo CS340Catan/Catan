@@ -1,6 +1,7 @@
 package shared.utils;
 
 import shared.communication.*;
+import client.data.GameInfo;
 import client.model.ClientModel;
 
 /**
@@ -65,7 +66,7 @@ public interface IServer {
 	 *       response, and the body contains an error message.
 	 * 
 	 */
-	public GameSummary[] getGameList() throws ServerResponseException;
+	public GameInfo[] getGameList() throws ServerResponseException;
 
 	/**
 	 * This method will create a game using the inputed game parameters within
@@ -82,7 +83,7 @@ public interface IServer {
 	 * @param params
 	 * 
 	 */
-	public GameSummary createGame(CreateGameParams params)throws ServerResponseException;
+	public GameInfo createGame(CreateGameParams params)throws ServerResponseException;
 
 	/**
 	 * This method will add a user to a game that requires a player. The client
