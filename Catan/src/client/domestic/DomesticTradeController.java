@@ -5,8 +5,10 @@ import java.util.Observer;
 
 import shared.definitions.*;
 import client.base.*;
+import client.data.PlayerInfo;
 import client.misc.*;
 import client.model.ClientModel;
+import client.model.Player;
 
 /**
  * Domestic trade controller implementation
@@ -17,6 +19,7 @@ public class DomesticTradeController extends Controller implements
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
+	private int brickAmt, oreAmt, sheepAmt, wheatAmt, woodAmt;
 
 	/**
 	 * DomesticTradeController constructor
@@ -44,6 +47,8 @@ public class DomesticTradeController extends Controller implements
 		setWaitOverlay(waitOverlay);
 		setAcceptOverlay(acceptOverlay);
 		ClientModel.getSingleton().addObserver(this);
+		
+		
 	}
 
 	public IDomesticTradeView getTradeView() {
@@ -74,21 +79,84 @@ public class DomesticTradeController extends Controller implements
 	public void setAcceptOverlay(IAcceptTradeOverlay acceptOverlay) {
 		this.acceptOverlay = acceptOverlay;
 	}
+	
+	private void resetAmts() {
+		
+		brickAmt = 0;
+		oreAmt = 0;
+		sheepAmt = 0;
+		wheatAmt = 0;
+		woodAmt = 0;
+		
+	}
+	
+	private int resourceAmt(ResourceType resource) {
+			
+		switch(resource) {
+		
+		case BRICK:
+			return brickAmt;
+		
+		case ORE:
+			return oreAmt;
+			
+		case SHEEP: 
+			return sheepAmt;
+			
+		case WHEAT:
+			return wheatAmt;
+			
+		case WOOD:
+			return woodAmt;
+			
+		default:
+			return 0;
+		
+		}
+	}
 
 	@Override
 	public void startTrade() {
 
+		resetAmts();
+		
+		//get players, and convert them all from Player to PlayerInfo
+		Player[] players = ClientModel.getSingleton().getPlayers();
+		PlayerInfo[] playerInfos = new PlayerInfo[players.length];
+		for(int i = 0; i < players.length; i++) {
+			playerInfos[i] = players[i].getPlayerInfo();
+		}
+		
+		//set the tradeable players with their corresponding info
+		getTradeOverlay().setPlayers(playerInfos);
+		
 		getTradeOverlay().showModal();
+		
+		//enable players
+		getTradeOverlay().setPlayerSelectionEnabled(true);
+		getTradeOverlay().setCancelEnabled(true);
+		getTradeOverlay().setTradeEnabled(false);
+		getTradeOverlay().setStateMessage("Choose Resources to Trade");
+		
 	}
 
 	@Override
 	public void decreaseResourceAmount(ResourceType resource) {
+		//check resource > 0
 
+		if(resourceAmt(resource) > 0) {
+			
+			getTradeOverlay().setResourceAmount(resource, "" + (resourceAmt(resource) - 1));
+		}
+	
+		
+		
+		//disable button if counter is at 0
 	}
 
 	@Override
 	public void increaseResourceAmount(ResourceType resource) {
-
+		
 	}
 
 	@Override

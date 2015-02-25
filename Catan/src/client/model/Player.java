@@ -1,5 +1,8 @@
 package client.model;
 
+import shared.definitions.CatanColor;
+import client.data.PlayerInfo;
+
 /**
  * Represents a player in the game, contains relevant data, cards held, etc.
  * 
@@ -204,5 +207,52 @@ public class Player {
 
 	public void setVictoryPoints(int victoryPoints) {
 		this.victoryPoints = victoryPoints;
+	}
+	
+	public PlayerInfo getPlayerInfo() {
+		PlayerInfo playerInfo = new PlayerInfo();
+		
+		playerInfo.setId(getPlayerid());
+		playerInfo.setPlayerIndex(getPlayerIndex());
+		playerInfo.setName(getName());
+		
+		//convert color to catan enum
+		CatanColor catanColor;
+		switch(color) {
+			case "RED":
+				catanColor = CatanColor.RED;
+				break;
+			case "ORANGE":
+				catanColor = CatanColor.ORANGE;
+				break;
+			case "YELLOW":
+				catanColor = CatanColor.YELLOW;
+				break;
+			case "BLUE":
+				catanColor = CatanColor.BLUE;
+				break;
+			case "GREEN":
+				catanColor = CatanColor.GREEN;
+				break;
+			case "PURPLE":
+				catanColor = CatanColor.PURPLE;
+				break;
+			case "PUCE":
+				catanColor = CatanColor.PUCE;
+				break;
+			case "WHITE":
+				catanColor = CatanColor.WHITE;
+				break;
+			case "BROWN":
+				catanColor = CatanColor.BROWN;
+				break;
+			default:
+				catanColor = null;
+				break;
+		}
+		
+		playerInfo.setColor(catanColor);
+		
+		return playerInfo;
 	}
 }

@@ -99,6 +99,7 @@ public class MaritimeTradeController extends Controller implements
 	
 	private void incrementResource(ResourceType resource, int amt) {
 		
+		playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex].getResources();
 		int brick = resources.getBrick();
 		int ore = resources.getOre();
