@@ -6,7 +6,6 @@ import shared.communication.BuildCityParams;
 import shared.communication.BuildRoadParams;
 import shared.communication.BuildSettlementParams;
 import shared.communication.MoveRobberParams;
-import shared.communication.PlayerIndex;
 import shared.definitions.*;
 import shared.locations.*;
 import shared.utils.IServer;
@@ -24,7 +23,6 @@ import client.map.state.RollingState;
 import client.map.state.SecondRoundState;
 import client.model.ClientModel;
 import client.model.ClientModelController;
-import client.model.ResourceList;
 import client.model.Road;
 import client.model.VertexObject;
 
@@ -40,7 +38,6 @@ public class MapController extends Controller implements IMapController, Observe
 	private boolean playingRoadBuildingCard = false;
 	private boolean firstRoadPlaced = false;
 	private EdgeLocation firstEdge;
-	private EdgeLocation secondEdge;
 	private HexLocation robberLocation;
 
 	public MapController(IMapView view, IRobView robView) {
