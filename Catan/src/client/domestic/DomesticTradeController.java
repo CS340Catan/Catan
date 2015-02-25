@@ -8,7 +8,10 @@ import client.base.*;
 import client.data.PlayerInfo;
 import client.misc.*;
 import client.model.ClientModel;
+import client.model.ClientModelController;
 import client.model.Player;
+import client.model.ResourceList;
+import client.model.TradeOffer;
 
 /**
  * Domestic trade controller implementation
@@ -16,6 +19,7 @@ import client.model.Player;
 public class DomesticTradeController extends Controller implements
 		IDomesticTradeController, Observer {
 
+	private ClientModelController clientModelController;
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
@@ -200,8 +204,47 @@ public class DomesticTradeController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		clientModelController = new ClientModelController();
+		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		TradeOffer tradeOffer = clientModelController.getClientModel().getTradeOffer();
+		if (tradeOffer != null) {
+			if (tradeOffer.getReceiver() == playerIndex) {
+				acceptOverlay.showModal();
+				ResourceList resourceList = tradeOffer.getResourceList();
+				
+				if (resourceList.getBrick() > 0) {
+					acceptOverlay.addGetResource(ResourceType.BRICK, resourceList.getBrick());
+				} else if (resourceList.getBrick() < 0) {
+					acceptOverlay.addGiveResource(ResourceType.BRICK, resourceList.getBrick());
+				}
+				
+				if (resourceList.getOre() > 0) {
+					acceptOverlay.addGetResource(ResourceType.ORE, resourceList.getOre());
+				} else if (resourceList.getOre() < 0) {
+					acceptOverlay.addGiveResource(ResourceType.ORE, resourceList.getOre());
+				}
+				
+				if (resourceList.getSheep() > 0) {
+					acceptOverlay.addGetResource(ResourceType.SHEEP, resourceList.getSheep());
+				} else if (resourceList.getSheep() < 0) {
+					acceptOverlay.addGiveResource(ResourceType.SHEEP, resourceList.getSheep());
+				}
+				
+				if (resourceList.getWheat() > 0) {
+					acceptOverlay.addGetResource(ResourceType.WHEAT, resourceList.getWheat());
+				} else if (resourceList.getWheat() < 0) {
+					acceptOverlay.addGiveResource(ResourceType.WHEAT, resourceList.getWheat());
+				}
+				
+				if (resourceList.getWood() > 0) {
+					acceptOverlay.addGetResource(ResourceType.WOOD, resourceList.getWood());
+				} else if (resourceList.getWood() < 0) {
+					acceptOverlay.addGiveResource(ResourceType.WOOD, resourceList.getWood());
+				}
+				
+				acceptOverlay.setPlayerName("bob");
+				
+			}
+		}
 	}
-
 }
