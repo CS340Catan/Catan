@@ -3,6 +3,7 @@ package client.login;
 import client.base.*;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
+import client.data.PlayerInfo;
 import client.misc.*;
 import client.model.ClientModel;
 
@@ -109,10 +110,15 @@ public class LoginController extends Controller implements ILoginController,
 				 * loginAction.
 				 */
 				String outputStr = "Welcome, " + signInUsername + ".\n";
-				JOptionPane.showMessageDialog(null, outputStr,
-						"Welcome to Catan!", JOptionPane.PLAIN_MESSAGE);
+				String title = "Welcome to Catan!";
+
+				messageView.setTitle(title);
+				messageView.setMessage(outputStr);
+				messageView.setController(this);
+				messageView.showModal();
 
 				getLoginView().closeModal();
+				PlayerInfo.getSingleton().setName(signInUsername);
 				loginAction.execute();
 			} else {
 				/*
@@ -120,8 +126,12 @@ public class LoginController extends Controller implements ILoginController,
 				 * invalid login credentials.
 				 */
 				String outputStr = "The inputed Username/Password were invalid. Try again.";
-				JOptionPane.showMessageDialog(null, outputStr,
-						"Invalid User Login", JOptionPane.ERROR_MESSAGE);
+				String title = "Invalid User Login";
+
+				messageView.setTitle(title);
+				messageView.setMessage(outputStr);
+				messageView.setController(this);
+				messageView.showModal();
 			}
 		} catch (ServerResponseException e) {
 			/*
@@ -129,10 +139,16 @@ public class LoginController extends Controller implements ILoginController,
 			 * to the server.
 			 */
 			String outputStr = "Could not reach the server. Please try again later.";
-			JOptionPane.showMessageDialog(null, outputStr,
-					"Invalid User Login", JOptionPane.ERROR_MESSAGE);
+			String title = "Invalid User Login";
+
+			messageView.setTitle(title);
+			messageView.setMessage(outputStr);
+			messageView.setController(this);
+			messageView.showModal();
+
 			e.printStackTrace();
 		}
+
 	}
 
 	@Override
@@ -155,10 +171,15 @@ public class LoginController extends Controller implements ILoginController,
 				 */
 				String outputStr = "Thank you " + registerUsername
 						+ " for registering for Catan.\n";
-				JOptionPane.showMessageDialog(null, outputStr,
-						"Welcome to Catan!", JOptionPane.PLAIN_MESSAGE);
+				String title = "Welcome to Catan!";
+
+				messageView.setTitle(title);
+				messageView.setMessage(outputStr);
+				messageView.setController(this);
+				messageView.showModal();
 
 				getLoginView().closeModal();
+				PlayerInfo.getSingleton().setName(registerUsername);
 				loginAction.execute();
 			} else {
 				/*
@@ -166,8 +187,12 @@ public class LoginController extends Controller implements ILoginController,
 				 * invalid register credentials.
 				 */
 				String outputStr = "The inputed Username/Password were invalid. Try again.";
-				JOptionPane.showMessageDialog(null, outputStr,
-						"Invalid User Register", JOptionPane.ERROR_MESSAGE);
+				String title = "Invalid User Login";
+
+				messageView.setTitle(title);
+				messageView.setMessage(outputStr);
+				messageView.setController(this);
+				messageView.showModal();
 			}
 		} catch (ServerResponseException e) {
 			/*
@@ -175,8 +200,12 @@ public class LoginController extends Controller implements ILoginController,
 			 * to the server.
 			 */
 			String outputStr = "Could not reach the server. Please try again later.";
-			JOptionPane.showMessageDialog(null, outputStr,
-					"Invalid User Register", JOptionPane.ERROR_MESSAGE);
+			String title = "Invalid User Login";
+
+			messageView.setTitle(title);
+			messageView.setMessage(outputStr);
+			messageView.setController(this);
+			messageView.showModal();
 			e.printStackTrace();
 		}
 	}
@@ -192,8 +221,9 @@ public class LoginController extends Controller implements ILoginController,
 
 	private boolean canLogin(UserCredentials loginCredentials) {
 		/*
-		 * Check that username is not null and password not null
+		 * Check that all strings inside of loginCredentials are not null
 		 */
+		System.out.println("canLogin begin");
 		if (loginCredentials.getUsername() == null)
 			return false;
 		if (loginCredentials.getPassword() == null)
@@ -203,8 +233,9 @@ public class LoginController extends Controller implements ILoginController,
 
 	private boolean canRegister(UserCredentials registerCredentials) {
 		/*
-		 * Check that username is not null and password is not null.
+		 * Check that all strings inside of loginCredentials are not null
 		 */
+		// TODO check to see if password is right length
 		if (registerCredentials.getUsername() == null)
 			return false;
 		if (registerCredentials.getPassword() == null)

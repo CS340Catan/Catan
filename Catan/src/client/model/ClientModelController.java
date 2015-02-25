@@ -1,6 +1,7 @@
 package client.model;
 
 import shared.definitions.CatanColor;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 
 /**
@@ -964,6 +965,40 @@ public class ClientModelController {
 		}
 		return false;
 	}
+	
+	//Special
+	private boolean buildingOnNormalPort(int playerIndex, VertexObject building) {
+		if (building.getOwner() == playerIndex) {
+			for (Port port : clientModel.getMap().getPorts()) {
+				if(port.getResource() == null) {		//only check non-resource ports
+					EdgeLocation edgeLocation = new EdgeLocation(
+							port.getLocation(), port.getDir());
+					Road road = new Road(playerIndex, edgeLocation);
+					if (hasConnectingBuilding(road)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	//Special
+	private boolean buildingOnResourcePort(int playerIndex, VertexObject building, ResourceType resource) {
+		if (building.getOwner() == playerIndex) {
+			for (Port port : clientModel.getMap().getPorts()) {
+				if(port.getResource() == null) {		//only check non-resource ports
+					EdgeLocation edgeLocation = new EdgeLocation(
+							port.getLocation(), port.getDir());
+					Road road = new Road(playerIndex, edgeLocation);
+					if (hasConnectingBuilding(road)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	private boolean playerOnPort(int playerIndex) {
 		boolean onPort = false;
@@ -981,6 +1016,44 @@ public class ClientModelController {
 		}
 		return false;
 	}
+	
+	//Special
+	public boolean playerOnNormalPort(int playerIndex) {
+		boolean onPort = false;
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			onPort = buildingOnNormalPort(playerIndex, settlement);
+			if(onPort){
+				return onPort;
+			}
+		}
+		for (VertexObject city : clientModel.getMap().getCities()) {
+			onPort = buildingOnNormalPort(playerIndex, city);
+			if(onPort){
+				return onPort;
+			}
+		}
+		return false;
+	}
+	
+	//Special
+	public boolean playerOnResourcePort(int playerIndex, ResourceType resource) {
+		boolean onPort = false;
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			onPort = buildingOnResourcePort(playerIndex, settlement, resource);
+			if(onPort){
+				return onPort;
+			}
+		}
+		for (VertexObject city : clientModel.getMap().getCities()) {
+			onPort = buildingOnResourcePort(playerIndex, city, resource);
+			if(onPort){
+				return onPort;
+			}
+		}
+		return false;
+	}
+	
+	
 
 	/**
 	 * tests if the player can maritime trade
