@@ -29,7 +29,6 @@ public class DiscardController extends Controller implements IDiscardController,
 	
 	private final String SERVER_ERROR = "Give us a minute to get the server working...";
 	private final String NO_CAN_DO = "Sorry buster, no can do right now";
-	//if done discarding, but others still are discarding, then display the wait window
 
 	/**
 	 * DiscardController constructor
@@ -71,6 +70,8 @@ public class DiscardController extends Controller implements IDiscardController,
 				if(newAmount>=max)
 					canIncrease = false;
 				getDiscardView().setResourceAmountChangeEnabled(resource, canIncrease, canDecrease);
+				
+				enableDiscard(newAmount,max);
 	}
 
 	@Override
@@ -87,6 +88,9 @@ public class DiscardController extends Controller implements IDiscardController,
 		if(newAmount>=max)
 			canIncrease = false;
 		getDiscardView().setResourceAmountChangeEnabled(resource, canIncrease, canDecrease);
+		
+		enableDiscard(newAmount,max);
+			
 	}
 
 	@Override
@@ -99,7 +103,7 @@ public class DiscardController extends Controller implements IDiscardController,
 			try {
 				ClientModel updatedModel = serverProxy.discardCards(new DiscardCardsParams(playerIndex,list));
 				ClientModel.getSingleton().setClientModel(updatedModel);
-				modelController.setClientModel(updatedModel);
+				modelController.setClientModel(updatedModel);//may not be necesarry
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
@@ -112,6 +116,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		}
 			
 		getDiscardView().closeModal();
+		waitView.showModal();
 	}
 
 	@Override
@@ -119,15 +124,71 @@ public class DiscardController extends Controller implements IDiscardController,
 		ClientModel updatedModel = (ClientModel) o;
 		modelController.setClientModel(updatedModel);
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
-		if(modelController.canDiscardCards(playerIndex)){
-			getDiscardView().setDiscardButtonEnabled(true);
-			//set maxes
-			//show  buttons
+		if(updatedModel.getTurnTracker().getStatus()=="discarding")
+		{
+			if(!getDiscardView().isModalShowing() && !waitView.isModalShowing()){
+				if(modelController.canDiscardCards(playerIndex)){					
+					//setup
+					
+					setResource(ResourceType.BRICK, playerIndex);
+					
+					setResource(ResourceType.SHEEP, playerIndex);
+					
+					setResource(ResourceType.WHEAT, playerIndex);
+					
+					setResource(ResourceType.ORE, playerIndex);
+					
+					setResource(ResourceType.WOOD, playerIndex);
+			
+					//set main button
+					getDiscardView().setDiscardButtonEnabled(false);
+					getDiscardView().showModal();
+				}
+			
+				else{
+					waitView.showModal();
+				}
+			}
 		}
 		else{
-			getDiscardView().setDiscardButtonEnabled(false);
+			if(getDiscardView().isModalShowing()){
+			getDiscardView().closeModal();
+			}
+			if(waitView.isModalShowing()){
+					waitView.closeModal();
+			}	
 		}
-		//change view accordingly, probably already closed, so nothing
+	}
+	
+	private void setResource(ResourceType resource, int playerIndex)
+	{
+		int currentCount = getResourceCount(resource, playerIndex);
+		getDiscardView().setResourceMaxAmount(resource,currentCount);
+		getDiscardView().setResourceDiscardAmount(resource,0);
+		boolean canInc = false;
+		if(currentCount>0)
+			canInc = true;
+		getDiscardView().setResourceAmountChangeEnabled(resource, canInc, false);
+	}
+	
+	private int getResourceCount(ResourceType resource, int playerIndex)
+	{
+		ClientModel updatedModel = modelController.getClientModel();
+		switch (resource){
+		case WOOD: return updatedModel.getPlayers()[playerIndex].getResources().getWood();
+		case ORE: return updatedModel.getPlayers()[playerIndex].getResources().getOre();
+		case BRICK: return updatedModel.getPlayers()[playerIndex].getResources().getBrick();
+		case WHEAT: updatedModel.getPlayers()[playerIndex].getResources().getWheat();
+		case SHEEP: updatedModel.getPlayers()[playerIndex].getResources().getSheep();
+		default: return -1;
+		}
+	}
+	
+	private void enableDiscard(int newAmount, int max)
+	{
+		boolean enable = newAmount==max;
+		
+		getDiscardView().setDiscardButtonEnabled(enable);
 	}
 
 }
