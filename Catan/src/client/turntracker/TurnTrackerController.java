@@ -5,13 +5,16 @@ import java.util.Observer;
 
 import shared.definitions.CatanColor;
 import client.base.*;
+import client.data.PlayerInfo;
 import client.model.ClientModel;
+import client.model.ClientModelController;
 
 /**
  * Implementation for the turn tracker controller
  */
 public class TurnTrackerController extends Controller implements
 		ITurnTrackerController, Observer {
+	private ClientModelController clientModelController;
 
 	public TurnTrackerController(ITurnTrackerView view) {
 
@@ -19,6 +22,7 @@ public class TurnTrackerController extends Controller implements
 
 		initFromModel();
 		ClientModel.getSingleton().addObserver(this);
+		clientModelController = new ClientModelController();
 	}
 
 	@Override
@@ -33,14 +37,13 @@ public class TurnTrackerController extends Controller implements
 	}
 
 	private void initFromModel() {
-		// <temp>
-		getView().setLocalPlayerColor(CatanColor.RED);
-		// </temp>
+//		getView().setLocalPlayerColor(clientModelController.getPlayerColor(PlayerInfo.getSingleton().getPlayerIndex()));
+		getView().setLocalPlayerColor(CatanColor.RED);		
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		clientModelController = new ClientModelController();
 		
 	}
 
