@@ -3,6 +3,7 @@ package client.domestic;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.communication.AcceptTradeParams;
 import shared.definitions.*;
 import client.base.*;
 import client.data.PlayerInfo;
@@ -192,14 +193,15 @@ public class DomesticTradeController extends Controller implements
 
 	@Override
 	public void cancelTrade() {
-
 		getTradeOverlay().closeModal();
+		resetAmts();
 	}
 
 	@Override
 	public void acceptTrade(boolean willAccept) {
-
 		getAcceptOverlay().closeModal();
+		AcceptTradeParams acceptTradeParams = new AcceptTradeParams(PlayerInfo.getSingleton().getPlayerIndex(),willAccept);
+		//I NEED A SERVER!!!!!
 	}
 
 	@Override
@@ -211,39 +213,46 @@ public class DomesticTradeController extends Controller implements
 			if (tradeOffer.getReceiver() == playerIndex) {
 				acceptOverlay.showModal();
 				ResourceList resourceList = tradeOffer.getResourceList();
+				ResourceList canTradeList = new ResourceList(0,0,0,0,0);
 				
 				if (resourceList.getBrick() > 0) {
 					acceptOverlay.addGetResource(ResourceType.BRICK, resourceList.getBrick());
 				} else if (resourceList.getBrick() < 0) {
 					acceptOverlay.addGiveResource(ResourceType.BRICK, resourceList.getBrick());
+					canTradeList.setBrick(resourceList.getBrick());
 				}
 				
 				if (resourceList.getOre() > 0) {
 					acceptOverlay.addGetResource(ResourceType.ORE, resourceList.getOre());
 				} else if (resourceList.getOre() < 0) {
 					acceptOverlay.addGiveResource(ResourceType.ORE, resourceList.getOre());
+					canTradeList.setOre(resourceList.getOre());
 				}
 				
 				if (resourceList.getSheep() > 0) {
 					acceptOverlay.addGetResource(ResourceType.SHEEP, resourceList.getSheep());
 				} else if (resourceList.getSheep() < 0) {
 					acceptOverlay.addGiveResource(ResourceType.SHEEP, resourceList.getSheep());
+					canTradeList.setSheep(resourceList.getSheep());
 				}
 				
 				if (resourceList.getWheat() > 0) {
 					acceptOverlay.addGetResource(ResourceType.WHEAT, resourceList.getWheat());
 				} else if (resourceList.getWheat() < 0) {
 					acceptOverlay.addGiveResource(ResourceType.WHEAT, resourceList.getWheat());
+					canTradeList.setWheat(resourceList.getSheep());
 				}
 				
 				if (resourceList.getWood() > 0) {
 					acceptOverlay.addGetResource(ResourceType.WOOD, resourceList.getWood());
 				} else if (resourceList.getWood() < 0) {
 					acceptOverlay.addGiveResource(ResourceType.WOOD, resourceList.getWood());
+					canTradeList.setWheat(resourceList.getSheep());
 				}
 				
-				acceptOverlay.setPlayerName("bob");
-				
+				int offeringIndex = tradeOffer.getSender();
+				acceptOverlay.setPlayerName(clientModelController.getClientModel().getPlayers()[offeringIndex].getName());
+				acceptOverlay.setAcceptEnabled(clientModelController.canAcceptTrade(playerIndex, canTradeList));
 			}
 		}
 	}
