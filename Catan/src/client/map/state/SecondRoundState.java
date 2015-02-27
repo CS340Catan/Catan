@@ -10,7 +10,6 @@ public class SecondRoundState implements IMapState {
 
 	@Override
 	public void initialize(MapController mapController) {
-		// TODO Auto-generated method stub
 		
 	}
 	

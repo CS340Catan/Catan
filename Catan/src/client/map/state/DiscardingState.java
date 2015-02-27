@@ -9,13 +9,11 @@ public class DiscardingState implements IMapState {
 
 	@Override
 	public void initialize(MapController mapController) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public String getClassName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

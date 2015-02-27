@@ -20,13 +20,11 @@ public class InitialState implements IMapState {
 
 	@Override
 	public boolean canPlaceSettlement(VertexObject settlement, boolean playingCard, ClientModelController clientModelController) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree, ClientModelController clientModelController) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
