@@ -9,7 +9,7 @@ public class RollingState implements IMapState {
 
 
 	@Override
-	public void mapAction(MapController mapController) {
+	public void initialize(MapController mapController) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -8,7 +8,7 @@ import client.model.VertexObject;
 public class PlayingState implements IMapState {
 
 	@Override
-	public void mapAction(MapController mapController) {
+	public void initialize(MapController mapController) {
 		// TODO Auto-generated method stub
 		
 	}

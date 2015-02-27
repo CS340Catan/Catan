@@ -17,6 +17,7 @@ import client.data.*;
 import client.map.state.DiscardingState;
 import client.map.state.FirstRoundState;
 import client.map.state.IMapState;
+import client.map.state.InitialState;
 import client.map.state.PlayingState;
 import client.map.state.RobbingState;
 import client.map.state.RollingState;
@@ -34,7 +35,7 @@ import client.model.VertexObject;
 public class MapController extends Controller implements IMapController, Observer {
 
 	private IRobView robView;
-	private IMapState mapState;
+	private IMapState mapState = new InitialState();
 	private ClientModelController clientModelController;
 	private IServer server;
 	private boolean playingRoadBuildingCard = false;
@@ -67,14 +68,14 @@ public class MapController extends Controller implements IMapController, Observe
 		this.robView = robView;
 	}
 	
-	private void populateHexes(){
+	public void populateHexes(){
 		for(Hex hex : ClientModel.getSingleton().getMap().getHexes()){
 			HexType hexType = clientModelController.stringToHexType(hex.getResource());
 			getView().addHex(hex.getLocation(),hexType);
 			getView().addNumber(hex.getLocation(), hex.getNumber());
 		}
 	}
-	private void populatePorts(){
+	public void populatePorts(){
 		for(Port port : ClientModel.getSingleton().getMap().getPorts()){
 			PortType portType = clientModelController.stringToPortType(port.getResource());
 			EdgeLocation edgeLocation = new EdgeLocation(port.getLocation(),port.getDir());
@@ -83,20 +84,6 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	protected void initFromModel() {
-		// <temp>
-
-		getView().addNumber(new HexLocation(-2, 0), 2);
-		getView().addNumber(new HexLocation(-2, 1), 3);
-		getView().addNumber(new HexLocation(-2, 2), 4);
-		getView().addNumber(new HexLocation(-1, 0), 5);
-		getView().addNumber(new HexLocation(-1, 1), 6);
-		getView().addNumber(new HexLocation(1, -1), 8);
-		getView().addNumber(new HexLocation(1, 0), 9);
-		getView().addNumber(new HexLocation(2, -2), 10);
-		getView().addNumber(new HexLocation(2, -1), 11);
-		getView().addNumber(new HexLocation(2, 0), 12);
-		
-		// </temp>
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
@@ -239,7 +226,7 @@ public class MapController extends Controller implements IMapController, Observe
 		populateHexes();
 		populatePorts();
 		
-		
+		mapState.initialize(this);
 		updateState();
 		updateRoads();
 		updateSettlements();
