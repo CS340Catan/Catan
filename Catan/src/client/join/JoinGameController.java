@@ -6,6 +6,7 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 
 import shared.communication.CreateGameParams;
+import shared.communication.GameSummary;
 import shared.communication.InvalidInputException;
 import shared.communication.JoinGameParams;
 import shared.definitions.CatanColor;
@@ -64,7 +65,7 @@ public class JoinGameController extends Controller implements
 	}
 
 	public IJoinGameView getJoinGameView() {
-		
+
 		return (IJoinGameView) super.getView();
 	}
 
@@ -122,9 +123,15 @@ public class JoinGameController extends Controller implements
 	@Override
 	public void start() {
 		try {
-			GameInfo[] gameList = server.getGameList();
-			getJoinGameView().setGames(gameList, PlayerInfo.getSingleton());
-			for (GameInfo game : gameList) {
+			GameSummary[] gameList = server.getGameList();
+			GameInfo[] gameInfoList = new GameInfo[gameList.length];
+			for (int i = 0; i < gameList.length; i++) {
+				gameInfoList[i] = gameList[i].toGameInfo();
+			}
+
+			getJoinGameView().setGames(gameInfoList, PlayerInfo.getSingleton());
+
+			for (GameInfo game : gameInfoList) {
 				System.out.println("Game:" + game.getTitle());
 				System.out.println("Id: " + game.getId());
 				for (PlayerInfo player : game.getPlayers()) {
@@ -133,16 +140,6 @@ public class JoinGameController extends Controller implements
 					}
 				}
 			}
-
-			/*
-			 * GameInfo[] testGameList = new GameInfo[2]; GameInfo test = new
-			 * GameInfo(); test.setId(1); test.setTitle("New Game");
-			 * test.addPlayer(new PlayerInfo()); testGameList[0] = test;
-			 * GameInfo test2 = new GameInfo(); test2.setId(2);
-			 * test2.setTitle("New Game"); test2.addPlayer(new PlayerInfo());
-			 * testGameList[1] = test2; getJoinGameView().setGames(testgameList,
-			 * null);
-			 */
 
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
@@ -188,8 +185,13 @@ public class JoinGameController extends Controller implements
 			 * Re-update the game list after creating the new game. This should
 			 * add the newly created game.
 			 */
-			GameInfo[] gameList = server.getGameList();
-			getJoinGameView().setGames(gameList, PlayerInfo.getSingleton());
+			GameSummary[] gameList = server.getGameList();
+			GameInfo[] gameInfoList = new GameInfo[gameList.length];
+			for (int i = 0; i < gameList.length; i++) {
+				gameInfoList[i] = gameList[i].toGameInfo();
+			}
+			
+			getJoinGameView().setGames(gameInfoList, PlayerInfo.getSingleton());
 		} catch (ServerResponseException e) {
 			/*
 			 * Throw and error if there is an error with the server, i.e. a 400

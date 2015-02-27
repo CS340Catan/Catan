@@ -88,23 +88,23 @@ public class MockServer implements IServer {
 	 * @Post Returns a hard coded GamesList object.
 	 */
 	@Override
-	public GameInfo[] getGameList() throws ServerResponseException {
-		GameInfo[] games = new GameInfo[2];
+	public GameSummary[] getGameList() throws ServerResponseException {
+		GameSummary[] games = new GameSummary[2];
 		String[] names = { "bill", "ted", "sheila", "parker" };
 		String[] colors = { "red", "white", "blue", "green" };
 		String[] gameNames = { "game1", "game2" };
 		
-		for (int i = 0; i < 2; ++i) {
-			GameInfo test = new GameInfo();
+		/*for (int i = 0; i < 2; ++i) {
+			GameSummary test = new GameSummary();
 			test.setTitle(gameNames[i]);
 			test.setId(1);
 			PlayerInfo newPlayer = new PlayerInfo();
 			newPlayer.setColor(CatanColor.valueOf(colors[i]));
 			newPlayer.setId(i);
 			newPlayer.setName(names[i]);
-			test.addPlayer(new PlayerInfo());			
+			test.addPlayer(new PlayerSummary());			
 			games[i] = test;
-		}
+		}*/
 
 		return games;
 	}

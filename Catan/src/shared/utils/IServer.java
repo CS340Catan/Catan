@@ -66,7 +66,7 @@ public interface IServer {
 	 *       response, and the body contains an error message.
 	 * 
 	 */
-	public GameInfo[] getGameList() throws ServerResponseException;
+	public GameSummary[] getGameList() throws ServerResponseException;
 
 	/**
 	 * This method will create a game using the inputed game parameters within
