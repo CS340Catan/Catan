@@ -64,7 +64,7 @@ public class JoinGameController extends Controller implements
 	}
 
 	public IJoinGameView getJoinGameView() {
-
+		
 		return (IJoinGameView) super.getView();
 	}
 
