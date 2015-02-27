@@ -597,8 +597,9 @@ public class ServerProxy implements IServer {
 	 *       new devcard hand
 	 */
 	@Override
-	public ClientModel buyDevCard() throws ServerResponseException {
-		String response = httpCommunicator.doPost("/moves/buyDevCard", null);
+	public ClientModel buyDevCard(UserActionParams params) throws ServerResponseException {
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/buyDevCard", jsonString);
 		if (response != null) {
 			return Serializer.deserializeClientModel(response);
 		} else {

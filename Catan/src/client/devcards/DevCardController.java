@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import shared.communication.PlayMonopolyParams;
 import shared.communication.PlayMonumentParams;
 import shared.communication.Resource;
+import shared.communication.UserActionParams;
 import shared.communication.YearOfPlentyParams;
 import shared.definitions.ResourceType;
 import shared.utils.IServer;
@@ -87,9 +88,11 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void buyCard() {
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		UserActionParams buyDevCardParams = new UserActionParams(playerIndex);
+		buyDevCardParams.setType("buyDevCard");
 		if(modelController.canBuyDevCard(playerIndex)){
 			try {
-				ClientModel updatedModel = serverProxy.buyDevCard();
+				ClientModel updatedModel = serverProxy.buyDevCard(buyDevCardParams);
 				update(updatedModel);
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,

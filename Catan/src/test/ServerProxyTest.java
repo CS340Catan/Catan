@@ -471,8 +471,10 @@ public class ServerProxyTest {
 	public void testBuyDevCard() {
 
 		ClientModel model;
+		UserActionParams params = new UserActionParams(0);
+		params.setType("buyDevCard");
 		try {
-			model = serverProxy.buyDevCard();
+			model = serverProxy.buyDevCard(params);
 			assertNotEquals(model, null);
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));

@@ -580,7 +580,7 @@ public class MockServer implements IServer {
 	 *       development card hand (unplayable this turn).
 	 */
 	@Override
-	public ClientModel buyDevCard() throws ServerResponseException {
+	public ClientModel buyDevCard(UserActionParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}

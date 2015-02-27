@@ -374,7 +374,7 @@ public interface IServer {
 	 * @Post if it is monument card, add it to old devcard hand else, add it to
 	 *       new devcard hand
 	 */
-	public ClientModel buyDevCard()throws ServerResponseException;
+	public ClientModel buyDevCard(UserActionParams params)throws ServerResponseException;
 
 	/**
 	 * This method will play a soldier card from a player's hand. A new
