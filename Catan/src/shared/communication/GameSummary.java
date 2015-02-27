@@ -1,5 +1,10 @@
 package shared.communication;
 
+
+import shared.definitions.CatanColor;
+import client.data.GameInfo;
+import client.data.PlayerInfo;
+
 /**
  * This class is for sending a list of games currently on the server per the
  * '/games/list' request This class is for send information for a newly created
@@ -48,4 +53,24 @@ public class GameSummary {
 		this.players = players;
 	}
 
+	public GameInfo toGameInfo(){
+		GameInfo gameInfo = new GameInfo();
+		
+		gameInfo.setId(this.id);
+		gameInfo.setTitle(this.title);
+				
+		for(int i = 0; i < this.players.length; i++){
+			PlayerSummary player = this.players[i];
+			
+			PlayerInfo playerInfo = new PlayerInfo();
+			playerInfo.setName(player.getName());
+			playerInfo.setId(player.getId());
+			playerInfo.setColor(CatanColor.valueOf(player.getColor()));
+			playerInfo.setPlayerIndex(i);
+			
+			gameInfo.addPlayer(playerInfo);
+		}
+		
+		return gameInfo;
+	}
 }
