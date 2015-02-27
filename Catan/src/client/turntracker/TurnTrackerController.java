@@ -19,12 +19,13 @@ import client.model.Player;
 public class TurnTrackerController extends Controller implements
 		ITurnTrackerController, Observer {
 	private ClientModelController clientModelController;
+	private ITurnTrackerControllerState state = new TrackerInitialState();
 
 	public TurnTrackerController(ITurnTrackerView view) {
 
 		super(view);
 
-		initFromModel();
+
 		ClientModel.getSingleton().addObserver(this);
 		clientModelController = new ClientModelController();
 	}
@@ -49,21 +50,11 @@ public class TurnTrackerController extends Controller implements
 		}
 	}
 
-	private void initFromModel() {
-//		getView().setLocalPlayerColor(clientModelController.getPlayerColor(PlayerInfo.getSingleton().getPlayerIndex()));
-		getView().setLocalPlayerColor(CatanColor.RED);	
-		
-		//get players, then init them all in the view
-		Player[] players = ClientModel.getSingleton().getPlayers();
-		for(Player player:players) {
-			
-			getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getCatanColor());
-		}
-		
-	}
-
 	@Override
 	public void update(Observable o, Object arg) {
+		//initialize players, but only if in initial state
+		state.initFromModel(getView(), this);
+		
 		clientModelController = new ClientModelController();
 		ClientModel model = ClientModel.getSingleton();
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
@@ -81,9 +72,11 @@ public class TurnTrackerController extends Controller implements
 			getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, largestArmy, longestRoad);
 			
 		}
-		
-		
-		
+
+	}
+	
+	public void setState(ITurnTrackerControllerState state) {
+		this.state = state;
 	}
 
 }
