@@ -56,6 +56,15 @@ public class TurnTrackerController extends Controller implements
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModelController = new ClientModelController();
+		ClientModel model = ClientModel.getSingleton();
+		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		
+		//set color
+		CatanColor color = model.getPlayers()[playerIndex].getPlayerInfo().getColor();
+		getView().setLocalPlayerColor(color);
+		
+		
+		
 		
 	}
 
