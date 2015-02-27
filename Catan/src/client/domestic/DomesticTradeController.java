@@ -358,7 +358,11 @@ public class DomesticTradeController extends Controller implements
 	public void acceptTrade(boolean willAccept) {
 		getAcceptOverlay().closeModal();
 		AcceptTradeParams acceptTradeParams = new AcceptTradeParams(PlayerInfo.getSingleton().getPlayerIndex(),willAccept);
-		//I NEED A SERVER!!!!!
+		try {
+			ServerProxy.getSingleton().acceptTrade(acceptTradeParams);
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
