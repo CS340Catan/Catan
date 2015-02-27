@@ -126,6 +126,7 @@ public class JoinGameController extends Controller implements
 			getJoinGameView().setGames(gameList, PlayerInfo.getSingleton());
 			for (GameInfo game : gameList) {
 				System.out.println("Game:" + game.getTitle());
+				System.out.println("Id: " + game.getId());
 				for (PlayerInfo player : game.getPlayers()) {
 					if (player != null) {
 						System.out.println("Player: " + player.getName());

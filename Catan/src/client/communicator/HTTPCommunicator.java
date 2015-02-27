@@ -133,14 +133,14 @@ public class HTTPCommunicator {
 				String decodedCookie = URLDecoder.decode(cookieString);
 				decodedCookie = decodedCookie.replace("catan.user=", "");
 				decodedCookie = decodedCookie.replace(";Path=/;", "");
-				System.out.println(decodedCookie);
+				//System.out.println(decodedCookie);
 				Cookie cookie = (Cookie) Serializer.deserialize(decodedCookie,
 						Cookie.class);
 				PlayerInfo.getSingleton().setId(cookie.getPlayerId());
 				PlayerInfo.getSingleton().setName(cookie.getName());
 				
-				System.out.println(PlayerInfo.getSingleton().getName());
-				System.out.println(PlayerInfo.getSingleton().getId());
+				//System.out.println(PlayerInfo.getSingleton().getName());
+				//System.out.println(PlayerInfo.getSingleton().getId());
 
 				String cleaned = cookieString.replace("catan.player=", "");
 				userCookie = cleaned;

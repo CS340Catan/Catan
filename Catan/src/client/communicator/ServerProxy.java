@@ -125,6 +125,7 @@ public class ServerProxy implements IServer {
 	public GameInfo[] getGameList() throws ServerResponseException {
 		String response = httpCommunicator.doGet("/games/list", null);
 		if (response != null) {
+			System.out.println(response);
 			return (GameInfo[]) Serializer.deserialize(response,
 					GameInfo[].class);
 		} else {
