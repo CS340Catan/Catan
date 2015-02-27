@@ -1369,4 +1369,27 @@ public class ClientModelController {
 		}
 		return null;
 	}
+	
+	/**
+	 * checks to see if the player has the largest army
+	 * @param playerIndex
+	 */
+	public boolean hasLargestArmy(int playerIndex) {
+		
+		int largestArmyPlayerIndex = clientModel.getTurnTracker().getLargestArmy();
+		return (largestArmyPlayerIndex == playerIndex);
+		
+	}
+	
+	/**
+	 * checks to see if player has the longest road
+	 * @param playerIndex
+	 * @return
+	 */
+	public boolean hasLongestRoad(int playerIndex) {
+		
+		int longestRoadPlayerIndex = clientModel.getTurnTracker().getLongestRoad();
+		return (longestRoadPlayerIndex == playerIndex);
+		
+	}
 }

@@ -132,6 +132,45 @@ public class Player {
 	public String getColor() {
 		return color;
 	}
+	
+	public CatanColor getCatanColor() {
+		//convert color to catan enum
+		CatanColor catanColor;
+		switch(color) {
+			case "red":
+				catanColor = CatanColor.RED;
+				break;
+			case "orange":
+				catanColor = CatanColor.ORANGE;
+				break;
+			case "yellow":
+				catanColor = CatanColor.YELLOW;
+				break;
+			case "blue":
+				catanColor = CatanColor.BLUE;
+				break;
+			case "green":
+				catanColor = CatanColor.GREEN;
+				break;
+			case "purple":
+				catanColor = CatanColor.PURPLE;
+				break;
+			case "puce":
+				catanColor = CatanColor.PUCE;
+				break;
+			case "white":
+				catanColor = CatanColor.WHITE;
+				break;
+			case "brown":
+				catanColor = CatanColor.BROWN;
+				break;
+			default:
+				catanColor = null;
+				break;
+		}
+		
+		return catanColor;
+	}
 
 	public void setColor(String color) {
 		this.color = color;

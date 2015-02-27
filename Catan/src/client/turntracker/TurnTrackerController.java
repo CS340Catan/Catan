@@ -11,6 +11,7 @@ import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
+import client.model.Player;
 
 /**
  * Implementation for the turn tracker controller
@@ -50,7 +51,15 @@ public class TurnTrackerController extends Controller implements
 
 	private void initFromModel() {
 //		getView().setLocalPlayerColor(clientModelController.getPlayerColor(PlayerInfo.getSingleton().getPlayerIndex()));
-		getView().setLocalPlayerColor(CatanColor.RED);		
+		getView().setLocalPlayerColor(CatanColor.RED);	
+		
+		//get players, then init them all in the view
+		Player[] players = ClientModel.getSingleton().getPlayers();
+		for(Player player:players) {
+			
+			getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getCatanColor());
+		}
+		
 	}
 
 	@Override
@@ -63,6 +72,15 @@ public class TurnTrackerController extends Controller implements
 		CatanColor color = model.getPlayers()[playerIndex].getPlayerInfo().getColor();
 		getView().setLocalPlayerColor(color);
 		
+		//get players, then update them all in the view
+		Player[] players = model.getPlayers();
+		for(Player player: players) {
+			boolean highlight = clientModelController.isPlayerTurn(player.getPlayerIndex());
+			boolean largestArmy = clientModelController.hasLargestArmy(player.getPlayerIndex());
+			boolean longestRoad = clientModelController.hasLongestRoad(player.getPlayerIndex());
+			getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, largestArmy, longestRoad);
+			
+		}
 		
 		
 		
