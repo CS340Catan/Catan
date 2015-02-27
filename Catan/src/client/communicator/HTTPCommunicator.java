@@ -125,8 +125,7 @@ public class HTTPCommunicator {
 	private int parseSetCookie(String cookieString, HttpURLConnection connection) {
 		// if cookies have already been set, don't worry about setting them
 		// again.
-		
-		
+
 		if (gameCookie == null || userCookie == null) {
 			// strip ;Path=/; and catan.****
 			cookieString = cookieString.replace(";Path=/;", "");
@@ -135,13 +134,14 @@ public class HTTPCommunicator {
 				decodedCookie = decodedCookie.replace("catan.user=", "");
 				decodedCookie = decodedCookie.replace(";Path=/;", "");
 				System.out.println(decodedCookie);
-				Cookie cookie = (Cookie) Serializer.deserialize(decodedCookie, Cookie.class);
+				Cookie cookie = (Cookie) Serializer.deserialize(decodedCookie,
+						Cookie.class);
 				PlayerInfo.getSingleton().setId(cookie.getPlayerId());
 				PlayerInfo.getSingleton().setName(cookie.getName());
+				
 				System.out.println(PlayerInfo.getSingleton().getName());
 				System.out.println(PlayerInfo.getSingleton().getId());
-				
-				
+
 				String cleaned = cookieString.replace("catan.player=", "");
 				userCookie = cleaned;
 				return 1;
