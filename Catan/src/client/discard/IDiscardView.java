@@ -1,7 +1,8 @@
 package client.discard;
 
-import client.base.*;
-import shared.definitions.*;
+import shared.definitions.ResourceType;
+import client.base.IOverlayView;
+import client.model.ResourceList;
 
 /**
  * Discard view interface
@@ -25,6 +26,8 @@ public interface IDiscardView extends IOverlayView {
 	 *            The new discard amount
 	 */
 	void setResourceDiscardAmount(ResourceType resource, int amount);
+	
+	int getResourceDiscardAmount(ResourceType resoruce);
 
 	/**
 	 * Sets the maximum amount displayed for the specified resource.
@@ -35,7 +38,9 @@ public interface IDiscardView extends IOverlayView {
 	 *            The new maximum amount
 	 */
 	void setResourceMaxAmount(ResourceType resource, int maxAmount);
-
+	
+	int getResourceMaxAmount(ResourceType resource);
+	
 	/**
 	 * Used to specify whether or not the discard amount of the specified
 	 * resource can be increased and decreased. (The buttons for increasing or
@@ -63,4 +68,9 @@ public interface IDiscardView extends IOverlayView {
 	 *            The new state message (e.g., "0/6")
 	 */
 	void setStateMessage(String message);
+	
+	/**
+	 * 
+	 */
+	ResourceList getListToDiscard();
 }

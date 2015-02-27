@@ -25,7 +25,7 @@ public class PlayerWaitingController extends Controller implements
 
 		super(view);
 		ClientModel.getSingleton().addObserver(this);
-		server = new ServerProxy(new HTTPCommunicator());
+		server = ServerProxy.getSingleton();
 	}
 
 	@Override
@@ -38,12 +38,26 @@ public class PlayerWaitingController extends Controller implements
 	public void start() {
 
 		getView().showModal();
+		
+		//show ai choices
+		String[] AIChoices = {""};
+		try {
+			AIChoices = server.getAITypes();
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		getView().setAIChoices(AIChoices);
+		
 	}
 
 	@Override
 	public void addAI() {
+		
+		
 		AddAIParams addAIParams = new AddAIParams();
-		addAIParams.setAIType("LARGEST_ARMY");
+		addAIParams.setAIType(getView().getSelectedAI());
 		try {
 			server.addAI(addAIParams);
 		} catch (ServerResponseException e) {

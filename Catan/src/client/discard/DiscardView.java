@@ -43,6 +43,7 @@ import javax.swing.border.LineBorder;
 import shared.definitions.ResourceType;
 import client.base.OverlayView;
 import client.custom.cwt.RoundedButton;
+import client.model.ResourceList;
 import client.utils.ImageUtils;
 import client.utils.FontUtils;
 
@@ -238,6 +239,12 @@ public class DiscardView extends OverlayView implements IDiscardView {
 		resources.get(resource).setDiscardAmount(amount);
 		this.update();
 	}
+	
+	@Override
+	public int getResourceDiscardAmount(ResourceType resource)
+	{
+		return resources.get(resource).getDiscardAmount();
+	}
 
 	/**
 	 * Sets the maximum amount displayed for the specified resource.
@@ -253,7 +260,12 @@ public class DiscardView extends OverlayView implements IDiscardView {
 		resources.get(resource).setMaxAmount(maxAmount);
 		this.update();
 	}
-
+	
+	@Override
+	public int getResourceMaxAmount(ResourceType resource){
+		return resources.get(resource).getMaxAmount();
+	}
+	
 	/**
 	 * Used to specify whether or not the discard amount of the specified
 	 * resource can be increased and decreased. (The buttons for increasing or
@@ -289,6 +301,17 @@ public class DiscardView extends OverlayView implements IDiscardView {
 	public void setStateMessage(String message) {
 		discardButton.setText(message);
 		this.update();
+	}
+	
+	@Override
+	public ResourceList getListToDiscard()
+	{
+		return new ResourceList(resources.get(ResourceType.BRICK).getDiscardAmount(),
+								resources.get(ResourceType.ORE).getDiscardAmount(),
+								resources.get(ResourceType.SHEEP).getDiscardAmount(),
+								resources.get(ResourceType.WHEAT).getDiscardAmount(),
+								resources.get(ResourceType.WOOD).getDiscardAmount()
+				);
 	}
 
 	private ActionListener actionListener = new ActionListener() {

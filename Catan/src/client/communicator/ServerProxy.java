@@ -17,16 +17,14 @@ import client.model.*;
  */
 public class ServerProxy implements IServer {
 
-	public HTTPCommunicator getHttpCommunicator() {
-		return httpCommunicator;
-	}
-
-	public void setHttpCommunicator(HTTPCommunicator httpCommunicator) {
-		this.httpCommunicator = httpCommunicator;
-	}
-
+	/**
+	 * The future singleton
+	 */
+	private static ServerProxy server = null;
+	
 	/** used to send data over the network */
 	private HTTPCommunicator httpCommunicator;
+
 
 	/**
 	 * Default constructor.
@@ -34,10 +32,30 @@ public class ServerProxy implements IServer {
 	 * @param httpCommunicator
 	 *            Given communicator that is connected to the server.
 	 */
-	public ServerProxy(HTTPCommunicator httpCommunicator) {
-		this.httpCommunicator = httpCommunicator;
+	private ServerProxy() {
+		httpCommunicator = new HTTPCommunicator();
+	}
+	
+	/**
+	 * method for accessing the singleton
+	 * @return	the singleton ProxyServer
+	 */
+	public static ServerProxy getSingleton() {
+		if(server == null) {
+			server = new ServerProxy();
+		}
+		
+		return server;
 	}
 
+	public HTTPCommunicator getHttpCommunicator() {
+		return httpCommunicator;
+	}
+
+	public void setHttpCommunicator(HTTPCommunicator httpCommunicator) {
+		this.httpCommunicator = httpCommunicator;
+	}
+	
 	/**
 	 * Checks to see if the server's model has been updated, returns the new
 	 * model if there is a new one available, otherwise returns a null
@@ -278,6 +296,7 @@ public class ServerProxy implements IServer {
 	public AddAIResponse addAI(AddAIParams params)
 			throws ServerResponseException {
 		String jsonString = Serializer.serialize(params);
+		System.out.println(jsonString);
 		String response = httpCommunicator.doPost("/game/addAI", jsonString);
 		if (response != null) {
 			return (AddAIResponse) Serializer.deserialize(response,
@@ -558,8 +577,9 @@ public class ServerProxy implements IServer {
 	 * @post it is the next player's turn
 	 */
 	@Override
-	public ClientModel finishTurn() throws ServerResponseException {
-		String response = httpCommunicator.doPost("/moves/finishTurn", null);
+	public ClientModel finishTurn(UserActionParams params) throws ServerResponseException {
+		String jsonString = Serializer.serialize(params);
+		String response = httpCommunicator.doPost("/moves/finishTurn", jsonString);
 		if (response != null) {
 			return Serializer.deserializeClientModel(response);
 		} else {

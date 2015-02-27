@@ -6,7 +6,7 @@ import client.model.Road;
 import client.model.VertexObject;
 
 public interface IMapState {
-	public void mapAction(MapController mapController);
+	public void initialize(MapController mapController);
 	public String getClassName();
 	public boolean canPlaceSettlement(VertexObject settlement, 
 			boolean playingCard, ClientModelController clientModelController);

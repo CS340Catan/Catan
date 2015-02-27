@@ -29,7 +29,7 @@ public class ChatController extends Controller implements IChatController,
 
 	public ChatController(IChatView view) {
 		super(view);
-		server = new ServerProxy(new HTTPCommunicator());
+		server = ServerProxy.getSingleton();
 		// TODO update httpCommunicator if adding host and port numbers to
 		// constructor
 		ClientModel.getSingleton().addObserver(this);

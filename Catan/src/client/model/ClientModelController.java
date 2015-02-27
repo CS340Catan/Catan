@@ -1,6 +1,9 @@
 package client.model;
 
 import shared.definitions.CatanColor;
+import shared.definitions.HexType;
+import shared.definitions.PortType;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 
 /**
@@ -57,7 +60,27 @@ public class ClientModelController {
 		}
 		return null;
 	}
-	
+	public  HexType  stringToHexType(String name){
+		switch(name.toLowerCase()){
+		case "ore":
+			return HexType.ORE;
+		case "lumber":
+		case "wood":
+			return HexType.WOOD;
+		case "sheep":
+			return HexType.SHEEP;
+		case "wheat":
+		case "grain":
+			return HexType.WHEAT;
+		case "brick":
+			return HexType.BRICK;
+		case "water":
+			return HexType.WATER;
+		case "desert":
+			return HexType.DESERT;
+		}
+		return null;
+	}
 
 	/**
 	 * Check if it is the given player's turn. If it is the player's turn,
@@ -964,6 +987,40 @@ public class ClientModelController {
 		}
 		return false;
 	}
+	
+	//Special
+	private boolean buildingOnNormalPort(int playerIndex, VertexObject building) {
+		if (building.getOwner() == playerIndex) {
+			for (Port port : clientModel.getMap().getPorts()) {
+				if(port.getResource() == null) {		//only check non-resource ports
+					EdgeLocation edgeLocation = new EdgeLocation(
+							port.getLocation(), port.getDir());
+					Road road = new Road(playerIndex, edgeLocation);
+					if (hasConnectingBuilding(road)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	//Special
+	private boolean buildingOnResourcePort(int playerIndex, VertexObject building, ResourceType resource) {
+		if (building.getOwner() == playerIndex) {
+			for (Port port : clientModel.getMap().getPorts()) {
+				if(port.getResource() == null) {		//only check non-resource ports
+					EdgeLocation edgeLocation = new EdgeLocation(
+							port.getLocation(), port.getDir());
+					Road road = new Road(playerIndex, edgeLocation);
+					if (hasConnectingBuilding(road)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	private boolean playerOnPort(int playerIndex) {
 		boolean onPort = false;
@@ -981,6 +1038,44 @@ public class ClientModelController {
 		}
 		return false;
 	}
+	
+	//Special
+	public boolean playerOnNormalPort(int playerIndex) {
+		boolean onPort = false;
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			onPort = buildingOnNormalPort(playerIndex, settlement);
+			if(onPort){
+				return onPort;
+			}
+		}
+		for (VertexObject city : clientModel.getMap().getCities()) {
+			onPort = buildingOnNormalPort(playerIndex, city);
+			if(onPort){
+				return onPort;
+			}
+		}
+		return false;
+	}
+	
+	//Special
+	public boolean playerOnResourcePort(int playerIndex, ResourceType resource) {
+		boolean onPort = false;
+		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			onPort = buildingOnResourcePort(playerIndex, settlement, resource);
+			if(onPort){
+				return onPort;
+			}
+		}
+		for (VertexObject city : clientModel.getMap().getCities()) {
+			onPort = buildingOnResourcePort(playerIndex, city, resource);
+			if(onPort){
+				return onPort;
+			}
+		}
+		return false;
+	}
+	
+	
 
 	/**
 	 * tests if the player can maritime trade
@@ -1254,5 +1349,24 @@ public class ClientModelController {
 	public void setClientModel(ClientModel clientModel) {
 		ClientModel.getSingleton().setClientModel(clientModel);
 		this.clientModel = ClientModel.getSingleton();
+	}
+	public PortType stringToPortType(String resource) {
+		switch(resource.toLowerCase()){
+		case "ore":
+			return PortType.ORE;
+		case "lumber":
+		case "wood":
+			return PortType.WOOD;
+		case "sheep":
+			return PortType.SHEEP;
+		case "wheat":
+		case "grain":
+			return PortType.WHEAT;
+		case "brick":
+			return PortType.BRICK;
+		case "three":
+			return PortType.THREE;
+		}
+		return null;
 	}
 }

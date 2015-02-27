@@ -48,7 +48,7 @@ public class LoginController extends Controller implements ILoginController,
 
 		this.messageView = messageView;
 		ClientModel.getSingleton().addObserver(this);
-		server = new ServerProxy(new HTTPCommunicator());
+		server = ServerProxy.getSingleton();
 		/*
 		 * TODO how does the server proxy / HTTP communicator take into account
 		 * port, host, etc.
