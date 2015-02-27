@@ -124,6 +124,14 @@ public class JoinGameController extends Controller implements
 		try {
 			GameInfo[] gameList = server.getGameList();
 			getJoinGameView().setGames(gameList, PlayerInfo.getSingleton());
+			for (GameInfo game : gameList) {
+				System.out.println("Game:" + game.getTitle());
+				for (PlayerInfo player : game.getPlayers()) {
+					if (player != null) {
+						System.out.println("Player: " + player.getName());
+					}
+				}
+			}
 
 			/*
 			 * GameInfo[] testGameList = new GameInfo[2]; GameInfo test = new
@@ -243,8 +251,8 @@ public class JoinGameController extends Controller implements
 			joinAction.execute();
 		} catch (ServerResponseException e) {
 			String outputStr = "Server Failure.";
-			JOptionPane.showMessageDialog(null, outputStr,
-					"Server Failure", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, outputStr, "Server Failure",
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
