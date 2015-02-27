@@ -9,9 +9,10 @@ import shared.communication.AddAIParams;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.*;
-import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
+import client.controllers.Poller;
 import client.model.ClientModel;
+import client.model.ClientModelController;
 
 /**
  * Implementation for the player waiting controller
@@ -20,6 +21,7 @@ public class PlayerWaitingController extends Controller implements
 		IPlayerWaitingController, Observer {
 
 	private IServer server;
+	private Poller poller;
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
 
@@ -37,6 +39,10 @@ public class PlayerWaitingController extends Controller implements
 	@Override
 	public void start() {
 
+		poller = new Poller(ServerProxy.getSingleton(),
+				new ClientModelController());
+		poller.setTimer();
+		
 		getView().showModal();
 		
 		//show ai choices
@@ -55,7 +61,6 @@ public class PlayerWaitingController extends Controller implements
 	@Override
 	public void addAI() {
 		
-		
 		AddAIParams addAIParams = new AddAIParams();
 		addAIParams.setAIType(getView().getSelectedAI());
 		try {
@@ -66,13 +71,15 @@ public class PlayerWaitingController extends Controller implements
 					"Server unavailable", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		getView().closeModal();
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
+		ClientModel model = (ClientModel) o;
+		if(model.getPlayers().length==4)
+		{
+			getView().closeModal();
+		}
 	}
 
 }
