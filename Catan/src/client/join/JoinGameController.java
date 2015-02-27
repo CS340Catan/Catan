@@ -158,6 +158,7 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void createNewGame() {
+		System.out.println("new game button clicked");
 		try {
 			CreateGameParams createGameParams = new CreateGameParams(
 					this.newGameView.getRandomlyPlaceHexes(),
