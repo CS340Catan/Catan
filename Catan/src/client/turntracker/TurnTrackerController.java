@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import shared.communication.UserActionParams;
 import shared.definitions.CatanColor;
+import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
@@ -39,7 +40,12 @@ public class TurnTrackerController extends Controller implements
 		UserActionParams finishTurn = new UserActionParams(playerIndex);
 		finishTurn.setType("finishTurn");
 		
-		ServerProxy.getSingleton().finishTurn(finishTurn);
+		try {
+			ServerProxy.getSingleton().finishTurn(finishTurn);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void initFromModel() {

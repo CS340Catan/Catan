@@ -25,7 +25,7 @@ public class PlayerWaitingController extends Controller implements
 
 		super(view);
 		ClientModel.getSingleton().addObserver(this);
-		server = new ServerProxy(new HTTPCommunicator());
+		server = ServerProxy.getSingleton();
 	}
 
 	@Override
