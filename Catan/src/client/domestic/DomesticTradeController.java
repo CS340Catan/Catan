@@ -309,7 +309,7 @@ public class DomesticTradeController extends Controller implements
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
 		tradeOfferParams = new TradeOfferParams(playerIndex, resourceList, receiverPlayerIndex);
 		
-		ServerProxy server = new ServerProxy(new HTTPCommunicator());
+		ServerProxy server = ServerProxy.getSingleton();
 		try {
 			server.offerTrade(tradeOfferParams);
 		} catch (ServerResponseException e) {

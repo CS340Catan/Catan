@@ -24,7 +24,7 @@ import client.model.ResourceList;
 public class DiscardController extends Controller implements IDiscardController, Observer {
 
 	private IWaitView waitView;
-	private IServer serverProxy = new ServerProxy(new HTTPCommunicator());
+	private IServer serverProxy = ServerProxy.getSingleton();
 	private ClientModelController modelController;
 	
 	private final String SERVER_ERROR = "Give us a minute to get the server working...";

@@ -56,7 +56,7 @@ public class JoinGameController extends Controller implements
 		setMessageView(messageView);
 
 		ClientModel.getSingleton().addObserver(this);
-		this.server = new ServerProxy(new HTTPCommunicator());
+		this.server = ServerProxy.getSingleton();
 		/*
 		 * TODO how does the server proxy / HTTP communicator take into account
 		 * port, host, etc.

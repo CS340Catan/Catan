@@ -29,7 +29,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
 	private IAction roadAction;
-	private IServer serverProxy = new ServerProxy(new HTTPCommunicator());
+	private IServer serverProxy = ServerProxy.getSingleton();
 	private ClientModelController modelController;
 	
 	

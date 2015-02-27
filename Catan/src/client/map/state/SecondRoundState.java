@@ -9,8 +9,7 @@ public class SecondRoundState implements IMapState {
 	private final String CLASS_NAME = "SecondRoundState";
 
 	@Override
-	public void mapAction(MapController mapController) {
-		// TODO Auto-generated method stub
+	public void initialize(MapController mapController) {
 		
 	}
 	

@@ -3,8 +3,11 @@ package client.turntracker;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.communication.UserActionParams;
 import shared.definitions.CatanColor;
+import shared.utils.ServerResponseException;
 import client.base.*;
+import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
@@ -33,7 +36,16 @@ public class TurnTrackerController extends Controller implements
 
 	@Override
 	public void endTurn() {
-
+		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		UserActionParams finishTurn = new UserActionParams(playerIndex);
+		finishTurn.setType("finishTurn");
+		
+		try {
+			ServerProxy.getSingleton().finishTurn(finishTurn);
+		} catch (ServerResponseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void initFromModel() {

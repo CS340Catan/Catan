@@ -25,7 +25,7 @@ public class ServerProxyTest {
 		// create and populate model and serverProxy
 		model = Serializer.deserializeClientModel(clientModelJson);
 		HTTPCommunicator.setServer("localhost", 8081);
-		serverProxy = new ServerProxy(new HTTPCommunicator());
+		serverProxy = ServerProxy.getSingleton();
 	}
 
 	@After
@@ -456,8 +456,10 @@ public class ServerProxyTest {
 	public void testFinishTurn() {
 
 		ClientModel model;
+		UserActionParams params = new UserActionParams(0);
+		params.setType("finishTurn");
 		try {
-			model = serverProxy.finishTurn();
+			model = serverProxy.finishTurn(params);
 			assertNotEquals(model, null);
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));

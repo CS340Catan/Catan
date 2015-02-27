@@ -560,7 +560,7 @@ public class MockServer implements IServer {
 	 * @Post It is the next player's turn.
 	 */
 	@Override
-	public ClientModel finishTurn() throws ServerResponseException {
+	public ClientModel finishTurn(UserActionParams params) throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
 	}

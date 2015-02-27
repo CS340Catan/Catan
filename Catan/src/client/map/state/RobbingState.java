@@ -9,14 +9,12 @@ public class RobbingState implements IMapState {
 
 
 	@Override
-	public void mapAction(MapController mapController) {
-		// TODO Auto-generated method stub
+	public void initialize(MapController mapController) {
 		
 	}
 
 	@Override
 	public String getClassName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
