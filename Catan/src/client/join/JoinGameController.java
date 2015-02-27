@@ -15,9 +15,11 @@ import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
+import client.controllers.Poller;
 import client.data.*;
 import client.misc.*;
 import client.model.ClientModel;
+import client.model.ClientModelController;
 
 /**
  * Implementation for the join game controller
@@ -29,7 +31,7 @@ public class JoinGameController extends Controller implements
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
-
+	private Poller poller;
 	private IServer server;
 	private GameInfo storeGame;
 
@@ -122,7 +124,7 @@ public class JoinGameController extends Controller implements
 	@Override
 	public void start() {
 		try {
-			GameInfo[] gameList = server.getGameList();			
+			GameInfo[] gameList = server.getGameList();
 			getJoinGameView().setGames(gameList, PlayerInfo.getSingleton());
 
 			/*
@@ -156,6 +158,7 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void createNewGame() {
+		System.out.println("new game button clicked");
 		try {
 			CreateGameParams createGameParams = new CreateGameParams(
 					this.newGameView.getRandomlyPlaceHexes(),
@@ -196,6 +199,8 @@ public class JoinGameController extends Controller implements
 	public void joinGame(CatanColor color) {
 		// If join succeeded
 		try {
+			poller = new Poller(ServerProxy.getSingleton(), new ClientModelController());
+			poller.setTimer();
 			int joinGameID = this.storeGame.getId();
 
 			JoinGameParams joinGameParams = new JoinGameParams(

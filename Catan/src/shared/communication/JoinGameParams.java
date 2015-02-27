@@ -27,7 +27,7 @@ public class JoinGameParams {
 	 * @param id
 	 */
 	public JoinGameParams(String color, int id) {
-		this.color = color;
+		this.color = color.toLowerCase();
 		this.id = id;
 	}
 
@@ -36,7 +36,7 @@ public class JoinGameParams {
 	}
 
 	public void setColor(String color) {
-		this.color = color;
+		this.color = color.toLowerCase();
 	}
 
 	public int getId() {

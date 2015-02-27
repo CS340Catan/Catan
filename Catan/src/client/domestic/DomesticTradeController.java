@@ -10,7 +10,6 @@ import shared.communication.TradeOfferParams;
 import shared.definitions.*;
 import shared.utils.ServerResponseException;
 import client.base.*;
-import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
 import client.misc.*;
@@ -313,7 +312,6 @@ public class DomesticTradeController extends Controller implements
 		try {
 			server.offerTrade(tradeOfferParams);
 		} catch (ServerResponseException e) {
-			// TODO tell user there was an error, close the trading platform
 			e.printStackTrace();
 		}
 		
@@ -359,14 +357,18 @@ public class DomesticTradeController extends Controller implements
 	public void acceptTrade(boolean willAccept) {
 		getAcceptOverlay().closeModal();
 		AcceptTradeParams acceptTradeParams = new AcceptTradeParams(PlayerInfo.getSingleton().getPlayerIndex(),willAccept);
-		//I NEED A SERVER!!!!!
+		try {
+			ServerProxy.getSingleton().acceptTrade(acceptTradeParams);
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModelController = new ClientModelController();
 		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
-		TradeOffer tradeOffer = clientModelController.getClientModel().getTradeOffer();
+		TradeOffer tradeOffer = ClientModel.getSingleton().getTradeOffer();
 		if (tradeOffer != null) {
 			if (tradeOffer.getReceiver() == playerIndex) {
 				acceptOverlay.showModal();

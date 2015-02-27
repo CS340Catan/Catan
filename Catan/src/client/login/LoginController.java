@@ -223,7 +223,6 @@ public class LoginController extends Controller implements ILoginController,
 		/*
 		 * Check that all strings inside of loginCredentials are not null
 		 */
-		System.out.println("canLogin begin");
 		if (loginCredentials.getUsername() == null)
 			return false;
 		if (loginCredentials.getPassword() == null)
