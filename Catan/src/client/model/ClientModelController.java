@@ -1,6 +1,8 @@
 package client.model;
 
 import shared.definitions.CatanColor;
+import shared.definitions.HexType;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.*;
 
@@ -58,7 +60,27 @@ public class ClientModelController {
 		}
 		return null;
 	}
-	
+	public  HexType  stringToHexType(String name){
+		switch(name.toLowerCase()){
+		case "ore":
+			return HexType.ORE;
+		case "lumber":
+		case "wood":
+			return HexType.WOOD;
+		case "sheep":
+			return HexType.SHEEP;
+		case "wheat":
+		case "grain":
+			return HexType.WHEAT;
+		case "brick":
+			return HexType.BRICK;
+		case "water":
+			return HexType.WATER;
+		case "desert":
+			return HexType.DESERT;
+		}
+		return null;
+	}
 
 	/**
 	 * Check if it is the given player's turn. If it is the player's turn,
@@ -1327,5 +1349,24 @@ public class ClientModelController {
 	public void setClientModel(ClientModel clientModel) {
 		ClientModel.getSingleton().setClientModel(clientModel);
 		this.clientModel = ClientModel.getSingleton();
+	}
+	public PortType stringToPortType(String resource) {
+		switch(resource.toLowerCase()){
+		case "ore":
+			return PortType.ORE;
+		case "lumber":
+		case "wood":
+			return PortType.WOOD;
+		case "sheep":
+			return PortType.SHEEP;
+		case "wheat":
+		case "grain":
+			return PortType.WHEAT;
+		case "brick":
+			return PortType.BRICK;
+		case "three":
+			return PortType.THREE;
+		}
+		return null;
 	}
 }
