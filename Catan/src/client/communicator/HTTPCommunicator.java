@@ -126,7 +126,7 @@ public class HTTPCommunicator {
 		// if cookies have already been set, don't worry about setting them
 		// again.
 
-		if (gameCookie == null && userCookie == null) {
+		if (gameCookie == null || userCookie == null) {
 			// strip ;Path=/; and catan.****
 			cookieString = cookieString.replace(";Path=/;", "");
 			if (userCookie == null) {
