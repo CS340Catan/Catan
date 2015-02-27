@@ -6,14 +6,12 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 
 import shared.communication.CreateGameParams;
-import shared.communication.GameSummary;
 import shared.communication.InvalidInputException;
 import shared.communication.JoinGameParams;
 import shared.definitions.CatanColor;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.*;
-import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.controllers.Poller;
 import client.data.*;
@@ -227,7 +225,7 @@ public class JoinGameController extends Controller implements
 			/*
 			 * Package the join game parameters to be sent over to the server.
 			 * These values can be grabbed from the storedGame id as well as the
-			 * inputted color. These values are then sent over to the server to
+			 * Inputed color. These values are then sent over to the server to
 			 * join a game.
 			 */
 			int joinGameID = this.storeGame.getId();
@@ -235,14 +233,18 @@ public class JoinGameController extends Controller implements
 					color.toString(), joinGameID);
 			server.joinGame(joinGameParams);
 
+			/*
+			 * Close the join game view and the select color view and execute
+			 * joinAction, which will open the PlayerWaitingView.
+			 */
 			getSelectColorView().closeModal();
 			getJoinGameView().closeModal();
 
 			joinAction.execute();
 		} catch (ServerResponseException e) {
-			String outputStr = "Could not reach the server.";
+			String outputStr = "Server Failure.";
 			JOptionPane.showMessageDialog(null, outputStr,
-					"Server unavailable", JOptionPane.ERROR_MESSAGE);
+					"Server Failure", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
