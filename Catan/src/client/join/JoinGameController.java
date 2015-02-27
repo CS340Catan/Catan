@@ -122,7 +122,7 @@ public class JoinGameController extends Controller implements
 	@Override
 	public void start() {
 		try {
-			GameInfo[] gameList = server.getGameList();			
+			GameInfo[] gameList = server.getGameList();
 			getJoinGameView().setGames(gameList, PlayerInfo.getSingleton());
 
 			/*
