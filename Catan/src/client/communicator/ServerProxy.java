@@ -126,7 +126,7 @@ public class ServerProxy implements IServer {
 		String response = httpCommunicator.doGet("/games/list", null);
 		if (response != null) {
 			return (GameInfo[]) Serializer.deserialize(response,
-					GameInfo.class);
+					GameInfo[].class);
 		} else {
 			return null;
 		}
