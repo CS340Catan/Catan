@@ -362,7 +362,7 @@ public interface IServer {
 	 * @Post cards in new dev card hand have been transferred to old dev card
 	 * @Post it is the next player's turn
 	 */
-	public ClientModel finishTurn()throws ServerResponseException;
+	public ClientModel finishTurn(UserActionParams params)throws ServerResponseException;
 
 	/**
 	 * This method removes resource cards from player's in return for a

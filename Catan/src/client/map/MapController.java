@@ -52,7 +52,7 @@ public class MapController extends Controller implements IMapController, Observe
 		initFromModel();
 		ClientModel.getSingleton().addObserver(this);
 		HTTPCommunicator.setServer("localhost", 8081);
-		server = new ServerProxy(new HTTPCommunicator());
+		server = ServerProxy.getSingleton();
 	}
 
 	public IMapView getView() {
