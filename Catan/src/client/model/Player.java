@@ -219,31 +219,31 @@ public class Player {
 		//convert color to catan enum
 		CatanColor catanColor;
 		switch(color) {
-			case "RED":
+			case "red":
 				catanColor = CatanColor.RED;
 				break;
-			case "ORANGE":
+			case "orange":
 				catanColor = CatanColor.ORANGE;
 				break;
-			case "YELLOW":
+			case "yellow":
 				catanColor = CatanColor.YELLOW;
 				break;
-			case "BLUE":
+			case "blue":
 				catanColor = CatanColor.BLUE;
 				break;
-			case "GREEN":
+			case "green":
 				catanColor = CatanColor.GREEN;
 				break;
-			case "PURPLE":
+			case "purple":
 				catanColor = CatanColor.PURPLE;
 				break;
-			case "PUCE":
+			case "puce":
 				catanColor = CatanColor.PUCE;
 				break;
-			case "WHITE":
+			case "white":
 				catanColor = CatanColor.WHITE;
 				break;
-			case "BROWN":
+			case "brown":
 				catanColor = CatanColor.BROWN;
 				break;
 			default:

@@ -296,6 +296,7 @@ public class ServerProxy implements IServer {
 	public AddAIResponse addAI(AddAIParams params)
 			throws ServerResponseException {
 		String jsonString = Serializer.serialize(params);
+		System.out.println(jsonString);
 		String response = httpCommunicator.doPost("/game/addAI", jsonString);
 		if (response != null) {
 			return (AddAIResponse) Serializer.deserialize(response,
