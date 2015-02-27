@@ -160,19 +160,37 @@ public class JoinGameController extends Controller implements
 	public void createNewGame() {
 		System.out.println("new game button clicked");
 		try {
+			/*
+			 * Package the create game parameters to be sent over to the server.
+			 * These values can be grabbed from the newGameView.
+			 */
 			CreateGameParams createGameParams = new CreateGameParams(
 					this.newGameView.getRandomlyPlaceHexes(),
 					this.newGameView.getRandomlyPlaceNumbers(),
 					this.newGameView.getUseRandomPorts(),
 					this.newGameView.getTitle());
 
-			GameInfo newGameSummary = server.createGame(createGameParams);
+			/*
+			 * Call the server to create a new game and then close the new game
+			 * view.
+			 */
+			server.createGame(createGameParams);
 			getNewGameView().closeModal();
 
+			/*
+			 * Re-update the game list after creating the new game. This should
+			 * add the newly created game.
+			 */
+			GameInfo[] gameList = server.getGameList();
+			getJoinGameView().setGames(gameList, PlayerInfo.getSingleton());
 		} catch (ServerResponseException e) {
-			String outputStr = "Could not reach the server.";
-			JOptionPane.showMessageDialog(null, outputStr,
-					"Server unavailable", JOptionPane.ERROR_MESSAGE);
+			/*
+			 * Throw and error if there is an error with the server, i.e. a 400
+			 * response is returned from the server.
+			 */
+			String outputStr = "Server failure.";
+			JOptionPane.showMessageDialog(null, outputStr, "Server Failure",
+					JOptionPane.ERROR_MESSAGE);
 
 			e.printStackTrace();
 		} catch (InvalidInputException e) {
@@ -197,22 +215,29 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void joinGame(CatanColor color) {
-		// If join succeeded
 		try {
-			poller = new Poller(ServerProxy.getSingleton(), new ClientModelController());
+			/*
+			 * Initiate poller to start polling once the player has joined the
+			 * game. TODO Move to PlayerWaitingController (?)
+			 */
+			poller = new Poller(ServerProxy.getSingleton(),
+					new ClientModelController());
 			poller.setTimer();
-			int joinGameID = this.storeGame.getId();
 
+			/*
+			 * Package the join game parameters to be sent over to the server.
+			 * These values can be grabbed from the storedGame id as well as the
+			 * inputted color. These values are then sent over to the server to
+			 * join a game.
+			 */
+			int joinGameID = this.storeGame.getId();
 			JoinGameParams joinGameParams = new JoinGameParams(
 					color.toString(), joinGameID);
 			server.joinGame(joinGameParams);
 
 			getSelectColorView().closeModal();
 			getJoinGameView().closeModal();
-			// TODO: store returned player index in PlayerInfo
-			PlayerInfo.getSingleton().setId(0);// TODO change so that the player
-												// index is updated in
-												// playerinfo
+
 			joinAction.execute();
 		} catch (ServerResponseException e) {
 			String outputStr = "Could not reach the server.";
