@@ -10,7 +10,6 @@ import shared.communication.TradeOfferParams;
 import shared.definitions.*;
 import shared.utils.ServerResponseException;
 import client.base.*;
-import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
 import client.misc.*;
