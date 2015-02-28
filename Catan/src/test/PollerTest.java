@@ -23,7 +23,7 @@ public class PollerTest {
 		//create and populate model
 		clientModel = new ClientModel();
 		mockServerModel = new ClientModel();
-		clientModelController = new ClientModelController(clientModel);
+		clientModelController = new ClientModelController();
 		server = new MockServer(mockServerModel);
 	}
 	

@@ -18,7 +18,6 @@ import shared.locations.*;
  *
  */
 public class ClientModelController {
-	private ClientModel clientModel;
 
 	/**
 	 * Default constructor.
@@ -27,18 +26,6 @@ public class ClientModelController {
 	 * @Post result: a ClientModel
 	 * @param clientModel
 	 */
-	public ClientModelController() {
-		this.clientModel = ClientModel.getSingleton();
-	}
-
-	/**
-	 * allows for legacy test, do not invoke!
-	 * 
-	 * @param clientModel
-	 */
-	public ClientModelController(ClientModel clientModel) {
-		this.clientModel = clientModel;
-	}
 
 	public CatanColor getPlayerColor(int playerIndex) {
 		switch (ClientModel.getSingleton().getPlayers()[playerIndex].getColor()) {
@@ -99,7 +86,7 @@ public class ClientModelController {
 	 * @return
 	 */
 	public boolean isPlayerTurn(int playerIndex) {
-		if (clientModel.getTurnTracker().getCurrentTurn() == playerIndex) {
+		if (ClientModel.getSingleton().getTurnTracker().getCurrentTurn() == playerIndex) {
 			return true;
 		}
 		return false;
@@ -127,7 +114,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRollNumber(int playerIndex) {
-		if (isPlayerTurn(playerIndex) && clientModel.getTurnTracker().getStatus() == "rolling") {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getTurnTracker().getStatus() == "rolling") {
 			return true;
 		}
 		return false;
@@ -155,21 +142,21 @@ public class ClientModelController {
 
 		if (isPlayerTurn(playerIndex) && (playerHasResources(playerIndex, requiredResourceList) || isFree) && !roadExists(road)
 				&& (hasConnectingBuilding(road) || hasConnectingRoad(road)) && playerHasAvailableRoadPiece(playerIndex)
-				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
 	}
 
 	private boolean playerHasResources(int playerIndex, ResourceList resourceList) {
-		if (clientModel.getPlayers()[playerIndex].getResources().contains(resourceList)) {
+		if (ClientModel.getSingleton().getPlayers()[playerIndex].getResources().contains(resourceList)) {
 			return true;
 		}
 		return false;
 	}
 
 	private boolean roadExists(Road newRoad) {
-		for (Road existingRoad : clientModel.getMap().getRoads()) {
+		for (Road existingRoad : ClientModel.getSingleton().getMap().getRoads()) {
 			if (!existingRoad.isNotEquivalent(newRoad)) {
 				// System.out.println("Existing Road: " +
 				// existingRoad.toString());
@@ -185,7 +172,7 @@ public class ClientModelController {
 		 * Find owner of road given inputed road. If none, return -1 index.
 		 * Else, return index of owner.
 		 */
-		for (Road existingRoad : clientModel.getMap().getRoads()) {
+		for (Road existingRoad : ClientModel.getSingleton().getMap().getRoads()) {
 			if (!existingRoad.isNotEquivalent(road)) {
 				return existingRoad.getOwner();
 			}
@@ -196,7 +183,7 @@ public class ClientModelController {
 	private boolean hasConnectingBuilding(Road road) {
 		HexLocation platformHex = road.getLocation().getHexLoc();
 
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+		for (VertexObject settlement : ClientModel.getSingleton().getMap().getSettlements()) {
 			if (settlement.getOwner() == road.getOwner()) {
 				if (buildingExistsForRoad(settlement, road, platformHex)) {
 					return true;
@@ -204,7 +191,7 @@ public class ClientModelController {
 			}
 		}
 
-		for (VertexObject city : clientModel.getMap().getCities()) {
+		for (VertexObject city : ClientModel.getSingleton().getMap().getCities()) {
 			if (city.getOwner() == road.getOwner()) {
 				if (buildingExistsForRoad(city, road, platformHex)) {
 					return true;
@@ -459,7 +446,7 @@ public class ClientModelController {
 	}
 
 	private boolean playerHasAvailableRoadPiece(int playerIndex) {
-		if (clientModel.getPlayers()[playerIndex].getRoads() > 0) {
+		if (ClientModel.getSingleton().getPlayers()[playerIndex].getRoads() > 0) {
 			return true;
 		}
 		return false;
@@ -476,7 +463,7 @@ public class ClientModelController {
 	public boolean canBuildCity(VertexObject city) {
 		ResourceList resourceList = new ResourceList(0, 3, 0, 2, 0);
 		if (isPlayerTurn(city.getOwner()) && playerHasResources(city.getOwner(), resourceList) && preexistingSettlement(city, false)
-				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
@@ -618,12 +605,12 @@ public class ClientModelController {
 	 */
 	private boolean noAdjacentBuildings(VertexObject newSettlement) {
 		HexLocation platformHex = newSettlement.getLocation().getHexLoc();
-		for (VertexObject existingSettlement : clientModel.getMap().getSettlements()) {
+		for (VertexObject existingSettlement : ClientModel.getSingleton().getMap().getSettlements()) {
 			if (hasAdjacentVertexObject(existingSettlement, newSettlement, platformHex)) {
 				return false;
 			}
 		}
-		for (VertexObject existingCity : clientModel.getMap().getCities()) {
+		for (VertexObject existingCity : ClientModel.getSingleton().getMap().getCities()) {
 			if (hasAdjacentVertexObject(existingCity, newSettlement, platformHex)) {
 				return false;
 			}
@@ -634,7 +621,7 @@ public class ClientModelController {
 	private boolean roadTouchingNewSettlement(VertexObject newSettlement) {
 		VertexDirection newSettlementDirection = newSettlement.getLocation().getDir();
 
-		for (Road existingRoad : clientModel.getMap().getRoads()) {
+		for (Road existingRoad : ClientModel.getSingleton().getMap().getRoads()) {
 			if (existingRoad.getOwner() == newSettlement.getOwner()) {
 				HexLocation newSettlementLocation = newSettlement.getLocation().getHexLoc();
 				HexLocation roadNeighbor = null;
@@ -783,7 +770,7 @@ public class ClientModelController {
 
 		if (isPlayerTurn(playerIndex) && (playerHasResources(playerIndex, resourceList) || isFree) && !preexistingBuilding(settlement, true)
 				&& noAdjacentBuildings(settlement) && (roadTouchingNewSettlement(settlement) || setupPhase)
-				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
@@ -791,12 +778,12 @@ public class ClientModelController {
 
 	private boolean preexistingSettlement(VertexObject building, boolean dontCheckOwner) {
 		boolean result = false;
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+		for (VertexObject settlement : ClientModel.getSingleton().getMap().getSettlements()) {
 			if (settlement.isEquivalent(building)) {
 				result = true;
 			}
 		}
-		for (VertexObject city : clientModel.getMap().getCities()) {
+		for (VertexObject city : ClientModel.getSingleton().getMap().getCities()) {
 			if (city.isEquivalent(building)) {
 				result = false;
 			}
@@ -813,12 +800,12 @@ public class ClientModelController {
 	 * @return
 	 */
 	private boolean preexistingBuilding(VertexObject building, boolean dontCheckOwner) {
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+		for (VertexObject settlement : ClientModel.getSingleton().getMap().getSettlements()) {
 			if (settlement.isEquivalent(building)) {
 				return true;
 			}
 		}
-		for (VertexObject city : clientModel.getMap().getCities()) {
+		for (VertexObject city : ClientModel.getSingleton().getMap().getCities()) {
 			if (city.isEquivalent(building)) {
 				return true;
 			}
@@ -834,8 +821,8 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canDiscardCards(int playerIndex) {
-		if (clientModel.getPlayers()[playerIndex].getResources().count() > 7 && !clientModel.getPlayers()[playerIndex].alreadyDiscarded()
-				&& clientModel.getTurnTracker().getStatus().equals("discarding")) {
+		if (ClientModel.getSingleton().getPlayers()[playerIndex].getResources().count() > 7 && !ClientModel.getSingleton().getPlayers()[playerIndex].alreadyDiscarded()
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("discarding")) {
 			return true;
 		}
 		return false;
@@ -850,8 +837,8 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
-		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getResources().contains(resourceList)
-				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getResources().contains(resourceList)
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
@@ -867,7 +854,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canAcceptTrade(int playerIndex, ResourceList resourceList) {
-		if (clientModel.getPlayers()[playerIndex].getResources().contains(resourceList)) {
+		if (ClientModel.getSingleton().getPlayers()[playerIndex].getResources().contains(resourceList)) {
 			return true;
 		}
 		return false;
@@ -875,7 +862,7 @@ public class ClientModelController {
 
 	private boolean buildingOnPort(int playerIndex, VertexObject building) {
 		if (building.getOwner() == playerIndex) {
-			for (Port port : clientModel.getMap().getPorts()) {
+			for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
 				EdgeLocation edgeLocation = new EdgeLocation(port.getLocation(), port.getDir());
 				Road road = new Road(playerIndex, edgeLocation);
 				if (hasConnectingBuilding(road)) {
@@ -889,7 +876,7 @@ public class ClientModelController {
 	// Special
 	private boolean buildingOnNormalPort(int playerIndex, VertexObject building) {
 		if (building.getOwner() == playerIndex) {
-			for (Port port : clientModel.getMap().getPorts()) {
+			for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
 				if (port.getResource() == null) { // only check non-resource
 													// ports
 					EdgeLocation edgeLocation = new EdgeLocation(port.getLocation(), port.getDir());
@@ -906,7 +893,7 @@ public class ClientModelController {
 	// Special
 	private boolean buildingOnResourcePort(int playerIndex, VertexObject building, ResourceType resource) {
 		if (building.getOwner() == playerIndex) {
-			for (Port port : clientModel.getMap().getPorts()) {
+			for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
 				if (port.getResource() == null) { // only check non-resource
 													// ports
 					EdgeLocation edgeLocation = new EdgeLocation(port.getLocation(), port.getDir());
@@ -922,13 +909,13 @@ public class ClientModelController {
 
 	private boolean playerOnPort(int playerIndex) {
 		boolean onPort = false;
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+		for (VertexObject settlement : ClientModel.getSingleton().getMap().getSettlements()) {
 			onPort = buildingOnPort(playerIndex, settlement);
 			if (onPort) {
 				return onPort;
 			}
 		}
-		for (VertexObject city : clientModel.getMap().getCities()) {
+		for (VertexObject city : ClientModel.getSingleton().getMap().getCities()) {
 			onPort = buildingOnPort(playerIndex, city);
 			if (onPort) {
 				return onPort;
@@ -940,13 +927,13 @@ public class ClientModelController {
 	// Special
 	public boolean playerOnNormalPort(int playerIndex) {
 		boolean onPort = false;
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+		for (VertexObject settlement : ClientModel.getSingleton().getMap().getSettlements()) {
 			onPort = buildingOnNormalPort(playerIndex, settlement);
 			if (onPort) {
 				return onPort;
 			}
 		}
-		for (VertexObject city : clientModel.getMap().getCities()) {
+		for (VertexObject city : ClientModel.getSingleton().getMap().getCities()) {
 			onPort = buildingOnNormalPort(playerIndex, city);
 			if (onPort) {
 				return onPort;
@@ -958,13 +945,13 @@ public class ClientModelController {
 	// Special
 	public boolean playerOnResourcePort(int playerIndex, ResourceType resource) {
 		boolean onPort = false;
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+		for (VertexObject settlement : ClientModel.getSingleton().getMap().getSettlements()) {
 			onPort = buildingOnResourcePort(playerIndex, settlement, resource);
 			if (onPort) {
 				return onPort;
 			}
 		}
-		for (VertexObject city : clientModel.getMap().getCities()) {
+		for (VertexObject city : ClientModel.getSingleton().getMap().getCities()) {
 			onPort = buildingOnResourcePort(playerIndex, city, resource);
 			if (onPort) {
 				return onPort;
@@ -982,15 +969,15 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canMaritimeTrade(int playerIndex, int ratioNumerator) {
-		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getResources().ofAKind(ratioNumerator) && playerOnPort(playerIndex)
-				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getResources().ofAKind(ratioNumerator) && playerOnPort(playerIndex)
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean canMoveRobber(HexLocation hexLocation) {
-		if (!clientModel.getMap().getRobber().equals(hexLocation)) {
+		if (!ClientModel.getSingleton().getMap().getRobber().equals(hexLocation)) {
 			return true;
 		}
 		return false;
@@ -1000,7 +987,7 @@ public class ClientModelController {
 		VertexObject testObject = null;
 		VertexLocation testLocation = null;
 
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+		for (VertexObject settlement : ClientModel.getSingleton().getMap().getSettlements()) {
 			if (settlement.getOwner() == robbedPlayer) {
 				testLocation = new VertexLocation(robberLocation, VertexDirection.NorthEast);
 				testObject = new VertexObject(robbedPlayer, testLocation);
@@ -1034,7 +1021,7 @@ public class ClientModelController {
 				}
 			}
 		}
-		for (VertexObject city : clientModel.getMap().getCities()) {
+		for (VertexObject city : ClientModel.getSingleton().getMap().getCities()) {
 			if (city.getOwner() == robbedPlayer) {
 				testLocation = new VertexLocation(robberLocation, VertexDirection.NorthEast);
 				testObject = new VertexObject(robbedPlayer, testLocation);
@@ -1081,8 +1068,8 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRobPlayer(HexLocation robberLocation, int robbingPlayer, int robbedPlayer) {
-		if (isPlayerTurn(robbingPlayer) && clientModel.getTurnTracker().getStatus().equals("playing") && playerTouchingRobber(robbedPlayer, robberLocation)
-				&& clientModel.getPlayers()[robbedPlayer].getResources().count() > 0) {
+		if (isPlayerTurn(robbingPlayer) && ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing") && playerTouchingRobber(robbedPlayer, robberLocation)
+				&& ClientModel.getSingleton().getPlayers()[robbedPlayer].getResources().count() > 0) {
 			return true;
 		}
 		return false;
@@ -1098,8 +1085,8 @@ public class ClientModelController {
 	 */
 	public boolean canBuyDevCard(int playerIndex) {
 		ResourceList resourceList = new ResourceList(0, 1, 1, 1, 0);
-		if (isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList) && clientModel.getDeck().hasDevCard()
-				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
+		if (isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList) && ClientModel.getSingleton().getDeck().hasDevCard()
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
@@ -1116,9 +1103,9 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canPlaySoldierCard(HexLocation hexLocation, int robbingPlayer, int robbedPlayer) {
-		if (isPlayerTurn(robbingPlayer) && clientModel.getPlayers()[robbingPlayer].getOldDevCards().getSoldier() > 0
-				&& !clientModel.getPlayers()[robbingPlayer].hasPlayedDevCard() && canRobPlayer(hexLocation, robbingPlayer, robbedPlayer)
-				&& !clientModel.getMap().getRobber().equals(hexLocation) && clientModel.getTurnTracker().getStatus().equals("playing")) {
+		if (isPlayerTurn(robbingPlayer) && ClientModel.getSingleton().getPlayers()[robbingPlayer].getOldDevCards().getSoldier() > 0
+				&& !ClientModel.getSingleton().getPlayers()[robbingPlayer].hasPlayedDevCard() && canRobPlayer(hexLocation, robbingPlayer, robbedPlayer)
+				&& !ClientModel.getSingleton().getMap().getRobber().equals(hexLocation) && ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 
 			return true;
 		}
@@ -1135,9 +1122,9 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canPlayYearOfPlentyCard(int playerIndex, ResourceList requestedResources) {
-		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getOldDevCards().getYearOfPlenty() > 0
-				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard() && clientModel.getBank().contains(requestedResources)
-				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getYearOfPlenty() > 0
+				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard() && ClientModel.getSingleton().getBank().contains(requestedResources)
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
@@ -1154,9 +1141,9 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canPlayRoadBuildingCard(int playerIndex) {
-		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getOldDevCards().getRoadBuilding() > 0
-				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard() && clientModel.getTurnTracker().getStatus().equals("playing")
-				&& clientModel.getPlayers()[playerIndex].getRoads() >= 2) {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getRoadBuilding() > 0
+				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard() && ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")
+				&& ClientModel.getSingleton().getPlayers()[playerIndex].getRoads() >= 2) {
 			return true;
 		}
 		return false;
@@ -1169,10 +1156,10 @@ public class ClientModelController {
 	 * @return
 	 */
 	public boolean canPlayMonumentCard(int playerIndex) {
-		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getOldDevCards().getMonument() > 0
-				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard()
-				&& (clientModel.getPlayers()[playerIndex].getVictoryPoints() + clientModel.getPlayers()[playerIndex].getOldDevCards().getMonument()) >= 10
-				&& clientModel.getTurnTracker().getStatus().equals("playing")) {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getMonument() > 0
+				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard()
+				&& (ClientModel.getSingleton().getPlayers()[playerIndex].getVictoryPoints() + ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getMonument()) >= 10
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
@@ -1185,22 +1172,22 @@ public class ClientModelController {
 	 * @return
 	 */
 	public boolean canPlayMonopolyCard(int playerIndex) {
-		if (isPlayerTurn(playerIndex) && clientModel.getPlayers()[playerIndex].getOldDevCards().getMonopoly() > 0
-				&& !clientModel.getPlayers()[playerIndex].hasPlayedDevCard() && clientModel.getTurnTracker().getStatus().equals("playing")) {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getMonopoly() > 0
+				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard() && ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean canFinishTurn(int playerIndex) {
-		if (isPlayerTurn(playerIndex) && clientModel.getTurnTracker().getStatus() == "playing") {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getTurnTracker().getStatus() == "playing") {
 			return true;
 		}
 		return false;
 	}
 
 	public ClientModel getClientModel() {
-		return clientModel;
+		return ClientModel.getSingleton();
 	}
 
 	public PortType stringToPortType(String resource) {
@@ -1233,7 +1220,7 @@ public class ClientModelController {
 	 */
 	public boolean hasLargestArmy(int playerIndex) {
 
-		int largestArmyPlayerIndex = clientModel.getTurnTracker().getLargestArmy();
+		int largestArmyPlayerIndex = ClientModel.getSingleton().getTurnTracker().getLargestArmy();
 		return (largestArmyPlayerIndex == playerIndex);
 
 	}
@@ -1246,7 +1233,7 @@ public class ClientModelController {
 	 */
 	public boolean hasLongestRoad(int playerIndex) {
 
-		int longestRoadPlayerIndex = clientModel.getTurnTracker().getLongestRoad();
+		int longestRoadPlayerIndex = ClientModel.getSingleton().getTurnTracker().getLongestRoad();
 		return (longestRoadPlayerIndex == playerIndex);
 
 	}

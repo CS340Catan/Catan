@@ -95,21 +95,30 @@ public class DomesticTradeController extends Controller implements
 		this.acceptOverlay = acceptOverlay;
 	}
 	
-	private void removeFromGet(ResourceType resource) {
-		for(ResourceType r: getResources) {
-			if(r.equals(resource)) {
-				getResources.remove(r);
-			}
+	private void setTradeButton() {
+		
+		boolean valid = (receiverPlayerIndex != -1) && containsResources(giveResources) && containsResources(getResources);
+		if(valid) {
+			getTradeOverlay().setTradeEnabled(true);
+			getTradeOverlay().setStateMessage("Trade");
 		}
+		else {
+			getTradeOverlay().setTradeEnabled(false);
+			getTradeOverlay().setStateMessage("Choose Resources To Trade");
+		}
+		
 	}
 	
-	private void removeFromGive(ResourceType resource) {
-		for(ResourceType r: giveResources) {
-			if(r.equals(resource)) {
-				giveResources.remove(r);
+	private boolean containsResources(Set<ResourceType> resources) {
+		for(ResourceType r: resources) {
+			if(resourceAmt(r) > 0) {
+				return true;
 			}
 		}
+		
+		return false;
 	}
+	
 	
 	private void resetAmts() {
 		
@@ -331,6 +340,7 @@ public class DomesticTradeController extends Controller implements
 		
 		//disable button if counter is at 0
 		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
+		setTradeButton();
 	}
 
 	@Override
@@ -345,7 +355,7 @@ public class DomesticTradeController extends Controller implements
 		
 		//disable button if counter is too high
 		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
-		
+		setTradeButton();
 	}
 
 	@Override
@@ -373,7 +383,10 @@ public class DomesticTradeController extends Controller implements
 
 	@Override
 	public void setPlayerToTradeWith(int playerIndex) {
+		
 		receiverPlayerIndex = playerIndex;
+		setTradeButton();
+		
 	}
 
 	@Override
@@ -381,7 +394,7 @@ public class DomesticTradeController extends Controller implements
 		
 		//reset the resource, and remove it from getresources if there
 		resetResource(resource);
-		giveResources.remove(resource);
+		unsetResource(resource);
 		getResources.add(resource);
 		
 		//can always increase a receiving resource
@@ -395,7 +408,7 @@ public class DomesticTradeController extends Controller implements
 		
 		//reset the resource, and remove it from getresources if there
 		resetResource(resource);
-		getResources.remove(resource);
+		unsetResource(resource);
 		if(canIncrease(resource)) {
 			giveResources.add(resource);
 		}
@@ -407,6 +420,12 @@ public class DomesticTradeController extends Controller implements
 
 	@Override
 	public void unsetResource(ResourceType resource) {
+		
+		getResources.remove(resource);
+		giveResources.remove(resource);
+		setTradeButton();
+		
+		/*
 		for(ResourceType r: getResources) {
 			if(r.equals(resource)) {
 				getResources.remove(r);
@@ -418,6 +437,7 @@ public class DomesticTradeController extends Controller implements
 				giveResources.remove(r);
 			}
 		}
+		*/
 	}
 
 	@Override

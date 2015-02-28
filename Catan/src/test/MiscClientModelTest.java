@@ -33,7 +33,7 @@ public class MiscClientModelTest {
 	@Test
 	public void testCanAcceptTradeBadResourceList(){
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		ResourceList resourceList = new ResourceList(900,0,0,0,0);
 		boolean result = clientModelController.canAcceptTrade(currentPlayer, resourceList);
 		assertFalse(result);
@@ -42,7 +42,7 @@ public class MiscClientModelTest {
 	@Test
 	public void testCanAcceptTradeGood(){
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
 		boolean result = clientModelController.canAcceptTrade(currentPlayer, resourceList);
 		assertTrue(result);
@@ -52,7 +52,7 @@ public class MiscClientModelTest {
 	public void testCanOfferTradeBadPlayerId(){
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		int testPlayer = (currentPlayer + 1)%4;
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
 		boolean result = clientModelController.canOfferTrade(testPlayer, resourceList);
 		assertFalse(result);
@@ -61,7 +61,7 @@ public class MiscClientModelTest {
 	@Test
 	public void testCanOfferTradeBadResource(){
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		ResourceList resourceList = new ResourceList(900,0,0,0,0);
 		boolean result = clientModelController.canAcceptTrade(currentPlayer, resourceList);
 		assertFalse(result);
@@ -71,7 +71,7 @@ public class MiscClientModelTest {
 	public void testCanOfferTradeBadIdAndResourceList(){
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		int testPlayer = (currentPlayer + 1)%4;
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		ResourceList resourceList = new ResourceList(100,0,0,0,0);
 		boolean result = clientModelController.canOfferTrade(testPlayer, resourceList);
 		assertFalse(result);
@@ -81,7 +81,7 @@ public class MiscClientModelTest {
 	public void testCanOfferTradeBadStatus(){
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		clientModel.getTurnTracker().setStatus("Rolling");
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
 		boolean result = clientModelController.canOfferTrade(currentPlayer, resourceList);
 		assertFalse(result);
@@ -91,7 +91,7 @@ public class MiscClientModelTest {
 	public void testCanOfferTradeGood(){
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		clientModel.getTurnTracker().setStatus("playing");
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
 		boolean result = clientModelController.canOfferTrade(currentPlayer, resourceList);
 		assertTrue(result);
@@ -102,7 +102,7 @@ public class MiscClientModelTest {
 		clientModel.getTurnTracker().setStatus("rolling");
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(8);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean result = clientModelController.canDiscardCards(playerIndex);
 		assertFalse(result);
 	}
@@ -112,7 +112,7 @@ public class MiscClientModelTest {
 		clientModel.getTurnTracker().setStatus("discarding");
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(7);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean result = clientModelController.canDiscardCards(playerIndex);
 		assertFalse(result);
 	}
@@ -122,7 +122,7 @@ public class MiscClientModelTest {
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(10);
 		clientModel.getPlayers()[playerIndex].setDiscarded(true);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean result = clientModelController.canDiscardCards(playerIndex);
 		assertFalse(result);
 	}
@@ -133,7 +133,7 @@ public class MiscClientModelTest {
 		clientModel.getTurnTracker().setStatus("discarding");
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(10);
 		clientModel.getPlayers()[playerIndex].setDiscarded(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean result = clientModelController.canDiscardCards(playerIndex);
 		assertTrue(result);
 	}
@@ -163,7 +163,7 @@ public class MiscClientModelTest {
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
 		clientModel.getTurnTracker().setStatus("playing");
 		HexLocation newRobberLocal = new HexLocation(0,1);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
 		assertFalse(result);
 		
@@ -177,7 +177,7 @@ public class MiscClientModelTest {
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
 		clientModel.getTurnTracker().setStatus("rolling");
 		HexLocation newRobberLocal = new HexLocation(0,1);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
 		assertFalse(result);
 	}
@@ -190,7 +190,7 @@ public class MiscClientModelTest {
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
 		clientModel.getTurnTracker().setStatus("playing");
 		HexLocation newRobberLocal = new HexLocation(2,-1);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
 		assertFalse(result);
 	}
@@ -203,7 +203,7 @@ public class MiscClientModelTest {
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
 		clientModel.getTurnTracker().setStatus("playing");
 		HexLocation newRobberLocal = new HexLocation(1,0);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
 		assertTrue(result);
 	}
