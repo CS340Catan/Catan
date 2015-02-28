@@ -87,9 +87,15 @@ public class PlayerWaitingController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
-		ClientModel model = ClientModel.getSingleton();
-		if (model.getPlayers().length == 4) {
-			getView().closeModal();
+//		ClientModel model = ClientModel.getSingleton();
+		boolean fourPlayers = true;
+		for(Player player : ClientModel.getSingleton().getPlayers()){
+			if(player == null){
+				fourPlayers = false;
+			}
+		}
+		if(fourPlayers){
+			getView().closeModal();			
 		}
 	}
 
