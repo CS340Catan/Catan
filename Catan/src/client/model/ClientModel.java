@@ -33,7 +33,7 @@ public  class ClientModel extends Observable{
 	private Player[] players;
 	private TradeOffer tradeOffer;
 	private TurnTracker turnTracker;
-	private int version;
+	private int version = -1;
 	private int winner;
 
 	private static ClientModel clientModel = null;//singleton instance of ClientModel

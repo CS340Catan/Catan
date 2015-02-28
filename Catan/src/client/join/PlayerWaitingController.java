@@ -11,8 +11,10 @@ import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.controllers.Poller;
+import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
+import client.model.Player;
 
 /**
  * Implementation for the player waiting controller
@@ -41,7 +43,14 @@ public class PlayerWaitingController extends Controller implements
 
 		poller = new Poller(ServerProxy.getSingleton(),
 				new ClientModelController());
+		poller.updateModel();
 		poller.setTimer();
+		for(Player player : ClientModel.getSingleton().getPlayers()){
+			if(player.getName().equals(UserPlayerInfo.getSingleton().getName())){
+				UserPlayerInfo.getSingleton().setPlayerIndex(player.getPlayerIndex());
+			}
+		}
+		ClientModel testguy = ClientModel.getSingleton();
 		if (ClientModel.getSingleton().getPlayers() != null) {
 			if (ClientModel.getSingleton().getPlayers().length != 4) {
 				getView().showModal();
@@ -81,7 +90,7 @@ public class PlayerWaitingController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
-		ClientModel model = (ClientModel) o;
+		ClientModel model = ClientModel.getSingleton();
 		if (model.getPlayers().length == 4) {
 			getView().closeModal();
 		}

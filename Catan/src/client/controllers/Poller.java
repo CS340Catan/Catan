@@ -39,10 +39,10 @@ public class Poller {
 	public void updateModel() {
 		ClientModel updatedClientModel;
 		try {
-			updatedClientModel = server.updateModel(clientModelController.getClientModel().getVersion());
+			updatedClientModel = server.updateModel(ClientModel.getSingleton().getVersion());
 		
 			if (updatedClientModel != null) {
-				clientModelController.setClientModel(updatedClientModel);
+				ClientModel.getSingleton().setClientModel(updatedClientModel);
 			}
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
