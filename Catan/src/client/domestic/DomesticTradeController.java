@@ -95,6 +95,20 @@ public class DomesticTradeController extends Controller implements
 		this.acceptOverlay = acceptOverlay;
 	}
 	
+	private void setTradeButton() {
+		
+		boolean valid = (receiverPlayerIndex != -1) && containsResources(giveResources) && containsResources(getResources);
+		if(valid) {
+			getTradeOverlay().setTradeEnabled(true);
+			getTradeOverlay().setStateMessage("Trade");
+		}
+		else {
+			getTradeOverlay().setTradeEnabled(false);
+			getTradeOverlay().setStateMessage("Choose Resources To Trade");
+		}
+		
+	}
+	
 	private boolean containsResources(Set<ResourceType> resources) {
 		for(ResourceType r: resources) {
 			if(resourceAmt(r) > 0) {
@@ -326,6 +340,7 @@ public class DomesticTradeController extends Controller implements
 		
 		//disable button if counter is at 0
 		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
+		setTradeButton();
 	}
 
 	@Override
@@ -340,7 +355,7 @@ public class DomesticTradeController extends Controller implements
 		
 		//disable button if counter is too high
 		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
-		
+		setTradeButton();
 	}
 
 	@Override
@@ -368,13 +383,9 @@ public class DomesticTradeController extends Controller implements
 
 	@Override
 	public void setPlayerToTradeWith(int playerIndex) {
+		
 		receiverPlayerIndex = playerIndex;
-		
-		//valid if you're sending and receiving, and have a player selected
-		boolean valid = (receiverPlayerIndex != -1) && containsResources(giveResources) && containsResources(getResources);
-		getTradeOverlay().setTradeEnabled(valid);
-		
-		getTradeOverlay().setStateMessage("Trade");
+		setTradeButton();
 		
 	}
 
@@ -412,6 +423,7 @@ public class DomesticTradeController extends Controller implements
 		
 		getResources.remove(resource);
 		giveResources.remove(resource);
+		setTradeButton();
 		
 		/*
 		for(ResourceType r: getResources) {
