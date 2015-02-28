@@ -34,7 +34,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean fail = clientModelController.canPlayMonumentCard(0);
 		assertFalse(fail);
 	}
@@ -47,7 +47,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean fail = clientModelController.canPlayMonumentCard(0);
 		assertFalse(fail);
 	}
@@ -60,7 +60,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(1);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean fail = clientModelController.canPlayMonumentCard(0);
 		assertFalse(fail);
 	}
@@ -73,7 +73,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("rolling");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean fail = clientModelController.canPlayMonumentCard(0);
 		assertFalse(fail);
 	}
@@ -86,7 +86,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(true);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean fail = clientModelController.canPlayMonumentCard(0);
 		assertFalse(fail);
 	}
@@ -99,7 +99,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayMonumentCard(0);
 		assertTrue(pass);
 	}
@@ -112,7 +112,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayMonumentCard(0);
 		assertTrue(pass);
 	}
@@ -125,7 +125,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayMonumentCard(0);
 		assertTrue(pass);
 	}
@@ -137,7 +137,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayMonopolyCard(0);
 		assertTrue(pass);
 	}
@@ -149,7 +149,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayMonopolyCard(0);
 		assertTrue(pass);
 	}
@@ -161,7 +161,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(1);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean fail = clientModelController.canPlayMonopolyCard(0);
 		assertFalse(fail);
 	}
@@ -173,7 +173,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean fail = clientModelController.canPlayMonopolyCard(0);
 		assertFalse(fail);
 	}
@@ -185,7 +185,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("rolling");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean fail = clientModelController.canPlayMonopolyCard(0);
 		assertFalse(fail);
 	}
@@ -197,7 +197,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(true);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean fail = clientModelController.canPlayMonopolyCard(0);
 		assertFalse(fail);
 	}
@@ -210,7 +210,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setRoads(3);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayRoadBuildingCard(0);
 		assertTrue(pass);
 	}
@@ -223,7 +223,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setRoads(2);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayRoadBuildingCard(0);
 		assertTrue(pass);
 	}
@@ -236,7 +236,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setRoads(2);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayRoadBuildingCard(0);
 		assertFalse(pass);
 	}
@@ -249,7 +249,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setRoads(1);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayRoadBuildingCard(0);
 		assertFalse(pass);
 	}
@@ -262,7 +262,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setRoads(3);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayRoadBuildingCard(0);
 		assertFalse(pass);
 	}
@@ -275,7 +275,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("rolling");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setRoads(3);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayRoadBuildingCard(0);
 		assertFalse(pass);
 	}
@@ -288,7 +288,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(true);
 		clientModel.getPlayers()[0].setRoads(3);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayRoadBuildingCard(0);
 		assertFalse(pass);
 	}
@@ -302,7 +302,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayYearOfPlentyCard(0,wantedResources);
 		assertTrue(pass);
 	}
@@ -316,7 +316,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayYearOfPlentyCard(0,wantedResources);
 		assertTrue(pass);
 	}
@@ -330,7 +330,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayYearOfPlentyCard(0,wantedResources);
 		assertFalse(pass);
 	}
@@ -344,7 +344,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayYearOfPlentyCard(0,wantedResources);
 		assertFalse(pass);
 	}
@@ -358,7 +358,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(1);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayYearOfPlentyCard(0,wantedResources);
 		assertFalse(pass);
 	}
@@ -372,7 +372,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("rolling");
 		clientModel.getPlayers()[0].setPlayedDevCard(false);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayYearOfPlentyCard(0,wantedResources);
 		assertFalse(pass);
 	}
@@ -386,7 +386,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[0].setPlayedDevCard(true);
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canPlayYearOfPlentyCard(0,wantedResources);
 		assertFalse(pass);
 	}
@@ -399,7 +399,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[1].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setResources(new ResourceList(1,1,1,1,1));
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		HexLocation currentHexLocation = new HexLocation(2,-1);
 		clientModel.getMap().setRobber(currentHexLocation);
 		HexLocation futureHexLocation = new HexLocation(0,1);
@@ -415,7 +415,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[1].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setResources(new ResourceList(1,1,1,1,1));
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		HexLocation currentHexLocation = new HexLocation(2,-1);
 		clientModel.getMap().setRobber(currentHexLocation);
 		HexLocation futureHexLocation = new HexLocation(0,1);
@@ -431,7 +431,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[1].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setResources(new ResourceList(1,1,1,1,1));
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		HexLocation currentHexLocation = new HexLocation(2,-1);
 		clientModel.getMap().setRobber(currentHexLocation);
 		HexLocation futureHexLocation = new HexLocation(0,1);
@@ -447,7 +447,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[1].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setResources(new ResourceList(1,1,1,1,1));
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		HexLocation currentHexLocation = new HexLocation(2,-1);
 		clientModel.getMap().setRobber(currentHexLocation);
 		HexLocation futureHexLocation = new HexLocation(0,1);
@@ -463,7 +463,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("rolling");
 		clientModel.getPlayers()[1].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setResources(new ResourceList(1,1,1,1,1));
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		HexLocation currentHexLocation = new HexLocation(2,-1);
 		clientModel.getMap().setRobber(currentHexLocation);
 		HexLocation futureHexLocation = new HexLocation(0,1);
@@ -479,7 +479,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[1].setPlayedDevCard(true);
 		clientModel.getPlayers()[0].setResources(new ResourceList(1,1,1,1,1));
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		HexLocation currentHexLocation = new HexLocation(2,-2);
 		clientModel.getMap().setRobber(currentHexLocation);
 		HexLocation futureHexLocation = new HexLocation(0,1);
@@ -495,7 +495,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[1].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setResources(new ResourceList(1,1,1,1,1));
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		HexLocation currentHexLocation = new HexLocation(2,-1);
 		clientModel.getMap().setRobber(currentHexLocation);
 		HexLocation futureHexLocation = new HexLocation(2,-1);
@@ -511,7 +511,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[1].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setResources(new ResourceList(1,1,1,1,1));
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		HexLocation currentHexLocation = new HexLocation(2,-1);
 		clientModel.getMap().setRobber(currentHexLocation);
 		HexLocation futureHexLocation = new HexLocation(2,0);
@@ -527,7 +527,7 @@ public class CanPlayCardTest {
 		clientModel.getTurnTracker().setStatus("playing");
 		clientModel.getPlayers()[1].setPlayedDevCard(false);
 		clientModel.getPlayers()[0].setResources(new ResourceList(0,0,0,0,0));
-		ClientModelController clientModelController = new ClientModelController(clientModel);
+		ClientModelController clientModelController = new ClientModelController();
 		HexLocation currentHexLocation = new HexLocation(2,-1);
 		clientModel.getMap().setRobber(currentHexLocation);
 		HexLocation futureHexLocation = new HexLocation(2,0);
