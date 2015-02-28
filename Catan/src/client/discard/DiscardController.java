@@ -123,7 +123,6 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
 	public void update(Observable o, Object arg) {
 		ClientModel updatedModel = ClientModel.getSingleton();
-		modelController.setClientModel(updatedModel);
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if(updatedModel.getTurnTracker().getStatus()=="discarding")
 		{

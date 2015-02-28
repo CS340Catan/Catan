@@ -207,7 +207,6 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void update(Observable o, Object arg) {
 		ClientModel updatedModel = (ClientModel) o;
-		modelController.setClientModel(updatedModel);
 		//make necesarry changes to this view (probably none)
 	}
 	
