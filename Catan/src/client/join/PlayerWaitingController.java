@@ -54,12 +54,10 @@ public class PlayerWaitingController extends Controller implements
 			}
 		}
 
-		// show ai choices
 		String[] AIChoices = { "" };
 		try {
 			AIChoices = server.getAITypes();
 		} catch (ServerResponseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -80,20 +78,23 @@ public class PlayerWaitingController extends Controller implements
 					"Server Failure", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		if (ClientModel.getSingleton().getPlayers().length == 4) {
-			getView().closeModal();
-		}
+
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 //		ClientModel model = ClientModel.getSingleton();
+		System.out.println("In update in Player Waiting Controller");
 		boolean fourPlayers = true;
 		for(Player player : ClientModel.getSingleton().getPlayers()){
 			if(player == null){
 				fourPlayers = false;
+				break;
 			}
 		}
+		
+		System.out.println(fourPlayers);
+		
 		if(fourPlayers){
 			getView().closeModal();			
 		}
