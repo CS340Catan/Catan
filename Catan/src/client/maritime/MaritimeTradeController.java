@@ -31,7 +31,7 @@ public class MaritimeTradeController extends Controller implements
 		super(tradeView);
 
 		setTradeOverlay(tradeOverlay);
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 	}
 
 	public IMaritimeTradeView getTradeView() {

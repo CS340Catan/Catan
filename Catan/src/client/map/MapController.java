@@ -50,7 +50,7 @@ public class MapController extends Controller implements IMapController, Observe
 		setRobView(robView);
 
 		initFromModel();
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 		HTTPCommunicator.setServer("localhost", 8081);
 		server = ServerProxy.getSingleton();
 	}

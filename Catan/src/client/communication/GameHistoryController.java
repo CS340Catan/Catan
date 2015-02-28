@@ -18,7 +18,7 @@ public class GameHistoryController extends Controller implements
 
 		super(view);
 		initFromModel();
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 	}
 
 	@Override

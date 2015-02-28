@@ -28,7 +28,7 @@ public class PlayerWaitingController extends Controller implements
 	public PlayerWaitingController(IPlayerWaitingView view) {
 
 		super(view);
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 		server = ServerProxy.getSingleton();
 	}
 

@@ -26,7 +26,7 @@ public class RollController extends Controller implements IRollController, Obser
 		super(view);
 
 		setResultView(resultView);
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 	}
 
 	public IRollResultView getResultView() {

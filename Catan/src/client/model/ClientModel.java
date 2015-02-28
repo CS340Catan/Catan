@@ -25,7 +25,7 @@ import shared.utils.Serializer;
  * @author Seth White
  *
  */
-public  class ClientModel extends Observable{
+public  class ClientModel {
 	private ResourceList bank;
 	private MessageList chat;
 	private MessageList log;
@@ -36,6 +36,7 @@ public  class ClientModel extends Observable{
 	private TurnTracker turnTracker;
 	private int version = -1;
 	private int winner;
+	public static Notifier notifier = null;
 
 	private static ClientModel clientModel = null;//singleton instance of ClientModel
 	/**
@@ -43,6 +44,12 @@ public  class ClientModel extends Observable{
 	 */
 	public ClientModel(){//empty constructor defeats instantiation
 		
+	}
+	public static Notifier getNotifier(){
+		if(notifier == null){
+			notifier = new Notifier();
+		}
+		return notifier;
 	}
 	public static ClientModel getSingleton(){//returns the singleton
 		if(clientModel == null){
@@ -139,8 +146,7 @@ public  class ClientModel extends Observable{
 	public void setClientModel(ClientModel clientModel) {
 		ClientModel.clientModel = clientModel;
 		setUserPlayerInfoIndex(clientModel);
-		setChanged();
-		notifyObservers();
+		notifier.modelUpdated();
 	}
 	
 	public String toString() {

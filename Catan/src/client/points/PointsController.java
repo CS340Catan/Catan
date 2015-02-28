@@ -32,7 +32,7 @@ public class PointsController extends Controller implements IPointsController,
 		setFinishedView(finishedView);
 
 		initFromModel();
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 	}
 
 	public IPointsView getPointsView() {

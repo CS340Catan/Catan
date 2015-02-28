@@ -45,7 +45,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		super(view);
 		
 		this.waitView = waitView;
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 		modelController = new ClientModelController(ClientModel.getSingleton());
 	}
 

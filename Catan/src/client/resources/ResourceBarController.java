@@ -20,7 +20,7 @@ public class ResourceBarController extends Controller implements
 		super(view);
 
 		elementActions = new HashMap<ResourceBarElement, IAction>();
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class ChatController extends Controller implements IChatController,
 		server = ServerProxy.getSingleton();
 		// TODO update httpCommunicator if adding host and port numbers to
 		// constructor
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 	}
 
 	@Override

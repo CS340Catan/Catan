@@ -56,7 +56,7 @@ public class JoinGameController extends Controller implements
 		setSelectColorView(selectColorView);
 		setMessageView(messageView);
 
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 		this.server = ServerProxy.getSingleton();
 		/*
 		 * TODO how does the server proxy / HTTP communicator take into account

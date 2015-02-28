@@ -25,7 +25,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 
 		super(view);
 
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 		clientModelController = new ClientModelController();
 	}
 
