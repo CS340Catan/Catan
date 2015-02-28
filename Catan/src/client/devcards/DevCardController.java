@@ -94,7 +94,6 @@ public class DevCardController extends Controller implements IDevCardController,
 		if(modelController.canBuyDevCard(playerIndex)){
 			try {
 				ClientModel updatedModel = serverProxy.buyDevCard(buyDevCardParams);
-				update(updatedModel);
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
@@ -128,7 +127,6 @@ public class DevCardController extends Controller implements IDevCardController,
 		if(modelController.canPlayMonopolyCard(playerIndex)){
 			try {
 				ClientModel updatedModel = serverProxy.playMonopolyCard(new PlayMonopolyParams(resourceString, playerIndex));
-				update(updatedModel);
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
@@ -148,7 +146,6 @@ public class DevCardController extends Controller implements IDevCardController,
 		{
 			try {
 				ClientModel updatedModel = serverProxy.playMonument(new PlayMonumentParams(playerIndex));
-				update(updatedModel);
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
@@ -191,7 +188,6 @@ public class DevCardController extends Controller implements IDevCardController,
 		if(modelController.canPlayYearOfPlentyCard(playerIndex, resources)){
 			try {
 				ClientModel updatedModel = serverProxy.playYearOfPlentyCard(new YearOfPlentyParams(playerIndex, res1,res2));
-				update(updatedModel);
 			} catch (ServerResponseException e)  {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
@@ -206,18 +202,12 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void update(Observable o, Object arg) {
-		ClientModel updatedModel = (ClientModel) o;
 		//make necesarry changes to this view (probably none)
 	}
 	
 //==================================================================================	
 //==============================PRIVATE HELPER FUNCTIONS============================
 //==================================================================================
-	private void update(ClientModel updatedModel)
-	{
-		ClientModel.getSingleton().setClientModel(updatedModel);
-		modelController.setClientModel(updatedModel);
-	}
 	
 	private void addResource(ResourceType resource, ResourceList list){
 		switch (resource)
