@@ -3,6 +3,7 @@ package client.communicator;
 import shared.communication.*;
 import shared.utils.*;
 import client.data.GameInfo;
+import client.data.UserPlayerInfo;
 import client.model.*;
 
 /**
@@ -345,7 +346,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel sendChat(String content) throws ServerResponseException {
-		String jsonString = Serializer.serialize(content);
+		int playerId = UserPlayerInfo.getSingleton().getPlayerIndex();
+		String jsonString = Serializer.serialize(new ChatMessage(playerId,content));
 		String response = httpCommunicator
 				.doPost("/moves/sendChat", jsonString);
 		if (response != null) {

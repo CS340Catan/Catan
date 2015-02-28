@@ -60,8 +60,8 @@ public class HTTPCommunicator {
 
 	private String communicate(String urlString, String gsonString,
 			int requestType) throws ServerResponseException {
-		System.out.println("User Cookie: " + userCookie);
-		System.out.println("Game Cookie: " + gameCookie);
+//		System.out.println("User Cookie: " + userCookie);
+//		System.out.println("Game Cookie: " + gameCookie);
 		try {
 			URL url = new URL(URL_PREFIX + urlString);
 
