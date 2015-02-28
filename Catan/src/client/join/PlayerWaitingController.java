@@ -45,12 +45,6 @@ public class PlayerWaitingController extends Controller implements
 				new ClientModelController());
 		poller.updateModel();
 		poller.setTimer();
-		for(Player player : ClientModel.getSingleton().getPlayers()){
-			if(player.getName().equals(UserPlayerInfo.getSingleton().getName())){
-				UserPlayerInfo.getSingleton().setPlayerIndex(player.getPlayerIndex());
-			}
-		}
-		ClientModel testguy = ClientModel.getSingleton();
 		if (ClientModel.getSingleton().getPlayers() != null) {
 			if (ClientModel.getSingleton().getPlayers().length != 4) {
 				getView().showModal();

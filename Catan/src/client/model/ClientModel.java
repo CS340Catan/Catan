@@ -3,6 +3,7 @@ package client.model;
 import java.util.Observable;
 import java.util.Observer;
 
+import client.data.UserPlayerInfo;
 import shared.utils.Serializer;
 
 /**
@@ -127,9 +128,17 @@ public  class ClientModel extends Observable{
 	public void setDeck(Deck deck) {
 		this.deck = deck;
 	}
-	
+	private void setUserPlayerInfoIndex(ClientModel clientModel){
+		for(Player player : clientModel.getPlayers()){
+			UserPlayerInfo upi = UserPlayerInfo.getSingleton();
+			if(player != null && player.getName().equals(upi.getName())){
+				UserPlayerInfo.getSingleton().setPlayerIndex(player.getPlayerIndex());
+			}
+		}
+	}
 	public void setClientModel(ClientModel clientModel) {
 		ClientModel.clientModel = clientModel;
+		setUserPlayerInfoIndex(clientModel);
 		setChanged();
 		notifyObservers();
 	}
