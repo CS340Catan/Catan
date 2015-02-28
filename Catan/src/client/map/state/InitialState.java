@@ -10,6 +10,7 @@ public class InitialState implements IMapState {
 	@Override
 	public void initialize(MapController mapController) {
 		mapController.populateHexes();
+		mapController.populateWaterHexes();
 		mapController.populatePorts();
 	}
 
