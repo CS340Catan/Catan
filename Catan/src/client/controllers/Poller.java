@@ -42,6 +42,7 @@ public class Poller {
 			updatedClientModel = server.updateModel(ClientModel.getSingleton().getVersion());
 		
 			if (updatedClientModel != null) {
+				System.out.println("Got a new version");
 				ClientModel.getSingleton().setClientModel(updatedClientModel);
 			}
 		} catch (ServerResponseException e) {
