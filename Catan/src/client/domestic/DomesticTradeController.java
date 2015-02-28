@@ -95,6 +95,22 @@ public class DomesticTradeController extends Controller implements
 		this.acceptOverlay = acceptOverlay;
 	}
 	
+	private void removeFromGet(ResourceType resource) {
+		for(ResourceType r: getResources) {
+			if(r.equals(resource)) {
+				getResources.remove(r);
+			}
+		}
+	}
+	
+	private void removeFromGive(ResourceType resource) {
+		for(ResourceType r: giveResources) {
+			if(r.equals(resource)) {
+				giveResources.remove(r);
+			}
+		}
+	}
+	
 	private void resetAmts() {
 		
 		brickAmt = 0;
@@ -103,6 +119,36 @@ public class DomesticTradeController extends Controller implements
 		wheatAmt = 0;
 		woodAmt = 0;
 		
+	}
+	
+	private void resetResource(ResourceType resource) {
+		
+		switch(resource) {
+		
+		case BRICK:
+			brickAmt = 0;
+			break;
+		
+		case ORE:
+			oreAmt = 0;
+			break;
+			
+		case SHEEP: 
+			sheepAmt = 0;
+			break;
+			
+		case WHEAT:
+			wheatAmt = 0;
+			break;
+			
+		case WOOD:
+			woodAmt = 0;
+			break;
+			
+		default:
+			break;
+		
+		}
 	}
 	
 	private int resourceAmt(ResourceType resource) {
@@ -243,7 +289,8 @@ public class DomesticTradeController extends Controller implements
 
 	@Override
 	public void startTrade() {
-
+		
+		getTradeOverlay().reset();
 		resetAmts();
 		
 		//get players, and convert them all from Player to PlayerInfo
@@ -325,12 +372,23 @@ public class DomesticTradeController extends Controller implements
 
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
+		
+		resetResource(resource);
+		
+		//can always increase a receiving resource
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, true, canDecrease(resource));
 		getResources.add(resource);
 	}
 
 	@Override
 	public void setResourceToSend(ResourceType resource) {
-		giveResources.add(resource);
+		
+		resetResource(resource);
+		
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
+		if(canIncrease(resource)) {
+			giveResources.add(resource);
+		}
 	}
 
 	@Override
