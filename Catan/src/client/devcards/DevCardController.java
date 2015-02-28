@@ -62,7 +62,7 @@ public class DevCardController extends Controller implements IDevCardController,
 		this.soldierAction = soldierAction;
 		this.roadAction = roadAction;
 		ClientModel.getNotifier().addObserver(this);
-		modelController = new ClientModelController(ClientModel.getSingleton());
+		modelController = new ClientModelController();
 	}
 
 	public IPlayDevCardView getPlayCardView() {
