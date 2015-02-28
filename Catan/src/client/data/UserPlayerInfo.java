@@ -17,9 +17,9 @@ import shared.definitions.*;
 public class UserPlayerInfo {
 
 	private int id;
-	private static int playerIndex;
-	private static String name;
-	private static CatanColor color;
+	private  int playerIndex;
+	private  String name;
+	private  CatanColor color;
 	private static UserPlayerInfo userPlayerInfo = null;
 	
 	public static UserPlayerInfo getSingleton(){
@@ -49,7 +49,7 @@ public class UserPlayerInfo {
 	}
 
 	public void setPlayerIndex(int playerIndex) {
-		UserPlayerInfo.playerIndex = playerIndex;
+		this.playerIndex = playerIndex;
 	}
 
 	public String getName() {
@@ -57,7 +57,7 @@ public class UserPlayerInfo {
 	}
 
 	public void setName(String name) {
-		UserPlayerInfo.name = name;
+		this.name = name;
 	}
 
 	public CatanColor getColor() {
@@ -65,7 +65,7 @@ public class UserPlayerInfo {
 	}
 
 	public void setColor(CatanColor color) {
-		UserPlayerInfo.color = color;
+		this.color = color;
 	}
 
 	@Override

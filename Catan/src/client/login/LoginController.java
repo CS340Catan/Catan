@@ -4,6 +4,7 @@ import client.base.*;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import client.misc.*;
 import client.model.ClientModel;
 
@@ -109,6 +110,8 @@ public class LoginController extends Controller implements ILoginController,
 				 * If the login succeeded, throw a success statement and execute
 				 * loginAction.
 				 */
+				UserPlayerInfo.getSingleton().setName(signInUsername);
+				UserPlayerInfo thingy = UserPlayerInfo.getSingleton();
 				String outputStr = "Welcome, " + signInUsername + ".\n";
 				String title = "Welcome to Catan!";
 

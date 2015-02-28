@@ -71,7 +71,7 @@ public class PointsController extends Controller implements IPointsController,
 		getPointsView().setPoints(victoryPoints);
 
 		for (Player player : ClientModel.getSingleton().getPlayers()) {
-			if (player.getVictoryPoints() >= 10) {
+			if (player != null && player.getVictoryPoints() >= 10) {
 				if (player.getPlayerid() == playerID) {
 					finishedView.setWinner(player.getName(), true);
 				} else {
