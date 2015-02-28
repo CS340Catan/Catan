@@ -71,20 +71,26 @@ public class MapController extends Controller implements IMapController,
 
 	public void populateHexes() {
 		for (Hex hex : ClientModel.getSingleton().getMap().getHexes()) {
-			HexType hexType = clientModelController.stringToHexType(hex
-					.getResource());
-			getView().addHex(hex.getLocation(), hexType);
-			getView().addNumber(hex.getLocation(), hex.getNumber());
+			System.out.println(hex.getNumber());
+			if(hex != null && hex.getNumber() != -1 && hex.getNumber() != 0){			
+				HexType hexType = clientModelController.stringToHexType(hex
+						.getResource());
+				getView().addHex(hex.getLocation(), hexType);
+				getView().addNumber(hex.getLocation(), hex.getNumber());
+			}
 		}
 	}
 
 	public void populatePorts() {
+		ClientModel thing = ClientModel.getSingleton();
 		for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
-			PortType portType = clientModelController.stringToPortType(port
+			if(port != null){
+				PortType portType = clientModelController.stringToPortType(port
 					.getResource());
-			EdgeLocation edgeLocation = new EdgeLocation(port.getLocation(),
+				EdgeLocation edgeLocation = new EdgeLocation(port.getLocation(),
 					port.getDir());
-			getView().addPort(edgeLocation, portType);
+				getView().addPort(edgeLocation, portType);
+			}
 		}
 	}
 

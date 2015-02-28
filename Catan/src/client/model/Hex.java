@@ -19,7 +19,7 @@ import shared.locations.HexLocation;
 public class Hex {
 	private HexLocation location;
 	private String resource;
-	private int number;
+	private int number = -1;
 
 	/**
 	 * Default constructor, requires all fields
