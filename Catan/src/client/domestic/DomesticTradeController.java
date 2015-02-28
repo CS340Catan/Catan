@@ -61,7 +61,7 @@ public class DomesticTradeController extends Controller implements
 		setTradeOverlay(tradeOverlay);
 		setWaitOverlay(waitOverlay);
 		setAcceptOverlay(acceptOverlay);
-		ClientModel.getSingleton().addObserver(this);
+		ClientModel.getNotifier().addObserver(this);
 		
 		
 	}
@@ -217,27 +217,33 @@ public class DomesticTradeController extends Controller implements
 		int wheat = resources.getWheat();
 		int wood = resources.getWood();
 		
-		//if the amthave > amtset, then can increase
-		switch(resource) {
-		
-		case BRICK:
-			return (brick > brickAmt);
-		
-		case ORE:
-			return (ore > oreAmt);
+		//if you're giving
+		if(giveResources.contains(resource)) {
+			//if the amthave > amtset, then can increase
+			switch(resource) {
 			
-		case SHEEP: 
-			return (sheep > sheepAmt);
+			case BRICK:
+				return (brick > brickAmt);
 			
-		case WHEAT:
-			return (wheat > wheatAmt);
+			case ORE:
+				return (ore > oreAmt);
+				
+			case SHEEP: 
+				return (sheep > sheepAmt);
+				
+			case WHEAT:
+				return (wheat > wheatAmt);
+				
+			case WOOD:
+				return (wood > woodAmt);
+				
+			default:
+				return false;
 			
-		case WOOD:
-			return (wood > woodAmt);
-			
-		default:
-			return false;
-		
+			}
+		}
+		else {	//if getting
+			return true;	//can always increase
 		}
 		
 	}
@@ -373,22 +379,30 @@ public class DomesticTradeController extends Controller implements
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
 		
+		//reset the resource, and remove it from getresources if there
 		resetResource(resource);
+		giveResources.remove(resource);
+		getResources.add(resource);
 		
 		//can always increase a receiving resource
+		getTradeOverlay().setResourceAmount(resource, resourceAmt(resource) + "");
 		getTradeOverlay().setResourceAmountChangeEnabled(resource, true, canDecrease(resource));
-		getResources.add(resource);
+		
 	}
 
 	@Override
 	public void setResourceToSend(ResourceType resource) {
 		
+		//reset the resource, and remove it from getresources if there
 		resetResource(resource);
-		
-		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
+		getResources.remove(resource);
 		if(canIncrease(resource)) {
 			giveResources.add(resource);
 		}
+		
+		//enable increase/decrease buttons, and add to giveresources
+		getTradeOverlay().setResourceAmount(resource, resourceAmt(resource) + "");
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
 	}
 
 	@Override
