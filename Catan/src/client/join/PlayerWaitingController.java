@@ -39,11 +39,14 @@ public class PlayerWaitingController extends Controller implements
 	@Override
 	public void start() {
 
-		// poller = new Poller(ServerProxy.getSingleton(),
-		// new ClientModelController());
-		// poller.setTimer();
-
-		getView().showModal();
+		poller = new Poller(ServerProxy.getSingleton(),
+				new ClientModelController());
+		poller.setTimer();
+		if (ClientModel.getSingleton().getPlayers() != null) {
+			if (ClientModel.getSingleton().getPlayers().length != 4) {
+				getView().showModal();
+			}
+		}
 
 		// show ai choices
 		String[] AIChoices = { "" };
@@ -66,10 +69,13 @@ public class PlayerWaitingController extends Controller implements
 		try {
 			server.addAI(addAIParams);
 		} catch (ServerResponseException e) {
-			String outputStr = "Could not reach the server.";
+			String outputStr = "Server Failure";
 			JOptionPane.showMessageDialog(null, outputStr,
-					"Server unavailable", JOptionPane.ERROR_MESSAGE);
+					"Server Failure", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+		}
+		if (ClientModel.getSingleton().getPlayers().length == 4) {
+			getView().closeModal();
 		}
 	}
 

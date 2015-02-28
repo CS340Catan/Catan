@@ -71,7 +71,8 @@ public class ServerProxy implements IServer {
 		ClientModel model = null; // Returns null if current model is already
 									// correct or there was an error
 		if (jsonResponseString != null) {
-			if (!jsonResponseString.equals("true")) {
+			if (!jsonResponseString.equals("\"true\"")) {
+				System.out.println(jsonResponseString);
 				model = Serializer.deserializeClientModel(jsonResponseString);
 			}
 		}
@@ -298,12 +299,9 @@ public class ServerProxy implements IServer {
 		String jsonString = Serializer.serialize(params);
 		System.out.println(jsonString);
 		String response = httpCommunicator.doPost("/game/addAI", jsonString);
-		if (response != null) {
-			return (AddAIResponse) Serializer.deserialize(response,
-					AddAIResponse.class);
-		} else {
-			return null;
-		}
+		AddAIResponse AIResponse = new AddAIResponse();
+		AIResponse.setResponse(response);
+		return AIResponse;
 	}
 
 	/**
