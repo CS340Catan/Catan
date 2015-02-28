@@ -1,5 +1,7 @@
 package shared.utils;
 
+import shared.communication.GameSummary;
+
 import com.google.gson.Gson;
 
 import client.model.ClientModel;
@@ -52,6 +54,13 @@ public class Serializer {
 		}
 		return clientModel;
 	}
+	
+	public static GameSummary[] deserializeGameList(String jsonString) {
+		Gson gson = new Gson();
+		GameSummary[] gameSummary = gson.fromJson(jsonString,GameSummary[].class);
+		return gameSummary;
+	}
+	
 	public static String serializeClientModel(ClientModel clientModel){
 		Gson gson = new Gson();
 		for(Road road : clientModel.getMap().getRoads()){
