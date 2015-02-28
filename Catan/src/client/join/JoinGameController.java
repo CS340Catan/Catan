@@ -235,16 +235,17 @@ public class JoinGameController extends Controller implements
 			int joinGameID = this.storeGame.getId();
 			JoinGameParams joinGameParams = new JoinGameParams(
 					color.toString(), joinGameID);
-			server.joinGame(joinGameParams);
-
+			server.joinGame(joinGameParams);	//should return "success" in object
+			
 			/*
 			 * Close the join game view and the select color view and execute
 			 * joinAction, which will open the PlayerWaitingView.
 			 */
 			getSelectColorView().closeModal();
 			getJoinGameView().closeModal();
-
+			
 			joinAction.execute();
+			
 		} catch (ServerResponseException e) {
 			String outputStr = "Server Failure.";
 			JOptionPane.showMessageDialog(null, outputStr, "Server Failure",

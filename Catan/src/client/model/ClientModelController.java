@@ -1346,10 +1346,6 @@ public class ClientModelController {
 		return clientModel;
 	}
 
-	public void setClientModel(ClientModel clientModel) {
-		ClientModel.getSingleton().setClientModel(clientModel);
-		this.clientModel = ClientModel.getSingleton();
-	}
 	public PortType stringToPortType(String resource) {
 		switch(resource.toLowerCase()){
 		case "ore":
