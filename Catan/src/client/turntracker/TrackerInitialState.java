@@ -17,8 +17,9 @@ public class TrackerInitialState implements ITurnTrackerControllerState {
 		//get players, then init them all in the view
 		Player[] players = ClientModel.getSingleton().getPlayers();
 		for(Player player:players) {
-			
-			view.initializePlayer(player.getPlayerIndex(), player.getName(), player.getCatanColor());
+			if(player != null){
+				view.initializePlayer(player.getPlayerIndex(), player.getName(), player.getCatanColor());
+			}
 		}
 		
 		turnTracker.setState(new TurnTrackerFinishState());
