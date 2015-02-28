@@ -103,8 +103,6 @@ public class DiscardController extends Controller implements IDiscardController,
 			ResourceList list = getDiscardView().getListToDiscard();
 			try {
 				ClientModel updatedModel = serverProxy.discardCards(new DiscardCardsParams(playerIndex,list));
-				ClientModel.getSingleton().setClientModel(updatedModel);
-				modelController.setClientModel(updatedModel);//may not be necesarry
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
