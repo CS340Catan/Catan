@@ -59,16 +59,23 @@ public class GameSummary {
 		gameInfo.setId(this.id);
 		gameInfo.setTitle(this.title);
 				
+		System.out.println("GameSummary");
 		for(int i = 0; i < this.players.length; i++){
 			PlayerSummary player = this.players[i];
-			
+
 			PlayerInfo playerInfo = new PlayerInfo();
+			
 			playerInfo.setName(player.getName());
 			playerInfo.setId(player.getId());
 			playerInfo.setColor(CatanColor.valueOf(player.getColor()));
 			playerInfo.setPlayerIndex(i);
+			System.out.println(playerInfo.getName());
 			
 			gameInfo.addPlayer(playerInfo);
+		}
+		System.out.println("GameInfo");
+		for(PlayerInfo pI : gameInfo.getPlayers()){
+			System.out.println(pI.getName());
 		}
 		
 		return gameInfo;

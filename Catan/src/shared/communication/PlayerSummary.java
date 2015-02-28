@@ -42,7 +42,7 @@ public class PlayerSummary {
 	}
 
 	public String getColor() {
-		return color;
+		return color.toUpperCase();
 	}
 
 	public void setColor(String color) {
