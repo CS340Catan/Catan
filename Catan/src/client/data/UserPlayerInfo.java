@@ -14,14 +14,22 @@ import shared.definitions.*;
  * </ul>
  * 
  */
-public class PlayerInfo {
+public class UserPlayerInfo {
 
 	private int id;
-	private int playerIndex;
-	private String name;
-	private CatanColor color;
+	private static int playerIndex;
+	private static String name;
+	private static CatanColor color;
+	private static UserPlayerInfo userPlayerInfo = null;
 	
-	public PlayerInfo() {
+	public static UserPlayerInfo getSingleton(){
+		if(userPlayerInfo == null){
+			userPlayerInfo = new UserPlayerInfo();
+		}
+		return userPlayerInfo;
+	}
+	
+	public UserPlayerInfo() {
 		setId(-1);
 		setPlayerIndex(-1);
 		setName("");
@@ -41,7 +49,7 @@ public class PlayerInfo {
 	}
 
 	public void setPlayerIndex(int playerIndex) {
-		playerIndex = playerIndex;
+		UserPlayerInfo.playerIndex = playerIndex;
 	}
 
 	public String getName() {
@@ -49,7 +57,7 @@ public class PlayerInfo {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		UserPlayerInfo.name = name;
 	}
 
 	public CatanColor getColor() {
@@ -57,7 +65,7 @@ public class PlayerInfo {
 	}
 
 	public void setColor(CatanColor color) {
-		this.color = color;
+		UserPlayerInfo.color = color;
 	}
 
 	@Override
@@ -73,8 +81,19 @@ public class PlayerInfo {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final PlayerInfo other = (PlayerInfo) obj;
+		final UserPlayerInfo other = (UserPlayerInfo) obj;
 
 		return this.id == other.id;
+	}
+	
+	public PlayerInfo toPlayerInfo(){
+		PlayerInfo playerInfo = new PlayerInfo();
+		
+		playerInfo.setColor(this.getColor());
+		playerInfo.setId(this.getId());
+		playerInfo.setName(this.getName());
+		playerInfo.setPlayerIndex(this.getPlayerIndex());
+		
+		return playerInfo;
 	}
 }
