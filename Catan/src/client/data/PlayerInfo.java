@@ -20,14 +20,6 @@ public class PlayerInfo {
 	private static int playerIndex;
 	private static String name;
 	private static CatanColor color;
-	private static PlayerInfo playerInfo = null;
-	
-	public static PlayerInfo getSingleton(){
-		if(playerInfo == null){
-			playerInfo = new PlayerInfo();
-		}
-		return playerInfo;
-	}
 	
 	public PlayerInfo() {
 		setId(-1);

@@ -1,6 +1,9 @@
 package shared.communication;
 
 
+import java.awt.List;
+import java.util.ArrayList;
+
 import shared.definitions.CatanColor;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
@@ -60,18 +63,9 @@ public class GameSummary {
 		gameInfo.setTitle(this.title);
 				
 		System.out.println("GameSummary");
-		for(int i = 0; i < this.players.length; i++){
-			PlayerSummary player = this.players[i];
-
-			PlayerInfo playerInfo = new PlayerInfo();
-			
-			playerInfo.setName(player.getName());
-			playerInfo.setId(player.getId());
-			playerInfo.setColor(CatanColor.valueOf(player.getColor()));
-			playerInfo.setPlayerIndex(i);
-			System.out.println(playerInfo.getName());
-			
-			gameInfo.addPlayer(playerInfo);
+		for(PlayerSummary player: players){
+			gameInfo.addPlayer(player.toPlayerInfo());
+			System.out.println(player.toPlayerInfo().getName());
 		}
 		System.out.println("GameInfo");
 		for(PlayerInfo pI : gameInfo.getPlayers()){

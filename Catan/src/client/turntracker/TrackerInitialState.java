@@ -1,6 +1,7 @@
 package client.turntracker;
 
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
 import client.model.Player;
@@ -11,7 +12,7 @@ public class TrackerInitialState implements ITurnTrackerControllerState {
 	public void initFromModel(ITurnTrackerView view, TurnTrackerController turnTracker) {
 		// TODO Auto-generated method stub
 		ClientModelController clientModelController = new ClientModelController();
-		view.setLocalPlayerColor(clientModelController.getPlayerColor(PlayerInfo.getSingleton().getPlayerIndex()));
+		view.setLocalPlayerColor(clientModelController.getPlayerColor(UserPlayerInfo.getSingleton().getPlayerIndex()));
 		
 		//get players, then init them all in the view
 		Player[] players = ClientModel.getSingleton().getPlayers();

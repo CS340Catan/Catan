@@ -6,6 +6,7 @@ import shared.definitions.*;
 import shared.locations.EdgeLocation;
 import client.base.*;
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
 import client.model.Player;
@@ -61,7 +62,7 @@ public class MaritimeTradeController extends Controller implements
 		
 		//set up overlay, show or hide buttons based on player resources
 		modelController = new ClientModelController();
-		playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex].getResources();
 		int brick = resources.getBrick();
 		int ore = resources.getOre();
@@ -99,7 +100,7 @@ public class MaritimeTradeController extends Controller implements
 	
 	private void incrementResource(ResourceType resource, int amt) {
 		
-		playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex].getResources();
 		int brick = resources.getBrick();
 		int ore = resources.getOre();
@@ -222,7 +223,7 @@ public class MaritimeTradeController extends Controller implements
 	@Override
 	public void update(Observable o, Object arg) {
 	
-		playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		modelController = new ClientModelController();
 		
 		//if it's my turn, enable view, otherwise disable

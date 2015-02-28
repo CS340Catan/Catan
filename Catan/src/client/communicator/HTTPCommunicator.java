@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
@@ -136,8 +137,8 @@ public class HTTPCommunicator {
 				//System.out.println(decodedCookie);
 				Cookie cookie = (Cookie) Serializer.deserialize(decodedCookie,
 						Cookie.class);
-				PlayerInfo.getSingleton().setId(cookie.getPlayerId());
-				PlayerInfo.getSingleton().setName(cookie.getName());
+				UserPlayerInfo.getSingleton().setId(cookie.getPlayerId());
+				UserPlayerInfo.getSingleton().setName(cookie.getName());
 				
 				//System.out.println(PlayerInfo.getSingleton().getName());
 				//System.out.println(PlayerInfo.getSingleton().getId());

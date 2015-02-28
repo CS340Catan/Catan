@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import client.base.*;
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.Player;
 
@@ -48,8 +49,8 @@ public class PointsController extends Controller implements IPointsController,
 	}
 
 	private void initFromModel() {
-		if (PlayerInfo.getSingleton().getName() != "") {
-			int playerID = PlayerInfo.getSingleton().getPlayerIndex();
+		if (UserPlayerInfo.getSingleton().getName() != "") {
+			int playerID = UserPlayerInfo.getSingleton().getPlayerIndex();
 			// Get PlayerID from playerInfo class
 			int victoryPoints = ClientModel.getSingleton().getPlayers()[playerID]
 					.getVictoryPoints();
@@ -63,8 +64,8 @@ public class PointsController extends Controller implements IPointsController,
 		 * TODO Check if this is how update would work for points controller.
 		 * Need a way to find user's playerID.
 		 */
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
-		int playerID = PlayerInfo.getSingleton().getId();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+		int playerID = UserPlayerInfo.getSingleton().getId();
 		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerIndex]
 				.getVictoryPoints();
 		getPointsView().setPoints(victoryPoints);

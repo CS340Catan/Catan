@@ -9,6 +9,7 @@ import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
 import client.model.Player;
@@ -38,7 +39,7 @@ public class TurnTrackerController extends Controller implements
 
 	@Override
 	public void endTurn() {
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		UserActionParams finishTurn = new UserActionParams(playerIndex);
 		finishTurn.setType("finishTurn");
 		
@@ -57,7 +58,7 @@ public class TurnTrackerController extends Controller implements
 		
 		clientModelController = new ClientModelController();
 		ClientModel model = ClientModel.getSingleton();
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		
 		//set color
 		CatanColor color = model.getPlayers()[playerIndex].getPlayerInfo().getColor();

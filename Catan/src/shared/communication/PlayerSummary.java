@@ -1,5 +1,8 @@
 package shared.communication;
 
+import shared.definitions.CatanColor;
+import client.data.PlayerInfo;
+
 /**
  * This class wraps about data about a player to be sent across the network It
  * mirrors the json object passed across the network. This is part of the the
@@ -63,6 +66,16 @@ public class PlayerSummary {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public PlayerInfo toPlayerInfo(){
+		PlayerInfo playerInfo = new PlayerInfo();
+		
+		playerInfo.setName(this.getName());
+		playerInfo.setId(this.getId());
+		playerInfo.setColor(CatanColor.valueOf(this.getColor()));
+		
+		return playerInfo;
 	}
 
 }

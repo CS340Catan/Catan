@@ -12,6 +12,7 @@ import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import client.misc.*;
 import client.model.ClientModel;
 import client.model.ClientModelController;
@@ -162,7 +163,7 @@ public class DomesticTradeController extends Controller implements
 	
 	private boolean canIncrease(ResourceType resource) {
 		
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex].getResources();
 		int brick = resources.getBrick();
 		int ore = resources.getOre();
@@ -305,7 +306,7 @@ public class DomesticTradeController extends Controller implements
 		ResourceList resourceList = createResourceList();
 		
 		//fill tradeOffer
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		tradeOfferParams = new TradeOfferParams(playerIndex, resourceList, receiverPlayerIndex);
 		
 		ServerProxy server = ServerProxy.getSingleton();
@@ -356,7 +357,7 @@ public class DomesticTradeController extends Controller implements
 	@Override
 	public void acceptTrade(boolean willAccept) {
 		getAcceptOverlay().closeModal();
-		AcceptTradeParams acceptTradeParams = new AcceptTradeParams(PlayerInfo.getSingleton().getPlayerIndex(),willAccept);
+		AcceptTradeParams acceptTradeParams = new AcceptTradeParams(UserPlayerInfo.getSingleton().getPlayerIndex(),willAccept);
 		try {
 			ServerProxy.getSingleton().acceptTrade(acceptTradeParams);
 		} catch (ServerResponseException e) {
@@ -367,7 +368,7 @@ public class DomesticTradeController extends Controller implements
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModelController = new ClientModelController();
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		TradeOffer tradeOffer = ClientModel.getSingleton().getTradeOffer();
 		if (tradeOffer != null) {
 			if (tradeOffer.getReceiver() == playerIndex) {

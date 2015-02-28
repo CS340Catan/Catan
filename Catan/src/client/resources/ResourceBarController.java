@@ -4,6 +4,7 @@ import java.util.*;
 
 import client.base.*;
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 
 /**
@@ -77,7 +78,7 @@ public class ResourceBarController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		int ore = ClientModel.getSingleton().getPlayers()[playerIndex].getResources().getOre();
 		int wood = ClientModel.getSingleton().getPlayers()[playerIndex].getResources().getWood();
 		int sheep = ClientModel.getSingleton().getPlayers()[playerIndex].getResources().getSheep();

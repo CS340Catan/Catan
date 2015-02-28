@@ -13,6 +13,7 @@ import client.base.Controller;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import client.misc.IWaitView;
 import client.model.ClientModel;
 import client.model.ClientModelController;
@@ -95,7 +96,7 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
 	public void discard() {
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if(modelController.canDiscardCards(playerIndex))
 		{
 			//getResroucelist
@@ -123,7 +124,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	public void update(Observable o, Object arg) {
 		ClientModel updatedModel = (ClientModel) o;
 		modelController.setClientModel(updatedModel);
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if(updatedModel.getTurnTracker().getStatus()=="discarding")
 		{
 			if(!getDiscardView().isModalShowing() && !waitView.isModalShowing()){

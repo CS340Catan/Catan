@@ -18,6 +18,7 @@ import client.base.IAction;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
+import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
 import client.model.ResourceList;
@@ -87,7 +88,7 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void buyCard() {
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		UserActionParams buyDevCardParams = new UserActionParams(playerIndex);
 		buyDevCardParams.setType("buyDevCard");
 		if(modelController.canBuyDevCard(playerIndex)){
@@ -121,7 +122,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
 		//closeModal called just before this
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		String resourceString = resource.toString();
 		//if(resourceString.equals("")) = handle that bad boy here
 		if(modelController.canPlayMonopolyCard(playerIndex)){
@@ -142,7 +143,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void playMonumentCard() {
 		//closeModal called just before this
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if(modelController.canPlayMonumentCard(playerIndex))
 		{
 			try {
@@ -175,7 +176,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1,
 			ResourceType resource2) {
-		int playerIndex = PlayerInfo.getSingleton().getPlayerIndex();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		ResourceList resources = new ResourceList(0,0,0,0,0);
 		
 		String res1Str = resource1.toString();

@@ -118,7 +118,6 @@ public class LoginController extends Controller implements ILoginController,
 				messageView.showModal();
 
 				getLoginView().closeModal();
-				PlayerInfo.getSingleton().setName(signInUsername);
 				loginAction.execute();
 			} else {
 				/*
@@ -179,7 +178,6 @@ public class LoginController extends Controller implements ILoginController,
 				messageView.showModal();
 
 				getLoginView().closeModal();
-				PlayerInfo.getSingleton().setName(registerUsername);
 				loginAction.execute();
 			} else {
 				/*

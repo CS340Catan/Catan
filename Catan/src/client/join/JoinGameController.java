@@ -129,7 +129,7 @@ public class JoinGameController extends Controller implements
 				gameInfoList[i] = gameList[i].toGameInfo();
 			}
 
-			getJoinGameView().setGames(gameInfoList, PlayerInfo.getSingleton());
+			getJoinGameView().setGames(gameInfoList, UserPlayerInfo.getSingleton().toPlayerInfo());
 
 			for (GameInfo game : gameInfoList) {
 				System.out.println("Game:" + game.getTitle());
@@ -191,7 +191,7 @@ public class JoinGameController extends Controller implements
 				gameInfoList[i] = gameList[i].toGameInfo();
 			}
 			
-			getJoinGameView().setGames(gameInfoList, PlayerInfo.getSingleton());
+			getJoinGameView().setGames(gameInfoList, UserPlayerInfo.getSingleton().toPlayerInfo());
 		} catch (ServerResponseException e) {
 			/*
 			 * Throw and error if there is an error with the server, i.e. a 400
