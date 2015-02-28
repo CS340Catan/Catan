@@ -13,7 +13,7 @@ import client.model.*;
  * will then be unpackaged into the appropriate objects.
  * 
  * @author Keloric
- *
+ * 
  */
 public class ServerProxy implements IServer {
 
@@ -21,10 +21,9 @@ public class ServerProxy implements IServer {
 	 * The future singleton
 	 */
 	private static ServerProxy server = null;
-	
+
 	/** used to send data over the network */
 	private HTTPCommunicator httpCommunicator;
-
 
 	/**
 	 * Default constructor.
@@ -35,16 +34,17 @@ public class ServerProxy implements IServer {
 	private ServerProxy() {
 		httpCommunicator = new HTTPCommunicator();
 	}
-	
+
 	/**
 	 * method for accessing the singleton
-	 * @return	the singleton ProxyServer
+	 * 
+	 * @return the singleton ProxyServer
 	 */
 	public static ServerProxy getSingleton() {
-		if(server == null) {
+		if (server == null) {
 			server = new ServerProxy();
 		}
-		
+
 		return server;
 	}
 
@@ -55,7 +55,7 @@ public class ServerProxy implements IServer {
 	public void setHttpCommunicator(HTTPCommunicator httpCommunicator) {
 		this.httpCommunicator = httpCommunicator;
 	}
-	
+
 	/**
 	 * Checks to see if the server's model has been updated, returns the new
 	 * model if there is a new one available, otherwise returns a null
@@ -122,7 +122,7 @@ public class ServerProxy implements IServer {
 	 * @pre none
 	 * @post A valid CurrentGames returned
 	 */
-public GameSummary[] getGameList() throws ServerResponseException {
+	public GameSummary[] getGameList() throws ServerResponseException {
 		String response = httpCommunicator.doGet("/games/list", null);
 		if (response != null) {
 			return (GameSummary[]) Serializer.deserialize(response,
@@ -145,8 +145,7 @@ public GameSummary[] getGameList() throws ServerResponseException {
 		String jsonString = Serializer.serialize(params);
 		String response = httpCommunicator.doPost("/games/create", jsonString);
 		if (response != null) {
-			return (GameInfo) Serializer.deserialize(response,
-					GameInfo.class);
+			return (GameInfo) Serializer.deserialize(response, GameInfo.class);
 		} else {
 			return null;
 		}
@@ -212,7 +211,8 @@ public GameSummary[] getGameList() throws ServerResponseException {
 				"/game/model?version=" + version, null);
 		if (jsonResponseString != null) {
 			if (!jsonResponseString.equals("true")) {
-				ClientModel.getSingleton().setClientModel(Serializer.deserializeClientModel(jsonResponseString));				
+				ClientModel.getSingleton().setClientModel(
+						Serializer.deserializeClientModel(jsonResponseString));
 			}
 		}
 		return ClientModel.getSingleton();
@@ -408,9 +408,8 @@ public GameSummary[] getGameList() throws ServerResponseException {
 	/**
 	 * @Pre It is the current player's turn
 	 * @Pre The client modelâ€™s status is â€˜Rollingâ€™
-	 * @Post The client modelâ€™s status is now in
-	 *       â€˜Discardingâ€™ or â€˜Robbingâ€™ or
-	 *       â€˜Playingâ€™
+	 * @Post The client modelâ€™s status is now in â€˜Discardingâ€™ or
+	 *       â€˜Robbingâ€™ or â€˜Playingâ€™
 	 * @param number
 	 * @return
 	 */
@@ -577,9 +576,11 @@ public GameSummary[] getGameList() throws ServerResponseException {
 	 * @post it is the next player's turn
 	 */
 	@Override
-	public ClientModel finishTurn(UserActionParams params) throws ServerResponseException {
+	public ClientModel finishTurn(UserActionParams params)
+			throws ServerResponseException {
 		String jsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/finishTurn", jsonString);
+		String response = httpCommunicator.doPost("/moves/finishTurn",
+				jsonString);
 		if (response != null) {
 			return Serializer.deserializeClientModel(response);
 		} else {
@@ -597,9 +598,11 @@ public GameSummary[] getGameList() throws ServerResponseException {
 	 *       new devcard hand
 	 */
 	@Override
-	public ClientModel buyDevCard(UserActionParams params) throws ServerResponseException {
+	public ClientModel buyDevCard(UserActionParams params)
+			throws ServerResponseException {
 		String jsonString = Serializer.serialize(params);
-		String response = httpCommunicator.doPost("/moves/buyDevCard", jsonString);
+		String response = httpCommunicator.doPost("/moves/buyDevCard",
+				jsonString);
 		if (response != null) {
 			return Serializer.deserializeClientModel(response);
 		} else {
@@ -705,7 +708,7 @@ public GameSummary[] getGameList() throws ServerResponseException {
 	/**
 	 * @Pre none
 	 * @Post current player gains a victory point
-	 *
+	 * 
 	 */
 	@Override
 	public ClientModel playMonument(PlayMonumentParams params)

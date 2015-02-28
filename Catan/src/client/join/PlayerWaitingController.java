@@ -39,28 +39,28 @@ public class PlayerWaitingController extends Controller implements
 	@Override
 	public void start() {
 
-		poller = new Poller(ServerProxy.getSingleton(),
-				new ClientModelController());
-		poller.setTimer();
-		
+		// poller = new Poller(ServerProxy.getSingleton(),
+		// new ClientModelController());
+		// poller.setTimer();
+
 		getView().showModal();
-		
-		//show ai choices
-		String[] AIChoices = {""};
+
+		// show ai choices
+		String[] AIChoices = { "" };
 		try {
 			AIChoices = server.getAITypes();
 		} catch (ServerResponseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		getView().setAIChoices(AIChoices);
-		
+
 	}
 
 	@Override
 	public void addAI() {
-		
+
 		AddAIParams addAIParams = new AddAIParams();
 		addAIParams.setAIType(getView().getSelectedAI());
 		try {
@@ -76,8 +76,7 @@ public class PlayerWaitingController extends Controller implements
 	@Override
 	public void update(Observable o, Object arg) {
 		ClientModel model = (ClientModel) o;
-		if(model.getPlayers().length==4)
-		{
+		if (model.getPlayers().length == 4) {
 			getView().closeModal();
 		}
 	}

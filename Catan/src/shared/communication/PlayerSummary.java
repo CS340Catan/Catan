@@ -16,11 +16,11 @@ public class PlayerSummary {
 	/**
 	 * The player's color
 	 */
-	String color="";
+	String color = "";
 	/**
 	 * The player's username
 	 */
-	String name="";
+	String name = "";
 	/**
 	 * The Player's id
 	 */
@@ -39,9 +39,9 @@ public class PlayerSummary {
 		this.name = name;
 		this.id = id;
 	}
-	
-	public PlayerSummary(){
-		
+
+	public PlayerSummary() {
+
 	}
 
 	public String getColor() {
@@ -67,14 +67,16 @@ public class PlayerSummary {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public PlayerInfo toPlayerInfo(){
+
+	public PlayerInfo toPlayerInfo() {
 		PlayerInfo playerInfo = new PlayerInfo();
-		
+
 		playerInfo.setName(this.getName());
 		playerInfo.setId(this.getId());
-		playerInfo.setColor(CatanColor.valueOf(this.getColor()));
-		
+		if (this.getColor() != "") {
+			playerInfo.setColor(CatanColor.valueOf(this.getColor()));
+		}
+
 		return playerInfo;
 	}
 

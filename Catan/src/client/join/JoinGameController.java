@@ -125,21 +125,13 @@ public class JoinGameController extends Controller implements
 		try {
 			GameSummary[] gameList = server.getGameList();
 			GameInfo[] gameInfoList = new GameInfo[gameList.length];
+			
 			for (int i = 0; i < gameList.length; i++) {
 				gameInfoList[i] = gameList[i].toGameInfo();
 			}
 
-			getJoinGameView().setGames(gameInfoList, UserPlayerInfo.getSingleton().toPlayerInfo());
-
-			for (GameInfo game : gameInfoList) {
-				System.out.println("Game:" + game.getTitle());
-				System.out.println("Id: " + game.getId());
-				for (PlayerInfo player : game.getPlayers()) {
-					if (player != null) {
-						System.out.println("Player: " + player.getName());
-					}
-				}
-			}
+			getJoinGameView().setGames(gameInfoList,
+					UserPlayerInfo.getSingleton().toPlayerInfo());
 
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
@@ -190,8 +182,9 @@ public class JoinGameController extends Controller implements
 			for (int i = 0; i < gameList.length; i++) {
 				gameInfoList[i] = gameList[i].toGameInfo();
 			}
-			
-			getJoinGameView().setGames(gameInfoList, UserPlayerInfo.getSingleton().toPlayerInfo());
+
+			getJoinGameView().setGames(gameInfoList,
+					UserPlayerInfo.getSingleton().toPlayerInfo());
 		} catch (ServerResponseException e) {
 			/*
 			 * Throw and error if there is an error with the server, i.e. a 400
@@ -229,9 +222,9 @@ public class JoinGameController extends Controller implements
 			 * Initiate poller to start polling once the player has joined the
 			 * game. TODO Move to PlayerWaitingController (?)
 			 */
-			poller = new Poller(ServerProxy.getSingleton(),
-					new ClientModelController());
-			poller.setTimer();
+			// poller = new Poller(ServerProxy.getSingleton(),
+			// new ClientModelController());
+			// poller.setTimer();
 
 			/*
 			 * Package the join game parameters to be sent over to the server.
