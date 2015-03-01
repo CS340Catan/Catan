@@ -1,9 +1,6 @@
 package client.domestic;
 
-import java.util.HashSet;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.*;
 
 import shared.communication.AcceptTradeParams;
 import shared.communication.TradeOfferParams;
@@ -310,13 +307,19 @@ public class DomesticTradeController extends Controller implements
 		
 		//get players, and convert them all from Player to PlayerInfo
 		Player[] players = ClientModel.getSingleton().getPlayers();
-		PlayerInfo[] playerInfos = new PlayerInfo[players.length];
+		List<PlayerInfo> playerInfos = new ArrayList<>();
 		for(int i = 0; i < players.length; i++) {
-			playerInfos[i] = players[i].getPlayerInfo();
+			//don't add self
+			if(players[i].getPlayerIndex() != UserPlayerInfo.getSingleton().getPlayerIndex()) {
+				playerInfos.add(players[i].getPlayerInfo());
+			}
 		}
 		
+		//convert to array
+		PlayerInfo[] playerInfosArray = new PlayerInfo[playerInfos.size()];
+		playerInfosArray = playerInfos.toArray(playerInfosArray);
 		//set the tradeable players with their corresponding info
-		getTradeOverlay().setPlayers(playerInfos);
+		getTradeOverlay().setPlayers(playerInfosArray);
 		
 		getTradeOverlay().showModal();
 		
@@ -324,7 +327,7 @@ public class DomesticTradeController extends Controller implements
 		getTradeOverlay().setPlayerSelectionEnabled(true);
 		getTradeOverlay().setCancelEnabled(true);
 		getTradeOverlay().setTradeEnabled(false);
-		getTradeOverlay().setStateMessage("Choose Resources to Trade");
+		getTradeOverlay().setStateMessage("Choose Resources To Trade");
 		
 	}
 
@@ -387,6 +390,9 @@ public class DomesticTradeController extends Controller implements
 		receiverPlayerIndex = playerIndex;
 		setTradeButton();
 		
+		//TESTING
+		//sendTradeOffer();
+		
 	}
 
 	@Override
@@ -425,7 +431,7 @@ public class DomesticTradeController extends Controller implements
 		giveResources.remove(resource);
 		setTradeButton();
 		
-		/*
+		/*unnecessary
 		for(ResourceType r: getResources) {
 			if(r.equals(resource)) {
 				getResources.remove(r);
@@ -459,8 +465,19 @@ public class DomesticTradeController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
+		
 		clientModelController = new ClientModelController();
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+		
+		//if it's my turn, enable view, otherwise disable
+		if(clientModelController.isPlayerTurn(playerIndex)) {
+			getTradeView().enableDomesticTrade(true);
+		}
+		else {
+			getTradeView().enableDomesticTrade(false);
+		}
+		
+		//if I'm being offered a trade, show accepttrade overlay
 		TradeOffer tradeOffer = ClientModel.getSingleton().getTradeOffer();
 		if (tradeOffer != null) {
 			if (tradeOffer.getReceiver() == playerIndex) {

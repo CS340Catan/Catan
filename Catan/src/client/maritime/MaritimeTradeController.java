@@ -139,8 +139,8 @@ public class MaritimeTradeController extends Controller implements
 		
 		getTradeOverlay().showModal();
 		getTradeOverlay().reset();
-		//getTradeOverlay().setTradeEnabled(false);
-		//getTradeOverlay().setCancelEnabled(true);
+		getTradeOverlay().setTradeEnabled(false);
+		getTradeOverlay().setCancelEnabled(true);
 
 		//show tradeable resources
 		getTradeOverlay().showGiveOptions(getValidResources());
