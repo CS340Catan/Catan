@@ -24,11 +24,13 @@ public class PlayerWaitingController extends Controller implements
 
 	private IServer server;
 	private Poller poller;
+	private IPlayerWaitingState playerWaitingState;
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
 
 		super(view);
 		ClientModel.getNotifier().addObserver(this);
+		setPlayerWaitingState(new WaitingState());
 		server = ServerProxy.getSingleton();
 	}
 
@@ -83,21 +85,15 @@ public class PlayerWaitingController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
-//		ClientModel model = ClientModel.getSingleton();
-		System.out.println("In update in Player Waiting Controller");
-		boolean fourPlayers = true;
-		for(Player player : ClientModel.getSingleton().getPlayers()){
-			if(player == null){
-				fourPlayers = false;
-				break;
-			}
-		}
-		
-		System.out.println(fourPlayers);
-		
-		if(fourPlayers){
-			getView().closeModal();			
-		}
+		playerWaitingState.action(this);
+	}
+
+	public IPlayerWaitingState getPlayerWaitingState() {
+		return playerWaitingState;
+	}
+
+	public void setPlayerWaitingState(IPlayerWaitingState playerWaitingState) {
+		this.playerWaitingState = playerWaitingState;
 	}
 
 }

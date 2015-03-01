@@ -40,7 +40,7 @@ public class Poller {
 		ClientModel updatedClientModel;
 		try {
 			updatedClientModel = server.updateModel(ClientModel.getSingleton().getVersion());
-			System.out.println("Got A version");
+//			System.out.println("Got A version");
 			if (updatedClientModel != null) {
 				System.out.println("Got a new version");
 				ClientModel.getSingleton().setClientModel(updatedClientModel);
