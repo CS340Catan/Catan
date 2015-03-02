@@ -25,7 +25,7 @@ import shared.utils.Serializer;
  * @author Seth White
  *
  */
-public  class ClientModel {
+public class ClientModel {
 	private ResourceList bank;
 	private MessageList chat;
 	private MessageList log;
@@ -38,21 +38,25 @@ public  class ClientModel {
 	private int winner;
 	public static Notifier notifier = null;
 
-	private static ClientModel clientModel = null;//singleton instance of ClientModel
+	private static ClientModel clientModel = null;// singleton instance of
+													// ClientModel
+
 	/**
 	 * Default constructor
 	 */
-	public ClientModel(){//empty constructor defeats instantiation
-		
+	public ClientModel() {// empty constructor defeats instantiation
+
 	}
-	public static Notifier getNotifier(){
-		if(notifier == null){
+
+	public static Notifier getNotifier() {
+		if (notifier == null) {
 			notifier = new Notifier();
 		}
 		return notifier;
 	}
-	public static ClientModel getSingleton(){//returns the singleton
-		if(clientModel == null){
+
+	public static ClientModel getSingleton() {// returns the singleton
+		if (clientModel == null) {
 			clientModel = new ClientModel();
 		}
 		return clientModel;
@@ -129,26 +133,31 @@ public  class ClientModel {
 	public void setWinner(int winner) {
 		this.winner = winner;
 	}
+
 	public Deck getDeck() {
 		return deck;
 	}
+
 	public void setDeck(Deck deck) {
 		this.deck = deck;
 	}
-	private void setUserPlayerInfoIndex(ClientModel clientModel){
-		for(Player player : clientModel.getPlayers()){
+
+	private void setUserPlayerInfoIndex(ClientModel clientModel) {
+		for (Player player : clientModel.getPlayers()) {
 			UserPlayerInfo upi = UserPlayerInfo.getSingleton();
-			if(player != null && player.getName().equals(upi.getName())){
-				UserPlayerInfo.getSingleton().setPlayerIndex(player.getPlayerIndex());
+			if (player != null && player.getName().equals(upi.getName())) {
+				UserPlayerInfo.getSingleton().setPlayerIndex(
+						player.getPlayerIndex());
 			}
 		}
 	}
+
 	public void setClientModel(ClientModel clientModel) {
 		ClientModel.clientModel = clientModel;
 		setUserPlayerInfoIndex(clientModel);
 		notifier.modelUpdated();
 	}
-	
+
 	public String toString() {
 		return Serializer.serializeClientModel(this);
 	}

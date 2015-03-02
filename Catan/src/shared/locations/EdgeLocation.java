@@ -9,9 +9,9 @@ public class EdgeLocation {
 
 	private HexLocation hexLoc;
 	private EdgeDirection dir;
-	@Expose private String direction;
-	@Expose private int x;
-	@Expose private int y;
+	private String direction;
+	private int x;
+	private int y;
 
 	public EdgeLocation(HexLocation hexLoc, EdgeDirection dir) {
 		setHexLoc(hexLoc);
@@ -169,5 +169,11 @@ public class EdgeLocation {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+	public String getDirection() {
+		return direction;
+	}
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 }

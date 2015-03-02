@@ -446,7 +446,7 @@ public class ServerProxy implements IServer {
 	@Override
 	public ClientModel buildRoad(BuildRoadParams params)
 			throws ServerResponseException {
-		String jsonString = Serializer.serializeWithExpose(params);
+		String jsonString = Serializer.serialize(params);
 		String response = httpCommunicator.doPost("/moves/buildRoad",
 				jsonString);
 		if (response != null) {
