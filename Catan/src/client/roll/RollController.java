@@ -67,14 +67,6 @@ public class RollController extends Controller implements IRollController,
 		rollVal = rand.nextInt((12 - 2) + 1) + 2;
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (modelController.canRollNumber(playerIndex)) {
-			try {
-				serverProxy.rollNumber(rollVal);
-			} catch (ServerResponseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Server Error", "Server Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
 			getRollView().closeModal();
 			getResultView().showModal();
 			getResultView().setRollValue(rollVal);
