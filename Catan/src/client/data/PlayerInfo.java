@@ -41,7 +41,7 @@ public class PlayerInfo {
 	}
 
 	public void setPlayerIndex(int playerIndex) {
-		playerIndex = playerIndex;
+		this.playerIndex = playerIndex;
 	}
 
 	public String getName() {
