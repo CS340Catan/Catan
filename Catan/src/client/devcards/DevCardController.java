@@ -10,17 +10,17 @@ import shared.communication.PlayMonumentParams;
 import shared.communication.Resource;
 import shared.communication.UserActionParams;
 import shared.communication.YearOfPlentyParams;
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.Controller;
 import client.base.IAction;
-import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
-import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
+import client.model.Player;
 import client.model.ResourceList;
 
 /**
@@ -93,7 +93,7 @@ public class DevCardController extends Controller implements IDevCardController,
 		buyDevCardParams.setType("buyDevCard");
 		if(modelController.canBuyDevCard(playerIndex)){
 			try {
-				ClientModel updatedModel = serverProxy.buyDevCard(buyDevCardParams);
+				serverProxy.buyDevCard(buyDevCardParams);
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
@@ -108,8 +108,32 @@ public class DevCardController extends Controller implements IDevCardController,
 	//===============================PLAY DEV CARD  CONTROLLS=====================
 	@Override
 	public void startPlayCard() {
-
+		//
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+		Player player = ClientModel.getSingleton().getPlayers()[playerIndex];
+		
+		int monopolyCnt = player.getOldDevCards().getMonopoly();
+		setCard(DevCardType.MONOPOLY,monopolyCnt);
+		
+		int yOPCnt = player.getOldDevCards().getYearOfPlenty();
+		setCard(DevCardType.YEAR_OF_PLENTY,yOPCnt);
+		
+		int soldierCnt = player.getOldDevCards().getSoldier();
+		setCard(DevCardType.SOLDIER,soldierCnt);
+		
+		int monumentCnt = player.getOldDevCards().getMonument();
+		setCard(DevCardType.MONUMENT,monumentCnt);
+		
+		int buildRoadCnt = player.getOldDevCards().getRoadBuilding();
+		setCard(DevCardType.ROAD_BUILD,buildRoadCnt);
+		
 		getPlayCardView().showModal();
+	}
+	
+	private void setCard(DevCardType type, int cardCount)
+	{
+		getPlayCardView().setCardAmount(type, cardCount);
+		getPlayCardView().setCardEnabled(type , cardCount>0);
 	}
 
 	@Override
@@ -126,7 +150,7 @@ public class DevCardController extends Controller implements IDevCardController,
 		//if(resourceString.equals("")) = handle that bad boy here
 		if(modelController.canPlayMonopolyCard(playerIndex)){
 			try {
-				ClientModel updatedModel = serverProxy.playMonopolyCard(new PlayMonopolyParams(resourceString, playerIndex));
+				serverProxy.playMonopolyCard(new PlayMonopolyParams(resourceString, playerIndex));
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
@@ -145,7 +169,7 @@ public class DevCardController extends Controller implements IDevCardController,
 		if(modelController.canPlayMonumentCard(playerIndex))
 		{
 			try {
-				ClientModel updatedModel = serverProxy.playMonument(new PlayMonumentParams(playerIndex));
+				serverProxy.playMonument(new PlayMonumentParams(playerIndex));
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
@@ -187,7 +211,7 @@ public class DevCardController extends Controller implements IDevCardController,
 		addResource(resource2, resources);
 		if(modelController.canPlayYearOfPlentyCard(playerIndex, resources)){
 			try {
-				ClientModel updatedModel = serverProxy.playYearOfPlentyCard(new YearOfPlentyParams(playerIndex, res1,res2));
+				serverProxy.playYearOfPlentyCard(new YearOfPlentyParams(playerIndex, res1,res2));
 			} catch (ServerResponseException e)  {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);

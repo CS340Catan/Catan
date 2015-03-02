@@ -66,8 +66,8 @@ public class GameHistoryController extends Controller implements
 
 				CatanColor messageColor = null;
 				for (Player player : ClientModel.getSingleton().getPlayers()) {
-					if (player.getName() == messageSource) {
-						messageColor = CatanColor.valueOf(player.getColor());
+					if (player.getName().equals(messageSource)) {
+						messageColor = CatanColor.valueOf(player.getColor().toUpperCase());
 					}
 				}
 
