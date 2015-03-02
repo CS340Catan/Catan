@@ -18,6 +18,7 @@ public class BuildCityParams {
 		public BuildCityParams(int playerIndex, VertexLocation vertexLocation) {
 			vertexLocation.convertToPrimitives();
 			this.playerIndex = playerIndex;
+			this.vertexLocation = new VertexLocationParam();
 			this.vertexLocation.setDirection(vertexLocation.getDirection());
 			this.vertexLocation.setX(vertexLocation.getX());
 			this.vertexLocation.setY(vertexLocation.getY());

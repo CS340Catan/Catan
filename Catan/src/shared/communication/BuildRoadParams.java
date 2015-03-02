@@ -23,6 +23,7 @@ public class BuildRoadParams {
 		public BuildRoadParams(int playerIndex, EdgeLocation roadLocation, boolean free) {
 			roadLocation.convertToPrimitives();
 			this.playerIndex = playerIndex;
+			this.roadLocation = new EdgeLocationParam();
 			this.roadLocation.setDirection(roadLocation.getDirection());
 			this.roadLocation.setX(roadLocation.getX());
 			this.roadLocation.setY(roadLocation.getY());

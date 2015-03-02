@@ -147,6 +147,15 @@ public class ClientModelController {
 		 * the player has an available road piece.
 		 */
 
+		System.out.println("ClientModelController:CanBuildRoad:Boolean Cheacks");
+		System.out.println(isPlayerTurn(playerIndex));
+		System.out.println((playerHasResources(playerIndex, requiredResourceList) || isFree));
+		System.out.println(!roadExists(road));
+		System.out.println((hasConnectingBuilding(road) || hasConnectingRoad(road)));
+		System.out.println(playerHasAvailableRoadPiece(playerIndex));
+		System.out.println(ClientModel.getSingleton().getTurnTracker().getStatus()
+				.equals("Playing"));
+		
 		if (isPlayerTurn(playerIndex)
 				&& (playerHasResources(playerIndex, requiredResourceList) || isFree)
 				&& !roadExists(road)
