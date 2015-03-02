@@ -415,7 +415,8 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel rollNumber(int number) throws ServerResponseException {
-		String jsonString = Serializer.serialize(new Integer(number));
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+		String jsonString = Serializer.serialize(new RollParams(playerIndex,number));
 		String response = httpCommunicator.doPost("/moves/rollNumber",
 				jsonString);
 		if (response != null) {

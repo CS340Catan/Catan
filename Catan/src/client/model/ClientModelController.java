@@ -114,7 +114,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRollNumber(int playerIndex) {
-		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getTurnTracker().getStatus() == "rolling") {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getTurnTracker().getStatus().equals("Rolling")) {
 			return true;
 		}
 		return false;
