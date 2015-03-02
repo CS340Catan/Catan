@@ -73,7 +73,7 @@ public class ServerProxy implements IServer {
 									// correct or there was an error
 		if (jsonResponseString != null) {
 			if (!jsonResponseString.equals("\"true\"")) {
-				System.out.println(jsonResponseString);
+				//System.out.println(jsonResponseString);
 				model = Serializer.deserializeClientModel(jsonResponseString);
 			}
 		}
@@ -298,7 +298,7 @@ public class ServerProxy implements IServer {
 	public AddAIResponse addAI(AddAIParams params)
 			throws ServerResponseException {
 		String jsonString = Serializer.serialize(params);
-		System.out.println(jsonString);
+		//System.out.println(jsonString);
 		String response = httpCommunicator.doPost("/game/addAI", jsonString);
 		AddAIResponse AIResponse = new AddAIResponse();
 		AIResponse.setResponse(response);

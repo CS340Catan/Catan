@@ -1014,12 +1014,17 @@ public class ClientModelController {
 	}
 
 	/**
+	 * /**
 	 * tests if the player can accept a player trade
 	 * 
 	 * @Pre it is the current turn of the player attempting to accept the trade
 	 * @Pre the player has the offered resources
 	 * @Pre the player has the asked for resources
 	 * @Post result: a boolean reporting success/fail
+	 *
+	 * @param playerIndex Player being offered a trade.
+	 * @param resourceList Current trade proposal.
+	 * @return
 	 */
 	public boolean canAcceptTrade(int playerIndex, ResourceList resourceList) {
 		if (ClientModel.getSingleton().getPlayers()[playerIndex].getResources()

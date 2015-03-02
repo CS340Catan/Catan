@@ -59,8 +59,6 @@ public class HTTPCommunicator {
 
 	private String communicate(String urlString, String gsonString,
 			int requestType) throws ServerResponseException {
-//		System.out.println("User Cookie: " + userCookie);
-//		System.out.println("Game Cookie: " + gameCookie);
 		try {
 			URL url = new URL(URL_PREFIX + urlString);
 
@@ -139,14 +137,10 @@ public class HTTPCommunicator {
 				String decodedCookie = URLDecoder.decode(cookieString);
 				decodedCookie = decodedCookie.replace("catan.user=", "");
 				decodedCookie = decodedCookie.replace(";Path=/;", "");
-				// System.out.println(decodedCookie);
 				Cookie cookie = (Cookie) Serializer.deserialize(decodedCookie,
 						Cookie.class);
 				UserPlayerInfo.getSingleton().setId(cookie.getPlayerId());
 				UserPlayerInfo.getSingleton().setName(cookie.getName());
-
-				// System.out.println(PlayerInfo.getSingleton().getName());
-				// System.out.println(PlayerInfo.getSingleton().getId());
 
 				String cleaned = cookieString.replace("catan.player=", "");
 				userCookie = cleaned;

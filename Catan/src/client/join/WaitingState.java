@@ -7,7 +7,7 @@ public class WaitingState implements IPlayerWaitingState {
 
 	@Override
 	public void action(PlayerWaitingController playerWaitingController) {
-		System.out.println("In update in Player Waiting Controller");
+		//System.out.println("In update in Player Waiting Controller");
 		boolean fourPlayers = true;
 		for(Player player : ClientModel.getSingleton().getPlayers()){
 			if(player == null){
