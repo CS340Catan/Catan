@@ -37,6 +37,7 @@ public class FirstRoundState implements IMapState {
 			hasBegunRound = true;
 			mapController.startMove(PieceType.ROAD, true, true);		
 			mapController.startMove(PieceType.SETTLEMENT, true, true);
+			
 		}
 	}
 }
