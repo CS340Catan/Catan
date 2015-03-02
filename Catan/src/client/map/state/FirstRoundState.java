@@ -28,12 +28,13 @@ public class FirstRoundState implements IMapState {
 	@Override
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController) {
+		System.out.println("hi");
 		return clientModelController.canBuildRoad(playerIndex, road, true);
 	}
 
 	@Override
 	public void beginRound(MapController mapController) {
+		mapController.startMove(PieceType.ROAD, true, false);		
 		mapController.startMove(PieceType.SETTLEMENT, true, true);
-		mapController.startMove(PieceType.ROAD, true, false);
 	}
 }
