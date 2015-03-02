@@ -6,7 +6,6 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.utils.Serializer;
-import client.communication.ChatController;
 import client.model.ClientModel;
 import client.model.ClientModelController;
 import client.model.Road;

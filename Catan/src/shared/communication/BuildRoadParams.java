@@ -38,7 +38,7 @@ public class BuildRoadParams {
 		}
 
 		public EdgeLocationParam getRoadLocation() {
-			return roadLocation;
+			return this.roadLocation;
 		}
 
 		public void setRoadLocation(EdgeLocationParam roadLocation) {

@@ -1,4 +1,4 @@
-package shared.communication;
+package client.devcards;
 
 /**
  * A resource with a constrained name

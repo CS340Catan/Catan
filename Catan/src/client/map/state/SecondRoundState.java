@@ -10,25 +10,24 @@ public class SecondRoundState implements IMapState {
 
 	@Override
 	public void initialize(MapController mapController) {
-		
+
 	}
-	
+
 	@Override
 	public String getClassName() {
 		return CLASS_NAME;
 	}
-	
+
 	@Override
-	public boolean canPlaceSettlement(VertexObject settlement, boolean playingCard,
-			ClientModelController clientModelController) {
+	public boolean canPlaceSettlement(VertexObject settlement,
+			boolean playingCard, ClientModelController clientModelController) {
 		return clientModelController.canBuildSettlement(settlement, true, true);
 	}
-	
+
 	@Override
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController) {
 		return clientModelController.canBuildRoad(playerIndex, road, true);
 	}
-
 
 }

@@ -1,8 +1,5 @@
 package shared.communication;
 
-import shared.locations.HexLocation;
-import shared.locations.VertexDirection;
-
 public class VertexLocationParam {
 	private String direction;
 	private int x;

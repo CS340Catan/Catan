@@ -3,8 +3,6 @@ package client.join;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JOptionPane;
-
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
 import shared.communication.InvalidInputException;
@@ -131,6 +129,14 @@ public class JoinGameController extends Controller implements
 					UserPlayerInfo.getSingleton().toPlayerInfo());
 
 		} catch (ServerResponseException e) {
+			String outputStr = "Server Failure.";
+			String title = "Invalid server.";
+
+			messageView.setTitle(title);
+			messageView.setMessage(outputStr);
+			messageView.setController(this);
+			messageView.showModal();
+
 			e.printStackTrace();
 		}
 
@@ -187,14 +193,24 @@ public class JoinGameController extends Controller implements
 			 * Throw and error if there is an error with the server, i.e. a 400
 			 * response is returned from the server.
 			 */
-			String outputStr = "Server failure.";
-			JOptionPane.showMessageDialog(null, outputStr, "Server Failure",
-					JOptionPane.ERROR_MESSAGE);
+			String outputStr = "Server Failure.";
+			String title = "Server Failure.";
+
+			messageView.setTitle(title);
+			messageView.setMessage(outputStr);
+			messageView.setController(this);
+			messageView.showModal();
 
 			e.printStackTrace();
 		} catch (InvalidInputException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Server unavailable", JOptionPane.ERROR_MESSAGE);
+			String outputStr = "Server Unavailable.";
+			String title = "Server Unavailable.";
+
+			messageView.setTitle(title);
+			messageView.setMessage(outputStr);
+			messageView.setController(this);
+			messageView.showModal();
+
 			e.printStackTrace();
 		}
 	}
@@ -203,8 +219,8 @@ public class JoinGameController extends Controller implements
 	public void startJoinGame(GameInfo game) {
 		this.storeGame = game;
 		for (PlayerInfo player : game.getPlayers()) {
-			if (!player.getName()
-					.equals(UserPlayerInfo.getSingleton().getName())) {
+			if (!player.getName().equals(
+					UserPlayerInfo.getSingleton().getName())) {
 				getSelectColorView().setColorEnabled(player.getColor(), false);
 			}
 		}
@@ -223,11 +239,8 @@ public class JoinGameController extends Controller implements
 		try {
 			/*
 			 * Initiate poller to start polling once the player has joined the
-			 * game. TODO Move to PlayerWaitingController (?)
+			 * game.
 			 */
-			// poller = new Poller(ServerProxy.getSingleton(),
-			// new ClientModelController());
-			// poller.setTimer();
 
 			/*
 			 * Package the join game parameters to be sent over to the server.
@@ -247,23 +260,26 @@ public class JoinGameController extends Controller implements
 			 */
 			getSelectColorView().closeModal();
 			getJoinGameView().closeModal();
-			
+
 			UserPlayerInfo.getSingleton().setColor(color);
-			
+
 			joinAction.execute();
 
 		} catch (ServerResponseException e) {
 			String outputStr = "Server Failure.";
-			JOptionPane.showMessageDialog(null, outputStr, "Server Failure",
-					JOptionPane.ERROR_MESSAGE);
+			String title = "Server Failure.";
+
+			messageView.setTitle(title);
+			messageView.setMessage(outputStr);
+			messageView.setController(this);
+			messageView.showModal();
+
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

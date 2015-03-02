@@ -472,6 +472,11 @@ public class DomesticTradeController extends Controller implements
 		//if it's my turn, enable view, otherwise disable
 		if(clientModelController.isPlayerTurn(playerIndex)) {
 			getTradeView().enableDomesticTrade(true);
+			if(waitOverlay.isModalShowing()) {
+				if(ClientModel.getSingleton().getTradeOffer() == null) {
+					waitOverlay.closeModal();
+				}
+			}
 		}
 		else {
 			getTradeView().enableDomesticTrade(false);

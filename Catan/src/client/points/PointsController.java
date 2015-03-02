@@ -4,7 +4,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import client.base.*;
-import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.Player;

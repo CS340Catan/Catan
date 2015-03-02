@@ -21,6 +21,7 @@ public class MoveRobberParams {
 	 * the new location of the robber
 	 */
 	HexLocation location;
+	
 	public MoveRobberParams(int playerIndex, int victimIndex,HexLocation location) {
 		this.playerIndex = playerIndex;
 		this.victimIndex = victimIndex;

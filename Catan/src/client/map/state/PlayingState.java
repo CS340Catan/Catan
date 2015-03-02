@@ -9,7 +9,7 @@ public class PlayingState implements IMapState {
 
 	@Override
 	public void initialize(MapController mapController) {
-		
+
 	}
 
 	@Override
@@ -18,9 +18,10 @@ public class PlayingState implements IMapState {
 	}
 
 	@Override
-	public boolean canPlaceSettlement(VertexObject settlement, boolean playingCard,
-			ClientModelController clientModelController) {
-		return clientModelController.canBuildSettlement(settlement, playingCard, false);
+	public boolean canPlaceSettlement(VertexObject settlement,
+			boolean playingCard, ClientModelController clientModelController) {
+		return clientModelController.canBuildSettlement(settlement,
+				playingCard, false);
 	}
 
 	@Override

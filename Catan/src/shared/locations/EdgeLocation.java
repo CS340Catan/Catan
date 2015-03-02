@@ -1,7 +1,5 @@
 package shared.locations;
 
-import com.google.gson.annotations.Expose;
-
 /**
  * Represents the location of an edge on a hex map
  */
