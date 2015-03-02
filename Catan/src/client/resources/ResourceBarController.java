@@ -6,6 +6,7 @@ import client.base.*;
 import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
+import client.model.ClientModelController;
 
 /**
  * Implementation for the resource bar controller
@@ -90,6 +91,36 @@ public class ResourceBarController extends Controller implements
 		this.getView().setElementAmount(ResourceBarElement.BRICK, brick);
 		this.getView().setElementAmount(ResourceBarElement.WHEAT, wheat);
 		
+		int roadCnt = ClientModel.getSingleton().getPlayers()[playerIndex].getRoads();
+		this.getView().setElementAmount(ResourceBarElement.ROAD, roadCnt);
+		
+		int settlementCnt = ClientModel.getSingleton().getPlayers()[playerIndex].getSettlements();
+		this.getView().setElementAmount(ResourceBarElement.SETTLEMENT, settlementCnt);
+		
+		int cityCnt = ClientModel.getSingleton().getPlayers()[playerIndex].getCities();
+		this.getView().setElementAmount(ResourceBarElement.CITY, cityCnt);
+		
+		//enable/disable devcards buy and play
+		ClientModelController modelController = new ClientModelController();
+		this.getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
+		if(modelController.canBuyDevCard(playerIndex))
+			this.getView().setElementEnabled(ResourceBarElement.BUY_CARD, true);
+		
+		this.getView().setElementEnabled(ResourceBarElement.ROAD, false);
+		if(modelController.canBuyRoad())
+			this.getView().setElementEnabled(ResourceBarElement.ROAD, true);
+		
+		this.getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
+		if(modelController.canBuySettlement())
+			this.getView().setElementEnabled(ResourceBarElement.SETTLEMENT, true);
+		
+		this.getView().setElementEnabled(ResourceBarElement.CITY, false);
+		if(modelController.canBuyCity())
+			this.getView().setElementEnabled(ResourceBarElement.CITY, true);
+		
+		this.getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false);
+		if(modelController.isPlayerTurn(playerIndex))
+			this.getView().setElementEnabled(ResourceBarElement.PLAY_CARD, true);
 	}
 
 }
