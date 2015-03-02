@@ -293,6 +293,7 @@ public class MapController extends Controller implements IMapController,
 
 		mapState.initialize(this);
 		updateState();
+		mapState.beginRound(this);
 		updateRoads();
 		updateSettlements();
 		updateCities();
@@ -310,7 +311,9 @@ public class MapController extends Controller implements IMapController,
 		switch (ClientModel.getSingleton().getTurnTracker().getStatus()
 				.toUpperCase()) {
 		case "FIRSTROUND":
-			mapState = new FirstRoundState();
+			if(ClientModel.getSingleton().hasFourPlayers()) {
+				mapState = new FirstRoundState();
+			}
 			break;
 		case "SECONDROUND":
 			mapState = new SecondRoundState();
