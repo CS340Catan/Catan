@@ -16,8 +16,8 @@ public class WaitingState implements IPlayerWaitingState {
 		if(playerWaitingController.isFourPlayers()){
 			playerWaitingController.stopPlayerWaitingPolling();
 			playerWaitingController.startNormalPolling();
-			playerWaitingController.getView().closeModal();
 			playerWaitingController.setPlayerWaitingState(new NotWaitingState());
+			playerWaitingController.getView().closeModal();			
 		}
 		else {
 			updateModal();

@@ -130,6 +130,8 @@ public class MapController extends Controller implements IMapController,
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		VertexObject settlement = new VertexObject(playerIndex, vertLoc);
+//		boolean test = mapState.canPlaceSettlement(settlement, playingRoadBuildingCard,
+//				clientModelController);
 		return mapState.canPlaceSettlement(settlement, playingRoadBuildingCard,
 				clientModelController);
 	}
@@ -250,8 +252,14 @@ public class MapController extends Controller implements IMapController,
 	public void startMove(PieceType pieceType, boolean isFree,
 			boolean allowDisconnected) {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		this.getView().startDrop(pieceType,
+		if(allowDisconnected){
+			this.getView().startDrop(pieceType,
+					clientModelController.getPlayerColor(playerIndex), false);
+		}
+		else {
+			this.getView().startDrop(pieceType,
 				clientModelController.getPlayerColor(playerIndex), true);
+		}
 	}
 
 	public void cancelMove() {
@@ -293,6 +301,7 @@ public class MapController extends Controller implements IMapController,
 
 		mapState.initialize(this);
 		updateState();
+		mapState.beginRound(this);
 		updateRoads();
 		updateSettlements();
 		updateCities();
@@ -310,10 +319,16 @@ public class MapController extends Controller implements IMapController,
 		switch (ClientModel.getSingleton().getTurnTracker().getStatus()
 				.toUpperCase()) {
 		case "FIRSTROUND":
-			mapState = new FirstRoundState();
+			System.out.println("In First Round");
+			if(ClientModel.getSingleton().hasFourPlayers() && !mapState.getClassName().equals("FirstRoundState")) {
+				mapState = new FirstRoundState();
+			}
 			break;
 		case "SECONDROUND":
-			mapState = new SecondRoundState();
+			System.out.println("In Second Round");
+			if(!mapState.getClassName().equals("SecondRoundState")) {
+				mapState = new SecondRoundState();
+			}
 			break;
 		case "ROLLING":
 			mapState = new RollingState();
