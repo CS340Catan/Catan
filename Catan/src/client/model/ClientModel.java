@@ -58,7 +58,7 @@ public class ClientModel {
 		}
 		return clientModel;
 	}
-	public boolean hasfourPlayers(){
+	public boolean hasFourPlayers(){
 		boolean hasFourPlayers = true;
 		for(Player player : this.getPlayers()){
 			if(player == null){
