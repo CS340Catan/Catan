@@ -30,10 +30,11 @@ public class MaritimeTradeController extends Controller implements
 	}
 
 	private boolean tradeValid(ResourceType resource, int resourceCount) {
-		if (resourceCount >= 4
-				|| (modelController.playerOnNormalPort(playerIndex) && resourceCount >= 3)
-				|| (modelController.playerOnResourcePort(playerIndex, resource) && resourceCount >= 2)) {
+		System.out.println(resource.toString() + ": " + resourceCount);
+		ClientModelController controller = new ClientModelController();
 
+		if (controller.canMaritimeTrade(playerIndex, resource, 3)
+				|| controller.canMaritimeTrade(playerIndex, resource, 4)) {
 			return true;
 		} else {
 			return false;
@@ -48,7 +49,7 @@ public class MaritimeTradeController extends Controller implements
 		 */
 		modelController = new ClientModelController();
 		playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		
+
 		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex]
 				.getResources();
 		int brick = resources.getBrick();
@@ -79,12 +80,14 @@ public class MaritimeTradeController extends Controller implements
 
 		// put resources into an array, the proper format for the following
 		// function
-		ResourceType[] enabledResourcesArray = new ResourceType[giveResourcesList.size()];
+		ResourceType[] enabledResourcesArray = new ResourceType[giveResourcesList
+				.size()];
 		for (int i = 0; i < giveResourcesList.size(); i++) {
 			enabledResourcesArray[i] = giveResourcesList.get(i);
 		}
-		
-		System.out.println("GiveResourceList.size = " + giveResourcesList.size());
+
+		System.out.println("GiveResourceList.size = "
+				+ giveResourcesList.size());
 
 		return enabledResourcesArray;
 	}
@@ -167,9 +170,9 @@ public class MaritimeTradeController extends Controller implements
 	public void setGiveResource(ResourceType resource) {
 		giveResource = resource;
 
-		if (modelController.playerOnResourcePort(playerIndex, resource)) {
+		if (modelController.canMaritimeTrade(playerIndex, resource, 2)) {
 			ratio = 2;
-		} else if (modelController.playerOnNormalPort(playerIndex)) {
+		} else if (modelController.canMaritimeTrade(playerIndex, resource, 3)) {
 			ratio = 3;
 		} else {
 			ratio = 4;
