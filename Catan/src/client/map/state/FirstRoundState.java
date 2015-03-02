@@ -8,7 +8,7 @@ import client.model.VertexObject;
 
 public class FirstRoundState implements IMapState {
 	private final String CLASS_NAME = "FirstRoundState";
-
+	private boolean hasBegunRound = false;
 	@Override
 	public void initialize(MapController mapController) {
 
@@ -34,7 +34,10 @@ public class FirstRoundState implements IMapState {
 
 	@Override
 	public void beginRound(MapController mapController) {
-		mapController.startMove(PieceType.ROAD, true, false);		
-		mapController.startMove(PieceType.SETTLEMENT, true, true);
+		if(!hasBegunRound){
+			hasBegunRound = true;
+			mapController.startMove(PieceType.ROAD, true, false);		
+			mapController.startMove(PieceType.SETTLEMENT, true, true);
+		}
 	}
 }
