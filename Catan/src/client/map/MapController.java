@@ -314,12 +314,16 @@ public class MapController extends Controller implements IMapController,
 		switch (ClientModel.getSingleton().getTurnTracker().getStatus()
 				.toUpperCase()) {
 		case "FIRSTROUND":
-			if(ClientModel.getSingleton().hasFourPlayers()) {
+			System.out.println("In First Round");
+			if(ClientModel.getSingleton().hasFourPlayers() && !mapState.getClassName().equals("FirstRoundState")) {
 				mapState = new FirstRoundState();
 			}
 			break;
 		case "SECONDROUND":
-			mapState = new SecondRoundState();
+			System.out.println("In Second Round");
+			if(!mapState.getClassName().equals("SecondRoundState")) {
+				mapState = new SecondRoundState();
+			}
 			break;
 		case "ROLLING":
 			mapState = new RollingState();
