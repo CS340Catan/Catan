@@ -1,27 +1,37 @@
 package client.join;
 
+import java.util.ArrayList;
+
+import client.communicator.ServerProxy;
+import client.controllers.Poller;
+import client.data.PlayerInfo;
 import client.model.ClientModel;
 import client.model.Player;
 
 public class WaitingState implements IPlayerWaitingState {
-
+	private PlayerWaitingController playerWaitingController;
 	@Override
-	public void action(PlayerWaitingController playerWaitingController) {
-		//System.out.println("In update in Player Waiting Controller");
-		boolean fourPlayers = true;
-		for(Player player : ClientModel.getSingleton().getPlayers()){
-			if(player == null){
-				fourPlayers = false;
-				break;
-			}
-		}
-		System.out.println(fourPlayers);
-		
-		if(fourPlayers){
-			ClientModel.getSingleton().setVersion(-1);
+	public void action(PlayerWaitingController playerWaitingControllerParam) {
+		playerWaitingController = playerWaitingControllerParam;
+		if(playerWaitingController.isFourPlayers()){
+			playerWaitingController.stopPlayerWaitingPolling();
+			playerWaitingController.startNormalPolling();
 			playerWaitingController.getView().closeModal();
 			playerWaitingController.setPlayerWaitingState(new NotWaitingState());
 		}
+		else {
+			updateModal();
+		}
 	}
-
+	private void updateModal(){
+		ArrayList<PlayerInfo> playerInfoList = new ArrayList<PlayerInfo>();		
+		for(Player player : ClientModel.getSingleton().getPlayers()){
+			if(player != null){
+				playerInfoList.add(player.getPlayerInfo());
+			}
+		}
+		playerWaitingController.getView().setPlayers(playerInfoList.toArray(new PlayerInfo[playerInfoList.size()]));
+		playerWaitingController.getView().showModal();
+		
+	}
 }

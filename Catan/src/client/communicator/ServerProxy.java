@@ -79,6 +79,17 @@ public class ServerProxy implements IServer {
 		}
 		return model;
 	}
+	
+	public ClientModel updateModelNoVersionCheck() throws ServerResponseException{
+		String jsonResponseString = httpCommunicator.doGet(
+				"/game/model", null);
+		ClientModel model = null; // Returns null if current model is already
+									// correct or there was an error
+		if (jsonResponseString != null) {
+				model = Serializer.deserializeClientModel(jsonResponseString);
+		}
+		return model;
+	}
 
 	/**
 	 * Prepares credentials to be sent over network, then sends them to server

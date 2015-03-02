@@ -1,6 +1,8 @@
 package client.controllers;
 
+import client.communicator.ServerProxy;
 import client.model.ClientModel;
+import client.model.Player;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 
@@ -22,6 +24,9 @@ public class Poller {
 
 	private IServer server;
 	private Timer timer;
+	private Timer hackyTimer;
+	private boolean normalTimerRunning = false;
+	
 
 	public Poller(IServer server) {
 		this.server = server;
@@ -55,13 +60,43 @@ public class Poller {
 	 * @post a java timer is set that calls updateModel() every second
 	 */
 	public void setTimer() {
+		normalTimerRunning = true;
 		TimerTask timerTask = new PollerTimerTask(this);
 		timer = new Timer(true);
 		timer.scheduleAtFixedRate(timerTask, 0, 1000); // (timerTask, 0 means
 														// starts now, 1000
 														// means 1/second)
 	}
-
+	public void setPlayerWaitingTimer() {
+		TimerTask timerTask = new TimerTask(){
+			private int playerCount = 0;
+			@Override
+			public void run() {
+				try {
+					ClientModel updatedClientModel  = ServerProxy.getSingleton().updateModelNoVersionCheck();
+					if(updatedClientModel != null){
+						int newPlayerCount = 0;
+						for(Player player : updatedClientModel.getPlayers()){
+							if(player != null){
+								newPlayerCount += 1;
+							}
+						}
+						if(newPlayerCount > playerCount){
+							playerCount = newPlayerCount;
+							ClientModel.getSingleton().setClientModel(updatedClientModel);						
+						}
+					}
+				} catch (ServerResponseException e) {
+					e.printStackTrace();
+					System.out.println("Something terrible happened in the hacky poller task");
+				}
+			}
+		};
+		hackyTimer = new Timer(true);
+		hackyTimer.scheduleAtFixedRate(timerTask, 0, 1000); // (timerTask, 0 means
+														// starts now, 1000
+														// means 1/second)
+	}
 	/**
 	 * @pre the game has ended or been temporarily exited
 	 * @post the java timer no longer
@@ -70,6 +105,18 @@ public class Poller {
 		if (timer != null) {
 			timer.cancel();
 		}
+	}
+	public void stopPlayerWaitingTimer() {
+		if (hackyTimer != null) {
+			hackyTimer.cancel();
+		}
+	}
+	public boolean isNormalTimerRunning() {
+		return normalTimerRunning;
+	}
+
+	public void setTimerRunning(boolean timerRunning) {
+		this.normalTimerRunning = timerRunning;
 	}
 
 }

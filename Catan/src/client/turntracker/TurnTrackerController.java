@@ -79,6 +79,7 @@ public class TurnTrackerController extends Controller implements
 						.hasLargestArmy(player.getPlayerIndex());
 				boolean longestRoad = clientModelController
 						.hasLongestRoad(player.getPlayerIndex());
+				getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getCatanColor());
 				getView().updatePlayer(player.getPlayerIndex(),
 						player.getVictoryPoints(), highlight, largestArmy,
 						longestRoad);
