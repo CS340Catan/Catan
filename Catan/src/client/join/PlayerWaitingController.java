@@ -112,6 +112,7 @@ public class PlayerWaitingController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("Output update");
 		playerWaitingState.action(this);
 	}
 

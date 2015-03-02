@@ -122,7 +122,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	public void update(Observable o, Object arg) {
 		ClientModel updatedModel = ClientModel.getSingleton();
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		if(updatedModel.getTurnTracker().getStatus()=="discarding")
+		if(updatedModel.getTurnTracker().getStatus().equals("discarding"))
 		{
 			if(!getDiscardView().isModalShowing() && !waitView.isModalShowing()){
 				if(modelController.canDiscardCards(playerIndex)){					
@@ -184,7 +184,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	
 	private void enableDiscard(int newAmount, int max)
 	{
-		boolean enable = newAmount==max;
+		boolean enable = (newAmount == max);
 		
 		getDiscardView().setDiscardButtonEnabled(enable);
 	}
