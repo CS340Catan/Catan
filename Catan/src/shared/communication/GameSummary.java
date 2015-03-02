@@ -1,7 +1,6 @@
 package shared.communication;
 
 import client.data.GameInfo;
-import client.data.PlayerInfo;
 
 /**
  * This class is for sending a list of games currently on the server per the
@@ -61,7 +60,6 @@ public class GameSummary {
 			if (player.getName() != "") {
 				gameInfo.addPlayer(player.toPlayerInfo());
 			}
-			// System.out.println(player.toPlayerInfo().getName());
 		}
 
 		return gameInfo;

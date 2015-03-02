@@ -13,13 +13,21 @@ public class BuildRoadCardParams {
 	 * who is placing the road
 	 */
 	int playerIndex;
-	EdgeLocation spot1;
-	EdgeLocation spot2;
+	EdgeLocationParam spot1;
+	EdgeLocationParam spot2;
 	
 	public BuildRoadCardParams(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) {
+		spot1.convertToPrimitives();
+		spot2.convertToPrimitives();
 		this.playerIndex = playerIndex;
-		this.spot1 = spot1;
-		this.spot2 = spot2;
+		
+		this.spot1.setDirection(spot1.getDirection());
+		this.spot1.setX(spot1.getX());
+		this.spot1.setY(spot1.getY());
+		
+		this.spot2.setDirection(spot2.getDirection());
+		this.spot2.setX(spot2.getX());
+		this.spot2.setY(spot2.getY());
 	}
 	public String getType(){
 		return type;
@@ -30,16 +38,16 @@ public class BuildRoadCardParams {
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public EdgeLocation getSpot1() {
+	public EdgeLocationParam getSpot1() {
 		return spot1;
 	}
-	public void setSpot1(EdgeLocation spot1) {
+	public void setSpot1(EdgeLocationParam spot1) {
 		this.spot1 = spot1;
 	}
-	public EdgeLocation getSpot2() {
+	public EdgeLocationParam getSpot2() {
 		return spot2;
 	}
-	public void setSpot2(EdgeLocation spot2) {
+	public void setSpot2(EdgeLocationParam spot2) {
 		this.spot2 = spot2;
 	}
 		

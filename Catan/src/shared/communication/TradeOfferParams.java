@@ -21,6 +21,7 @@ public class TradeOfferParams {
 	 * Who you're offering the trade to (0-3)
 	 */
 	int receiver;
+	
 	public TradeOfferParams(int playerIndex, ResourceList offer, int receiver) {
 		this.playerIndex = playerIndex;
 		this.offer = offer;
