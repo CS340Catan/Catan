@@ -16,7 +16,7 @@ public class InitialState implements IMapState {
 
 	@Override
 	public String getClassName() {
-		return null;
+		return "InitialState";
 	}
 
 	@Override

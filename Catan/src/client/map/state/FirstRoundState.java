@@ -11,7 +11,7 @@ public class FirstRoundState implements IMapState {
 	private boolean hasBegunRound = false;
 	@Override
 	public void initialize(MapController mapController) {
-
+		
 	}
 
 	@Override
@@ -28,7 +28,6 @@ public class FirstRoundState implements IMapState {
 	@Override
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController) {
-		System.out.println("hi");
 		return clientModelController.canBuildRoad(playerIndex, road, true, true);
 	}
 
