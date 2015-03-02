@@ -10,17 +10,17 @@ public class FirstRoundState implements IMapState {
 
 	@Override
 	public void initialize(MapController mapController) {
-		
+
 	}
-	
+
 	@Override
 	public String getClassName() {
 		return CLASS_NAME;
 	}
-	
+
 	@Override
-	public boolean canPlaceSettlement(VertexObject settlement, boolean playingCard,
-			ClientModelController clientModelController) {
+	public boolean canPlaceSettlement(VertexObject settlement,
+			boolean playingCard, ClientModelController clientModelController) {
 		return clientModelController.canBuildSettlement(settlement, true, true);
 	}
 
@@ -29,5 +29,4 @@ public class FirstRoundState implements IMapState {
 			ClientModelController clientModelController) {
 		return clientModelController.canBuildRoad(playerIndex, road, true);
 	}
-
 }

@@ -25,15 +25,15 @@ import client.model.ResourceList;
 /**
  * "Dev card" controller implementation
  */
-public class DevCardController extends Controller implements IDevCardController,Observer {
+public class DevCardController extends Controller implements
+		IDevCardController, Observer {
 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
 	private IAction roadAction;
 	private IServer serverProxy = ServerProxy.getSingleton();
 	private ClientModelController modelController;
-	
-	
+
 	private final String SERVER_ERROR = "Give us a minute to get the server working...";
 	private final String NO_CAN_DO = "Sorry buster, no can do right now";
 
@@ -72,9 +72,10 @@ public class DevCardController extends Controller implements IDevCardController,
 		return buyCardView;
 	}
 
-//==============================================Begin Implementation Below================================
-	
-	//===========================BUY CARD VIEW CONTROLLS======================
+	// ==============================================Begin Implementation
+	// Below================================
+
+	// ===========================BUY CARD VIEW CONTROLLS======================
 	@Override
 	public void startBuyCard() {
 		getBuyCardView().showModal();
@@ -90,49 +91,49 @@ public class DevCardController extends Controller implements IDevCardController,
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		UserActionParams buyDevCardParams = new UserActionParams(playerIndex);
 		buyDevCardParams.setType("buyDevCard");
-		if(modelController.canBuyDevCard(playerIndex)){
+		if (modelController.canBuyDevCard(playerIndex)) {
 			try {
 				serverProxy.buyDevCard(buyDevCardParams);
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
-		}
-		else{
-			JOptionPane.showMessageDialog(null, NO_CAN_DO,
-					"No can do", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		getBuyCardView().closeModal();
 	}
-	//===============================PLAY DEV CARD  CONTROLLS=====================
+
+	// ===============================PLAY DEV CARD
+	// CONTROLLS=====================
 	@Override
 	public void startPlayCard() {
 		//
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		Player player = ClientModel.getSingleton().getPlayers()[playerIndex];
-		
+
 		int monopolyCnt = player.getOldDevCards().getMonopoly();
-		setCard(DevCardType.MONOPOLY,monopolyCnt);
-		
+		setCard(DevCardType.MONOPOLY, monopolyCnt);
+
 		int yOPCnt = player.getOldDevCards().getYearOfPlenty();
-		setCard(DevCardType.YEAR_OF_PLENTY,yOPCnt);
-		
+		setCard(DevCardType.YEAR_OF_PLENTY, yOPCnt);
+
 		int soldierCnt = player.getOldDevCards().getSoldier();
-		setCard(DevCardType.SOLDIER,soldierCnt);
-		
+		setCard(DevCardType.SOLDIER, soldierCnt);
+
 		int monumentCnt = player.getOldDevCards().getMonument();
-		setCard(DevCardType.MONUMENT,monumentCnt);
-		
+		setCard(DevCardType.MONUMENT, monumentCnt);
+
 		int buildRoadCnt = player.getOldDevCards().getRoadBuilding();
-		setCard(DevCardType.ROAD_BUILD,buildRoadCnt);
-		
+		setCard(DevCardType.ROAD_BUILD, buildRoadCnt);
+
 		getPlayCardView().showModal();
 	}
-	
-	private void setCard(DevCardType type, int cardCount)
-	{
+
+	private void setCard(DevCardType type, int cardCount) {
 		getPlayCardView().setCardAmount(type, cardCount);
-		getPlayCardView().setCardEnabled(type , cardCount>0);
+		getPlayCardView().setCardEnabled(type, cardCount > 0);
 	}
 
 	@Override
@@ -143,41 +144,38 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
-		//closeModal called just before this
+		// closeModal called just before this
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		String resourceString = resource.toString();
-		//if(resourceString.equals("")) = handle that bad boy here
-		if(modelController.canPlayMonopolyCard(playerIndex)){
+		// if(resourceString.equals("")) = handle that bad boy here
+		if (modelController.canPlayMonopolyCard(playerIndex)) {
 			try {
-				serverProxy.playMonopolyCard(new PlayMonopolyParams(resourceString, playerIndex));
+				serverProxy.playMonopolyCard(new PlayMonopolyParams(
+						resourceString, playerIndex));
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
-		}
-		else{
-			JOptionPane.showMessageDialog(null, NO_CAN_DO,
-					"No can do", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	@Override
 	public void playMonumentCard() {
-		//closeModal called just before this
+		// closeModal called just before this
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		if(modelController.canPlayMonumentCard(playerIndex))
-		{
+		if (modelController.canPlayMonumentCard(playerIndex)) {
 			try {
 				serverProxy.playMonument(new PlayMonumentParams(playerIndex));
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(null, NO_CAN_DO,
-					"No can do", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -197,55 +195,60 @@ public class DevCardController extends Controller implements IDevCardController,
 	public void playYearOfPlentyCard(ResourceType resource1,
 			ResourceType resource2) {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		ResourceList resources = new ResourceList(0,0,0,0,0);
-		
+		ResourceList resources = new ResourceList(0, 0, 0, 0, 0);
+
 		String res1Str = resource1.toString();
 		String res2Str = resource2.toString();
-		//if(res1Str.equals("")||res2Str.equals(""))
-			//possibly handle error
+		// if(res1Str.equals("")||res2Str.equals(""))
+		// possibly handle error
 		Resource res1 = new Resource(res1Str);
 		Resource res2 = new Resource(res2Str);
-		
+
 		addResource(resource1, resources);
 		addResource(resource2, resources);
-		if(modelController.canPlayYearOfPlentyCard(playerIndex, resources)){
+		if (modelController.canPlayYearOfPlentyCard(playerIndex, resources)) {
 			try {
-				serverProxy.playYearOfPlentyCard(new YearOfPlentyParams(playerIndex, res1,res2));
-			} catch (ServerResponseException e)  {
+				serverProxy.playYearOfPlentyCard(new YearOfPlentyParams(
+						playerIndex, res1, res2));
+			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(null, NO_CAN_DO,
-					"No can do", JOptionPane.ERROR_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		//make necesarry changes to this view (probably none)
+		// make necesarry changes to this view (probably none)
 	}
-	
-//==================================================================================	
-//==============================PRIVATE HELPER FUNCTIONS============================
-//==================================================================================
-	
-	private void addResource(ResourceType resource, ResourceList list){
-		switch (resource)
-		{
-			case WOOD: list.setWood(list.getWood()+1);
-						return;
-			case SHEEP: list.setSheep(list.getSheep()+1);
-						return;
-			case ORE: list.setOre(list.getOre()+1);
-						return;
-			case BRICK: list.setBrick(list.getBrick()+1);
-						return;
-			case WHEAT: list.setWheat(list.getWheat()+1);
-						return;
-			default: return;
+
+	// ==================================================================================
+	// ==============================PRIVATE HELPER
+	// FUNCTIONS============================
+	// ==================================================================================
+
+	private void addResource(ResourceType resource, ResourceList list) {
+		switch (resource) {
+		case WOOD:
+			list.setWood(list.getWood() + 1);
+			return;
+		case SHEEP:
+			list.setSheep(list.getSheep() + 1);
+			return;
+		case ORE:
+			list.setOre(list.getOre() + 1);
+			return;
+		case BRICK:
+			list.setBrick(list.getBrick() + 1);
+			return;
+		case WHEAT:
+			list.setWheat(list.getWheat() + 1);
+			return;
+		default:
+			return;
 		}
 	}
 

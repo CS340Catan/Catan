@@ -20,12 +20,14 @@ public class InitialState implements IMapState {
 	}
 
 	@Override
-	public boolean canPlaceSettlement(VertexObject settlement, boolean playingCard, ClientModelController clientModelController) {
+	public boolean canPlaceSettlement(VertexObject settlement,
+			boolean playingCard, ClientModelController clientModelController) {
 		return false;
 	}
 
 	@Override
-	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree, ClientModelController clientModelController) {
+	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
+			ClientModelController clientModelController) {
 		return false;
 	}
 
