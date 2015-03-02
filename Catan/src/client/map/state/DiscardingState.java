@@ -30,4 +30,10 @@ public class DiscardingState implements IMapState {
 		return clientModelController.canBuildRoad(playerIndex, road, isFree);
 	}
 
+	@Override
+	public void beginRound(MapController mapController) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -29,4 +29,10 @@ public class RobbingState implements IMapState {
 			ClientModelController clientModelController) {
 		return clientModelController.canBuildRoad(playerIndex, road, isFree);
 	}
+
+	@Override
+	public void beginRound(MapController mapController) {
+		// TODO Auto-generated method stub
+		
+	}
 }

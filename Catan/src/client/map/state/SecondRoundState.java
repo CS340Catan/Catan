@@ -30,4 +30,10 @@ public class SecondRoundState implements IMapState {
 		return clientModelController.canBuildRoad(playerIndex, road, true);
 	}
 
+	@Override
+	public void beginRound(MapController mapController) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

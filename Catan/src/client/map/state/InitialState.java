@@ -31,4 +31,10 @@ public class InitialState implements IMapState {
 		return false;
 	}
 
+	@Override
+	public void beginRound(MapController mapController) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

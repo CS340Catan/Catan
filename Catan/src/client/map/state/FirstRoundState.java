@@ -1,5 +1,6 @@
 package client.map.state;
 
+import shared.definitions.PieceType;
 import client.map.MapController;
 import client.model.ClientModelController;
 import client.model.Road;
@@ -28,5 +29,11 @@ public class FirstRoundState implements IMapState {
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController) {
 		return clientModelController.canBuildRoad(playerIndex, road, true);
+	}
+
+	@Override
+	public void beginRound(MapController mapController) {
+		mapController.startMove(PieceType.SETTLEMENT, true, true);
+		mapController.startMove(PieceType.ROAD, true, false);
 	}
 }
