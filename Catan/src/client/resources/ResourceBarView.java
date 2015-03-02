@@ -273,7 +273,6 @@ public class ResourceBarView extends PanelView implements IResourceBarView {
 				else
 					testButton.setText("Enable");
 			} else {
-				// System.out.println(e.getSource().getClass().getName());
 				switch (ResourceBarElement.valueOf(e.getActionCommand())) {
 				case ROAD:
 					getController().buildRoad();

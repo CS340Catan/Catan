@@ -29,24 +29,12 @@ public class MaritimeTradeController extends Controller implements
 		ClientModel.getNotifier().addObserver(this);
 	}
 
-	public IMaritimeTradeView getTradeView() {
+	private boolean tradeValid(ResourceType resource, int resourceCount) {
+		System.out.println(resource.toString() + ": " + resourceCount);
+		ClientModelController controller = new ClientModelController();
 
-		return (IMaritimeTradeView) super.getView();
-	}
-
-	public IMaritimeTradeOverlay getTradeOverlay() {
-		return tradeOverlay;
-	}
-
-	public void setTradeOverlay(IMaritimeTradeOverlay tradeOverlay) {
-		this.tradeOverlay = tradeOverlay;
-	}
-
-	private boolean tradeValid(ResourceType resource, int amt) {
-		if (amt >= 4
-				|| (modelController.playerOnNormalPort(playerIndex) && amt >= 3)
-				|| (modelController.playerOnResourcePort(playerIndex, resource) && amt >= 2)) {
-
+		if (controller.canMaritimeTrade(playerIndex, resource, 3)
+				|| controller.canMaritimeTrade(playerIndex, resource, 4)) {
 			return true;
 		} else {
 			return false;
@@ -54,10 +42,14 @@ public class MaritimeTradeController extends Controller implements
 	}
 
 	private ResourceType[] getValidResources() {
-
-		// set up overlay, show or hide buttons based on player resources
+		/*
+		 * Grab the clientModelController, current player index, and current
+		 * player resources (stored as integers) list to be compared in later
+		 * parts of the code.
+		 */
 		modelController = new ClientModelController();
 		playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+
 		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex]
 				.getResources();
 		int brick = resources.getBrick();
@@ -66,34 +58,38 @@ public class MaritimeTradeController extends Controller implements
 		int wheat = resources.getWheat();
 		int wood = resources.getWood();
 
-		List<ResourceType> giveResources = new ArrayList<>();
+		List<ResourceType> giveResourcesList = new ArrayList<>();
 
 		// if have 4+ of any resource, add it, or 3+ if have a port, or 2+ if
 		// have special resource port
 		if (tradeValid(ResourceType.BRICK, brick)) {
-			giveResources.add(ResourceType.BRICK);
+			giveResourcesList.add(ResourceType.BRICK);
 		}
 		if (tradeValid(ResourceType.ORE, ore)) {
-			giveResources.add(ResourceType.ORE);
+			giveResourcesList.add(ResourceType.ORE);
 		}
 		if (tradeValid(ResourceType.SHEEP, sheep)) {
-			giveResources.add(ResourceType.SHEEP);
+			giveResourcesList.add(ResourceType.SHEEP);
 		}
 		if (tradeValid(ResourceType.WHEAT, wheat)) {
-			giveResources.add(ResourceType.WHEAT);
+			giveResourcesList.add(ResourceType.WHEAT);
 		}
 		if (tradeValid(ResourceType.WOOD, wood)) {
-			giveResources.add(ResourceType.WOOD);
+			giveResourcesList.add(ResourceType.WOOD);
 		}
 
 		// put resources into an array, the proper format for the following
 		// function
-		ResourceType[] enabledResources = new ResourceType[giveResources.size()];
-		for (int i = 0; i < giveResources.size(); i++) {
-			enabledResources[i] = giveResources.get(i);
+		ResourceType[] enabledResourcesArray = new ResourceType[giveResourcesList
+				.size()];
+		for (int i = 0; i < giveResourcesList.size(); i++) {
+			enabledResourcesArray[i] = giveResourcesList.get(i);
 		}
 
-		return enabledResources;
+		System.out.println("GiveResourceList.size = "
+				+ giveResourcesList.size());
+
+		return enabledResourcesArray;
 	}
 
 	private void incrementResource(ResourceType resource, int amt) {
@@ -174,9 +170,9 @@ public class MaritimeTradeController extends Controller implements
 	public void setGiveResource(ResourceType resource) {
 		giveResource = resource;
 
-		if (modelController.playerOnResourcePort(playerIndex, resource)) {
+		if (modelController.canMaritimeTrade(playerIndex, resource, 2)) {
 			ratio = 2;
-		} else if (modelController.playerOnNormalPort(playerIndex)) {
+		} else if (modelController.canMaritimeTrade(playerIndex, resource, 3)) {
 			ratio = 3;
 		} else {
 			ratio = 4;
@@ -229,6 +225,19 @@ public class MaritimeTradeController extends Controller implements
 		} else {
 			getTradeView().enableMaritimeTrade(false);
 		}
+	}
+
+	public IMaritimeTradeView getTradeView() {
+
+		return (IMaritimeTradeView) super.getView();
+	}
+
+	public IMaritimeTradeOverlay getTradeOverlay() {
+		return tradeOverlay;
+	}
+
+	public void setTradeOverlay(IMaritimeTradeOverlay tradeOverlay) {
+		this.tradeOverlay = tradeOverlay;
 	}
 
 }

@@ -252,9 +252,14 @@ public class MapController extends Controller implements IMapController,
 	public void startMove(PieceType pieceType, boolean isFree,
 			boolean allowDisconnected) {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		this.getView().startDrop(pieceType,
+		if(allowDisconnected){
+			this.getView().startDrop(pieceType,
+					clientModelController.getPlayerColor(playerIndex), false);
+		}
+		else {
+			this.getView().startDrop(pieceType,
 				clientModelController.getPlayerColor(playerIndex), true);
-
+		}
 	}
 
 	public void cancelMove() {

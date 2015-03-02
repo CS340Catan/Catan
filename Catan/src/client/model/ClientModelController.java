@@ -147,15 +147,6 @@ public class ClientModelController {
 		 * the player has an available road piece.
 		 */
 
-		System.out.println("ClientModelController:CanBuildRoad:Boolean Cheacks");
-		System.out.println(isPlayerTurn(playerIndex));
-		System.out.println((playerHasResources(playerIndex, requiredResourceList) || isFree));
-		System.out.println(!roadExists(road));
-		System.out.println((hasConnectingBuilding(road) || hasConnectingRoad(road)));
-		System.out.println(playerHasAvailableRoadPiece(playerIndex));
-		System.out.println(ClientModel.getSingleton().getTurnTracker().getStatus()
-				.equals("Playing"));
-		
 		if (isPlayerTurn(playerIndex)
 				&& (playerHasResources(playerIndex, requiredResourceList) || isFree)
 				&& !roadExists(road)
@@ -191,9 +182,6 @@ public class ClientModelController {
 	private boolean roadExists(Road newRoad) {
 		for (Road existingRoad : ClientModel.getSingleton().getMap().getRoads()) {
 			if (!existingRoad.isNotEquivalent(newRoad)) {
-				// System.out.println("Existing Road: " +
-				// existingRoad.toString());
-				// System.out.println("New Road: " + newRoad.toString());
 				return true;
 			}
 		}
@@ -959,18 +947,21 @@ public class ClientModelController {
 	 */
 	private boolean preexistingBuilding(VertexObject building,
 			boolean dontCheckOwner) {
+
 		for (VertexObject settlement : ClientModel.getSingleton().getMap()
 				.getSettlements()) {
 			if (settlement.isEquivalent(building)) {
 				return true;
 			}
 		}
+
 		for (VertexObject city : ClientModel.getSingleton().getMap()
 				.getCities()) {
 			if (city.isEquivalent(building)) {
 				return true;
 			}
 		}
+
 		return false;
 
 	}
@@ -1014,132 +1005,23 @@ public class ClientModelController {
 	}
 
 	/**
-	 * /**
-	 * tests if the player can accept a player trade
+	 * /** tests if the player can accept a player trade
 	 * 
 	 * @Pre it is the current turn of the player attempting to accept the trade
 	 * @Pre the player has the offered resources
 	 * @Pre the player has the asked for resources
 	 * @Post result: a boolean reporting success/fail
 	 *
-	 * @param playerIndex Player being offered a trade.
-	 * @param resourceList Current trade proposal.
+	 * @param playerIndex
+	 *            Player being offered a trade.
+	 * @param resourceList
+	 *            Current trade proposal.
 	 * @return
 	 */
 	public boolean canAcceptTrade(int playerIndex, ResourceList resourceList) {
 		if (ClientModel.getSingleton().getPlayers()[playerIndex].getResources()
 				.contains(resourceList)) {
 			return true;
-		}
-		return false;
-	}
-
-	private boolean buildingOnPort(int playerIndex, VertexObject building) {
-		if (building.getOwner() == playerIndex) {
-			for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
-				EdgeLocation edgeLocation = new EdgeLocation(
-						port.getLocation(), port.getDir());
-				Road road = new Road(playerIndex, edgeLocation);
-				if (hasConnectingBuilding(road)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	// Special
-	private boolean buildingOnNormalPort(int playerIndex, VertexObject building) {
-		if (building.getOwner() == playerIndex) {
-			for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
-				if (port.getResource() == null) { // only check non-resource
-													// ports
-					EdgeLocation edgeLocation = new EdgeLocation(
-							port.getLocation(), port.getDir());
-					Road road = new Road(playerIndex, edgeLocation);
-					if (hasConnectingBuilding(road)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	// Special
-	private boolean buildingOnResourcePort(int playerIndex,
-			VertexObject building, ResourceType resource) {
-		if (building.getOwner() == playerIndex) {
-			for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
-				if (port.getResource() == null) { // only check non-resource
-													// ports
-					EdgeLocation edgeLocation = new EdgeLocation(
-							port.getLocation(), port.getDir());
-					Road road = new Road(playerIndex, edgeLocation);
-					if (hasConnectingBuilding(road)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	private boolean playerOnPort(int playerIndex) {
-		boolean onPort = false;
-		for (VertexObject settlement : ClientModel.getSingleton().getMap()
-				.getSettlements()) {
-			onPort = buildingOnPort(playerIndex, settlement);
-			if (onPort) {
-				return onPort;
-			}
-		}
-		for (VertexObject city : ClientModel.getSingleton().getMap()
-				.getCities()) {
-			onPort = buildingOnPort(playerIndex, city);
-			if (onPort) {
-				return onPort;
-			}
-		}
-		return false;
-	}
-
-	// Special
-	public boolean playerOnNormalPort(int playerIndex) {
-		boolean onPort = false;
-		for (VertexObject settlement : ClientModel.getSingleton().getMap()
-				.getSettlements()) {
-			onPort = buildingOnNormalPort(playerIndex, settlement);
-			if (onPort) {
-				return onPort;
-			}
-		}
-		for (VertexObject city : ClientModel.getSingleton().getMap()
-				.getCities()) {
-			onPort = buildingOnNormalPort(playerIndex, city);
-			if (onPort) {
-				return onPort;
-			}
-		}
-		return false;
-	}
-
-	// Special
-	public boolean playerOnResourcePort(int playerIndex, ResourceType resource) {
-		boolean onPort = false;
-		for (VertexObject settlement : ClientModel.getSingleton().getMap()
-				.getSettlements()) {
-			onPort = buildingOnResourcePort(playerIndex, settlement, resource);
-			if (onPort) {
-				return onPort;
-			}
-		}
-		for (VertexObject city : ClientModel.getSingleton().getMap()
-				.getCities()) {
-			onPort = buildingOnResourcePort(playerIndex, city, resource);
-			if (onPort) {
-				return onPort;
-			}
 		}
 		return false;
 	}
@@ -1152,14 +1034,122 @@ public class ClientModelController {
 	 * @Pre the player has the required ratio of resources
 	 * @Post result: a boolean reporting success/fail
 	 */
-	public boolean canMaritimeTrade(int playerIndex, int ratioNumerator) {
+	public boolean canMaritimeTrade(int playerIndex, ResourceType resource,
+			int ratioNumber) {
 		if (isPlayerTurn(playerIndex)
 				&& ClientModel.getSingleton().getPlayers()[playerIndex]
-						.getResources().ofAKind(ratioNumerator)
-				&& playerOnPort(playerIndex)
+						.getResources().ofAKind(resource, ratioNumber)
 				&& ClientModel.getSingleton().getTurnTracker().getStatus()
 						.equals("Playing")) {
-			return true;
+
+			if (ratioNumber == 2 && playerOnNormalPort(playerIndex)) {
+				return true;
+			}
+
+			else if (ratioNumber == 3
+					&& playerOnResourcePort(playerIndex, resource)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// Special
+	private boolean playerOnNormalPort(int playerIndex) {
+		/*
+		 * Check if any settlement is connected to a normal port. If so, then
+		 * return true.
+		 */
+		for (VertexObject settlement : ClientModel.getSingleton().getMap()
+				.getSettlements()) {
+			if (playerIndex == settlement.getOwner()
+					&& buildingOnNormalPort(settlement)) {
+				return true;
+			}
+		}
+
+		/*
+		 * Check if any city is connected to a normal port. If so, then return
+		 * true.
+		 */
+		for (VertexObject city : ClientModel.getSingleton().getMap()
+				.getCities()) {
+			if (playerIndex == city.getOwner() && buildingOnNormalPort(city)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// Special
+	private boolean buildingOnNormalPort(VertexObject building) {
+		/*
+		 * Loop through the list of ports to find any ports without resources
+		 * connected to the building.
+		 */
+		for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
+			if (port.getResource() == null) {
+
+				/*
+				 * Create a road that matches the edgeLocation and direction of
+				 * the port. This road should have a connecting building.
+				 */
+				EdgeLocation edgeLocation = new EdgeLocation(
+						port.getLocation(), port.getDir());
+				Road road = new Road(building.getOwner(), edgeLocation);
+				boolean connect = hasConnectingBuilding(road);
+
+				if (connect) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	// Special
+	private boolean playerOnResourcePort(int playerIndex, ResourceType resource) {
+		/*
+		 * Check if any settlement is connected to a normal port. If so, then
+		 * return true.
+		 */
+		for (VertexObject settlement : ClientModel.getSingleton().getMap()
+				.getSettlements()) {
+			if (playerIndex == settlement.getOwner()
+					&& buildingOnResourcePort(playerIndex, settlement, resource)) {
+				return true;
+			}
+		}
+
+		/*
+		 * Check if any city is connected to a normal port. If so, then return
+		 * true.
+		 */
+		for (VertexObject city : ClientModel.getSingleton().getMap()
+				.getCities()) {
+			if (playerIndex == city.getOwner()
+					&& buildingOnResourcePort(playerIndex, city, resource)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// Special
+	private boolean buildingOnResourcePort(int playerIndex,
+			VertexObject building, ResourceType resource) {
+		for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
+			if (port.getResource() == null) { // only check non-resource
+												// ports
+				EdgeLocation edgeLocation = new EdgeLocation(
+						port.getLocation(), port.getDir());
+				Road road = new Road(playerIndex, edgeLocation);
+				if (hasConnectingBuilding(road)) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
