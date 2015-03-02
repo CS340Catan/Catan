@@ -146,15 +146,6 @@ public class ClientModelController {
 		 * another road, the road is attached to a road or a building, and if
 		 * the player has an available road piece.
 		 */
-
-		System.out.println("ClientModelController:CanBuildRoad:Boolean Cheacks");
-		System.out.println(isPlayerTurn(playerIndex));
-		System.out.println((playerHasResources(playerIndex, requiredResourceList) || isFree));
-		System.out.println(!roadExists(road));
-		System.out.println((hasConnectingBuilding(road) || hasConnectingRoad(road)));
-		System.out.println(playerHasAvailableRoadPiece(playerIndex));
-		System.out.println(ClientModel.getSingleton().getTurnTracker().getStatus()
-				.equals("Playing"));
 		
 		if (isPlayerTurn(playerIndex)
 				&& (playerHasResources(playerIndex, requiredResourceList) || isFree)
@@ -191,9 +182,6 @@ public class ClientModelController {
 	private boolean roadExists(Road newRoad) {
 		for (Road existingRoad : ClientModel.getSingleton().getMap().getRoads()) {
 			if (!existingRoad.isNotEquivalent(newRoad)) {
-				// System.out.println("Existing Road: " +
-				// existingRoad.toString());
-				// System.out.println("New Road: " + newRoad.toString());
 				return true;
 			}
 		}

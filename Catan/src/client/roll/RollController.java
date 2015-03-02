@@ -69,12 +69,12 @@ public class RollController extends Controller implements IRollController,
 				serverProxy.rollNumber(rollVal);
 				
 				if(rollVal==7){
-					try {
-						new Timer().wait(1000);
+					/*try {
+						//new Timer().wait(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					getResultView().closeModal();
+					getResultView().closeModal();*/
 				}
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, "Invalid JSON or Cookie",
