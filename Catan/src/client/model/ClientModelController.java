@@ -144,17 +144,17 @@ public class ClientModelController {
 		 * another road, the road is attached to a road or a building, and if
 		 * the player has an available road piece.
 		 */
-
+		
 		if (isPlayerTurn(playerIndex) && (playerHasResources(playerIndex, requiredResourceList) || isFree) && !roadExists(road)
 				&& (hasConnectingBuilding(road) || hasConnectingRoad(road)) && playerHasAvailableRoadPiece(playerIndex)
-				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean canBuyRoad(){
-		int playerIndex = UserPlayerInfo.getSingleton().getId();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		if (isPlayerTurn(playerIndex) && playerHasResources(playerIndex, requiredResourceList) && ClientModel.getSingleton().getPlayers()[playerIndex].getRoads()>0 )
 			return true;
@@ -476,7 +476,7 @@ public class ClientModelController {
 	public boolean canBuildCity(VertexObject city) {
 		ResourceList resourceList = new ResourceList(0, 3, 0, 2, 0);
 		if (isPlayerTurn(city.getOwner()) && playerHasResources(city.getOwner(), resourceList) && preexistingSettlement(city, false)
-				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -484,7 +484,7 @@ public class ClientModelController {
 	
 	public boolean canBuyCity(){
 		ResourceList resourceList = new ResourceList(0, 3, 0, 2, 0);
-		int playerIndex = UserPlayerInfo.getSingleton().getId();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList) && ClientModel.getSingleton().getPlayers()[playerIndex].getCities()>0)
 			return true;
 		return false;
@@ -791,7 +791,7 @@ public class ClientModelController {
 
 		if (isPlayerTurn(playerIndex) && (playerHasResources(playerIndex, resourceList) || isFree) && !preexistingBuilding(settlement, true)
 				&& noAdjacentBuildings(settlement) && (roadTouchingNewSettlement(settlement) || setupPhase)
-				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -799,7 +799,7 @@ public class ClientModelController {
 	
 	public boolean canBuySettlement(){
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
-		int playerIndex = UserPlayerInfo.getSingleton().getId();
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList) && ClientModel.getSingleton().getPlayers()[playerIndex].getSettlements()>0)
 				return true;
 		return false;
@@ -867,7 +867,7 @@ public class ClientModelController {
 	 */
 	public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
 		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getResources().contains(resourceList)
-				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -999,7 +999,7 @@ public class ClientModelController {
 	 */
 	public boolean canMaritimeTrade(int playerIndex, int ratioNumerator) {
 		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getResources().ofAKind(ratioNumerator) && playerOnPort(playerIndex)
-				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -1097,7 +1097,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canRobPlayer(HexLocation robberLocation, int robbingPlayer, int robbedPlayer) {
-		if (isPlayerTurn(robbingPlayer) && ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing") && playerTouchingRobber(robbedPlayer, robberLocation)
+		if (isPlayerTurn(robbingPlayer) && ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing") && playerTouchingRobber(robbedPlayer, robberLocation)
 				&& ClientModel.getSingleton().getPlayers()[robbedPlayer].getResources().count() > 0) {
 			return true;
 		}
@@ -1115,7 +1115,7 @@ public class ClientModelController {
 	public boolean canBuyDevCard(int playerIndex) {
 		ResourceList resourceList = new ResourceList(0, 1, 1, 1, 0);
 		if (isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList) && ClientModel.getSingleton().getDeck().hasDevCard()
-				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -1134,7 +1134,7 @@ public class ClientModelController {
 	public boolean canPlaySoldierCard(HexLocation hexLocation, int robbingPlayer, int robbedPlayer) {
 		if (isPlayerTurn(robbingPlayer) && ClientModel.getSingleton().getPlayers()[robbingPlayer].getOldDevCards().getSoldier() > 0
 				&& !ClientModel.getSingleton().getPlayers()[robbingPlayer].hasPlayedDevCard() && canRobPlayer(hexLocation, robbingPlayer, robbedPlayer)
-				&& !ClientModel.getSingleton().getMap().getRobber().equals(hexLocation) && ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& !ClientModel.getSingleton().getMap().getRobber().equals(hexLocation) && ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 
 			return true;
 		}
@@ -1153,7 +1153,7 @@ public class ClientModelController {
 	public boolean canPlayYearOfPlentyCard(int playerIndex, ResourceList requestedResources) {
 		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getYearOfPlenty() > 0
 				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard() && ClientModel.getSingleton().getBank().contains(requestedResources)
-				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -1171,7 +1171,7 @@ public class ClientModelController {
 	 */
 	public boolean canPlayRoadBuildingCard(int playerIndex) {
 		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getRoadBuilding() > 0
-				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard() && ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")
+				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard() && ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")
 				&& ClientModel.getSingleton().getPlayers()[playerIndex].getRoads() >= 2) {
 			return true;
 		}
@@ -1188,7 +1188,7 @@ public class ClientModelController {
 		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getMonument() > 0
 				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard()
 				&& (ClientModel.getSingleton().getPlayers()[playerIndex].getVictoryPoints() + ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getMonument()) >= 10
-				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -1202,14 +1202,14 @@ public class ClientModelController {
 	 */
 	public boolean canPlayMonopolyCard(int playerIndex) {
 		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getPlayers()[playerIndex].getOldDevCards().getMonopoly() > 0
-				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard() && ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
+				&& !ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard() && ClientModel.getSingleton().getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean canFinishTurn(int playerIndex) {
-		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getTurnTracker().getStatus() == "playing") {
+		if (isPlayerTurn(playerIndex) && ClientModel.getSingleton().getTurnTracker().getStatus() == "Playing") {
 			return true;
 		}
 		return false;
