@@ -1,13 +1,13 @@
 package shared.utils;
 
 import shared.communication.GameSummary;
-
-import com.google.gson.Gson;
-
 import client.model.ClientModel;
 import client.model.Port;
 import client.model.Road;
 import client.model.VertexObject;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 /**
@@ -85,5 +85,10 @@ public class Serializer {
 	public static Object deserialize (String jsonString, Class classType) {
 		Gson gson = new Gson();
 		return gson.fromJson(jsonString,classType);
+	}
+	
+	public static String  serializeWithExpose(Object o){
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		return gson.toJson(o);
 	}
 }

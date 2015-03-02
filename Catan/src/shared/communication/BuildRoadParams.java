@@ -1,6 +1,8 @@
 package shared.communication;
 
 import shared.locations.EdgeLocation;
+
+import com.google.gson.annotations.Expose;
 /**
  * Class which contains data for 'moves/buildCity'
  * @author winstonhurst
@@ -8,16 +10,16 @@ import shared.locations.EdgeLocation;
  */
 public class BuildRoadParams {
 
-		String type = "buildRoad";
+		@Expose String type = "buildRoad";
 		/**
 		 * Who's placing the road
 		 */
-		int playerIndex; 
-		EdgeLocation roadLocation;
+		@Expose int playerIndex; 
+		@Expose EdgeLocation roadLocation;
 		/**
 		 * Whether this is placed for free (setup)
 		 */
-		boolean free;
+		@Expose boolean free;
 		
 		public BuildRoadParams(int playerIndex, EdgeLocation roadLocation, boolean free) {
 			this.playerIndex = playerIndex;

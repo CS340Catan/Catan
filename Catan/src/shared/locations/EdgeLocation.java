@@ -1,5 +1,7 @@
 package shared.locations;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Represents the location of an edge on a hex map
  */
@@ -7,13 +9,14 @@ public class EdgeLocation {
 
 	private HexLocation hexLoc;
 	private EdgeDirection dir;
-	private String direction;
-	private int x;
-	private int y;
+	@Expose private String direction;
+	@Expose private int x;
+	@Expose private int y;
 
 	public EdgeLocation(HexLocation hexLoc, EdgeDirection dir) {
 		setHexLoc(hexLoc);
 		setDir(dir);
+		direction = dir.toString();
 	}
 	public void convertToPrimitives(){
 		x = hexLoc.getX();
