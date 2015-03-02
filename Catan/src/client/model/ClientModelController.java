@@ -160,7 +160,7 @@ public class ClientModelController {
 				&& (playerHasResources(playerIndex, requiredResourceList) || isFree)
 				&& !roadExists(road)
 				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))
-				&& playerHasAvailableRoadPiece(playerIndex)
+				&& (playerHasAvailableRoadPiece(playerIndex) || setupPhase)
 				&& (ClientModel.getSingleton().getTurnTracker().getStatus()
 						.equals("Playing") || setupPhase)) {
 			return true;
