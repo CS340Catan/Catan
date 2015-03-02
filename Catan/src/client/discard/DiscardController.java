@@ -61,19 +61,13 @@ public class DiscardController extends Controller implements IDiscardController,
 	public void increaseAmount(ResourceType resource) {
 		//get current, decrease
 			int max = getDiscardView().getResourceMaxAmount(resource);
-			boolean canIncrease = true;
-			boolean canDecrease = true;
 			int newAmount = getDiscardView().getResourceDiscardAmount(resource) + 1 ;
 			if(newAmount>=0 && newAmount<=max){
 				getDiscardView().setResourceDiscardAmount(resource,newAmount);
 				discardedAmnt++;
 			}
-			if(newAmount<=0)
-				canDecrease = false;
-			if(newAmount>=max)
-				canIncrease = false;
-			getDiscardView().setResourceAmountChangeEnabled(resource, canIncrease, canDecrease);
-			
+
+			setAll();
 			
 			enableDiscard(discardedAmnt);
 			
@@ -85,18 +79,13 @@ public class DiscardController extends Controller implements IDiscardController,
 	public void decreaseAmount(ResourceType resource) {
 		//get current, decrease
 		int max = getDiscardView().getResourceMaxAmount(resource);
-		boolean canIncrease = true;
-		boolean canDecrease = true;
 		int newAmount = getDiscardView().getResourceDiscardAmount(resource) -1 ;
 		if(newAmount>=0 && newAmount<=max){
 			getDiscardView().setResourceDiscardAmount(resource,newAmount);
 			discardedAmnt--;
 		}
-		if(newAmount<=0)
-			canDecrease = false;
-		if(newAmount>=max)
-			canIncrease = false;
-		getDiscardView().setResourceAmountChangeEnabled(resource, canIncrease, canDecrease);
+
+		setAll();
 		
 		enableDiscard(discardedAmnt);
 		
@@ -210,6 +199,49 @@ public class DiscardController extends Controller implements IDiscardController,
 		boolean enable = (newAmount == amntToDiscard);
 		
 		getDiscardView().setDiscardButtonEnabled(enable);
+		
+		if(enable)
+			disableAllUp();
+	}
+	
+	private void disableAllUp(){
+		
+		int discWood = getDiscardView().getResourceDiscardAmount(ResourceType.WOOD);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, false, discWood>0);
+		
+		int discOre = getDiscardView().getResourceDiscardAmount(ResourceType.ORE);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, false, discOre>0);
+		
+		int discBrick = getDiscardView().getResourceDiscardAmount(ResourceType.BRICK);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, false, discBrick>0);
+		
+		int discWheat = getDiscardView().getResourceDiscardAmount(ResourceType.WHEAT);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, discWheat>0);
+		
+		int discSheep = getDiscardView().getResourceDiscardAmount(ResourceType.SHEEP);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, discSheep>0);
+	}
+	
+	private void setAll(){
+		int discWood = getDiscardView().getResourceDiscardAmount(ResourceType.WOOD);
+		int maxWood = getDiscardView().getResourceMaxAmount(ResourceType.WOOD);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, maxWood>discWood, discWood>0);
+		
+		int discOre = getDiscardView().getResourceDiscardAmount(ResourceType.ORE);
+		int maxOre = getDiscardView().getResourceMaxAmount(ResourceType.ORE);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, maxOre>discOre, discOre>0);
+		
+		int discBrick = getDiscardView().getResourceDiscardAmount(ResourceType.BRICK);
+		int maxBrick = getDiscardView().getResourceMaxAmount(ResourceType.BRICK);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, maxBrick>discBrick, discBrick>0);
+		
+		int discWheat = getDiscardView().getResourceDiscardAmount(ResourceType.WHEAT);
+		int maxWheat = getDiscardView().getResourceMaxAmount(ResourceType.WHEAT);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, maxWheat>discWheat, discWheat>0);
+		
+		int discSheep = getDiscardView().getResourceDiscardAmount(ResourceType.SHEEP);
+		int maxSheep = getDiscardView().getResourceMaxAmount(ResourceType.SHEEP);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, maxSheep>discSheep, discSheep>0);
 	}
 
 }

@@ -1,12 +1,25 @@
 package client.roll;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.net.MalformedURLException;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-import client.base.*;
+import shared.utils.ServerResponseException;
+import client.base.OverlayView;
+import client.communicator.ServerProxy;
 import client.utils.ImageUtils;
 
 /**
@@ -27,6 +40,8 @@ public class RollResultView extends OverlayView implements IRollResultView {
 	private JLabel rollLabel;
 	private ImageIcon picture;
 	private JLabel pictureLabel;
+	
+	private int rollVal;
 
 	public RollResultView() {
 
@@ -87,7 +102,12 @@ public class RollResultView extends OverlayView implements IRollResultView {
 		public void actionPerformed(ActionEvent e) {
 
 			if (e.getSource() == okayButton) {
-
+				try {
+					ServerProxy.getSingleton().rollNumber(rollVal);
+				} catch (ServerResponseException e1) {
+					JOptionPane.showMessageDialog(null, "Invalid JSON or Cookie",
+							"Server Error", JOptionPane.ERROR_MESSAGE);
+				}
 				closeModal();
 			}
 		}
@@ -103,6 +123,7 @@ public class RollResultView extends OverlayView implements IRollResultView {
 	public void setRollValue(int value) {
 		String rollText = String.format("You rolled a %d.", value);
 		rollLabel.setText(rollText);
+		this.rollVal = value;
 	}
 
 }
