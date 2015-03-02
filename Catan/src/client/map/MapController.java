@@ -254,6 +254,7 @@ public class MapController extends Controller implements IMapController,
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		this.getView().startDrop(pieceType,
 				clientModelController.getPlayerColor(playerIndex), true);
+
 	}
 
 	public void cancelMove() {
