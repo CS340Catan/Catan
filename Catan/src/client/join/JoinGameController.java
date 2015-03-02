@@ -247,7 +247,9 @@ public class JoinGameController extends Controller implements
 			 */
 			getSelectColorView().closeModal();
 			getJoinGameView().closeModal();
-
+			
+			UserPlayerInfo.getSingleton().setColor(color);
+			
 			joinAction.execute();
 
 		} catch (ServerResponseException e) {
