@@ -1,4 +1,7 @@
 package shared.communication;
+
+import client.devcards.Resource;
+
 /**
  * Class which contains data for 'moves/Year_of_Plenty'
  * @author winstonhurst

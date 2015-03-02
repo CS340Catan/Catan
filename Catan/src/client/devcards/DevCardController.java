@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 
 import shared.communication.PlayMonopolyParams;
 import shared.communication.PlayMonumentParams;
-import shared.communication.Resource;
 import shared.communication.UserActionParams;
 import shared.communication.YearOfPlentyParams;
 import shared.definitions.DevCardType;
