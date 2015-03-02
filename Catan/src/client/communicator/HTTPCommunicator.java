@@ -155,6 +155,7 @@ public class HTTPCommunicator {
 				// String cleaned = cookieString.replace("catan.game=", "");
 				// gameCookie = cleaned;
 				gameCookie = cookieString;
+				UserPlayerInfo.getSingleton().setGameId(gameCookie);
 				return 2;
 			}
 		}

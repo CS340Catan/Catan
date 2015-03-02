@@ -6,6 +6,7 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 
 import shared.communication.AddAIParams;
+import shared.communication.GameSummary;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.*;
@@ -50,12 +51,14 @@ public class PlayerWaitingController extends Controller implements
 		if (ClientModel.getSingleton().getPlayers() != null) {
 			for(Player player : ClientModel.getSingleton().getPlayers()){
 				if(player == null){
-					getView().showModal();
-					break;
+					if (!isFourPlayers()) {
+						getView().showModal();
+						break;
+					} 
 				}
 			}
 		}
-
+		
 		String[] AIChoices = { "" };
 		try {
 			AIChoices = server.getAITypes();
@@ -66,7 +69,27 @@ public class PlayerWaitingController extends Controller implements
 		getView().setAIChoices(AIChoices);
 
 	}
+	
+	private boolean isFourPlayers() {
+		try {
+			GameSummary[] gameList = server.getGameList();
+			int gameId = UserPlayerInfo.getSingleton().getGameId();
+			int numberOfPlayers = 0;
+			for (int i = 0; i<4; i++) {
+				if(!gameList[gameId].getPlayers()[i].getName().equals("")) {
+					numberOfPlayers++;
+				}
+			}
+			if (numberOfPlayers == 4) {
+				return true;
+			}
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 
+	
 	@Override
 	public void addAI() {
 
@@ -79,6 +102,10 @@ public class PlayerWaitingController extends Controller implements
 			JOptionPane.showMessageDialog(null, outputStr,
 					"Server Failure", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+		}
+		if(isFourPlayers()) {
+			getView().closeModal();
+			setPlayerWaitingState(new NotWaitingState());
 		}
 
 	}
