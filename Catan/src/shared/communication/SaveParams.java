@@ -4,8 +4,8 @@ package shared.communication;
  * This class wraps up data that needs be sent to the client from the server in
  * response to the '/games/save' request.
  * 
- * Domain: id:Integer name:String Domain Restraints: id - must be a valid id
- * for an existing game name - cannot be null or empty
+ * Domain: id:Integer name:String Domain Restraints: id - must be a valid id for
+ * an existing game name - cannot be null or empty
  * 
  * @author winstonhurst
  */
