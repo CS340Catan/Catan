@@ -19,6 +19,7 @@ public class UserPlayerInfo {
 	private int id;
 	private  int playerIndex;
 	private  String name;
+	private String gameCookie;
 	private  CatanColor color;
 	private static UserPlayerInfo userPlayerInfo = null;
 	
@@ -95,5 +96,23 @@ public class UserPlayerInfo {
 		playerInfo.setPlayerIndex(this.getPlayerIndex());
 		
 		return playerInfo;
+	}
+
+	public void setGameId(String gameCookie) {
+		this.gameCookie = gameCookie;
+		
+	}
+	
+	public int getGameId() {
+		String tempCookie = gameCookie;
+		
+		if (tempCookie.contains("=")) {
+			int i = 0;
+			while (tempCookie.charAt(i) != '=') {
+				i++;
+			}
+			return Integer.valueOf(tempCookie.substring(i+1));
+		}
+		return 0;
 	}
 }
