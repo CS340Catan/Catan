@@ -3,7 +3,6 @@ package test;
 import java.util.ArrayList;
 
 import shared.communication.*;
-import shared.definitions.CatanColor;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.data.GameInfo;
@@ -90,22 +89,6 @@ public class MockServer implements IServer {
 	@Override
 	public GameSummary[] getGameList() throws ServerResponseException {
 		GameSummary[] games = new GameSummary[2];
-		String[] names = { "bill", "ted", "sheila", "parker" };
-		String[] colors = { "red", "white", "blue", "green" };
-		String[] gameNames = { "game1", "game2" };
-		
-		/*for (int i = 0; i < 2; ++i) {
-			GameSummary test = new GameSummary();
-			test.setTitle(gameNames[i]);
-			test.setId(1);
-			PlayerInfo newPlayer = new PlayerInfo();
-			newPlayer.setColor(CatanColor.valueOf(colors[i]));
-			newPlayer.setId(i);
-			newPlayer.setName(names[i]);
-			test.addPlayer(new PlayerSummary());			
-			games[i] = test;
-		}*/
-
 		return games;
 	}
 
@@ -121,7 +104,7 @@ public class MockServer implements IServer {
 			throws ServerResponseException {
 		if (params.getname() == null)
 			return null;
-		
+
 		GameInfo test = new GameInfo();
 		test.setTitle("game1");
 		test.setId(1);
@@ -444,7 +427,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel buildRoad(BuildRoadParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		if (!params.isFree())
 			return clientMockModel;
 		return null;
@@ -490,7 +472,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel buildCity(BuildCityParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -507,7 +488,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel offerTrade(TradeOfferParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -525,7 +505,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel maritimeTrade(MaritimeTradeParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -545,7 +524,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel robPlayer(MoveRobberParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -560,8 +538,8 @@ public class MockServer implements IServer {
 	 * @Post It is the next player's turn.
 	 */
 	@Override
-	public ClientModel finishTurn(UserActionParams params) throws ServerResponseException {
-		// TODO Auto-generated method stub
+	public ClientModel finishTurn(UserActionParams params)
+			throws ServerResponseException {
 		return null;
 	}
 
@@ -580,8 +558,8 @@ public class MockServer implements IServer {
 	 *       development card hand (unplayable this turn).
 	 */
 	@Override
-	public ClientModel buyDevCard(UserActionParams params) throws ServerResponseException {
-		// TODO Auto-generated method stub
+	public ClientModel buyDevCard(UserActionParams params)
+			throws ServerResponseException {
 		return null;
 	}
 
@@ -603,7 +581,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel playSoldierCard(MoveSoldierParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -619,7 +596,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -640,7 +616,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel playRoadBuildingCard(BuildRoadCardParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -656,7 +631,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel playMonopolyCard(PlayMonopolyParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -673,7 +647,6 @@ public class MockServer implements IServer {
 	@Override
 	public ClientModel playMonument(PlayMonumentParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

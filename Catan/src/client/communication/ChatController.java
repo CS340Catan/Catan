@@ -1,6 +1,5 @@
 package client.communication;
 
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -8,10 +7,8 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 
 import client.base.*;
-import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.model.ClientModel;
-import client.model.ClientModelController;
 import client.model.MessageLine;
 import client.model.MessageList;
 import client.model.Player;

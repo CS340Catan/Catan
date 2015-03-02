@@ -8,7 +8,6 @@ import shared.definitions.CatanColor;
 import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
-import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
@@ -17,7 +16,8 @@ import client.model.Player;
 /**
  * Implementation for the turn tracker controller
  */
-public class TurnTrackerController extends Controller implements ITurnTrackerController, Observer {
+public class TurnTrackerController extends Controller implements
+		ITurnTrackerController, Observer {
 	private ClientModelController clientModelController;
 	private ITurnTrackerControllerState state = new TrackerInitialState();
 
@@ -57,26 +57,32 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		clientModelController = new ClientModelController();
 		ClientModel model = ClientModel.getSingleton();
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		
-		//set button
-		if(playerIndex == model.getTurnTracker().getCurrentTurn())
+
+		// set button
+		if (playerIndex == model.getTurnTracker().getCurrentTurn())
 			getView().updateGameState("End Turn", true);
 		else
 			getView().updateGameState("Waiting for other players", false);
 
 		// set color
-		CatanColor color = model.getPlayers()[playerIndex].getPlayerInfo().getColor();
+		CatanColor color = model.getPlayers()[playerIndex].getPlayerInfo()
+				.getColor();
 		getView().setLocalPlayerColor(color);
 
 		// get players, then update them all in the view
 		Player[] players = model.getPlayers();
 		for (Player player : players) {
 			if (player != null) {
-				boolean highlight = clientModelController.isPlayerTurn(player.getPlayerIndex());
-				boolean largestArmy = clientModelController.hasLargestArmy(player.getPlayerIndex());
-				boolean longestRoad = clientModelController.hasLongestRoad(player.getPlayerIndex());
-				getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, largestArmy, longestRoad);
-				
+				boolean highlight = clientModelController.isPlayerTurn(player
+						.getPlayerIndex());
+				boolean largestArmy = clientModelController
+						.hasLargestArmy(player.getPlayerIndex());
+				boolean longestRoad = clientModelController
+						.hasLongestRoad(player.getPlayerIndex());
+				getView().updatePlayer(player.getPlayerIndex(),
+						player.getVictoryPoints(), highlight, largestArmy,
+						longestRoad);
+
 			}
 		}
 

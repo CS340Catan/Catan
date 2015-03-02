@@ -127,7 +127,7 @@ public class LoginController extends Controller implements ILoginController,
 				 * If the login does not succeed, throw an error message stating
 				 * invalid login credentials.
 				 */
-				String outputStr = "The inputed Username/Password were invalid. Try again.";
+				String outputStr = "The inputed Username/Password was invalid. Try again.";
 				String title = "Invalid User Login";
 
 				messageView.setTitle(title);
@@ -140,7 +140,7 @@ public class LoginController extends Controller implements ILoginController,
 			 * If the server throws an exception, i.e. the user is not connected
 			 * to the server.
 			 */
-			String outputStr = "Could not reach the server. Please try again later.";
+			String outputStr = "The inputed Username/Password was invalid. Try again.";
 			String title = "Invalid User Login";
 
 			messageView.setTitle(title);
@@ -187,7 +187,7 @@ public class LoginController extends Controller implements ILoginController,
 				 * If the login does not succeed, throw an error message stating
 				 * invalid register credentials.
 				 */
-				String outputStr = "The inputed Username/Password were invalid. Try again.";
+				String outputStr = "The inputed Username/Password was invalid. Try again.";
 				String title = "Invalid User Login";
 
 				messageView.setTitle(title);
@@ -200,7 +200,7 @@ public class LoginController extends Controller implements ILoginController,
 			 * If the server throws an exception, i.e. the user is not connected
 			 * to the server.
 			 */
-			String outputStr = "Could not reach the server. Please try again later.";
+			String outputStr = "The inputed Username/Password was invalid. Try again.";
 			String title = "Invalid User Login";
 
 			messageView.setTitle(title);
@@ -213,11 +213,6 @@ public class LoginController extends Controller implements ILoginController,
 
 	@Override
 	public void update(Observable o, Object arg) {
-		/*
-		 * TODO Check to see if there needs to be anything updated (probably
-		 * nothing).
-		 */
-
 	}
 
 	private boolean canLogin(UserCredentials loginCredentials) {

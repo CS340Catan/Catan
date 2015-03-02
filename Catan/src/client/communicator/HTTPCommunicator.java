@@ -127,6 +127,7 @@ public class HTTPCommunicator {
 	 * @param connection
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	private int parseSetCookie(String cookieString, HttpURLConnection connection) {
 		// if cookies have already been set, don't worry about setting them
 		// again.

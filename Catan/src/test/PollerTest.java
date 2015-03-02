@@ -32,7 +32,7 @@ public class PollerTest {
 		mockServerModel.setVersion(clientModel.getVersion()); //start off with the versions the same
 		int originalVersion = clientModelController.getClientModel().getVersion(); 
 		//keep track of what the version is to start with
-		Poller poller = new Poller(server, clientModelController); //set the poller
+		Poller poller = new Poller(server); //set the poller
 		
 		poller.updateModel();
 		//update the model

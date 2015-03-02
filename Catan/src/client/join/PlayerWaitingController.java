@@ -14,7 +14,6 @@ import client.communicator.ServerProxy;
 import client.controllers.Poller;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
-import client.model.ClientModelController;
 import client.model.Player;
 
 /**
@@ -44,21 +43,20 @@ public class PlayerWaitingController extends Controller implements
 	@Override
 	public void start() {
 
-		poller = new Poller(ServerProxy.getSingleton(),
-				new ClientModelController());
+		poller = new Poller(ServerProxy.getSingleton());
 		poller.updateModel();
 		poller.setTimer();
 		if (ClientModel.getSingleton().getPlayers() != null) {
-			for(Player player : ClientModel.getSingleton().getPlayers()){
-				if(player == null){
+			for (Player player : ClientModel.getSingleton().getPlayers()) {
+				if (player == null) {
 					if (!isFourPlayers()) {
 						getView().showModal();
 						break;
-					} 
+					}
 				}
 			}
 		}
-		
+
 		String[] AIChoices = { "" };
 		try {
 			AIChoices = server.getAITypes();
@@ -69,14 +67,14 @@ public class PlayerWaitingController extends Controller implements
 		getView().setAIChoices(AIChoices);
 
 	}
-	
+
 	private boolean isFourPlayers() {
 		try {
 			GameSummary[] gameList = server.getGameList();
 			int gameId = UserPlayerInfo.getSingleton().getGameId();
 			int numberOfPlayers = 0;
-			for (int i = 0; i<4; i++) {
-				if(!gameList[gameId].getPlayers()[i].getName().equals("")) {
+			for (int i = 0; i < 4; i++) {
+				if (!gameList[gameId].getPlayers()[i].getName().equals("")) {
 					numberOfPlayers++;
 				}
 			}
@@ -89,7 +87,6 @@ public class PlayerWaitingController extends Controller implements
 		return false;
 	}
 
-	
 	@Override
 	public void addAI() {
 
@@ -99,11 +96,11 @@ public class PlayerWaitingController extends Controller implements
 			server.addAI(addAIParams);
 		} catch (ServerResponseException e) {
 			String outputStr = "Server Failure";
-			JOptionPane.showMessageDialog(null, outputStr,
-					"Server Failure", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, outputStr, "Server Failure",
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		if(isFourPlayers()) {
+		if (isFourPlayers()) {
 			getView().closeModal();
 			setPlayerWaitingState(new NotWaitingState());
 		}
