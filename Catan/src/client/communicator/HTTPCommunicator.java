@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 
-import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
