@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
@@ -25,6 +26,9 @@ public class RollController extends Controller implements IRollController,
 	private IRollResultView resultView;
 	private IServer serverProxy = ServerProxy.getSingleton();
 	private ClientModelController modelController;
+	private int rollVal;
+	private Timer timer;
+	private int countDown;
 
 	/**
 	 * RollController constructor
@@ -57,29 +61,15 @@ public class RollController extends Controller implements IRollController,
 
 	@Override
 	public void rollDice() {
-
+		timer.cancel();
+		timer.purge();
 		Random rand = new Random();
-		int rollVal = rand.nextInt((12 - 2) + 1) + 2;
+		rollVal = rand.nextInt((12 - 2) + 1) + 2;
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (modelController.canRollNumber(playerIndex)) {
-			try {
-				getRollView().closeModal();
-				getResultView().showModal();
-				getResultView().setRollValue(rollVal);
-				serverProxy.rollNumber(rollVal);
-				
-				if(rollVal==7){
-					/*try {
-						//new Timer().wait(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					getResultView().closeModal();*/
-				}
-			} catch (ServerResponseException e) {
-				JOptionPane.showMessageDialog(null, "Invalid JSON or Cookie",
-						"Server Error", JOptionPane.ERROR_MESSAGE);
-			}
+			getRollView().closeModal();
+			getResultView().showModal();
+			getResultView().setRollValue(rollVal);
 		} else {
 			JOptionPane.showMessageDialog(null, "No can do", "No can do",
 					JOptionPane.ERROR_MESSAGE);
@@ -94,8 +84,22 @@ public class RollController extends Controller implements IRollController,
 				&& tracker.getStatus().equals("Rolling")
 				&& !getRollView().isModalShowing()) {
 			getRollView().showModal();
+			this.countDown = 10;
+			this.timer = new Timer();
+			timer.schedule(new AutoRoll(),500,1100);
+			
 		}
 
+	}
+	
+	private class AutoRoll extends TimerTask{
+		@Override
+		public void run() {
+			countDown--;
+			getRollView().setMessage("Rolling in "+(countDown));
+			if(countDown==0)
+				rollDice();
+		}
 	}
 
 }

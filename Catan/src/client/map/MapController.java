@@ -253,7 +253,7 @@ public class MapController extends Controller implements IMapController,
 			robberLocation = hexLoc;
 			getRobView().setPlayers(candidateVictims);
 			getView().placeRobber(hexLoc);
-			getRobView().showModal();
+//			getRobView().showModal();
 		}
 	}
 
