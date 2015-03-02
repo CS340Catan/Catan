@@ -16,7 +16,7 @@ package client.model;
 public class TradeOffer {
 	private int sender;
 	private int receiver;
-	private ResourceList resourceList;
+	private ResourceList offer;
 
 	/**
 	 * Default constructor, requires all fields
@@ -31,7 +31,7 @@ public class TradeOffer {
 		super();
 		this.sender = sender;
 		this.receiver = receiver;
-		this.resourceList = resourceList;
+		this.offer = resourceList;
 	}
 
 	public int getSender() {
@@ -51,10 +51,10 @@ public class TradeOffer {
 	}
 
 	public ResourceList getResourceList() {
-		return resourceList;
+		return offer;
 	}
 
 	public void setResourceList(ResourceList resourceList) {
-		this.resourceList = resourceList;
+		this.offer = resourceList;
 	}
 }
