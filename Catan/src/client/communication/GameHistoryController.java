@@ -43,8 +43,8 @@ public class GameHistoryController extends Controller implements
 
 				CatanColor messageColor = null;
 				for (Player player : ClientModel.getSingleton().getPlayers()) {
-					if (player.getName() == messageSource) {
-						messageColor = CatanColor.valueOf(player.getColor());
+					if (player.getName().equals(messageSource)) {
+						messageColor = player.getCatanColor();
 					}
 				}
 
@@ -57,25 +57,6 @@ public class GameHistoryController extends Controller implements
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		List<LogEntry> entries = new ArrayList<LogEntry>();
-		if (ClientModel.getSingleton().getLog() != null) {
-			for (MessageLine historyMessage : ClientModel.getSingleton()
-					.getLog().getLines()) {
-				String messageString = historyMessage.getMessage();
-				String messageSource = historyMessage.getSource();
-
-				CatanColor messageColor = null;
-				for (Player player : ClientModel.getSingleton().getPlayers()) {
-					if (player.getName() == messageSource) {
-						messageColor = CatanColor.valueOf(player.getColor());
-					}
-				}
-
-				entries.add(new LogEntry(messageColor, messageString));
-			}
-		}
-
-		getView().setEntries(entries);
+		this.initFromModel();
 	}
-
 }

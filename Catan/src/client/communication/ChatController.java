@@ -68,8 +68,8 @@ public class ChatController extends Controller implements IChatController,
 
 				CatanColor messageColor = null;
 				for (Player player : ClientModel.getSingleton().getPlayers()) {
-					if (player.getName().equals( messageSource)) {
-						messageColor = CatanColor.valueOf(player.getColor().toUpperCase());
+					if (player.getName().equals(messageSource)) {
+						messageColor = player.getCatanColor();
 					}
 				}
 
