@@ -31,6 +31,7 @@ public class WaitingState implements IPlayerWaitingState {
 			}
 		}
 		playerWaitingController.getView().setPlayers(playerInfoList.toArray(new PlayerInfo[playerInfoList.size()]));
+		playerWaitingController.getView().closeModal();
 		playerWaitingController.getView().showModal();
 		
 	}

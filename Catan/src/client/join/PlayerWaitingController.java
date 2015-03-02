@@ -118,6 +118,7 @@ public class PlayerWaitingController extends Controller implements
 	public void update(Observable o, Object arg) {
 		//System.out.println("Output update");
 		playerWaitingState.action(this);
+		
 	}
 
 	public IPlayerWaitingState getPlayerWaitingState() {
