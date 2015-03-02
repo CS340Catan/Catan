@@ -29,7 +29,7 @@ public class FirstRoundState implements IMapState {
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController) {
 		System.out.println("hi");
-		return clientModelController.canBuildRoad(playerIndex, road, true);
+		return clientModelController.canBuildRoad(playerIndex, road, true, true);
 	}
 
 	@Override

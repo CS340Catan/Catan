@@ -138,7 +138,7 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	// our implementation forces the player to build a settlement first
-	public boolean canBuildRoad(int playerIndex, Road road, boolean isFree) {
+	public boolean canBuildRoad(int playerIndex, Road road, boolean isFree, boolean setupPhase) {
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		/*
 		 * Check Pre-conditions. I.e. check if it is the current player's turn,
@@ -161,8 +161,8 @@ public class ClientModelController {
 				&& !roadExists(road)
 				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))
 				&& playerHasAvailableRoadPiece(playerIndex)
-				&& ClientModel.getSingleton().getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& (ClientModel.getSingleton().getTurnTracker().getStatus()
+						.equals("Playing") || setupPhase)) {
 			return true;
 		}
 		return false;
