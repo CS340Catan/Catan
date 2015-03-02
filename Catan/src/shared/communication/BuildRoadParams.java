@@ -14,7 +14,7 @@ public class BuildRoadParams {
 		 * Who's placing the road
 		 */
 		int playerIndex; 
-		EdgeLocationParam roadLocation;
+		EdgeLocationParam roadLocation = new EdgeLocationParam();
 		/**
 		 * Whether this is placed for free (setup)
 		 */

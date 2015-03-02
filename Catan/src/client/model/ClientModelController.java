@@ -987,7 +987,7 @@ public class ClientModelController {
 				&& !ClientModel.getSingleton().getPlayers()[playerIndex]
 						.alreadyDiscarded()
 				&& ClientModel.getSingleton().getTurnTracker().getStatus()
-						.equals("discarding")) {
+						.equals("Discarding")) {
 			return true;
 		}
 		return false;

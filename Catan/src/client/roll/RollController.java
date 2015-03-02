@@ -3,6 +3,7 @@ package client.roll;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+import java.util.Timer;
 
 import javax.swing.JOptionPane;
 
@@ -62,10 +63,19 @@ public class RollController extends Controller implements IRollController,
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (modelController.canRollNumber(playerIndex)) {
 			try {
-				serverProxy.rollNumber(rollVal);
 				getRollView().closeModal();
 				getResultView().showModal();
 				getResultView().setRollValue(rollVal);
+				serverProxy.rollNumber(rollVal);
+				
+				if(rollVal==7){
+					try {
+						new Timer().wait(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					getResultView().closeModal();
+				}
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, "Invalid JSON or Cookie",
 						"Server Error", JOptionPane.ERROR_MESSAGE);
