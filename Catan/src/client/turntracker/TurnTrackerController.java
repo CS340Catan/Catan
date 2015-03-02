@@ -86,7 +86,6 @@ public class TurnTrackerController extends Controller implements
 
 			}
 		}
-
 	}
 
 	public void setState(ITurnTrackerControllerState state) {

@@ -16,7 +16,7 @@ public class InitialState implements IMapState {
 
 	@Override
 	public String getClassName() {
-		return null;
+		return "InitialState";
 	}
 
 	@Override
@@ -29,6 +29,12 @@ public class InitialState implements IMapState {
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController) {
 		return false;
+	}
+
+	@Override
+	public void beginRound(MapController mapController) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

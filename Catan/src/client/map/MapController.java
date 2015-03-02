@@ -6,6 +6,7 @@ import shared.communication.BuildCityParams;
 import shared.communication.BuildRoadParams;
 import shared.communication.BuildSettlementParams;
 import shared.communication.MoveRobberParams;
+import shared.communication.UserActionParams;
 import shared.definitions.*;
 import shared.locations.*;
 import shared.utils.IServer;
@@ -130,6 +131,8 @@ public class MapController extends Controller implements IMapController,
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		VertexObject settlement = new VertexObject(playerIndex, vertLoc);
+//		boolean test = mapState.canPlaceSettlement(settlement, playingRoadBuildingCard,
+//				clientModelController);
 		return mapState.canPlaceSettlement(settlement, playingRoadBuildingCard,
 				clientModelController);
 	}
@@ -150,11 +153,18 @@ public class MapController extends Controller implements IMapController,
 				playingRoadBuildingCard);
 		try {
 			server.buildRoad(buildRoadParams);
+			if(mapState.getClassName().toUpperCase().equals("FIRSTROUNDSTATE" ) || mapState.getClassName().toUpperCase().equals("SECONDROUNDSTATE" )){
+				int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+				UserActionParams userActionParams = new UserActionParams(playerIndex);
+				userActionParams.setType("finishTurn");
+				server.finishTurn(userActionParams);
+			}
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
 			System.out
 					.println("Something broke in sendRoadToServer in MapController");
 		}
+		
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {
@@ -250,9 +260,16 @@ public class MapController extends Controller implements IMapController,
 	public void startMove(PieceType pieceType, boolean isFree,
 			boolean allowDisconnected) {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		this.getView().startDrop(pieceType,
+		if(allowDisconnected){
+			this.getView().startDrop(pieceType,
+					clientModelController.getPlayerColor(playerIndex), false);
+		}
+		else {
+			this.getView().startDrop(pieceType,
 				clientModelController.getPlayerColor(playerIndex), true);
+		}
 	}
+	
 
 	public void cancelMove() {
 		// this.getView()
@@ -293,6 +310,7 @@ public class MapController extends Controller implements IMapController,
 
 		mapState.initialize(this);
 		updateState();
+		mapState.beginRound(this);
 		updateRoads();
 		updateSettlements();
 		updateCities();
@@ -310,10 +328,16 @@ public class MapController extends Controller implements IMapController,
 		switch (ClientModel.getSingleton().getTurnTracker().getStatus()
 				.toUpperCase()) {
 		case "FIRSTROUND":
-			mapState = new FirstRoundState();
+			System.out.println("In First Round");
+			if(ClientModel.getSingleton().hasFourPlayers() && !mapState.getClassName().equals("FirstRoundState")) {
+				mapState = new FirstRoundState();
+			}
 			break;
 		case "SECONDROUND":
-			mapState = new SecondRoundState();
+			System.out.println("In Second Round");
+			if(!mapState.getClassName().equals("SecondRoundState")) {
+				mapState = new SecondRoundState();
+			}
 			break;
 		case "ROLLING":
 			mapState = new RollingState();

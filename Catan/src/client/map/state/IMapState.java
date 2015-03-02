@@ -15,4 +15,6 @@ public interface IMapState {
 
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController);
+	
+	public void beginRound(MapController mapController);
 }

@@ -93,16 +93,18 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		playerPanel[playerIndex].add(indicatorPanel, BorderLayout.CENTER);
 
 		playerArmy[playerIndex] = new JLabel();
+		playerArmy[playerIndex].setBackground(playerColor.getJavaColor());
 		playerArmy[playerIndex].setIcon(new ImageIcon(largestArmyImage));
 		indicatorPanel.add(playerArmy[playerIndex]);
 		playerArmy[playerIndex].setVisible(false);
 
 		playerRoad[playerIndex] = new JLabel();
+		playerRoad[playerIndex].setBackground(playerColor.getJavaColor());
 		playerRoad[playerIndex].setIcon(new ImageIcon(longestRoadImage));
 		indicatorPanel.add(playerRoad[playerIndex]);
 		playerRoad[playerIndex].setVisible(false);
 
-		playerPoints[playerIndex] = new JLabel("0");
+		playerPoints[playerIndex] = new JLabel();
 		playerPoints[playerIndex].setBorder(BorderFactory.createEmptyBorder(3,
 				3, 3, 3));
 		playerPoints[playerIndex].setFont(labelFont);
@@ -120,6 +122,7 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 			boolean largestArmy, boolean longestRoad) {
 		playerArmy[playerIndex].setVisible(largestArmy);
 		playerRoad[playerIndex].setVisible(longestRoad);
+
 		playerPoints[playerIndex].setText(String.format("%d", points));
 
 		if (highlight)
@@ -128,7 +131,11 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		else
 			playerPanel[playerIndex].setBorder(BorderFactory.createEmptyBorder(
 					3, 3, 3, 3));
-
+	}
+	
+	public void redrawAll() {
+		titlePanel.repaint();
+		gameStatePanel.repaint();
 	}
 
 	@Override

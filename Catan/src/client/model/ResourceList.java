@@ -1,5 +1,7 @@
 package client.model;
 
+import shared.definitions.ResourceType;
+
 /**
  * A list of resources
  * 
@@ -129,18 +131,29 @@ public class ResourceList {
 	}
 
 	/**
-	 * Tests if there exists a number of a kind in the list, 3 of a kind, 4 of a
-	 * kind, etc
+	 * Tests if there exists the number of inputed resources. For example, are
+	 * there 3 bricks currently stored within the resource list.
 	 * 
 	 * @Pre none
-	 * @Post boolean
-	 * @param number
+	 * @Post boolean Returns true if there are (number) of type resource.
+	 * @param number Number of resources.
+	 * @param resource Resource being queried.
 	 * @return
 	 */
-	public boolean ofAKind(int number) {
-		if (this.getBrick() >= number || this.getWood() >= number
-				|| this.getOre() >= number || this.getSheep() >= number
-				|| this.getWheat() >= number) {
+	public boolean ofAKind(ResourceType resource, int number) {
+		if (resource.toString() == "brick" && this.brick >= number) {
+			return true;
+		}
+		if (resource.toString() == "wood" && this.wood >= number) {
+			return true;
+		}
+		if (resource.toString() == "ore" && this.ore >= number) {
+			return true;
+		}
+		if (resource.toString() == "sheep" && this.sheep >= number) {
+			return true;
+		}
+		if (resource.toString() == "wheat" && this.wheat >= number) {
 			return true;
 		}
 		return false;
