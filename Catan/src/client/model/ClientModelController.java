@@ -4,7 +4,12 @@ import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
-import shared.locations.*;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
+import client.data.UserPlayerInfo;
 
 /**
  * Handles all "CanDo" methods and provides access to the client model
@@ -145,6 +150,14 @@ public class ClientModelController {
 				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
+		return false;
+	}
+	
+	public boolean canBuyRoad(){
+		int playerIndex = UserPlayerInfo.getSingleton().getId();
+		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
+		if (isPlayerTurn(playerIndex) && playerHasResources(playerIndex, requiredResourceList) && ClientModel.getSingleton().getPlayers()[playerIndex].getRoads()>0 )
+			return true;
 		return false;
 	}
 
@@ -468,6 +481,14 @@ public class ClientModelController {
 		}
 		return false;
 	}
+	
+	public boolean canBuyCity(){
+		ResourceList resourceList = new ResourceList(0, 3, 0, 2, 0);
+		int playerIndex = UserPlayerInfo.getSingleton().getId();
+		if (isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList) && ClientModel.getSingleton().getPlayers()[playerIndex].getCities()>0)
+			return true;
+		return false;
+	}
 
 	/**
 	 * Returns false if adjacent buildings exist, name can be changed, wasn't
@@ -773,6 +794,14 @@ public class ClientModelController {
 				&& ClientModel.getSingleton().getTurnTracker().getStatus().equals("playing")) {
 			return true;
 		}
+		return false;
+	}
+	
+	public boolean canBuySettlement(){
+		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
+		int playerIndex = UserPlayerInfo.getSingleton().getId();
+		if(isPlayerTurn(playerIndex) && playerHasResources(playerIndex, resourceList) && ClientModel.getSingleton().getPlayers()[playerIndex].getSettlements()>0)
+				return true;
 		return false;
 	}
 
