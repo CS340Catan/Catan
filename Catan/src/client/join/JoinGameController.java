@@ -14,11 +14,9 @@ import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
-import client.controllers.Poller;
 import client.data.*;
 import client.misc.*;
 import client.model.ClientModel;
-import client.model.ClientModelController;
 
 /**
  * Implementation for the join game controller
@@ -30,7 +28,6 @@ public class JoinGameController extends Controller implements
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
-	private Poller poller;
 	private IServer server;
 	private GameInfo storeGame;
 
@@ -125,7 +122,7 @@ public class JoinGameController extends Controller implements
 		try {
 			GameSummary[] gameList = server.getGameList();
 			GameInfo[] gameInfoList = new GameInfo[gameList.length];
-			
+
 			for (int i = 0; i < gameList.length; i++) {
 				gameInfoList[i] = gameList[i].toGameInfo();
 			}
@@ -205,6 +202,12 @@ public class JoinGameController extends Controller implements
 	@Override
 	public void startJoinGame(GameInfo game) {
 		this.storeGame = game;
+		for (PlayerInfo player : game.getPlayers()) {
+			if (!player.getName()
+					.equals(UserPlayerInfo.getSingleton().getName())) {
+				getSelectColorView().setColorEnabled(player.getColor(), false);
+			}
+		}
 
 		getSelectColorView().showModal();
 	}
@@ -235,17 +238,18 @@ public class JoinGameController extends Controller implements
 			int joinGameID = this.storeGame.getId();
 			JoinGameParams joinGameParams = new JoinGameParams(
 					color.toString(), joinGameID);
-			server.joinGame(joinGameParams);	//should return "success" in object
-			
+			server.joinGame(joinGameParams); // should return "success" in
+												// object
+
 			/*
 			 * Close the join game view and the select color view and execute
 			 * joinAction, which will open the PlayerWaitingView.
 			 */
 			getSelectColorView().closeModal();
 			getJoinGameView().closeModal();
-			
+
 			joinAction.execute();
-			
+
 		} catch (ServerResponseException e) {
 			String outputStr = "Server Failure.";
 			JOptionPane.showMessageDialog(null, outputStr, "Server Failure",
