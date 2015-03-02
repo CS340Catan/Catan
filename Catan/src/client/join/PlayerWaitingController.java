@@ -1,5 +1,6 @@
 package client.join;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,6 +13,7 @@ import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.controllers.Poller;
+import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.Player;
@@ -45,15 +47,18 @@ public class PlayerWaitingController extends Controller implements
 
 		poller = new Poller(ServerProxy.getSingleton());
 		poller.updateModel();
-		poller.setTimer();
+		poller.setPlayerWaitingTimer();
 		if (ClientModel.getSingleton().getPlayers() != null) {
+			ArrayList<PlayerInfo> playerInfoList = new ArrayList<PlayerInfo>();
 			for (Player player : ClientModel.getSingleton().getPlayers()) {
 				if (player == null) {
 					if (!isFourPlayers()) {
+						getView().setPlayers(playerInfoList.toArray(new PlayerInfo[playerInfoList.size()]));
 						getView().showModal();
 						break;
 					}
 				}
+				playerInfoList.add(player.getPlayerInfo());
 			}
 		}
 
@@ -68,7 +73,7 @@ public class PlayerWaitingController extends Controller implements
 
 	}
 
-	private boolean isFourPlayers() {
+	public boolean isFourPlayers() {
 		try {
 			GameSummary[] gameList = server.getGameList();
 			int gameId = UserPlayerInfo.getSingleton().getGameId();
@@ -102,6 +107,8 @@ public class PlayerWaitingController extends Controller implements
 		}
 		if (isFourPlayers()) {
 			getView().closeModal();
+			this.stopPlayerWaitingPolling();
+			this.startNormalPolling();
 			setPlayerWaitingState(new NotWaitingState());
 		}
 
@@ -119,6 +126,14 @@ public class PlayerWaitingController extends Controller implements
 
 	public void setPlayerWaitingState(IPlayerWaitingState playerWaitingState) {
 		this.playerWaitingState = playerWaitingState;
+	}
+	public void stopPlayerWaitingPolling(){
+		poller.stopPlayerWaitingTimer();
+	}
+	public void startNormalPolling(){
+		if(!poller.isNormalTimerRunning()){
+			poller.setTimer();
+		}
 	}
 
 }
