@@ -907,14 +907,14 @@ public class ClientModelController {
 			boolean setupPhase) {
 		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
-
+		ClientModel thingy = ClientModel.getSingleton();
 		if (isPlayerTurn(playerIndex)
 				&& (playerHasResources(playerIndex, resourceList) || isFree)
 				&& !preexistingBuilding(settlement, true)
 				&& noAdjacentBuildings(settlement)
 				&& (roadTouchingNewSettlement(settlement) || setupPhase)
-				&& ClientModel.getSingleton().getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& (ClientModel.getSingleton().getTurnTracker().getStatus()
+						.equals("Playing") || setupPhase)) {
 			return true;
 		}
 		return false;

@@ -128,8 +128,11 @@ public class MapController extends Controller implements IMapController,
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
+		System.out.println("over here");
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		VertexObject settlement = new VertexObject(playerIndex, vertLoc);
+//		boolean test = mapState.canPlaceSettlement(settlement, playingRoadBuildingCard,
+//				clientModelController);
 		return mapState.canPlaceSettlement(settlement, playingRoadBuildingCard,
 				clientModelController);
 	}
