@@ -138,7 +138,8 @@ public class ClientModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	// our implementation forces the player to build a settlement first
-	public boolean canBuildRoad(int playerIndex, Road road, boolean isFree, boolean setupPhase) {
+	public boolean canBuildRoad(int playerIndex, Road road, boolean isFree,
+			boolean setupPhase) {
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		/*
 		 * Check Pre-conditions. I.e. check if it is the current player's turn,
@@ -1042,14 +1043,12 @@ public class ClientModelController {
 				&& ClientModel.getSingleton().getTurnTracker().getStatus()
 						.equals("Playing")) {
 
-			if (ratioNumber == 2 && playerOnNormalPort(playerIndex)) {
+			if (ratioNumber == 2 && playerOnResourcePort(playerIndex, resource)) {
 				return true;
-			}
-
-			else if (ratioNumber == 3
-					&& playerOnResourcePort(playerIndex, resource)) {
+			} else if (ratioNumber == 3 && playerOnNormalPort(playerIndex)) {
 				return true;
-			}
+			} else if (ratioNumber == 4)
+				return true;
 		}
 		return false;
 	}
@@ -1093,7 +1092,9 @@ public class ClientModelController {
 
 				/*
 				 * Create a road that matches the edgeLocation and direction of
-				 * the port. This road should have a connecting building.
+				 * the port. This road should have a connecting building that
+				 * matches the owner, if this is the case, then you can access
+				 * the port.
 				 */
 				EdgeLocation edgeLocation = new EdgeLocation(
 						port.getLocation(), port.getDir());
@@ -1140,13 +1141,26 @@ public class ClientModelController {
 	// Special
 	private boolean buildingOnResourcePort(int playerIndex,
 			VertexObject building, ResourceType resource) {
+		/*
+		 * Loop through the list of ports to find any ports with a matching
+		 * resource connected to the building.
+		 */
 		for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
-			if (port.getResource() == null) { // only check non-resource
-												// ports
+			if (port.getResource() != null
+					&& port.getResource().equals(resource.toString())) {
+
+				/*
+				 * Create a road that matches the edgeLocation and direction of
+				 * the port. This road should have a connecting building that
+				 * matches the owner, if this is the case, then you can access
+				 * the port.
+				 */
 				EdgeLocation edgeLocation = new EdgeLocation(
 						port.getLocation(), port.getDir());
-				Road road = new Road(playerIndex, edgeLocation);
-				if (hasConnectingBuilding(road)) {
+				Road road = new Road(building.getOwner(), edgeLocation);
+				boolean connect = hasConnectingBuilding(road);
+
+				if (connect) {
 					return true;
 				}
 			}

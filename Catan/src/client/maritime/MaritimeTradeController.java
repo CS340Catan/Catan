@@ -2,8 +2,11 @@ package client.maritime;
 
 import java.util.*;
 
+import shared.communication.MaritimeTradeParams;
 import shared.definitions.*;
+import shared.utils.ServerResponseException;
 import client.base.*;
+import client.communicator.ServerProxy;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
@@ -29,16 +32,95 @@ public class MaritimeTradeController extends Controller implements
 		ClientModel.getNotifier().addObserver(this);
 	}
 
-	private boolean tradeValid(ResourceType resource, int resourceCount) {
-		System.out.println(resource.toString() + ": " + resourceCount);
-		ClientModelController controller = new ClientModelController();
+	@Override
+	public void startTrade() {
+		getTradeOverlay().showModal();
+		getTradeOverlay().reset();
+		getTradeOverlay().setTradeEnabled(false);
+		getTradeOverlay().setCancelEnabled(true);
+		getTradeOverlay().showGiveOptions(getValidResources());
+	}
 
-		if (controller.canMaritimeTrade(playerIndex, resource, 3)
-				|| controller.canMaritimeTrade(playerIndex, resource, 4)) {
-			return true;
-		} else {
-			return false;
+	@Override
+	public void makeTrade() {
+		try {
+			MaritimeTradeParams maritimeTradeParam = new MaritimeTradeParams(
+					playerIndex, ratio, giveResource.toString(),
+					getResource.toString());
+			ServerProxy.getSingleton().maritimeTrade(maritimeTradeParam);
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
 		}
+
+		getTradeOverlay().closeModal();
+	}
+
+	@Override
+	public void cancelTrade() {
+
+		getTradeOverlay().closeModal();
+	}
+
+	@Override
+	public void setGiveResource(ResourceType resource) {
+		/*
+		 * Set the ratio dependent upon whether or the trade is being made with
+		 * a resource port, normal port, or w/o a port.
+		 */
+		if (modelController.canMaritimeTrade(playerIndex, resource, 2)) {
+			ratio = 2;
+		} else if (modelController.canMaritimeTrade(playerIndex, resource, 3)) {
+			ratio = 3;
+		} else if (modelController.canMaritimeTrade(playerIndex, resource, 4)) {
+			ratio = 4;
+		}
+		getTradeOverlay().selectGiveOption(resource, ratio);
+
+		/*
+		 * Set the giveResource.
+		 */
+		this.giveResource = resource;
+
+		// show get options, with everything enabled
+		ResourceType[] enabledResources = new ResourceType[5];
+		enabledResources[0] = ResourceType.BRICK;
+		enabledResources[1] = ResourceType.ORE;
+		enabledResources[2] = ResourceType.SHEEP;
+		enabledResources[3] = ResourceType.WHEAT;
+		enabledResources[4] = ResourceType.WOOD;
+		getTradeOverlay().showGetOptions(enabledResources);
+	}
+
+	@Override
+	public void setGetResource(ResourceType resource) {
+		getResource = resource;
+
+		getTradeOverlay().selectGetOption(resource, 1);
+		getTradeOverlay().setTradeEnabled(true);
+	}
+
+	@Override
+	public void unsetGiveValue() {
+		giveResource = null;
+
+		getTradeOverlay().hideGetOptions();
+		getTradeOverlay().showGiveOptions(getValidResources());
+		getTradeOverlay().setTradeEnabled(false);
+	}
+
+	@Override
+	public void unsetGetValue() {
+		getResource = null;
+
+		// show get options, with everything enabled
+		ResourceType[] enabledResources = new ResourceType[5];
+		enabledResources[0] = ResourceType.BRICK;
+		enabledResources[1] = ResourceType.ORE;
+		enabledResources[2] = ResourceType.SHEEP;
+		enabledResources[3] = ResourceType.WHEAT;
+		enabledResources[4] = ResourceType.WOOD;
+		getTradeOverlay().showGetOptions(enabledResources);
+		getTradeOverlay().setTradeEnabled(false);
 	}
 
 	private ResourceType[] getValidResources() {
@@ -86,131 +168,19 @@ public class MaritimeTradeController extends Controller implements
 			enabledResourcesArray[i] = giveResourcesList.get(i);
 		}
 
-		System.out.println("GiveResourceList.size = "
-				+ giveResourcesList.size());
-
 		return enabledResourcesArray;
 	}
 
-	private void incrementResource(ResourceType resource, int amt) {
+	private boolean tradeValid(ResourceType resource, int resourceCount) {
+		ClientModelController controller = new ClientModelController();
 
-		playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex]
-				.getResources();
-		int brick = resources.getBrick();
-		int ore = resources.getOre();
-		int sheep = resources.getSheep();
-		int wheat = resources.getWheat();
-		int wood = resources.getWood();
-
-		switch (resource) {
-
-		case BRICK:
-			resources.setBrick(brick - ratio);
-			break;
-
-		case ORE:
-			resources.setOre(ore - ratio);
-			break;
-
-		case SHEEP:
-			resources.setSheep(sheep - ratio);
-			break;
-
-		case WHEAT:
-			resources.setWheat(wheat - ratio);
-			break;
-
-		case WOOD:
-			resources.setWood(wood - ratio);
-			break;
-
-		}
-
-	}
-
-	@Override
-	public void startTrade() {
-
-		getTradeOverlay().showModal();
-		getTradeOverlay().reset();
-		getTradeOverlay().setTradeEnabled(false);
-		getTradeOverlay().setCancelEnabled(true);
-
-		// show tradeable resources
-		getTradeOverlay().showGiveOptions(getValidResources());
-
-	}
-
-	@Override
-	public void makeTrade() {
-
-		// change resource amounts in model appropriately
-		incrementResource(giveResource, -ratio);
-		incrementResource(getResource, 1);
-
-		getTradeOverlay().closeModal();
-	}
-
-	@Override
-	public void cancelTrade() {
-
-		getTradeOverlay().closeModal();
-	}
-
-	@Override
-	public void setGetResource(ResourceType resource) {
-		getResource = resource;
-		getTradeOverlay().selectGetOption(resource, 1);
-
-		getTradeOverlay().setTradeEnabled(true);
-	}
-
-	@Override
-	public void setGiveResource(ResourceType resource) {
-		giveResource = resource;
-
-		if (modelController.canMaritimeTrade(playerIndex, resource, 2)) {
-			ratio = 2;
-		} else if (modelController.canMaritimeTrade(playerIndex, resource, 3)) {
-			ratio = 3;
+		if (controller.canMaritimeTrade(playerIndex, resource, 2)
+				|| controller.canMaritimeTrade(playerIndex, resource, 3)
+				|| controller.canMaritimeTrade(playerIndex, resource, 4)) {
+			return true;
 		} else {
-			ratio = 4;
+			return false;
 		}
-		getTradeOverlay().selectGiveOption(resource, ratio);
-
-		// show get options, with everything enabled
-		ResourceType[] enabledResources = new ResourceType[5];
-		enabledResources[1] = ResourceType.BRICK;
-		enabledResources[2] = ResourceType.ORE;
-		enabledResources[3] = ResourceType.SHEEP;
-		enabledResources[4] = ResourceType.WHEAT;
-		enabledResources[5] = ResourceType.WOOD;
-		getTradeOverlay().showGetOptions(enabledResources);
-	}
-
-	@Override
-	public void unsetGetValue() {
-		getResource = null;
-
-		// show get options, with everything enabled
-		ResourceType[] enabledResources = new ResourceType[5];
-		enabledResources[1] = ResourceType.BRICK;
-		enabledResources[2] = ResourceType.ORE;
-		enabledResources[3] = ResourceType.SHEEP;
-		enabledResources[4] = ResourceType.WHEAT;
-		enabledResources[5] = ResourceType.WOOD;
-		getTradeOverlay().showGetOptions(enabledResources);
-		getTradeOverlay().setTradeEnabled(false);
-	}
-
-	@Override
-	public void unsetGiveValue() {
-		giveResource = null;
-
-		getTradeOverlay().hideGetOptions();
-		getTradeOverlay().showGiveOptions(getValidResources());
-		getTradeOverlay().setTradeEnabled(false);
 	}
 
 	@Override
