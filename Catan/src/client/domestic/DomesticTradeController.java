@@ -484,22 +484,58 @@ public class DomesticTradeController extends Controller implements
 		// if it's my turn, enable view, otherwise disable
 		if (clientModelController.isPlayerTurn(playerIndex)) {
 			getTradeView().enableDomesticTrade(true);
-			if (waitOverlay.isModalShowing()
+			if (getWaitOverlay().isModalShowing()
 					&& ClientModel.getSingleton().getTradeOffer() == null) {
-				waitOverlay.closeModal();
+				getWaitOverlay().closeModal();
 			}
 		} else {
 			getTradeView().enableDomesticTrade(false);
 		}
 
-		// if I'm being offered a trade, show accepttrade overlay
+		/*
+		 * If there is a tradeOffer currently stored within the ClientModel,
+		 * check to see if the client is either the offer sender or receiver.
+		 */
 		if (tradeOffer != null) {
-			if (tradeOffer.getSender() == playerIndex) {
-				waitOverlay.showModal();
-			} else if (tradeOffer.getReceiver() == playerIndex) {
-				acceptOverlay.showModal();
+			int senderIndex = tradeOffer.getSender();
+			int receiverIndex = tradeOffer.getReceiver();
+			/*
+			 * If the player is the sender and the waitOverlay is not being
+			 * shown, display the waitOverlay so that the sender cannot play
+			 * during the trade.
+			 */
+			if (senderIndex == playerIndex
+					&& !getWaitOverlay().isModalShowing()) {
+				getWaitOverlay().showModal();
+			}
+			/*
+			 * If the player is the receiver, set up the acceptOverlay and
+			 * display to the user.
+			 */
+			else if (receiverIndex == playerIndex) {
+				/*
+				 * Reset the acceptOverlay so that get and give resources are
+				 * empty.
+				 */
+				acceptOverlay.reset();
 				ResourceList resourceList = tradeOffer.getResourceList();
 
+				/*
+				 * Determine who is sending the trade offer. Set that player
+				 * name within acceptOverlay.
+				 */
+				acceptOverlay.setPlayerName(clientModelController
+						.getClientModel().getPlayers()[senderIndex].getName());
+
+				/*
+				 * Determine which resources are being given and which are being
+				 * received. For example, if the current value of the brick
+				 * integer within resource list is greater than 0, this means
+				 * that X brick(s) will be given to the user upon trade
+				 * acceptance. If the value of the brick integer is less than 0,
+				 * this means that the user will be giving X brick(s) to the
+				 * sender upon trade acceptance.
+				 */
 				if (resourceList.getBrick() > 0) {
 					acceptOverlay.addGetResource(ResourceType.BRICK,
 							resourceList.getBrick());
@@ -540,12 +576,17 @@ public class DomesticTradeController extends Controller implements
 							-(resourceList.getWood()));
 				}
 
-				int offeringIndex = tradeOffer.getSender();
-				acceptOverlay
-						.setPlayerName(clientModelController.getClientModel()
-								.getPlayers()[offeringIndex].getName());
-				acceptOverlay.setAcceptEnabled(clientModelController
-						.canAcceptTrade(playerIndex, resourceList));
+				/*
+				 * Determine if the current player has adequate resources to
+				 * accept the trade being offered. Set the acceptButton enable
+				 * status equal to the boolean returned after checking if the
+				 * user has adequate resources.
+				 */
+				boolean acceptTradeBool = clientModelController.canAcceptTrade(
+						playerIndex, resourceList.invertList());
+				acceptOverlay.setAcceptEnabled(acceptTradeBool);
+
+				acceptOverlay.showModal();
 			}
 		}
 	}

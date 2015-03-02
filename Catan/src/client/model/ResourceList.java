@@ -31,14 +31,14 @@ public class ResourceList {
 	 * @param ore
 	 * @param sheep
 	 * @param wheat
-	 * @param lumber
+	 * @param wood
 	 */
-	public ResourceList(int brick, int ore, int sheep, int wheat, int lumber) {
+	public ResourceList(int brick, int ore, int sheep, int wheat, int wood) {
 		this.brick = brick;
 		this.ore = ore;
 		this.sheep = sheep;
 		this.wheat = wheat;
-		this.wood = lumber;
+		this.wood = wood;
 	}
 
 	public int getBrick() {
@@ -144,5 +144,16 @@ public class ResourceList {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * This function will invert the current values of the resource list, such
+	 * that a negative with become a positive and vice verse. For example, if
+	 * the resource list contains 1 wood, the list will now contain -1 wood.
+	 */
+	public ResourceList invertList() {
+		ResourceList invertList = new ResourceList(-(this.brick), -(this.ore),
+				-(this.sheep), -(this.wheat), -(this.wood));
+		return invertList;
 	}
 }
