@@ -340,15 +340,19 @@ public class MapController extends Controller implements IMapController,
 			}
 			break;
 		case "ROLLING":
+			System.out.println("In Rolling");
 			mapState = new RollingState();
 			break;
 		case "ROBBING":
+			System.out.println("In Robbing");
 			mapState = new RobbingState();
 			break;
 		case "PLAYING":
+			System.out.println("In Playing");
 			mapState = new PlayingState();
 			break;
 		case "DISCARDING":
+			System.out.println("In Discarding");
 			mapState = new DiscardingState();
 			break;
 		default:
