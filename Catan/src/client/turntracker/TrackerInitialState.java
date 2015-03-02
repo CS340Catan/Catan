@@ -17,7 +17,7 @@ public class TrackerInitialState implements ITurnTrackerControllerState {
 			}
 		}
 
-		turnTracker.setState(new TurnTrackerFinishState());
+		//turnTracker.setState(new TurnTrackerFinishState());
 	}
 
 }
