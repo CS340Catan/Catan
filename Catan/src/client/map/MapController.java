@@ -6,6 +6,7 @@ import shared.communication.BuildCityParams;
 import shared.communication.BuildRoadParams;
 import shared.communication.BuildSettlementParams;
 import shared.communication.MoveRobberParams;
+import shared.communication.UserActionParams;
 import shared.definitions.*;
 import shared.locations.*;
 import shared.utils.IServer;
@@ -152,11 +153,18 @@ public class MapController extends Controller implements IMapController,
 				playingRoadBuildingCard);
 		try {
 			server.buildRoad(buildRoadParams);
+			if(mapState.getClassName().toUpperCase().equals("FIRSTROUNDSTATE" ) || mapState.getClassName().toUpperCase().equals("SECONDROUNDSTATE" )){
+				int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+				UserActionParams userActionParams = new UserActionParams(playerIndex);
+				userActionParams.setType("finishTurn");
+				server.finishTurn(userActionParams);
+			}
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
 			System.out
 					.println("Something broke in sendRoadToServer in MapController");
 		}
+		
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {
@@ -261,6 +269,7 @@ public class MapController extends Controller implements IMapController,
 				clientModelController.getPlayerColor(playerIndex), true);
 		}
 	}
+	
 
 	public void cancelMove() {
 		// this.getView()
