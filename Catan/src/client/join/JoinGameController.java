@@ -261,7 +261,7 @@ public class JoinGameController extends Controller implements
 			getJoinGameView().closeModal();
 
 			UserPlayerInfo.getSingleton().setColor(color);
-			ClientModel.getSingleton().setVersion(-1);
+			//ClientModel.getSingleton().setVersion(-1);
 			joinAction.execute();
 
 		} catch (ServerResponseException e) {

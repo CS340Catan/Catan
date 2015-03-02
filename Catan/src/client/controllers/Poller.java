@@ -51,6 +51,13 @@ public class Poller {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * used for when the move functions are called.  they return a new client model, and that is passed into this function to update
+	 */
+	public void updateModel(ClientModel newModel) {
+		ClientModel.getSingleton().setClientModel(newModel);
+	}
 
 	/**
 	 * @pre an actual game has started
