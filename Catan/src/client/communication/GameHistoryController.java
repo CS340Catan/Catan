@@ -57,7 +57,7 @@ public class GameHistoryController extends Controller implements
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		
+		initFromModel();
 	}
 
 }
