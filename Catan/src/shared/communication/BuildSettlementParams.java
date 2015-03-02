@@ -13,15 +13,18 @@ public class BuildSettlementParams {
 	 * Who's placing the settlement,
 	 */
 	int playerIndex;
-	VertexLocation vertexLocation;
+	VertexLocationParam vertexLocation;
 	/**
 	 * Whether this is placed for free (setup)
 	 */
 	boolean free;
 	
 	public BuildSettlementParams(int playerIndex, VertexLocation vertexLocation, boolean free) {
+		vertexLocation.convertToPrimitives();
 		this.playerIndex = playerIndex;
-		this.vertexLocation = vertexLocation;
+		this.vertexLocation.setDirection(vertexLocation.getDirection());
+		this.vertexLocation.setX(vertexLocation.getX());
+		this.vertexLocation.setY(vertexLocation.getY());
 		this.free = free;
 	}
 
@@ -33,11 +36,11 @@ public class BuildSettlementParams {
 		this.playerIndex = playerIndex;
 	}
 
-	public VertexLocation getVertexLocation() {
+	public VertexLocationParam getVertexLocation() {
 		return vertexLocation;
 	}
 
-	public void setVertexLocation(VertexLocation vertexLocation) {
+	public void setVertexLocation(VertexLocationParam vertexLocation) {
 		this.vertexLocation = vertexLocation;
 	}
 

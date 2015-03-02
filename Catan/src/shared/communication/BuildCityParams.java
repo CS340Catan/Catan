@@ -13,11 +13,14 @@ public class BuildCityParams {
 		 * Who's placing the city,
 		 */
 		int playerIndex;
-		VertexLocation vertexLocation;
+		VertexLocationParam vertexLocation;
 		
 		public BuildCityParams(int playerIndex, VertexLocation vertexLocation) {
+			vertexLocation.convertToPrimitives();
 			this.playerIndex = playerIndex;
-			this.vertexLocation = vertexLocation;
+			this.vertexLocation.setDirection(vertexLocation.getDirection());
+			this.vertexLocation.setX(vertexLocation.getX());
+			this.vertexLocation.setY(vertexLocation.getY());
 		}
 		
 		public int getPlayerIndex() {
@@ -26,10 +29,10 @@ public class BuildCityParams {
 		public void setPlayerIndex(int playerIndex) {
 			this.playerIndex = playerIndex;
 		}
-		public VertexLocation getVertexLocation() {
+		public VertexLocationParam getVertexLocation() {
 			return vertexLocation;
 		}
-		public void setVertexLocation(VertexLocation vertexLocation) {
+		public void setVertexLocation(VertexLocationParam vertexLocation) {
 			this.vertexLocation = vertexLocation;
 		}
 		public String getType() {
