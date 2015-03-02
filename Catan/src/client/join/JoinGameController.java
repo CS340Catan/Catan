@@ -239,11 +239,8 @@ public class JoinGameController extends Controller implements
 		try {
 			/*
 			 * Initiate poller to start polling once the player has joined the
-			 * game. TODO Move to PlayerWaitingController (?)
+			 * game.
 			 */
-			// poller = new Poller(ServerProxy.getSingleton(),
-			// new ClientModelController());
-			// poller.setTimer();
 
 			/*
 			 * Package the join game parameters to be sent over to the server.
