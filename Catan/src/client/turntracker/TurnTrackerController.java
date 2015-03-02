@@ -57,6 +57,11 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		clientModelController = new ClientModelController();
 		ClientModel model = ClientModel.getSingleton();
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+		//set button
+		if(playerIndex==model.getTurnTracker().getCurrentTurn())
+			getView().updateGameState("End Turn", true);
+		else
+			getView().updateGameState("Waiting for other players", false);
 
 		// set color
 		CatanColor color = model.getPlayers()[playerIndex].getPlayerInfo().getColor();

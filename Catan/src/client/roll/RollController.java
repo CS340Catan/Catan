@@ -62,13 +62,13 @@ public class RollController extends Controller implements IRollController, Obser
 	    {
 	    	try {
 				serverProxy.rollNumber(rollVal);
+				getRollView().closeModal();
+				getResultView().showModal();
+				getResultView().setRollValue(rollVal);
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, "Invalid JSON or Cookie",
 					"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
-	    	getRollView().closeModal();
-			getResultView().showModal();
-			getResultView().setRollValue(rollVal);
 	    }
 	    else{
 	    	JOptionPane.showMessageDialog(null, "No can do",
@@ -80,7 +80,7 @@ public class RollController extends Controller implements IRollController, Obser
 	public void update(Observable o, Object arg) {
 		TurnTracker tracker = ClientModel.getSingleton().getTurnTracker();
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		if(tracker.getCurrentTurn()==playerIndex && tracker.getStatus()=="rolling" && getRollView().isModalShowing())
+		if(tracker.getCurrentTurn()==playerIndex && tracker.getStatus().equals("Rolling") && !getRollView().isModalShowing())
 		{
 			getRollView().showModal();
 		}
