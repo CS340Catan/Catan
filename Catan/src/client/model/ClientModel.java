@@ -1,8 +1,5 @@
 package client.model;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import client.data.UserPlayerInfo;
 import shared.utils.Serializer;
 
