@@ -37,6 +37,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 
 	@Override
 	public void endTurn() {
+		getView().updateGameState("Waiting for other players", false);
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		UserActionParams finishTurn = new UserActionParams(playerIndex);
 		finishTurn.setType("finishTurn");
@@ -44,7 +45,6 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		try {
 			ServerProxy.getSingleton().finishTurn(finishTurn);
 		} catch (ServerResponseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -57,8 +57,9 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		clientModelController = new ClientModelController();
 		ClientModel model = ClientModel.getSingleton();
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+		
 		//set button
-		if(playerIndex==model.getTurnTracker().getCurrentTurn())
+		if(playerIndex == model.getTurnTracker().getCurrentTurn())
 			getView().updateGameState("End Turn", true);
 		else
 			getView().updateGameState("Waiting for other players", false);
@@ -75,6 +76,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 				boolean largestArmy = clientModelController.hasLargestArmy(player.getPlayerIndex());
 				boolean longestRoad = clientModelController.hasLongestRoad(player.getPlayerIndex());
 				getView().updatePlayer(player.getPlayerIndex(), player.getVictoryPoints(), highlight, largestArmy, longestRoad);
+				
 			}
 		}
 
