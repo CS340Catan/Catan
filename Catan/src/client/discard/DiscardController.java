@@ -10,9 +10,7 @@ import shared.definitions.ResourceType;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.Controller;
-import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
-import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.misc.IWaitView;
 import client.model.ClientModel;
@@ -27,6 +25,8 @@ public class DiscardController extends Controller implements IDiscardController,
 	private IWaitView waitView;
 	private IServer serverProxy = ServerProxy.getSingleton();
 	private ClientModelController modelController;
+	private int amntToDiscard = 0;
+	private int discardedAmnt = 0;
 	
 	private final String SERVER_ERROR = "Give us a minute to get the server working...";
 	private final String NO_CAN_DO = "Sorry buster, no can do right now";
@@ -60,19 +60,25 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
 	public void increaseAmount(ResourceType resource) {
 		//get current, decrease
-				int max = getDiscardView().getResourceMaxAmount(resource);
-				boolean canIncrease = true;
-				boolean canDecrease = true;
-				int newAmount = getDiscardView().getResourceDiscardAmount(resource) + 1 ;
-				if(newAmount>=0 && newAmount<=max)
-					getDiscardView().setResourceDiscardAmount(resource,newAmount);
-				if(newAmount<=0)
-					canDecrease = false;
-				if(newAmount>=max)
-					canIncrease = false;
-				getDiscardView().setResourceAmountChangeEnabled(resource, canIncrease, canDecrease);
-				
-				enableDiscard(newAmount,max);
+			int max = getDiscardView().getResourceMaxAmount(resource);
+			boolean canIncrease = true;
+			boolean canDecrease = true;
+			int newAmount = getDiscardView().getResourceDiscardAmount(resource) + 1 ;
+			if(newAmount>=0 && newAmount<=max){
+				getDiscardView().setResourceDiscardAmount(resource,newAmount);
+				discardedAmnt++;
+			}
+			if(newAmount<=0)
+				canDecrease = false;
+			if(newAmount>=max)
+				canIncrease = false;
+			getDiscardView().setResourceAmountChangeEnabled(resource, canIncrease, canDecrease);
+			
+			
+			enableDiscard(discardedAmnt);
+			
+			getDiscardView().setStateMessage(""+discardedAmnt+"/"+amntToDiscard);
+
 	}
 
 	@Override
@@ -82,15 +88,19 @@ public class DiscardController extends Controller implements IDiscardController,
 		boolean canIncrease = true;
 		boolean canDecrease = true;
 		int newAmount = getDiscardView().getResourceDiscardAmount(resource) -1 ;
-		if(newAmount>=0 && newAmount<=max)
+		if(newAmount>=0 && newAmount<=max){
 			getDiscardView().setResourceDiscardAmount(resource,newAmount);
+			discardedAmnt--;
+		}
 		if(newAmount<=0)
 			canDecrease = false;
 		if(newAmount>=max)
 			canIncrease = false;
 		getDiscardView().setResourceAmountChangeEnabled(resource, canIncrease, canDecrease);
 		
-		enableDiscard(newAmount,max);
+		enableDiscard(discardedAmnt);
+		
+		getDiscardView().setStateMessage(""+discardedAmnt+"/"+amntToDiscard);
 			
 	}
 
@@ -102,7 +112,7 @@ public class DiscardController extends Controller implements IDiscardController,
 			//getResroucelist
 			ResourceList list = getDiscardView().getListToDiscard();
 			try {
-				ClientModel updatedModel = serverProxy.discardCards(new DiscardCardsParams(playerIndex,list));
+				serverProxy.discardCards(new DiscardCardsParams(playerIndex,list));
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
@@ -122,7 +132,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	public void update(Observable o, Object arg) {
 		ClientModel updatedModel = ClientModel.getSingleton();
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		if(updatedModel.getTurnTracker().getStatus().equals("discarding"))
+		if(updatedModel.getTurnTracker().getStatus().equals("Discarding"))
 		{
 			if(!getDiscardView().isModalShowing() && !waitView.isModalShowing()){
 				if(modelController.canDiscardCards(playerIndex)){					
@@ -141,6 +151,10 @@ public class DiscardController extends Controller implements IDiscardController,
 					//set main button
 					getDiscardView().setDiscardButtonEnabled(false);
 					getDiscardView().showModal();
+					
+					amntToDiscard = getTotalCount(playerIndex)/2;
+					discardedAmnt = 0;
+					getDiscardView().setStateMessage("0/"+amntToDiscard);
 				}
 			
 				else{
@@ -169,6 +183,15 @@ public class DiscardController extends Controller implements IDiscardController,
 		getDiscardView().setResourceAmountChangeEnabled(resource, canInc, false);
 	}
 	
+	private int getTotalCount(int playerIndex){
+		int sum = getResourceCount(ResourceType.WOOD,playerIndex);
+		sum += getResourceCount(ResourceType.ORE,playerIndex);
+		sum += getResourceCount(ResourceType.BRICK,playerIndex);
+		sum += getResourceCount(ResourceType.WHEAT,playerIndex);
+		sum += getResourceCount(ResourceType.SHEEP,playerIndex);
+		return sum;
+	}
+	
 	private int getResourceCount(ResourceType resource, int playerIndex)
 	{
 		ClientModel updatedModel = modelController.getClientModel();
@@ -176,15 +199,15 @@ public class DiscardController extends Controller implements IDiscardController,
 		case WOOD: return updatedModel.getPlayers()[playerIndex].getResources().getWood();
 		case ORE: return updatedModel.getPlayers()[playerIndex].getResources().getOre();
 		case BRICK: return updatedModel.getPlayers()[playerIndex].getResources().getBrick();
-		case WHEAT: updatedModel.getPlayers()[playerIndex].getResources().getWheat();
-		case SHEEP: updatedModel.getPlayers()[playerIndex].getResources().getSheep();
+		case WHEAT: return updatedModel.getPlayers()[playerIndex].getResources().getWheat();
+		case SHEEP: return updatedModel.getPlayers()[playerIndex].getResources().getSheep();
 		default: return -1;
 		}
 	}
 	
-	private void enableDiscard(int newAmount, int max)
+	private void enableDiscard(int newAmount)
 	{
-		boolean enable = (newAmount == max);
+		boolean enable = (newAmount == amntToDiscard);
 		
 		getDiscardView().setDiscardButtonEnabled(enable);
 	}

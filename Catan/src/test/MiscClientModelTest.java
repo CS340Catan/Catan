@@ -109,7 +109,7 @@ public class MiscClientModelTest {
 	
 	@Test
 	public void testCanDiscardCardsTooFewCards(){
-		clientModel.getTurnTracker().setStatus("discarding");
+		clientModel.getTurnTracker().setStatus("Discarding");
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(7);
 		ClientModelController clientModelController = new ClientModelController();
@@ -130,7 +130,7 @@ public class MiscClientModelTest {
 	@Test
 	public void testCanDsicardCardsGood(){
 		int playerIndex = 1;
-		clientModel.getTurnTracker().setStatus("discarding");
+		clientModel.getTurnTracker().setStatus("Discarding");
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(10);
 		clientModel.getPlayers()[playerIndex].setDiscarded(false);
 		ClientModelController clientModelController = new ClientModelController();

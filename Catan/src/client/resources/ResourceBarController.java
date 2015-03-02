@@ -3,7 +3,6 @@ package client.resources;
 import java.util.*;
 
 import client.base.*;
-import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
