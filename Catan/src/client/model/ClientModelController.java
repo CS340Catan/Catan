@@ -154,7 +154,16 @@ public class ClientModelController {
 				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))
 				&& (playerHasAvailableRoadPiece(playerIndex) || setupPhase)
 				&& (ClientModel.getSingleton().getTurnTracker().getStatus()
-						.equals("Playing") || setupPhase)) {
+						.equals("Playing") || setupPhase) && !roadOnWater(road)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean roadOnWater(Road road) {
+		if (road.getLocation().getHexLoc().isWater()
+				&& road.getLocation().getHexLoc()
+						.getNeighborLoc(road.getLocation().getDir()).isWater()) {
 			return true;
 		}
 		return false;
@@ -174,7 +183,7 @@ public class ClientModelController {
 				&& (connectedToSecondSettlement(road))
 				&& (playerHasAvailableRoadPiece(playerIndex) || setupPhase)
 				&& (ClientModel.getSingleton().getTurnTracker().getStatus()
-						.equals("Playing") || setupPhase)) {
+						.equals("Playing") || setupPhase) && !roadOnWater(road)) {
 			return true;
 		}
 		return false;
@@ -932,15 +941,68 @@ public class ClientModelController {
 			boolean setupPhase) {
 		int playerIndex = settlement.getOwner();
 		ResourceList resourceList = new ResourceList(1, 0, 1, 1, 1);
-		ClientModel thingy = ClientModel.getSingleton();
 		if (isPlayerTurn(playerIndex)
 				&& (playerHasResources(playerIndex, resourceList) || isFree)
 				&& !preexistingBuilding(settlement, true)
 				&& noAdjacentBuildings(settlement)
 				&& (roadTouchingNewSettlement(settlement) || setupPhase)
 				&& (ClientModel.getSingleton().getTurnTracker().getStatus()
-						.equals("Playing") || setupPhase)) {
+						.equals("Playing") || setupPhase)
+				&& !settlementOnWater(settlement)) {
 			return true;
+		}
+		return false;
+	}
+
+	private boolean settlementOnWater(VertexObject settlement) {
+		switch (settlement.getLocation().getDir()) {
+		case NorthWest:
+			if (settlement.getLocation().getHexLoc().isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.NorthWest).isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.North).isWater())
+				return true;
+			break;
+		case NorthEast:
+			if (settlement.getLocation().getHexLoc().isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.NorthEast).isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.North).isWater())
+				return true;
+			break;
+		case East:
+			if (settlement.getLocation().getHexLoc().isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.NorthEast).isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.SouthEast).isWater())
+				return true;
+			break;
+		case SouthEast:
+			if (settlement.getLocation().getHexLoc().isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.South).isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.SouthEast).isWater())
+				return true;
+			break;
+		case SouthWest:
+			if (settlement.getLocation().getHexLoc().isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.South).isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.SouthWest).isWater())
+				return true;
+			break;
+		case West:
+			if (settlement.getLocation().getHexLoc().isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.NorthWest).isWater()
+					&& settlement.getLocation().getHexLoc()
+							.getNeighborLoc(EdgeDirection.SouthWest).isWater())
+				return true;
 		}
 		return false;
 	}
