@@ -111,7 +111,6 @@ public class LoginController extends Controller implements ILoginController,
 				 * loginAction.
 				 */
 				UserPlayerInfo.getSingleton().setName(signInUsername);
-				UserPlayerInfo thingy = UserPlayerInfo.getSingleton();
 				String outputStr = "Welcome, " + signInUsername + ".\n";
 				String title = "Welcome to Catan!";
 
@@ -159,8 +158,8 @@ public class LoginController extends Controller implements ILoginController,
 		 * Grab register credentials from the LoginView and create a user
 		 * credentials object.
 		 */
-		String registerUsername = this.getLoginView().getLoginUsername();
-		String registerPassword = this.getLoginView().getLoginPassword();
+		String registerUsername = this.getLoginView().getRegisterUsername();
+		String registerPassword = this.getLoginView().getRegisterPassword();
 		UserCredentials registerCredentials = new UserCredentials(
 				registerUsername, registerPassword);
 
@@ -174,6 +173,8 @@ public class LoginController extends Controller implements ILoginController,
 				String outputStr = "Thank you " + registerUsername
 						+ " for registering for Catan.\n";
 				String title = "Welcome to Catan!";
+				
+				UserPlayerInfo.getSingleton().setName(registerUsername);
 
 				messageView.setTitle(title);
 				messageView.setMessage(outputStr);
