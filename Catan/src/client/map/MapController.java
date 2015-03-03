@@ -46,6 +46,7 @@ public class MapController extends Controller implements IMapController, Observe
 	private EdgeLocation firstEdge;
 	private HexLocation robberLocation;
 	private boolean usingSoldierCard = false;
+	private boolean robStarted = false;
 
 	public MapController(IMapView view, IRobView robView) {
 
@@ -286,6 +287,7 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 	}
 	public void startRob(){
+		robStarted = true;
 		if (clientModelController.isPlayerTurn(UserPlayerInfo.getSingleton().getPlayerIndex())) {
 			usingSoldierCard = false;
 			this.getView().startDrop(PieceType.ROBBER, clientModelController.getPlayerColor(UserPlayerInfo.getSingleton().getPlayerIndex()), false);
@@ -311,6 +313,7 @@ public class MapController extends Controller implements IMapController, Observe
 			MoveRobberParams robPlayerParams = new MoveRobberParams(UserPlayerInfo.getSingleton().getPlayerIndex(), victim.getPlayerIndex(), robberLocation);
 			try {
 				server.robPlayer(robPlayerParams);
+				robStarted = false;
 			} catch (ServerResponseException e) {
 				System.out.println("Something broke in robPlayer in mapController.java");
 				e.printStackTrace();
@@ -359,7 +362,9 @@ public class MapController extends Controller implements IMapController, Observe
 			break;
 		case "ROBBING":
 			System.out.println("In Robbing");
-			startRob();
+			if(!robStarted){
+				startRob();				
+			}
 			mapState = new RobbingState();
 			break;
 		case "PLAYING":
