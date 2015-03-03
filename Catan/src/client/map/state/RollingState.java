@@ -14,7 +14,7 @@ public class RollingState implements IMapState {
 
 	@Override
 	public String getClassName() {
-		return null;
+		return "ROLLINGSTATE";
 	}
 
 	@Override

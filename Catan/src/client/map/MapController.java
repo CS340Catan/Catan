@@ -3,6 +3,7 @@ package client.map;
 import java.util.*;
 
 import shared.communication.BuildCityParams;
+import shared.communication.BuildRoadCardParams;
 import shared.communication.BuildRoadParams;
 import shared.communication.BuildSettlementParams;
 import shared.communication.MoveRobberParams;
@@ -179,11 +180,35 @@ public class MapController extends Controller implements IMapController,
 			if (!firstRoadPlaced) {
 				firstRoadPlaced = true;
 				firstEdge = edgeLoc;
-				sendRoadToServer(firstEdge);
 				getView().placeRoad(firstEdge,
 						UserPlayerInfo.getSingleton().getColor());
+				sendRoadToServer(firstEdge);
+				
+				
+//				ClientModel clientModel = ClientModel.getSingleton();
+//				int roadCount = ClientModel.getSingleton().getMap().getRoads().length;
+//				Road[] roads = new Road[roadCount + 1];
+//				int i = 0;
+//				for(Road road : clientModel.getMap().getRoads()){
+//					roads[i] = road;
+//				}
+//				roads[roadCount] = new Road(UserPlayerInfo.getSingleton().getPlayerIndex(), firstEdge);
+//				clientModel.getMap().setRoads(roads);
+//				ClientModel newClientModel
+//				int j = 0;
+//				ClientModel.getSingleton().setClientModel(clientModel);
 			} else {
 				sendRoadToServer(edgeLoc);
+				try {
+					UserPlayerInfo upi = UserPlayerInfo.getSingleton();
+					int playerIndex = upi.getPlayerIndex();
+					BuildRoadCardParams buildRoadCardParams = new BuildRoadCardParams(playerIndex, firstEdge, edgeLoc); 
+					server.playRoadBuildingCard(buildRoadCardParams);
+				} catch (ServerResponseException e) {
+					firstRoadPlaced = false;
+					System.out.println("bad things broke while playing road building card");
+//					e.printStackTrace();
+				}
 				getView().placeRoad(edgeLoc,
 						UserPlayerInfo.getSingleton().getColor());
 				firstEdge = null;
@@ -287,6 +312,8 @@ public class MapController extends Controller implements IMapController,
 
 	public void playRoadBuildingCard() {
 		playingRoadBuildingCard = true;
+		this.startMove(PieceType.ROAD, true, false);
+		this.startMove(PieceType.ROAD, true, false);
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {

@@ -14,7 +14,7 @@ public class DiscardingState implements IMapState {
 
 	@Override
 	public String getClassName() {
-		return null;
+		return "DISCARDINGSTATE";
 	}
 
 	@Override
