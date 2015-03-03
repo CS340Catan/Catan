@@ -14,7 +14,7 @@ public class RobbingState implements IMapState {
 
 	@Override
 	public String getClassName() {
-		return null;
+		return "RobbingState";
 	}
 
 	@Override

@@ -7,6 +7,8 @@ import client.model.VertexObject;
 
 public class DiscardingState implements IMapState {
 
+	private final String CLASS_NAME = "DiscardingState";
+	
 	@Override
 	public void initialize(MapController mapController) {
 
@@ -14,7 +16,7 @@ public class DiscardingState implements IMapState {
 
 	@Override
 	public String getClassName() {
-		return null;
+		return CLASS_NAME;
 	}
 
 	@Override
