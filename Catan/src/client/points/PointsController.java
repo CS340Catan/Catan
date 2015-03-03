@@ -64,14 +64,13 @@ public class PointsController extends Controller implements IPointsController,
 		 * Need a way to find user's playerID.
 		 */
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		int playerID = UserPlayerInfo.getSingleton().getId();
 		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerIndex]
 				.getVictoryPoints();
 		getPointsView().setPoints(victoryPoints);
 
 		for (Player player : ClientModel.getSingleton().getPlayers()) {
 			if (player != null && player.getVictoryPoints() >= 10) {
-				if (player.getPlayerid() == playerID) {
+				if (player.getPlayerIndex() == playerIndex) {
 					finishedView.setWinner(player.getName(), true);
 				} else {
 					finishedView.setWinner(player.getName(), false);
