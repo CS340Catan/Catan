@@ -17,11 +17,13 @@ public class BuildRoadCardParams {
 	EdgeLocationParam spot2;
 	
 	public BuildRoadCardParams(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) {
+		this.spot1 = new EdgeLocationParam();
+		this.spot2 = new EdgeLocationParam();
 		spot1.convertToPrimitives();
 		spot2.convertToPrimitives();
 		this.playerIndex = playerIndex;
-		
-		this.spot1.setDirection(spot1.getDirection());
+		String thing = spot1.getDirection();
+		this.spot1.setDirection(thing);
 		this.spot1.setX(spot1.getX());
 		this.spot1.setY(spot1.getY());
 		
