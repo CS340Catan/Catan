@@ -159,6 +159,25 @@ public class ClientModelController {
 		}
 		return false;
 	}
+	
+	public boolean canBuildSecondRoad(int playerIndex, Road road, boolean setupPhase){
+		/*
+		 * Check Pre-conditions. I.e. check if it is the current player's turn,
+		 * if the player has the required resources, the road is not covering
+		 * another road, the road is attached to a road or a building, and if
+		 * the player has an available road piece.
+		 */
+
+		if (isPlayerTurn(playerIndex)
+				&& !roadExists(road)
+				&& (connectedToSecondSettlement(road))
+				&& (playerHasAvailableRoadPiece(playerIndex) || setupPhase)
+				&& (ClientModel.getSingleton().getTurnTracker().getStatus()
+						.equals("Playing") || setupPhase)) {
+			return true;
+		}
+		return false;
+	}
 
 	public boolean canBuyRoad() {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
@@ -222,6 +241,23 @@ public class ClientModelController {
 				}
 			}
 		}
+		return false;
+	}
+	
+	private boolean connectedToSecondSettlement(Road road){
+		HexLocation platformHex = road.getLocation().getHexLoc();
+
+		int i = 0;
+		for (VertexObject settlement : ClientModel.getSingleton().getMap()
+				.getSettlements()) {
+			if (settlement.getOwner() == road.getOwner()) {
+				if (i == 1 && buildingExistsForRoad(settlement, road, platformHex)) {
+					return true;
+				}
+				i++;
+			}
+		}
+		
 		return false;
 	}
 

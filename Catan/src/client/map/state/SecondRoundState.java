@@ -9,6 +9,7 @@ import client.model.VertexObject;
 public class SecondRoundState implements IMapState {
 	private final String CLASS_NAME = "SecondRoundState";
 	private boolean hasBegunRound = false;
+	
 	@Override
 	public void initialize(MapController mapController) {
 
@@ -28,7 +29,7 @@ public class SecondRoundState implements IMapState {
 	@Override
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController) {
-		return clientModelController.canBuildRoad(playerIndex, road, true, true);
+		return clientModelController.canBuildSecondRoad(playerIndex, road, true);
 	}
 
 	@Override
