@@ -160,6 +160,26 @@ public class ClientModelController {
 		return false;
 	}
 
+	public boolean canBuildSecondRoad(int playerIndex, Road road,
+			boolean setupPhase) {
+		/*
+		 * Check Pre-conditions. I.e. check if it is the current player's turn,
+		 * if the player has the required resources, the road is not covering
+		 * another road, the road is attached to a road or a building, and if
+		 * the player has an available road piece.
+		 */
+
+		if (isPlayerTurn(playerIndex)
+				&& !roadExists(road)
+				&& (connectedToSecondSettlement(road))
+				&& (playerHasAvailableRoadPiece(playerIndex) || setupPhase)
+				&& (ClientModel.getSingleton().getTurnTracker().getStatus()
+						.equals("Playing") || setupPhase)) {
+			return true;
+		}
+		return false;
+	}
+
 	public boolean canBuyRoad() {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
@@ -222,6 +242,22 @@ public class ClientModelController {
 				}
 			}
 		}
+		return false;
+	}
+
+	private boolean connectedToSecondSettlement(Road road) {
+		HexLocation platformHex = road.getLocation().getHexLoc();
+
+		for (VertexObject settlement : ClientModel.getSingleton().getMap()
+				.getSettlements()) {
+			if (settlement.getOwner() == road.getOwner()) {
+				if (buildingExistsForRoad(settlement, road, platformHex)
+						&& !roadTouchingNewSettlement(settlement)) {
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 
@@ -923,10 +959,14 @@ public class ClientModelController {
 	private boolean preexistingSettlement(VertexObject building,
 			boolean dontCheckOwner) {
 		boolean result = false;
+		int buildingOwner = building.getOwner();
 		for (VertexObject settlement : ClientModel.getSingleton().getMap()
 				.getSettlements()) {
 			if (settlement.isEquivalent(building)) {
-				result = true;
+				if(!dontCheckOwner)
+					result = (settlement.getOwner()!=buildingOwner);
+				else
+					result = true;
 			}
 		}
 		for (VertexObject city : ClientModel.getSingleton().getMap()
@@ -1170,7 +1210,8 @@ public class ClientModelController {
 
 	public boolean canMoveRobber(HexLocation hexLocation) {
 		if (!ClientModel.getSingleton().getMap().getRobber()
-				.equals(hexLocation)) {
+				.equals(hexLocation)
+				&& !hexLocation.isWater()) {
 			return true;
 		}
 		return false;

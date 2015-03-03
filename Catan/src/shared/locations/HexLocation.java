@@ -1,5 +1,7 @@
 package shared.locations;
 
+import shared.definitions.HexType;
+
 /**
  * Represents the location of a hex on a hex map
  */
@@ -78,5 +80,40 @@ public class HexLocation {
 			return null;
 		}
 	}
-
+	
+	public boolean isWater(){
+		switch (x){
+			case 0:
+				if(y==3 || y==-3)
+					return true;
+				break;
+			case 1:
+				if(y==-3||y==2)
+					return true;
+					break;
+			case 2:
+				if(y==-3||y==1)
+					return true;
+				break;
+			case 3:
+				if(y==-3 || y==-2 || y==-1 || y==0)
+					return true;
+				break;
+			case -1:
+				if( y==3 || y== -2)
+					return true;
+				break;
+			case -2:
+				if(y==3 || y==-1)
+					return true;
+				break;
+			case -3:
+				if(y==3 || y==2 || y==1 || y==0)
+					return true;
+				break;
+			default:
+				return false;
+		}
+		return false;
+	}
 }

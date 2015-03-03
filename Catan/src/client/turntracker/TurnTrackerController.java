@@ -19,7 +19,7 @@ import client.model.Player;
 public class TurnTrackerController extends Controller implements
 		ITurnTrackerController, Observer {
 	private ClientModelController clientModelController;
-	private ITurnTrackerControllerState state = new TrackerInitialState();
+	private ITurnTrackerControllerState state = new TurnTrackerInitialState();
 
 	public TurnTrackerController(ITurnTrackerView view) {
 
@@ -65,9 +65,9 @@ public class TurnTrackerController extends Controller implements
 			getView().updateGameState("Waiting for other players", false);
 
 		// set color
-		CatanColor color = model.getPlayers()[playerIndex].getPlayerInfo()
-				.getColor();
-		getView().setLocalPlayerColor(color);
+		CatanColor playerColor = model.getPlayers()[playerIndex]
+				.getPlayerInfo().getColor();
+		getView().setLocalPlayerColor(playerColor);
 
 		// get players, then update them all in the view
 		Player[] players = model.getPlayers();
@@ -79,11 +79,12 @@ public class TurnTrackerController extends Controller implements
 						.hasLargestArmy(player.getPlayerIndex());
 				boolean longestRoad = clientModelController
 						.hasLongestRoad(player.getPlayerIndex());
-				getView().initializePlayer(player.getPlayerIndex(), player.getName(), player.getCatanColor());
+
+				getView().initializePlayer(player.getPlayerIndex(),
+						player.getName(), player.getCatanColor());
 				getView().updatePlayer(player.getPlayerIndex(),
 						player.getVictoryPoints(), highlight, largestArmy,
-						longestRoad);
-
+						longestRoad, player.getCatanColor());
 			}
 		}
 	}

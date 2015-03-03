@@ -91,6 +91,7 @@ public class ResourceBarController extends Controller implements
 		int sheep = playerResources.getSheep();
 		int brick = playerResources.getBrick();
 		int wheat = playerResources.getWheat();
+		
 
 		this.getView().setElementAmount(ResourceBarElement.ORE, ore);
 		this.getView().setElementAmount(ResourceBarElement.WOOD, wood);

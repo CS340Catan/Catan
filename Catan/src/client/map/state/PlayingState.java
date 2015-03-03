@@ -14,7 +14,7 @@ public class PlayingState implements IMapState {
 
 	@Override
 	public String getClassName() {
-		return "PLAYINGSTATE";
+		return "PlayingState";
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import shared.utils.ServerResponseException;
 import client.base.OverlayView;
 import client.communicator.ServerProxy;
+import client.model.ClientModel;
 import client.utils.ImageUtils;
 
 /**
@@ -103,12 +104,14 @@ public class RollResultView extends OverlayView implements IRollResultView {
 
 			if (e.getSource() == okayButton) {
 				try {
-					ServerProxy.getSingleton().rollNumber(rollVal);
+					closeModal();
+					ClientModel clientModel = ServerProxy.getSingleton().rollNumber(rollVal);
+					ClientModel.getSingleton().setClientModel(clientModel);
 				} catch (ServerResponseException e1) {
 					JOptionPane.showMessageDialog(null, "Invalid JSON or Cookie",
 							"Server Error", JOptionPane.ERROR_MESSAGE);
 				}
-				closeModal();
+				
 			}
 		}
 	};
