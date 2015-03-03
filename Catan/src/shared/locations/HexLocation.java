@@ -1,7 +1,5 @@
 package shared.locations;
 
-import shared.definitions.HexType;
-
 /**
  * Represents the location of a hex on a hex map
  */

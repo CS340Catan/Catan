@@ -8,10 +8,7 @@ import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
-import shared.utils.IServer;
-import shared.utils.ServerResponseException;
 import client.base.Controller;
-import client.communicator.ServerProxy;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 import client.model.ClientModelController;
@@ -24,7 +21,6 @@ public class RollController extends Controller implements IRollController,
 		Observer {
 
 	private IRollResultView resultView;
-	private IServer serverProxy = ServerProxy.getSingleton();
 	private ClientModelController modelController;
 	private int rollVal;
 	private Timer timer;

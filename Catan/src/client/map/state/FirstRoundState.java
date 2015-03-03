@@ -1,10 +1,6 @@
 package client.map.state;
 
-import shared.communication.UserActionParams;
 import shared.definitions.PieceType;
-import shared.utils.ServerResponseException;
-import client.communicator.ServerProxy;
-import client.data.UserPlayerInfo;
 import client.map.MapController;
 import client.model.ClientModelController;
 import client.model.Road;
