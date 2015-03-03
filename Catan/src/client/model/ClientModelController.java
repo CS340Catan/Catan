@@ -1,4 +1,4 @@
- package client.model;
+package client.model;
 
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
@@ -1025,8 +1025,8 @@ public class ClientModelController {
 		for (VertexObject settlement : ClientModel.getSingleton().getMap()
 				.getSettlements()) {
 			if (settlement.isEquivalent(building)) {
-				if(!dontCheckOwner)
-					 result = (settlement.getOwner()==buildingOwner);
+				if (!dontCheckOwner)
+					result = (settlement.getOwner() == buildingOwner);
 				else
 					result = true;
 			}
@@ -1589,10 +1589,6 @@ public class ClientModelController {
 
 		int longestRoadPlayerIndex = ClientModel.getSingleton()
 				.getTurnTracker().getLongestRoad();
-		System.out.println("Number of roads: "
-				+ ClientModel.getSingleton().getPlayers()[playerIndex]
-						.getRoads());
-		System.out.println("Longest Road: " + longestRoadPlayerIndex);
 		return (longestRoadPlayerIndex == playerIndex);
 
 	}

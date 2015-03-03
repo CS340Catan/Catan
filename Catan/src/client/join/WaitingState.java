@@ -2,8 +2,6 @@ package client.join;
 
 import java.util.ArrayList;
 
-import client.communicator.ServerProxy;
-import client.controllers.Poller;
 import client.data.PlayerInfo;
 import client.model.ClientModel;
 import client.model.Player;
