@@ -145,8 +145,6 @@ playerPanel[playerIndex].setLayout(new BorderLayout());
 	@Override
 	public void updatePlayer(int playerIndex, int points, boolean highlight,
 			boolean largestArmy, boolean longestRoad, CatanColor playerColor) {
-		System.out.println(playerIndex);
-		System.out.println(largestArmy);
 		playerArmy[playerIndex].setVisible(largestArmy);
 		playerRoad[playerIndex].setVisible(longestRoad);
 

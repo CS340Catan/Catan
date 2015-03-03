@@ -295,8 +295,6 @@ public class MaritimeTradeOverlay extends OverlayView implements
 					getController().makeTrade();
 				} else if (e.getSource() == cancelButton) {
 					reset();
-					// TODO Should I leave this in? It just empty's the view and
-					// starts a new one. should the controller do that?
 					getController().cancelTrade();
 				}
 			}
@@ -390,8 +388,6 @@ public class MaritimeTradeOverlay extends OverlayView implements
 	}
 
 	private JPanel createGetPane() {
-		// System.out.println(resourceImageFolder+"wheat.png");
-		// System.out.println(new File(resourceImageFolder).getAbsolutePath());
 		// create the buttons
 		getreload = new JButton();
 		getreload.setPreferredSize(new Dimension(40, 40));

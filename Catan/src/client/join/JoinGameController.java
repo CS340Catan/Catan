@@ -220,6 +220,7 @@ public class JoinGameController extends Controller implements
 	@Override
 	public void startJoinGame(GameInfo game) {
 		this.storeGame = game;
+		
 		/*
 		 * Enable all colors, acting as a reset button.
 		 */
