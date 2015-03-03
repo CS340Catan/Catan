@@ -77,8 +77,7 @@ public class PointsController extends Controller implements IPointsController,
 					finishedView.setWinner(player.getName(), false);
 				}
 				finishedView.showModal();
-				ClientModel.getSingleton().setWinner(player.getPlayerid());
-				// TODO communicate to the map controller that a winner exists
+				ClientModel.getSingleton().setWinner(player.getPlayerIndex());
 			}
 		}
 	}

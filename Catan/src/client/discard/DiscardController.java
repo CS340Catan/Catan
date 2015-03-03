@@ -125,7 +125,6 @@ public class DiscardController extends Controller implements IDiscardController,
 		{
 			if(!getDiscardView().isModalShowing() && !waitView.isModalShowing()){
 				if(modelController.canDiscardCards(playerIndex)){					
-					//setup
 					
 					setResource(ResourceType.BRICK, playerIndex);
 					
@@ -153,7 +152,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		}
 		else{
 			if(getDiscardView().isModalShowing()){
-			getDiscardView().closeModal();
+				getDiscardView().closeModal();
 			}
 			if(waitView.isModalShowing()){
 					waitView.closeModal();

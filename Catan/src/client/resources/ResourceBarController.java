@@ -115,6 +115,8 @@ public class ResourceBarController extends Controller implements
 		int cityCnt = ClientModel.getSingleton().getPlayers()[playerIndex]
 				.getCities();
 		this.getView().setElementAmount(ResourceBarElement.CITY, cityCnt);
+		int soldierCount = ClientModel.getSingleton().getPlayers()[playerIndex].getSoldiers();
+		this.getView().setElementAmount(ResourceBarElement.SOLDIERS, soldierCount);
 
 		/*
 		 * Enable or disable the ability to buy or play a development card.
