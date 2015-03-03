@@ -923,10 +923,14 @@ public class ClientModelController {
 	private boolean preexistingSettlement(VertexObject building,
 			boolean dontCheckOwner) {
 		boolean result = false;
+		int buildingOwner = building.getOwner();
 		for (VertexObject settlement : ClientModel.getSingleton().getMap()
 				.getSettlements()) {
 			if (settlement.isEquivalent(building)) {
-				result = true;
+				if(!dontCheckOwner)
+					result = (settlement.getOwner()!=buildingOwner);
+				else
+					result = true;
 			}
 		}
 		for (VertexObject city : ClientModel.getSingleton().getMap()
