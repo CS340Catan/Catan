@@ -71,11 +71,15 @@ public class RobView extends OverlayView implements IRobView {
 			if (e.getSource() == defaultButton) {
 				closeModal();
 			} else {
-
-				for (int i = 0; i < victimButtons.size(); i++) {
-					if (e.getSource() == victimButtons.get(i)) {
-						closeModal();
-						getController().robPlayer(victims[i]);
+				if(victimButtons==null){
+					getController().robPlayer(null);
+				}
+				else{
+					for (int i = 0; i < victimButtons.size(); i++) {
+						if (e.getSource() == victimButtons.get(i)) {
+							closeModal();
+							getController().robPlayer(victims[i]);
+						}
 					}
 				}
 

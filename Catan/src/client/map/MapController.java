@@ -303,14 +303,26 @@ public class MapController extends Controller implements IMapController, Observe
 	public void robPlayer(RobPlayerInfo victim) {
 		if (usingSoldierCard) {
 			usingSoldierCard = false;
-			MoveSoldierParams params = new MoveSoldierParams(UserPlayerInfo.getSingleton().getPlayerIndex(), victim.getPlayerIndex(), robberLocation);
+			MoveSoldierParams params = null;
+			if(victim==null){
+				params = new MoveSoldierParams(UserPlayerInfo.getSingleton().getPlayerIndex(), -1, robberLocation);
+			}
+			else{
+				params = new MoveSoldierParams(UserPlayerInfo.getSingleton().getPlayerIndex(), victim.getPlayerIndex(), robberLocation);
+			}
 			try {
 				server.playSoldierCard(params);
 			} catch (ServerResponseException e) {
 				e.printStackTrace();
 			}
 		} else {
-			MoveRobberParams robPlayerParams = new MoveRobberParams(UserPlayerInfo.getSingleton().getPlayerIndex(), victim.getPlayerIndex(), robberLocation);
+			MoveRobberParams robPlayerParams = null;
+			if(victim==null){
+				robPlayerParams = new MoveRobberParams(UserPlayerInfo.getSingleton().getPlayerIndex(), -1, robberLocation);
+			}
+			else{
+				robPlayerParams = new MoveRobberParams(UserPlayerInfo.getSingleton().getPlayerIndex(), victim.getPlayerIndex(), robberLocation);
+			}
 			try {
 				server.robPlayer(robPlayerParams);
 				robStarted = false;
