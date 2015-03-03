@@ -34,6 +34,10 @@ public class MaritimeTradeController extends Controller implements
 
 	@Override
 	public void startTrade() {
+		getResource = null;
+		giveResource = null;
+		ratio = 0;
+		
 		getTradeOverlay().showModal();
 		getTradeOverlay().reset();
 		getTradeOverlay().setTradeEnabled(false);
