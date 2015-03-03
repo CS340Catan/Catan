@@ -83,6 +83,8 @@ public class RollController extends Controller implements IRollController,
 		if (tracker.getCurrentTurn() == playerIndex
 				&& tracker.getStatus().equals("Rolling")
 				&& !getRollView().isModalShowing()) {
+			//kill possible overlying modal
+			getRollView().closeModal();
 			getRollView().showModal();
 			this.countDown = 10;
 			this.timer = new Timer();

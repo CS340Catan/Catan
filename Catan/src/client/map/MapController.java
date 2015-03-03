@@ -305,7 +305,6 @@ public class MapController extends Controller implements IMapController, Observe
 			try {
 				server.playSoldierCard(params);
 			} catch (ServerResponseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {

@@ -1,4 +1,4 @@
- package client.model;
+package client.model;
 
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
@@ -1025,8 +1025,8 @@ public class ClientModelController {
 		for (VertexObject settlement : ClientModel.getSingleton().getMap()
 				.getSettlements()) {
 			if (settlement.isEquivalent(building)) {
-				if(!dontCheckOwner)
-					 result = (settlement.getOwner()==buildingOwner);
+				if (!dontCheckOwner)
+					result = (settlement.getOwner() == buildingOwner);
 				else
 					result = true;
 			}
