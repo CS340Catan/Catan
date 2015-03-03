@@ -159,8 +159,9 @@ public class ClientModelController {
 		}
 		return false;
 	}
-	
-	public boolean canBuildSecondRoad(int playerIndex, Road road, boolean setupPhase){
+
+	public boolean canBuildSecondRoad(int playerIndex, Road road,
+			boolean setupPhase) {
 		/*
 		 * Check Pre-conditions. I.e. check if it is the current player's turn,
 		 * if the player has the required resources, the road is not covering
@@ -243,21 +244,20 @@ public class ClientModelController {
 		}
 		return false;
 	}
-	
-	private boolean connectedToSecondSettlement(Road road){
+
+	private boolean connectedToSecondSettlement(Road road) {
 		HexLocation platformHex = road.getLocation().getHexLoc();
 
-		int i = 0;
 		for (VertexObject settlement : ClientModel.getSingleton().getMap()
 				.getSettlements()) {
 			if (settlement.getOwner() == road.getOwner()) {
-				if (i == 1 && buildingExistsForRoad(settlement, road, platformHex)) {
+				if (buildingExistsForRoad(settlement, road, platformHex)
+						&& !roadTouchingNewSettlement(settlement)) {
 					return true;
 				}
-				i++;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -1206,7 +1206,8 @@ public class ClientModelController {
 
 	public boolean canMoveRobber(HexLocation hexLocation) {
 		if (!ClientModel.getSingleton().getMap().getRobber()
-				.equals(hexLocation) && !hexLocation.isWater()) {
+				.equals(hexLocation)
+				&& !hexLocation.isWater()) {
 			return true;
 		}
 		return false;
