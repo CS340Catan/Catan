@@ -111,6 +111,7 @@ public class RollResultView extends OverlayView implements IRollResultView {
 					JOptionPane.showMessageDialog(null, "Invalid JSON or Cookie",
 							"Server Error", JOptionPane.ERROR_MESSAGE);
 				}
+				
 			}
 		}
 	};
