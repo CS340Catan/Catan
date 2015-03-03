@@ -220,6 +220,20 @@ public class JoinGameController extends Controller implements
 	@Override
 	public void startJoinGame(GameInfo game) {
 		this.storeGame = game;
+		/*
+		 * Enable all colors, acting as a reset button.
+		 */
+		getSelectColorView().setColorEnabled(CatanColor.BLUE, true);
+		getSelectColorView().setColorEnabled(CatanColor.BROWN, true);
+		getSelectColorView().setColorEnabled(CatanColor.GREEN, true);
+		getSelectColorView().setColorEnabled(CatanColor.ORANGE, true);
+		getSelectColorView().setColorEnabled(CatanColor.PUCE, true);
+		getSelectColorView().setColorEnabled(CatanColor.RED, true);
+		getSelectColorView().setColorEnabled(CatanColor.YELLOW, true);
+		getSelectColorView().setColorEnabled(CatanColor.PURPLE, true);
+		getSelectColorView().setColorEnabled(CatanColor.WHITE, true);
+
+
 		for (PlayerInfo player : game.getPlayers()) {
 			if (!player.getName().equals(
 					UserPlayerInfo.getSingleton().getName())) {
