@@ -131,8 +131,9 @@ public class MapController extends Controller implements IMapController,
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		VertexObject settlement = new VertexObject(playerIndex, vertLoc);
-//		boolean test = mapState.canPlaceSettlement(settlement, playingRoadBuildingCard,
-//				clientModelController);
+		// boolean test = mapState.canPlaceSettlement(settlement,
+		// playingRoadBuildingCard,
+		// clientModelController);
 		return mapState.canPlaceSettlement(settlement, playingRoadBuildingCard,
 				clientModelController);
 	}
@@ -148,14 +149,21 @@ public class MapController extends Controller implements IMapController,
 	}
 
 	private void sendRoadToServer(EdgeLocation edgeLocation) {
+		boolean free = (this.getMapState().getClassName().toUpperCase()
+				.equals("FIRSTROUNDSTATE")
+				|| this.getMapState().getClassName().toUpperCase()
+						.equals("SECONDROUNDSTATE") || playingRoadBuildingCard);
 		BuildRoadParams buildRoadParams = new BuildRoadParams(UserPlayerInfo
-				.getSingleton().getPlayerIndex(), edgeLocation,
-				playingRoadBuildingCard);
+				.getSingleton().getPlayerIndex(), edgeLocation, free);
 		try {
 			server.buildRoad(buildRoadParams);
-			if(mapState.getClassName().toUpperCase().equals("FIRSTROUNDSTATE" ) || mapState.getClassName().toUpperCase().equals("SECONDROUNDSTATE" )){
-				int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-				UserActionParams userActionParams = new UserActionParams(playerIndex);
+			if (mapState.getClassName().toUpperCase().equals("FIRSTROUNDSTATE")
+					|| mapState.getClassName().toUpperCase()
+							.equals("SECONDROUNDSTATE")) {
+				int playerIndex = UserPlayerInfo.getSingleton()
+						.getPlayerIndex();
+				UserActionParams userActionParams = new UserActionParams(
+						playerIndex);
 				userActionParams.setType("finishTurn");
 				server.finishTurn(userActionParams);
 			}
@@ -164,7 +172,7 @@ public class MapController extends Controller implements IMapController,
 			System.out
 					.println("Something broke in sendRoadToServer in MapController");
 		}
-		
+
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {
@@ -195,9 +203,12 @@ public class MapController extends Controller implements IMapController,
 
 	public void placeSettlement(VertexLocation vertLoc) {
 		if (canPlaceSettlement(vertLoc)) {
+			boolean free = (this.getMapState().getClassName().toUpperCase()
+					.equals("FIRSTROUNDSTATE") || this.getMapState()
+					.getClassName().toUpperCase().equals("SECONDROUNDSTATE"));
 			BuildSettlementParams buildSettlementParams = new BuildSettlementParams(
 					UserPlayerInfo.getSingleton().getPlayerIndex(), vertLoc,
-					false);
+					free);
 			try {
 				server.buildSettlement(buildSettlementParams);
 			} catch (ServerResponseException e) {
@@ -254,23 +265,20 @@ public class MapController extends Controller implements IMapController,
 			robberLocation = hexLoc;
 			getRobView().setPlayers(candidateVictimsArray);
 			getView().placeRobber(hexLoc);
-			getRobView().showModal();
-		}
+			getRobView().showModal();		}
 	}
 
 	public void startMove(PieceType pieceType, boolean isFree,
 			boolean allowDisconnected) {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		if(allowDisconnected){
+		if (allowDisconnected) {
 			this.getView().startDrop(pieceType,
 					clientModelController.getPlayerColor(playerIndex), false);
-		}
-		else {
+		} else {
 			this.getView().startDrop(pieceType,
-				clientModelController.getPlayerColor(playerIndex), true);
+					clientModelController.getPlayerColor(playerIndex), true);
 		}
 	}
-	
 
 	public void cancelMove() {
 		// this.getView()
@@ -330,13 +338,14 @@ public class MapController extends Controller implements IMapController,
 				.toUpperCase()) {
 		case "FIRSTROUND":
 			System.out.println("In First Round");
-			if(ClientModel.getSingleton().hasFourPlayers() && !mapState.getClassName().equals("FirstRoundState")) {
+			if (ClientModel.getSingleton().hasFourPlayers()
+					&& !mapState.getClassName().equals("FirstRoundState")) {
 				mapState = new FirstRoundState();
 			}
 			break;
 		case "SECONDROUND":
 			System.out.println("In Second Round");
-			if(!mapState.getClassName().equals("SecondRoundState")) {
+			if (!mapState.getClassName().equals("SecondRoundState")) {
 				mapState = new SecondRoundState();
 			}
 			break;

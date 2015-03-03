@@ -172,7 +172,10 @@ public class JoinGameController extends Controller implements
 			 * Call the server to create a new game and then close the new game
 			 * view.
 			 */
-			server.createGame(createGameParams);
+			GameInfo gameInfo = server.createGame(createGameParams);
+			JoinGameParams params = new JoinGameParams(
+					CatanColor.RED.toString(), gameInfo.getId());
+			server.joinGame(params);
 			getNewGameView().closeModal();
 
 			/*
@@ -261,7 +264,7 @@ public class JoinGameController extends Controller implements
 			getJoinGameView().closeModal();
 
 			UserPlayerInfo.getSingleton().setColor(color);
-			//ClientModel.getSingleton().setVersion(-1);
+			// ClientModel.getSingleton().setVersion(-1);
 			joinAction.execute();
 
 		} catch (ServerResponseException e) {
