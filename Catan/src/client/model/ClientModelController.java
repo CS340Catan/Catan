@@ -1,4 +1,4 @@
-package client.model;
+ package client.model;
 
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
@@ -964,7 +964,7 @@ public class ClientModelController {
 				.getSettlements()) {
 			if (settlement.isEquivalent(building)) {
 				if(!dontCheckOwner)
-					result = (settlement.getOwner()!=buildingOwner);
+					 result = (settlement.getOwner()==buildingOwner);
 				else
 					result = true;
 			}
