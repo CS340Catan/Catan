@@ -285,6 +285,12 @@ public class MapController extends Controller implements IMapController, Observe
 			this.getView().startDrop(PieceType.ROBBER, clientModelController.getPlayerColor(UserPlayerInfo.getSingleton().getPlayerIndex()), false);
 		}
 	}
+	public void startRob(){
+		if (clientModelController.isPlayerTurn(UserPlayerInfo.getSingleton().getPlayerIndex())) {
+			usingSoldierCard = false;
+			this.getView().startDrop(PieceType.ROBBER, clientModelController.getPlayerColor(UserPlayerInfo.getSingleton().getPlayerIndex()), false);
+		}
+	}
 
 	public void playRoadBuildingCard() {
 		playingRoadBuildingCard = true;
@@ -354,7 +360,7 @@ public class MapController extends Controller implements IMapController, Observe
 			break;
 		case "ROBBING":
 			System.out.println("In Robbing");
-			playSoldierCard();
+			startRob();
 			mapState = new RobbingState();
 			break;
 		case "PLAYING":
