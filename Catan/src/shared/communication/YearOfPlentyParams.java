@@ -14,11 +14,11 @@ public class YearOfPlentyParams {
 	 * Who's playing this dev card,
 	 */
 	int playerIndex;
-	Resource resource1;
-	Resource resource2;
+	String resource1;
+	String resource2;
 
-	public YearOfPlentyParams(int playerIndex, Resource resource1,
-			Resource resrouce2) {
+	public YearOfPlentyParams(int playerIndex, String resource1,
+			String resrouce2) {
 		this.playerIndex = playerIndex;
 		this.resource1 = resource1;
 		this.resource2 = resrouce2;
@@ -32,19 +32,19 @@ public class YearOfPlentyParams {
 		this.playerIndex = playerIndex;
 	}
 
-	public Resource getResource1() {
+	public String getResource1() {
 		return resource1;
 	}
 
-	public void setResource1(Resource resource1) {
+	public void setResource1(String resource1) {
 		this.resource1 = resource1;
 	}
 
-	public Resource getResource2() {
+	public String getResource2() {
 		return resource2;
 	}
 
-	public void setResource2(Resource resrouce2) {
+	public void setResource2(String resrouce2) {
 		this.resource2 = resrouce2;
 	}
 

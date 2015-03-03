@@ -209,7 +209,7 @@ public class DevCardController extends Controller implements
 		if (modelController.canPlayYearOfPlentyCard(playerIndex, resources)) {
 			try {
 				serverProxy.playYearOfPlentyCard(new YearOfPlentyParams(
-						playerIndex, res1, res2));
+						playerIndex, res1.getName(), res2.getName()));
 			} catch (ServerResponseException e) {
 				JOptionPane.showMessageDialog(null, SERVER_ERROR,
 						"Server Error", JOptionPane.ERROR_MESSAGE);
