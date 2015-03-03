@@ -1170,7 +1170,7 @@ public class ClientModelController {
 
 	public boolean canMoveRobber(HexLocation hexLocation) {
 		if (!ClientModel.getSingleton().getMap().getRobber()
-				.equals(hexLocation)) {
+				.equals(hexLocation) && !hexLocation.isWater()) {
 			return true;
 		}
 		return false;

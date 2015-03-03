@@ -229,9 +229,8 @@ public class MapController extends Controller implements IMapController,
 
 	public void placeRobber(HexLocation hexLoc) {
 		if (canPlaceRobber(hexLoc)) {
-			RobPlayerInfo[] candidateVictims = new RobPlayerInfo[3];
+			ArrayList<RobPlayerInfo> candidateVictims = new ArrayList<RobPlayerInfo>();
 			for (int i = 0; i < 4; i++) {
-				int infoArrayIndex = 0;
 				if (i != UserPlayerInfo.getSingleton().getPlayerIndex()
 						&& clientModelController
 								.playerTouchingRobber(i, hexLoc)) {
@@ -246,14 +245,16 @@ public class MapController extends Controller implements IMapController,
 					robPlayerInfo
 							.setId(ClientModel.getSingleton().getPlayers()[i]
 									.getPlayerid());
-					candidateVictims[infoArrayIndex] = robPlayerInfo;
-					infoArrayIndex += 1;
+					candidateVictims.add( robPlayerInfo );
 				}
 			}
+			
+			RobPlayerInfo[] candidateVictimsArray = new RobPlayerInfo[candidateVictims.size()];
+			candidateVictims.toArray(candidateVictimsArray);
 			robberLocation = hexLoc;
-			getRobView().setPlayers(candidateVictims);
+			getRobView().setPlayers(candidateVictimsArray);
 			getView().placeRobber(hexLoc);
-//			getRobView().showModal();
+			getRobView().showModal();
 		}
 	}
 
@@ -345,6 +346,7 @@ public class MapController extends Controller implements IMapController,
 			break;
 		case "ROBBING":
 			System.out.println("In Robbing");
+			playSoldierCard();
 			mapState = new RobbingState();
 			break;
 		case "PLAYING":
