@@ -3,7 +3,7 @@ package client.turntracker;
 import client.model.ClientModel;
 import client.model.Player;
 
-public class TrackerInitialState implements ITurnTrackerControllerState {
+public class TurnTrackerInitialState implements ITurnTrackerControllerState {
 
 	@Override
 	public void initFromModel(ITurnTrackerView view,
@@ -17,7 +17,7 @@ public class TrackerInitialState implements ITurnTrackerControllerState {
 			}
 		}
 
-		//turnTracker.setState(new TurnTrackerFinishState());
+		turnTracker.setState(new TurnTrackerFinishState());
 	}
 
 }
