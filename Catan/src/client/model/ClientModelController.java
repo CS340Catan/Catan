@@ -1589,6 +1589,10 @@ public class ClientModelController {
 
 		int longestRoadPlayerIndex = ClientModel.getSingleton()
 				.getTurnTracker().getLongestRoad();
+		System.out.println("Number of roads: "
+				+ ClientModel.getSingleton().getPlayers()[playerIndex]
+						.getRoads());
+		System.out.println("Longest Road: " + longestRoadPlayerIndex);
 		return (longestRoadPlayerIndex == playerIndex);
 
 	}
