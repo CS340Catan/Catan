@@ -175,7 +175,7 @@ public class DevCardController extends Controller implements
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do",
+			JOptionPane.showMessageDialog(null, "Totes sry. Ye' can't play that yet!", "No can do",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
