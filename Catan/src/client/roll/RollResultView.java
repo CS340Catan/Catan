@@ -104,13 +104,13 @@ public class RollResultView extends OverlayView implements IRollResultView {
 
 			if (e.getSource() == okayButton) {
 				try {
+					closeModal();
 					ClientModel clientModel = ServerProxy.getSingleton().rollNumber(rollVal);
 					ClientModel.getSingleton().setClientModel(clientModel);
 				} catch (ServerResponseException e1) {
 					JOptionPane.showMessageDialog(null, "Invalid JSON or Cookie",
 							"Server Error", JOptionPane.ERROR_MESSAGE);
 				}
-				closeModal();
 			}
 		}
 	};
