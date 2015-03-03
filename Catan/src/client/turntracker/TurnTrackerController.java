@@ -73,6 +73,7 @@ public class TurnTrackerController extends Controller implements
 		Player[] players = model.getPlayers();
 		for (Player player : players) {
 			if (player != null) {
+				ClientModel cm = ClientModel.getSingleton();
 				boolean highlight = clientModelController.isPlayerTurn(player
 						.getPlayerIndex());
 				boolean largestArmy = clientModelController
