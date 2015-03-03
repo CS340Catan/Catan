@@ -114,7 +114,9 @@ public class DiscardController extends Controller implements IDiscardController,
 		}
 			
 		getDiscardView().closeModal();
-		waitView.showModal();
+		if(!getWaitView().isModalShowing()){
+			waitView.showModal();
+		}
 	}
 
 	@Override
@@ -146,7 +148,9 @@ public class DiscardController extends Controller implements IDiscardController,
 				}
 			
 				else{
-					waitView.showModal();
+					if(!getWaitView().isModalShowing()){
+						waitView.showModal();
+					}
 				}
 			}
 		}
