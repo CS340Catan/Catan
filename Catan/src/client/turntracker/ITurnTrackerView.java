@@ -56,6 +56,25 @@ public interface ITurnTrackerView extends IView {
 	 *            Whether or not the game state button should be enabled
 	 */
 	void updateGameState(String stateMessage, boolean enable);
-	
+
 	void redrawAll();
+
+	/**
+	 * Updates the properties for a player in the turn tracker display
+	 * 
+	 * @param playerIndex
+	 *            The player's index (0-3)
+	 * @param points
+	 *            The number of victory points the player has
+	 * @param highlight
+	 *            Whether or not the player's display should be highlighted
+	 * @param largestArmy
+	 *            Whether or not the player has the largest army
+	 * @param longestRoad
+	 *            Whether or not the player has the longest road
+	 * @param playerColor
+	 *            The player's CatanColor.
+	 */
+	void updatePlayer(int playerIndex, int points, boolean highlight,
+			boolean largestArmy, boolean longestRoad, CatanColor playerColor);
 }
