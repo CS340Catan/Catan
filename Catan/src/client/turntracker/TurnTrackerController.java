@@ -64,6 +64,15 @@ public class TurnTrackerController extends Controller implements
 		else
 			getView().updateGameState("Waiting for other players", false);
 
+		/*
+		 * If the game is in the setup phases, make it so that the end turn
+		 * button cannot be pressed.
+		 */
+		String currentStatus = model.getTurnTracker().getStatus();
+		if(currentStatus.equals("FirstRound") || currentStatus.equals("SecondRound")){
+			getView().updateGameState("Setup Phase", false);
+		}
+
 		// set color
 		CatanColor playerColor = model.getPlayers()[playerIndex]
 				.getPlayerInfo().getColor();
