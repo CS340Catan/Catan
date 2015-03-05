@@ -26,7 +26,6 @@ public class Poller {
 	private Timer timer;
 	private Timer hackyTimer;
 	private boolean normalTimerRunning = false;
-	
 
 	public Poller(IServer server) {
 		this.server = server;
@@ -51,9 +50,10 @@ public class Poller {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * used for when the move functions are called.  they return a new client model, and that is passed into this function to update
+	 * used for when the move functions are called. they return a new client
+	 * model, and that is passed into this function to update
 	 */
 	public void updateModel(ClientModel newModel) {
 		ClientModel.getSingleton().setClientModel(newModel);
@@ -67,40 +67,48 @@ public class Poller {
 		normalTimerRunning = true;
 		TimerTask timerTask = new PollerTimerTask(this);
 		timer = new Timer(true);
-		timer.scheduleAtFixedRate(timerTask, 0, 1000); // (timerTask, 0 means
-														// starts now, 1000
-														// means 1/second)
+		timer.scheduleAtFixedRate(timerTask, 0, 1000);
+		/*
+		 * (timerTask, 0 means starts now, 1000 means 1 second)
+		 */
 	}
+
 	public void setPlayerWaitingTimer() {
-		TimerTask timerTask = new TimerTask(){
+		TimerTask timerTask = new TimerTask() {
 			private int playerCount = 0;
+
 			@Override
 			public void run() {
 				try {
-					ClientModel updatedClientModel  = ServerProxy.getSingleton().updateModelNoVersionCheck();
-					if(updatedClientModel != null){
+					ClientModel updatedClientModel = ServerProxy.getSingleton()
+							.updateModelNoVersionCheck();
+					if (updatedClientModel != null) {
 						int newPlayerCount = 0;
-						for(Player player : updatedClientModel.getPlayers()){
-							if(player != null){
+						for (Player player : updatedClientModel.getPlayers()) {
+							if (player != null) {
 								newPlayerCount += 1;
 							}
 						}
-						if(newPlayerCount > playerCount){
+						if (newPlayerCount > playerCount) {
 							playerCount = newPlayerCount;
-							ClientModel.getSingleton().setClientModel(updatedClientModel);						
+							ClientModel.getSingleton().setClientModel(
+									updatedClientModel);
 						}
 					}
 				} catch (ServerResponseException e) {
 					e.printStackTrace();
-					System.out.println("Something terrible happened in the hacky poller task");
+					System.out
+							.println("Something terrible happened in the hacky poller task");
 				}
 			}
 		};
 		hackyTimer = new Timer(true);
-		hackyTimer.scheduleAtFixedRate(timerTask, 0, 1000); // (timerTask, 0 means
-														// starts now, 1000
-														// means 1/second)
+		hackyTimer.scheduleAtFixedRate(timerTask, 0, 1000); // (timerTask, 0
+															// means
+		// starts now, 1000
+		// means 1/second)
 	}
+
 	/**
 	 * @pre the game has ended or been temporarily exited
 	 * @post the java timer no longer
@@ -110,11 +118,13 @@ public class Poller {
 			timer.cancel();
 		}
 	}
+
 	public void stopPlayerWaitingTimer() {
 		if (hackyTimer != null) {
 			hackyTimer.cancel();
 		}
 	}
+
 	public boolean isNormalTimerRunning() {
 		return normalTimerRunning;
 	}
