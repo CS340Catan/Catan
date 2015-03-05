@@ -160,11 +160,13 @@ public class LoginController extends Controller implements ILoginController,
 		 */
 		String registerUsername = this.getLoginView().getRegisterUsername();
 		String registerPassword = this.getLoginView().getRegisterPassword();
+		String registerPasswordRepeat = this.getLoginView()
+				.getRegisterPasswordRepeat();
 		UserCredentials registerCredentials = new UserCredentials(
 				registerUsername, registerPassword);
 
 		try {
-			if (canRegister(registerCredentials)
+			if (canRegister(registerCredentials, registerPasswordRepeat)
 					&& server.Register(registerCredentials)) {
 				/*
 				 * If the register succeeded, throw a success statement and
@@ -173,7 +175,7 @@ public class LoginController extends Controller implements ILoginController,
 				String outputStr = "Thank you " + registerUsername
 						+ " for registering for Catan.\n";
 				String title = "Welcome to Catan!";
-				
+
 				UserPlayerInfo.getSingleton().setName(registerUsername);
 
 				messageView.setTitle(title);
@@ -188,8 +190,8 @@ public class LoginController extends Controller implements ILoginController,
 				 * If the login does not succeed, throw an error message stating
 				 * invalid register credentials.
 				 */
-				String outputStr = "The inputed Username/Password was invalid. Try again.";
-				String title = "Invalid User Login";
+				String outputStr = "The inputed username & password was invalid. Try again.";
+				String title = "Invalid User Registration";
 
 				messageView.setTitle(title);
 				messageView.setMessage(outputStr);
@@ -201,8 +203,9 @@ public class LoginController extends Controller implements ILoginController,
 			 * If the server throws an exception, i.e. the user is not connected
 			 * to the server.
 			 */
-			String outputStr = "The inputed Username/Password was invalid. Try again.";
-			String title = "Invalid User Login";
+			String outputStr = "There already exists a user name: "
+					+ registerCredentials.getUsername() + ".";
+			String title = "Invalid User Registration";
 
 			messageView.setTitle(title);
 			messageView.setMessage(outputStr);
@@ -227,15 +230,40 @@ public class LoginController extends Controller implements ILoginController,
 		return true;
 	}
 
-	private boolean canRegister(UserCredentials registerCredentials) {
+	private boolean canRegister(UserCredentials registerCredentials,
+			String passwordRepeat) {
 		/*
-		 * Check that all strings inside of loginCredentials are not null
+		 * Registering a new user should reject the registration if the username
+		 * is fewer than 3 or greater than seven characters, if the password is
+		 * less than 5 characters long or is not made of allowed characters
+		 * (alphanumerics, underscores, hyphens) or if the password verification
+		 * entry doesn’t match the original.
 		 */
-		// TODO check to see if password is right length
+
+		/*
+		 * Check if the user name is not null and the user name length is
+		 * greater than 3 but less than 7.
+		 */
 		if (registerCredentials.getUsername() == null)
 			return false;
+		if (registerCredentials.getUsername().length() < 3
+				|| registerCredentials.getUsername().length() > 7)
+			return false;
+		/*
+		 * Check if the password is not null, is equal to the repeated inputed
+		 * password, the length of the password is greater than 5 and the
+		 * password only contains valid characters (alphanumerics, underscore,
+		 * and hyphens).
+		 */
 		if (registerCredentials.getPassword() == null)
 			return false;
+		if (!registerCredentials.getPassword().equals(passwordRepeat))
+			return false;
+		if (registerCredentials.getPassword().length() < 5)
+			return false;
+		if (!registerCredentials.getPassword().matches("[a-zA-Z0-9_-]+"))
+			return false;
+
 		return true;
 	}
 }
