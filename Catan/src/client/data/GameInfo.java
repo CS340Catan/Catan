@@ -47,4 +47,17 @@ public class GameInfo {
 	public List<PlayerInfo> getPlayers() {
 		return Collections.unmodifiableList(players);
 	}
+
+	public boolean equals(GameInfo gI) {
+		if (this.id != gI.id)
+			return false;
+		if (!this.title.equals(gI.getTitle()))
+			return false;
+		for (int i = 0; i < gI.getPlayers().size(); i++) {
+			if(!this.players.get(i).equals(gI.getPlayers().get(i)))
+				return false;
+		}
+
+		return true;
+	}
 }
