@@ -43,6 +43,7 @@ public class MaritimeTradeController extends Controller implements
 		getTradeOverlay().setTradeEnabled(false);
 		getTradeOverlay().setCancelEnabled(true);
 		getTradeOverlay().showGiveOptions(getValidResources());
+		getTradeOverlay().setStateMessage("Choose what to give");
 	}
 
 	@Override
@@ -93,6 +94,7 @@ public class MaritimeTradeController extends Controller implements
 		enabledResources[3] = ResourceType.WHEAT;
 		enabledResources[4] = ResourceType.WOOD;
 		getTradeOverlay().showGetOptions(enabledResources);
+		getTradeOverlay().setStateMessage("Choose what to get");
 	}
 
 	@Override
@@ -100,6 +102,10 @@ public class MaritimeTradeController extends Controller implements
 		getResource = resource;
 
 		getTradeOverlay().selectGetOption(resource, 1);
+		if(this.giveResource.toString().equals(this.getResource.toString()))
+			getTradeOverlay().setStateMessage("Trade...(?)");
+		else
+			getTradeOverlay().setStateMessage("Trade!");
 		getTradeOverlay().setTradeEnabled(true);
 	}
 
@@ -110,6 +116,7 @@ public class MaritimeTradeController extends Controller implements
 		getTradeOverlay().hideGetOptions();
 		getTradeOverlay().showGiveOptions(getValidResources());
 		getTradeOverlay().setTradeEnabled(false);
+		getTradeOverlay().setStateMessage("Choose what to give");
 	}
 
 	@Override
@@ -125,6 +132,7 @@ public class MaritimeTradeController extends Controller implements
 		enabledResources[4] = ResourceType.WOOD;
 		getTradeOverlay().showGetOptions(enabledResources);
 		getTradeOverlay().setTradeEnabled(false);
+		getTradeOverlay().setStateMessage("Choose what to get");
 	}
 
 	private ResourceType[] getValidResources() {
