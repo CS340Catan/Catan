@@ -390,10 +390,6 @@ public class MapController extends Controller implements IMapController,
 		clientModelController = new ClientModelController();
 		// populateHexes();
 		// populatePorts();
-		ClientModel cm = ClientModel.getSingleton();
-		if (cm == null) {
-			
-		}
 		mapState.initialize(this);
 		updateState();
 		mapState.beginRound(this);

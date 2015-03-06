@@ -42,8 +42,12 @@ public class SecondRoundState implements IMapState {
 		if (!hasBegunRound
 				&& currentPlayerTurn == clientPlayerIndex) {
 			hasBegunRound = true;
-			mapController.startMove(PieceType.ROAD, true, true);
-			mapController.startMove(PieceType.SETTLEMENT, true, true);
+			if (ClientModel.getSingleton().getPlayers()[clientPlayerIndex].getRoads() == 14) {
+				mapController.startMove(PieceType.ROAD, true, true);
+			}
+			if (ClientModel.getSingleton().getPlayers()[clientPlayerIndex].getSettlements() == 4) {
+				mapController.startMove(PieceType.SETTLEMENT, true, true);
+			}
 		}
 	}
 

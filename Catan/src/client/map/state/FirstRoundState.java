@@ -37,18 +37,17 @@ public class FirstRoundState implements IMapState {
 
 	@Override
 	public void beginRound(MapController mapController) {
-		ClientModel cm = ClientModel.getSingleton();
-		if (cm == null) {
-			
-		}
 		int currentPlayerTurn = ClientModel.getSingleton().getTurnTracker().getCurrentTurn();
 		int clientPlayerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (!hasBegunRound
 				&& currentPlayerTurn == clientPlayerIndex) {
 			hasBegunRound = true;
-			mapController.startMove(PieceType.ROAD, true, true);
-			mapController.startMove(PieceType.SETTLEMENT, true, true);
-
+			if (ClientModel.getSingleton().getPlayers()[clientPlayerIndex].getRoads() == 15) {
+					mapController.startMove(PieceType.ROAD, true, true);
+			}
+			if (ClientModel.getSingleton().getPlayers()[clientPlayerIndex].getSettlements() == 5) {
+				mapController.startMove(PieceType.SETTLEMENT, true, true);
+			}
 		}
 	}
 }
