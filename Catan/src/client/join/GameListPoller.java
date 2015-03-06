@@ -77,6 +77,7 @@ public class GameListPoller {
 	public void stopTimer() {
 		if (this.timer != null) {
 			this.timer.cancel();
+			this.timer.purge();
 		}
 	}
 

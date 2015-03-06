@@ -70,7 +70,6 @@ public class PlayerWaitingController extends Controller implements
 		}
 
 		getView().setAIChoices(AIChoices);
-
 	}
 
 	public boolean isFourPlayers() {
