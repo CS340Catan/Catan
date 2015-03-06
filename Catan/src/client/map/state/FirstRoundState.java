@@ -37,7 +37,10 @@ public class FirstRoundState implements IMapState {
 
 	@Override
 	public void beginRound(MapController mapController) {
-		//TODO test
+		ClientModel cm = ClientModel.getSingleton();
+		if (cm == null) {
+			
+		}
 		int currentPlayerTurn = ClientModel.getSingleton().getTurnTracker().getCurrentTurn();
 		int clientPlayerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (!hasBegunRound
