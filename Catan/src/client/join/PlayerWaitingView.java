@@ -177,6 +177,7 @@ public class PlayerWaitingView extends OverlayView implements
 		if (value.length > 0) {
 			aiChoices.setValue(value[0]);
 		}
+		this.revalidate();
 	}
 
 	@Override
