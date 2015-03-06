@@ -33,7 +33,6 @@ public class DevCardController extends Controller implements
 	private IAction roadAction;
 	private IServer serverProxy = ServerProxy.getSingleton();
 	private ClientModelController modelController;
-
 	private final String SERVER_ERROR = "Give us a minute to get the server working...";
 	private final String NO_CAN_DO = "Sorry buster, no can do right now";
 
@@ -223,6 +222,27 @@ public class DevCardController extends Controller implements
 	@Override
 	public void update(Observable o, Object arg) {
 		// make necesarry changes to this view (probably none)
+		String thing = ClientModel.getSingleton().getTurnTracker().getStatus().toLowerCase();
+		if(ClientModel.getSingleton().getTurnTracker().getStatus().toLowerCase().equals("playing")){
+			int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+			Player player = ClientModel.getSingleton().getPlayers()[playerIndex];
+
+			int monopolyCnt = player.getOldDevCards().getMonopoly();
+			setCard(DevCardType.MONOPOLY, monopolyCnt);
+
+			int yOPCnt = player.getOldDevCards().getYearOfPlenty();
+			setCard(DevCardType.YEAR_OF_PLENTY, yOPCnt);
+
+			int soldierCnt = player.getOldDevCards().getSoldier();
+			setCard(DevCardType.SOLDIER, soldierCnt);
+			setCard(DevCardType.SOLDIER, 4);
+			int monumentCnt = player.getOldDevCards().getMonument();
+			setCard(DevCardType.MONUMENT, monumentCnt);
+
+			int buildRoadCnt = player.getOldDevCards().getRoadBuilding();
+			setCard(DevCardType.ROAD_BUILD, buildRoadCnt);
+		}
+		
 	}
 
 	// ==================================================================================

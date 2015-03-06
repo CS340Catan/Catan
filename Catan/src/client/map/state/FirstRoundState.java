@@ -3,6 +3,7 @@ package client.map.state;
 import shared.definitions.PieceType;
 import client.data.UserPlayerInfo;
 import client.map.MapController;
+import client.model.ClientModel;
 import client.model.ClientModelController;
 import client.model.Road;
 import client.model.VertexObject;
@@ -36,11 +37,11 @@ public class FirstRoundState implements IMapState {
 
 	@Override
 	public void beginRound(MapController mapController) {
-		ClientModelController clientModelController = new ClientModelController();
 		//TODO test
+		int currentPlayerTurn = ClientModel.getSingleton().getTurnTracker().getCurrentTurn();
+		int clientPlayerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (!hasBegunRound
-				&& clientModelController.isPlayerTurn(UserPlayerInfo
-						.getSingleton().getId())) {
+				&& currentPlayerTurn == clientPlayerIndex) {
 			hasBegunRound = true;
 			mapController.startMove(PieceType.ROAD, true, true);
 			mapController.startMove(PieceType.SETTLEMENT, true, true);
