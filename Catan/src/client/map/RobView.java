@@ -43,6 +43,11 @@ public class RobView extends OverlayView implements IRobView {
 		labelFont = labelFont.deriveFont(labelFont.getStyle(), LABEL_TEXT_SIZE);
 		label.setFont(labelFont);
 		this.add(label, BorderLayout.NORTH);
+		
+		initialize();
+	}
+	
+	private void initialize() {
 
 		buttonPanel = new JPanel();
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
@@ -62,6 +67,7 @@ public class RobView extends OverlayView implements IRobView {
 		buttonPanel.add(defaultButton);
 
 		this.add(buttonPanel, BorderLayout.CENTER);
+		
 	}
 
 	private ActionListener actionListener = new ActionListener() {
@@ -128,6 +134,10 @@ public class RobView extends OverlayView implements IRobView {
 				this.add(buttonPanel, BorderLayout.CENTER);
 				revalidate();
 			}
+		}
+		else {
+			this.remove(buttonPanel);
+			initialize();	//reset to "None" defaultButton
 		}
 	}
 
