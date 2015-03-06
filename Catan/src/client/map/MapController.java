@@ -325,7 +325,7 @@ public class MapController extends Controller implements IMapController,
 			this.getView().startDrop(
 					PieceType.ROBBER,
 					clientModelController.getPlayerColor(UserPlayerInfo
-							.getSingleton().getPlayerIndex()), false);
+							.getSingleton().getPlayerIndex()), true);
 		}
 	}
 
@@ -344,7 +344,7 @@ public class MapController extends Controller implements IMapController,
 	public void playRoadBuildingCard() {
 		playingRoadBuildingCard = true;
 		this.startMove(PieceType.ROAD, true, false);
-		this.startMove(PieceType.ROAD, true, false);
+//		this.startMove(PieceType.ROAD, true, false);
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
