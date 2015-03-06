@@ -1499,8 +1499,6 @@ public class ClientModelController {
 		if (isPlayerTurn(playerIndex)
 				&& ClientModel.getSingleton().getPlayers()[playerIndex]
 						.getOldDevCards().getMonument() > 0
-				&& !ClientModel.getSingleton().getPlayers()[playerIndex]
-						.hasPlayedDevCard()
 				&& (ClientModel.getSingleton().getPlayers()[playerIndex]
 						.getVictoryPoints() + ClientModel.getSingleton()
 						.getPlayers()[playerIndex].getOldDevCards()
