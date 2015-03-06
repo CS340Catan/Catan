@@ -1,6 +1,7 @@
 package client.map.state;
 
 import shared.definitions.PieceType;
+import client.data.UserPlayerInfo;
 import client.map.MapController;
 import client.model.ClientModelController;
 import client.model.Road;
@@ -9,7 +10,7 @@ import client.model.VertexObject;
 public class SecondRoundState implements IMapState {
 	private final String CLASS_NAME = "SecondRoundState";
 	private boolean hasBegunRound = false;
-	
+
 	@Override
 	public void initialize(MapController mapController) {
 
@@ -29,14 +30,18 @@ public class SecondRoundState implements IMapState {
 	@Override
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController) {
-		return clientModelController.canBuildSecondRoad(playerIndex, road, true);
+		return clientModelController
+				.canBuildSecondRoad(playerIndex, road, true);
 	}
 
 	@Override
 	public void beginRound(MapController mapController) {
-		if(!hasBegunRound){
+		ClientModelController clientModelController = new ClientModelController();
+		if (!hasBegunRound
+				&& clientModelController.isPlayerTurn(UserPlayerInfo
+						.getSingleton().getId())) {
 			hasBegunRound = true;
-			mapController.startMove(PieceType.ROAD, true, true);		
+			mapController.startMove(PieceType.ROAD, true, true);
 			mapController.startMove(PieceType.SETTLEMENT, true, true);
 		}
 	}
