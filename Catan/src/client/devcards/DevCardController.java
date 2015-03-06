@@ -235,7 +235,13 @@ public class DevCardController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// make necesarry changes to this view (probably none)
+		//check if we have enough victory points + monuments to win
+		int playerIndex  =  UserPlayerInfo.getSingleton().getPlayerIndex();
+		Player player = ClientModel.getSingleton().getPlayers()[playerIndex];
+		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerIndex].getVictoryPoints() + player.getOldDevCards().getMonument();
+		if(victoryPoints>=10 && modelController.canPlayMonumentCard(playerIndex)){
+			playMonumentCard();
+		}
 		
 	}
 
