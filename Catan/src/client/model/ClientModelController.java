@@ -1284,6 +1284,7 @@ public class ClientModelController {
 		VertexObject testObject = null;
 		VertexLocation testLocation = null;
 
+		//check settlements
 		for (VertexObject settlement : ClientModel.getSingleton().getMap()
 				.getSettlements()) {
 			if (settlement.getOwner() == robbedPlayer) {
@@ -1325,6 +1326,8 @@ public class ClientModelController {
 				}
 			}
 		}
+		
+		//check cities
 		for (VertexObject city : ClientModel.getSingleton().getMap()
 				.getCities()) {
 			if (city.getOwner() == robbedPlayer) {
@@ -1499,8 +1502,6 @@ public class ClientModelController {
 		if (isPlayerTurn(playerIndex)
 				&& ClientModel.getSingleton().getPlayers()[playerIndex]
 						.getOldDevCards().getMonument() > 0
-				&& !ClientModel.getSingleton().getPlayers()[playerIndex]
-						.hasPlayedDevCard()
 				&& (ClientModel.getSingleton().getPlayers()[playerIndex]
 						.getVictoryPoints() + ClientModel.getSingleton()
 						.getPlayers()[playerIndex].getOldDevCards()

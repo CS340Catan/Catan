@@ -130,30 +130,27 @@ public class HTTPCommunicator {
 		// if cookies have already been set, don't worry about setting them
 		// again.
 
-		if (gameCookie == null || userCookie == null) {
-			// strip ;Path=/; and catan.****
-			cookieString = cookieString.replace(";Path=/;", "");
-			if (userCookie == null) {
-				String decodedCookie = URLDecoder.decode(cookieString);
-				decodedCookie = decodedCookie.replace("catan.user=", "");
-				decodedCookie = decodedCookie.replace(";Path=/;", "");
-				Cookie cookie = (Cookie) Serializer.deserialize(decodedCookie,
-						Cookie.class);
-				UserPlayerInfo.getSingleton().setId(cookie.getPlayerId());
-				UserPlayerInfo.getSingleton().setName(cookie.getName());
+		// if (gameCookie == null || userCookie == null) {
+		// strip ;Path=/; and catan.****
+		cookieString = cookieString.replace(";Path=/;", "");
+		if (userCookie == null) {
+			String decodedCookie = URLDecoder.decode(cookieString);
+			decodedCookie = decodedCookie.replace("catan.user=", "");
+			decodedCookie = decodedCookie.replace(";Path=/;", "");
+			Cookie cookie = (Cookie) Serializer.deserialize(decodedCookie,
+					Cookie.class);
+			UserPlayerInfo.getSingleton().setId(cookie.getPlayerId());
+			UserPlayerInfo.getSingleton().setName(cookie.getName());
 
-				String cleaned = cookieString.replace("catan.player=", "");
-				userCookie = cleaned;
-				return 1;
-			} else {
-				// String cleaned = cookieString.replace("catan.game=", "");
-				// gameCookie = cleaned;
-				gameCookie = cookieString;
-				UserPlayerInfo.getSingleton().setGameId(gameCookie);
-				return 2;
-			}
+			String cleaned = cookieString.replace("catan.player=", "");
+			userCookie = cleaned;
+			return 1;
+		} else {
+			// String cleaned = cookieString.replace("catan.game=", "");
+			// gameCookie = cleaned;
+			gameCookie = cookieString;
+			UserPlayerInfo.getSingleton().setGameId(gameCookie);
+			return 2;
 		}
-
-		return 0;
 	}
 }

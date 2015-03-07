@@ -70,7 +70,6 @@ public class PlayerWaitingController extends Controller implements
 		}
 
 		getView().setAIChoices(AIChoices);
-
 	}
 
 	public boolean isFourPlayers() {
@@ -110,6 +109,13 @@ public class PlayerWaitingController extends Controller implements
 			this.stopPlayerWaitingPolling();
 			this.startNormalPolling();
 			setPlayerWaitingState(new NotWaitingState());
+			try {
+				ClientModel cm = server.updateModel(-1);
+				poller.updateModel(cm);
+			} catch (ServerResponseException e) {
+				e.printStackTrace();
+			}
+			
 		}
 
 	}

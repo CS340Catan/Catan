@@ -22,6 +22,7 @@ import client.model.ClientModel;
 public class JoinGameController extends Controller implements
 		IJoinGameController, Observer {
 
+	private GameListPoller gameListPoller;
 	private INewGameView newGameView;
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
@@ -53,66 +54,7 @@ public class JoinGameController extends Controller implements
 
 		ClientModel.getNotifier().addObserver(this);
 		this.server = ServerProxy.getSingleton();
-		/*
-		 * TODO how does the server proxy / HTTP communicator take into account
-		 * port, host, etc.
-		 */
-	}
-
-	public IJoinGameView getJoinGameView() {
-
-		return (IJoinGameView) super.getView();
-	}
-
-	/**
-	 * Returns the action to be executed when the user joins a game
-	 * 
-	 * @return The action to be executed when the user joins a game
-	 */
-	public IAction getJoinAction() {
-
-		return joinAction;
-	}
-
-	/**
-	 * Sets the action to be executed when the user joins a game
-	 * 
-	 * @param value
-	 *            The action to be executed when the user joins a game
-	 */
-	public void setJoinAction(IAction value) {
-
-		joinAction = value;
-	}
-
-	public INewGameView getNewGameView() {
-
-		return newGameView;
-	}
-
-	public void setNewGameView(INewGameView newGameView) {
-
-		this.newGameView = newGameView;
-	}
-
-	public ISelectColorView getSelectColorView() {
-
-		return selectColorView;
-	}
-
-	public void setSelectColorView(ISelectColorView selectColorView) {
-
-		this.selectColorView = selectColorView;
-	}
-
-	public IMessageView getMessageView() {
-
-		return messageView;
-	}
-
-	public void setMessageView(IMessageView messageView) {
-
-		this.messageView = messageView;
+		this.gameListPoller = new GameListPoller(server, this);
 	}
 
 	@Override
@@ -141,6 +83,11 @@ public class JoinGameController extends Controller implements
 		}
 
 		getJoinGameView().showModal();
+		if (!this.gameListPoller.isTimerRunning()) {
+			// TODO make the gameListPoller to work correctly. Currently doesn't
+			// update the view properly.
+			this.gameListPoller.setTimer();
+		}
 	}
 
 	@Override
@@ -162,6 +109,7 @@ public class JoinGameController extends Controller implements
 			 * Package the create game parameters to be sent over to the server.
 			 * These values can be grabbed from the newGameView.
 			 */
+
 			CreateGameParams createGameParams = new CreateGameParams(
 					this.newGameView.getRandomlyPlaceHexes(),
 					this.newGameView.getRandomlyPlaceNumbers(),
@@ -220,7 +168,7 @@ public class JoinGameController extends Controller implements
 	@Override
 	public void startJoinGame(GameInfo game) {
 		this.storeGame = game;
-		
+
 		/*
 		 * Enable all colors, acting as a reset button.
 		 */
@@ -233,7 +181,6 @@ public class JoinGameController extends Controller implements
 		getSelectColorView().setColorEnabled(CatanColor.YELLOW, true);
 		getSelectColorView().setColorEnabled(CatanColor.PURPLE, true);
 		getSelectColorView().setColorEnabled(CatanColor.WHITE, true);
-
 
 		for (PlayerInfo player : game.getPlayers()) {
 			if (!player.getName().equals(
@@ -265,6 +212,7 @@ public class JoinGameController extends Controller implements
 			 * Inputed color. These values are then sent over to the server to
 			 * join a game.
 			 */
+			
 			int joinGameID = this.storeGame.getId();
 			JoinGameParams joinGameParams = new JoinGameParams(
 					color.toString(), joinGameID);
@@ -297,6 +245,69 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
+		// DO NOTHING
+	}
+
+	public void updateGameList(GameInfo[] newGameList) {
+		//System.out.println("Entered JoinGameController:updateGameList() method");
+		getJoinGameView().setGames(newGameList,
+				UserPlayerInfo.getSingleton().toPlayerInfo());
+	}
+
+	public IJoinGameView getJoinGameView() {
+
+		return (IJoinGameView) super.getView();
+	}
+
+	/**
+	 * Returns the action to be executed when the user joins a game
+	 * 
+	 * @return The action to be executed when the user joins a game
+	 */
+	public IAction getJoinAction() {
+
+		return joinAction;
+	}
+
+	/**
+	 * Sets the action to be executed when the user joins a game
+	 * 
+	 * @param value
+	 *            The action to be executed when the user joins a game
+	 */
+	public void setJoinAction(IAction value) {
+
+		joinAction = value;
+	}
+
+	public INewGameView getNewGameView() {
+
+		return newGameView;
+	}
+
+	public void setNewGameView(INewGameView newGameView) {
+
+		this.newGameView = newGameView;
+	}
+
+	public ISelectColorView getSelectColorView() {
+
+		return selectColorView;
+	}
+
+	public void setSelectColorView(ISelectColorView selectColorView) {
+
+		this.selectColorView = selectColorView;
+	}
+
+	public IMessageView getMessageView() {
+
+		return messageView;
+	}
+
+	public void setMessageView(IMessageView messageView) {
+
+		this.messageView = messageView;
 	}
 
 }

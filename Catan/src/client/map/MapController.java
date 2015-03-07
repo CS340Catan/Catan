@@ -308,7 +308,7 @@ public class MapController extends Controller implements IMapController,
 			this.getView().startDrop(
 					PieceType.ROBBER,
 					clientModelController.getPlayerColor(UserPlayerInfo
-							.getSingleton().getPlayerIndex()), false);
+							.getSingleton().getPlayerIndex()), true);
 		}
 	}
 
@@ -372,7 +372,6 @@ public class MapController extends Controller implements IMapController,
 		clientModelController = new ClientModelController();
 		// populateHexes();
 		// populatePorts();
-
 		mapState.initialize(this);
 		updateState();
 		mapState.beginRound(this);
