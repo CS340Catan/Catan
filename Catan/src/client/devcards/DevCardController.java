@@ -221,7 +221,7 @@ public class DevCardController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// make necesarry changes to this view (probably none)
+		// make necessary changes to this view (probably none)
 		String thing = ClientModel.getSingleton().getTurnTracker().getStatus().toLowerCase();
 		if(ClientModel.getSingleton().getTurnTracker().getStatus().toLowerCase().equals("playing")){
 			int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();

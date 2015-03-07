@@ -186,31 +186,14 @@ public class MapController extends Controller implements IMapController,
 				getView().placeRoad(edgeLoc,
 						UserPlayerInfo.getSingleton().getColor());
 			}
-		} else {// Accounts for placing two roads... means that placeRoad should
-				// be called twice by whatever is doing the calling.
+		} else {// Accounts for placing two roads... 
 			if (!firstRoadPlaced) {
 				firstRoadPlaced = true;
 				firstEdge = edgeLoc;
-				getView().placeRoad(firstEdge,
-						UserPlayerInfo.getSingleton().getColor());
-				sendRoadToServer(firstEdge);
-
-				// ClientModel clientModel = ClientModel.getSingleton();
-				// int roadCount =
-				// ClientModel.getSingleton().getMap().getRoads().length;
-				// Road[] roads = new Road[roadCount + 1];
-				// int i = 0;
-				// for(Road road : clientModel.getMap().getRoads()){
-				// roads[i] = road;
-				// }
-				// roads[roadCount] = new
-				// Road(UserPlayerInfo.getSingleton().getPlayerIndex(),
-				// firstEdge);
-				// clientModel.getMap().setRoads(roads);
-				// ClientModel newClientModel
-				// int j = 0;
-				// ClientModel.getSingleton().setClientModel(clientModel);
+				sendRoadToServer(firstEdge);				
+				this.startMove(PieceType.ROAD, true, false);				
 			} else {
+				sendRoadToServer(firstEdge);
 				sendRoadToServer(edgeLoc);
 				try {
 					UserPlayerInfo upi = UserPlayerInfo.getSingleton();
@@ -305,7 +288,7 @@ public class MapController extends Controller implements IMapController,
 	public void startMove(PieceType pieceType, boolean isFree,
 			boolean allowDisconnected) {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		if (allowDisconnected) {
+		if (allowDisconnected || firstRoadPlaced) {
 			this.getView().startDrop(pieceType,
 					clientModelController.getPlayerColor(playerIndex), false);
 		} else {
@@ -315,7 +298,7 @@ public class MapController extends Controller implements IMapController,
 	}
 
 	public void cancelMove() {
-		// this.getView()
+		
 	}
 
 	public void playSoldierCard() {
@@ -343,7 +326,6 @@ public class MapController extends Controller implements IMapController,
 
 	public void playRoadBuildingCard() {
 		playingRoadBuildingCard = true;
-		this.startMove(PieceType.ROAD, true, false);
 		this.startMove(PieceType.ROAD, true, false);
 	}
 

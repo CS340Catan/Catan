@@ -71,7 +71,7 @@ public class MapComponent extends JComponent {
 				NUMBER_IMAGES.put(i, loadNumberImage(i));
 			}
 		}
-
+		
 		ROBBER_IMAGE = loadRobberImage();
 		DISALLOW_IMAGE = loadDisallowImage();
 
@@ -195,7 +195,6 @@ public class MapComponent extends JComponent {
 	private AffineTransform transform;
 
 	public MapComponent() {
-
 		setBackground(Color.white);
 		setOpaque(true);
 
