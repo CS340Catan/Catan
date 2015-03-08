@@ -84,8 +84,6 @@ public class JoinGameController extends Controller implements
 
 		getJoinGameView().showModal();
 		if (!this.gameListPoller.isTimerRunning()) {
-			// TODO make the gameListPoller to work correctly. Currently doesn't
-			// update the view properly.
 			this.gameListPoller.setTimer();
 		}
 	}
@@ -98,7 +96,6 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void cancelCreateNewGame() {
-
 		getNewGameView().closeModal();
 	}
 
@@ -168,6 +165,7 @@ public class JoinGameController extends Controller implements
 	@Override
 	public void startJoinGame(GameInfo game) {
 		this.storeGame = game;
+		gameListPoller.stopTimer();
 
 		/*
 		 * Enable all colors, acting as a reset button.
@@ -194,7 +192,7 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void cancelJoinGame() {
-
+		gameListPoller.setTimer();
 		getJoinGameView().closeModal();
 	}
 
@@ -212,7 +210,7 @@ public class JoinGameController extends Controller implements
 			 * Inputed color. These values are then sent over to the server to
 			 * join a game.
 			 */
-
+			
 			int joinGameID = this.storeGame.getId();
 			JoinGameParams joinGameParams = new JoinGameParams(
 					color.toString(), joinGameID);
