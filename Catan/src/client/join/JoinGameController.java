@@ -212,7 +212,7 @@ public class JoinGameController extends Controller implements
 			 * Inputed color. These values are then sent over to the server to
 			 * join a game.
 			 */
-			
+
 			int joinGameID = this.storeGame.getId();
 			JoinGameParams joinGameParams = new JoinGameParams(
 					color.toString(), joinGameID);
@@ -249,7 +249,7 @@ public class JoinGameController extends Controller implements
 	}
 
 	public void updateGameList(GameInfo[] newGameList) {
-		//System.out.println("Entered JoinGameController:updateGameList() method");
+		// System.out.println("Entered JoinGameController:updateGameList() method");
 		getJoinGameView().setGames(newGameList,
 				UserPlayerInfo.getSingleton().toPlayerInfo());
 	}
