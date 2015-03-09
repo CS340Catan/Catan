@@ -66,7 +66,7 @@ public class PointsController extends Controller implements IPointsController,
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerIndex]
 				.getVictoryPoints();
-		if(victoryPoints > 10){
+		if (victoryPoints > 10) {
 			victoryPoints = 10;
 		}
 		getPointsView().setPoints(victoryPoints);

@@ -64,7 +64,7 @@ public class GameListPoller {
 		timerRunning = true;
 		TimerTask timerTask = new GameListPollerTimeTask(this);
 		timer = new Timer(true);
-		timer.scheduleAtFixedRate(timerTask, 0, 1000);
+		timer.scheduleAtFixedRate(timerTask, 0, 2500);
 		/*
 		 * (timerTask, 0 means starts now, 1000 means 1 second)
 		 */
