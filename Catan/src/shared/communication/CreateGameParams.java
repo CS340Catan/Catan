@@ -47,9 +47,10 @@ public class CreateGameParams {
 		this.randomTiles = randomTiles;
 		this.randomNumbers = randomNumbers;
 		this.randomPorts = randomPorts;
-		if (name == null || name == "")
+		if (name == null || name.equals("")) {
 			throw new InvalidInputException(
 					"Game name cannot be null or the empty string");
+		}
 		this.name = name;
 	}
 

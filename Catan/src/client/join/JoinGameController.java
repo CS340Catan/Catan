@@ -107,6 +107,14 @@ public class JoinGameController extends Controller implements
 			 * These values can be grabbed from the newGameView.
 			 */
 
+			System.out.println("Title:" + this.newGameView.getTitle());
+			System.out.println("Random Hexes:"
+					+ this.newGameView.getRandomlyPlaceHexes());
+			System.out.println("Random Numbers:"
+					+ this.newGameView.getRandomlyPlaceNumbers());
+			System.out.println("Random Ports:"
+					+ this.newGameView.getUseRandomPorts());
+
 			CreateGameParams createGameParams = new CreateGameParams(
 					this.newGameView.getRandomlyPlaceHexes(),
 					this.newGameView.getRandomlyPlaceNumbers(),
@@ -122,6 +130,7 @@ public class JoinGameController extends Controller implements
 					CatanColor.RED.toString(), gameInfo.getId());
 			server.joinGame(params);
 			getNewGameView().closeModal();
+			getNewGameView().setTitle("");
 
 			/*
 			 * Re-update the game list after creating the new game. This should
@@ -150,8 +159,8 @@ public class JoinGameController extends Controller implements
 
 			e.printStackTrace();
 		} catch (InvalidInputException e) {
-			String outputStr = "Server Unavailable.";
-			String title = "Server Unavailable.";
+			String outputStr = "Invalid Game Name.";
+			String title = "Invalid Game Name.";
 
 			messageView.setTitle(title);
 			messageView.setMessage(outputStr);
@@ -210,7 +219,7 @@ public class JoinGameController extends Controller implements
 			 * Inputed color. These values are then sent over to the server to
 			 * join a game.
 			 */
-			
+
 			int joinGameID = this.storeGame.getId();
 			JoinGameParams joinGameParams = new JoinGameParams(
 					color.toString(), joinGameID);
