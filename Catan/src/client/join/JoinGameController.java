@@ -3,6 +3,8 @@ package client.join;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JOptionPane;
+
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
 import shared.communication.InvalidInputException;
@@ -101,12 +103,19 @@ public class JoinGameController extends Controller implements
 
 	@Override
 	public void createNewGame() {
+		boolean nameExists = false;
 		try {
 			/*
 			 * Package the create game parameters to be sent over to the server.
 			 * These values can be grabbed from the newGameView.
 			 */
-
+			GameSummary[] gameList = server.getGameList();
+			for(GameSummary game : gameList){
+				if(game.getTitle().equals(this.newGameView.getTitle())){
+					nameExists = true;
+					throw new InvalidInputException("Name already exists!");
+				}
+			}
 			CreateGameParams createGameParams = new CreateGameParams(
 					this.newGameView.getRandomlyPlaceHexes(),
 					this.newGameView.getRandomlyPlaceNumbers(),
@@ -127,7 +136,6 @@ public class JoinGameController extends Controller implements
 			 * Re-update the game list after creating the new game. This should
 			 * add the newly created game.
 			 */
-			GameSummary[] gameList = server.getGameList();
 			GameInfo[] gameInfoList = new GameInfo[gameList.length];
 			for (int i = 0; i < gameList.length; i++) {
 				gameInfoList[i] = gameList[i].toGameInfo();
@@ -142,7 +150,7 @@ public class JoinGameController extends Controller implements
 			 */
 			String outputStr = "Server Failure.";
 			String title = "Server Failure.";
-
+			
 			messageView.setTitle(title);
 			messageView.setMessage(outputStr);
 			messageView.setController(this);
@@ -152,7 +160,10 @@ public class JoinGameController extends Controller implements
 		} catch (InvalidInputException e) {
 			String outputStr = "Server Unavailable.";
 			String title = "Server Unavailable.";
-
+			if(nameExists){
+				title = "Input Error";
+				outputStr = "Game name already exists!";
+			}
 			messageView.setTitle(title);
 			messageView.setMessage(outputStr);
 			messageView.setController(this);
