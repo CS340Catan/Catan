@@ -27,13 +27,14 @@ public class PlayingState implements IMapState {
 	@Override
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
 			ClientModelController clientModelController) {
-		return clientModelController.canBuildRoad(playerIndex, road, isFree, false);
+		return clientModelController.canBuildRoad(playerIndex, road, isFree,
+				false);
 	}
 
 	@Override
 	public void beginRound(MapController mapController) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

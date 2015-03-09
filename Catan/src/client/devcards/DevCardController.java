@@ -139,7 +139,8 @@ public class DevCardController extends Controller implements
 		getPlayCardView().setCardAmount(type, cardCountNew + cardCountOld);
 		getPlayCardView().setCardEnabled(type, cardCountOld > 0);
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		if(ClientModel.getSingleton().getPlayers()[playerIndex].hasPlayedDevCard() && type!= DevCardType.MONUMENT){
+		if (ClientModel.getSingleton().getPlayers()[playerIndex]
+				.hasPlayedDevCard() && type != DevCardType.MONUMENT) {
 			getPlayCardView().setCardEnabled(type, false);
 		}
 	}
@@ -182,7 +183,8 @@ public class DevCardController extends Controller implements
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Totes sry. Ye' can't play that yet!", "No can do",
+			JOptionPane.showMessageDialog(null,
+					"Totes sry. Ye' can't play that yet!", "No can do",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -190,11 +192,11 @@ public class DevCardController extends Controller implements
 	@Override
 	public void playRoadBuildCard() {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		if(modelController.canPlayRoadBuildingCard(playerIndex)){
+		if (modelController.canPlayRoadBuildingCard(playerIndex)) {
 			roadAction.execute();
-		}
-		else{
-			JOptionPane.showMessageDialog(null, "Totes sry. Ye' can't play that yet!", "No can do",
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"Totes sry. Ye' can't play that yet!", "No can do",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -235,14 +237,16 @@ public class DevCardController extends Controller implements
 
 	@Override
 	public void update(Observable o, Object arg) {
-		//check if we have enough victory points + monuments to win
-		int playerIndex  =  UserPlayerInfo.getSingleton().getPlayerIndex();
+		// check if we have enough victory points + monuments to win
+		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		Player player = ClientModel.getSingleton().getPlayers()[playerIndex];
-		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerIndex].getVictoryPoints() + player.getOldDevCards().getMonument();
-		if(victoryPoints>=10 && modelController.canPlayMonumentCard(playerIndex)){
+		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerIndex]
+				.getVictoryPoints() + player.getOldDevCards().getMonument();
+		if (victoryPoints >= 10
+				&& modelController.canPlayMonumentCard(playerIndex)) {
 			playMonumentCard();
 		}
-		
+
 	}
 
 	// ==================================================================================

@@ -14,6 +14,7 @@ import client.model.ResourceList;
 
 /**
  * Test for canAccpetTrade, canOfferTrade, canDiscardCards, and canRobPlayer
+ * 
  * @author winstonhurst
  *
  */
@@ -25,80 +26,91 @@ public class MiscClientModelTest {
 	public void setUp() throws Exception {
 		clientModel = Serializer.deserializeClientModel(clientModelJson);
 	}
-	
+
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+
 	@Test
-	public void testCanAcceptTradeBadResourceList(){
+	public void testCanAcceptTradeBadResourceList() {
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		ClientModelController clientModelController = new ClientModelController();
-		ResourceList resourceList = new ResourceList(900,0,0,0,0);
-		boolean result = clientModelController.canAcceptTrade(currentPlayer, resourceList);
+		ResourceList resourceList = new ResourceList(900, 0, 0, 0, 0);
+		boolean result = clientModelController.canAcceptTrade(currentPlayer,
+				resourceList);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void testCanAcceptTradeGood(){
+	public void testCanAcceptTradeGood() {
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		ClientModelController clientModelController = new ClientModelController();
-		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
-		boolean result = clientModelController.canAcceptTrade(currentPlayer, resourceList);
+		ResourceList resourceList = clientModel.getPlayers()[currentPlayer]
+				.getResources();
+		boolean result = clientModelController.canAcceptTrade(currentPlayer,
+				resourceList);
 		assertTrue(result);
 	}
-	
+
 	@Test
-	public void testCanOfferTradeBadPlayerId(){
+	public void testCanOfferTradeBadPlayerId() {
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
-		int testPlayer = (currentPlayer + 1)%4;
+		int testPlayer = (currentPlayer + 1) % 4;
 		ClientModelController clientModelController = new ClientModelController();
-		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
-		boolean result = clientModelController.canOfferTrade(testPlayer, resourceList);
+		ResourceList resourceList = clientModel.getPlayers()[currentPlayer]
+				.getResources();
+		boolean result = clientModelController.canOfferTrade(testPlayer,
+				resourceList);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void testCanOfferTradeBadResource(){
+	public void testCanOfferTradeBadResource() {
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		ClientModelController clientModelController = new ClientModelController();
-		ResourceList resourceList = new ResourceList(900,0,0,0,0);
-		boolean result = clientModelController.canAcceptTrade(currentPlayer, resourceList);
+		ResourceList resourceList = new ResourceList(900, 0, 0, 0, 0);
+		boolean result = clientModelController.canAcceptTrade(currentPlayer,
+				resourceList);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void testCanOfferTradeBadIdAndResourceList(){
+	public void testCanOfferTradeBadIdAndResourceList() {
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
-		int testPlayer = (currentPlayer + 1)%4;
+		int testPlayer = (currentPlayer + 1) % 4;
 		ClientModelController clientModelController = new ClientModelController();
-		ResourceList resourceList = new ResourceList(100,0,0,0,0);
-		boolean result = clientModelController.canOfferTrade(testPlayer, resourceList);
+		ResourceList resourceList = new ResourceList(100, 0, 0, 0, 0);
+		boolean result = clientModelController.canOfferTrade(testPlayer,
+				resourceList);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void testCanOfferTradeBadStatus(){
+	public void testCanOfferTradeBadStatus() {
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		clientModel.getTurnTracker().setStatus("Rolling");
 		ClientModelController clientModelController = new ClientModelController();
-		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
-		boolean result = clientModelController.canOfferTrade(currentPlayer, resourceList);
+		ResourceList resourceList = clientModel.getPlayers()[currentPlayer]
+				.getResources();
+		boolean result = clientModelController.canOfferTrade(currentPlayer,
+				resourceList);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void testCanOfferTradeGood(){
+	public void testCanOfferTradeGood() {
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		clientModel.getTurnTracker().setStatus("playing");
 		ClientModelController clientModelController = new ClientModelController();
-		ResourceList resourceList = clientModel.getPlayers()[currentPlayer].getResources();
-		boolean result = clientModelController.canOfferTrade(currentPlayer, resourceList);
+		ResourceList resourceList = clientModel.getPlayers()[currentPlayer]
+				.getResources();
+		boolean result = clientModelController.canOfferTrade(currentPlayer,
+				resourceList);
 		assertTrue(result);
 	}
-	
-	@Test 
-	public void testCanDiscardCardsBadStatus(){
+
+	@Test
+	public void testCanDiscardCardsBadStatus() {
 		clientModel.getTurnTracker().setStatus("rolling");
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(8);
@@ -106,9 +118,9 @@ public class MiscClientModelTest {
 		boolean result = clientModelController.canDiscardCards(playerIndex);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void testCanDiscardCardsTooFewCards(){
+	public void testCanDiscardCardsTooFewCards() {
 		clientModel.getTurnTracker().setStatus("Discarding");
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(7);
@@ -116,9 +128,9 @@ public class MiscClientModelTest {
 		boolean result = clientModelController.canDiscardCards(playerIndex);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void testCanDiscardCardsAlreadyDiscarded(){
+	public void testCanDiscardCardsAlreadyDiscarded() {
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(10);
 		clientModel.getPlayers()[playerIndex].setDiscarded(true);
@@ -126,9 +138,9 @@ public class MiscClientModelTest {
 		boolean result = clientModelController.canDiscardCards(playerIndex);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void testCanDsicardCardsGood(){
+	public void testCanDsicardCardsGood() {
 		int playerIndex = 1;
 		clientModel.getTurnTracker().setStatus("Discarding");
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(10);
@@ -137,7 +149,7 @@ public class MiscClientModelTest {
 		boolean result = clientModelController.canDiscardCards(playerIndex);
 		assertTrue(result);
 	}
-	
+
 	/**
 	 * tests if the player can rob a player
 	 * 
@@ -146,67 +158,70 @@ public class MiscClientModelTest {
 	 *      soldier card
 	 * @Pre the victim player is adjacent to the hex the robber is on
 	 * @Post result: a boolean reporting success/fail
-	
-	public boolean canRobPlayer(HexLocation robberLocation, int robbingPlayer, int robbedPlayer) {
-		if (isPlayerTurn(robbingPlayer) && clientModel.getTurnTracker().getStatus().equals("Robbing") && playerTouchingRobber(robbedPlayer, robberLocation)) {
-			return true;
-		}
-		return false;
-
-	}
-	*/
+	 * 
+	 *       public boolean canRobPlayer(HexLocation robberLocation, int
+	 *       robbingPlayer, int robbedPlayer) { if (isPlayerTurn(robbingPlayer)
+	 *       && clientModel.getTurnTracker().getStatus().equals("Robbing") &&
+	 *       playerTouchingRobber(robbedPlayer, robberLocation)) { return true;
+	 *       } return false;
+	 * 
+	 *       }
+	 */
 	@Test
-	public void canRobPlayerNotRobbersTurn(){
+	public void canRobPlayerNotRobbersTurn() {
 		clientModel.getTurnTracker().setCurrentTurn(3);
 		int robberIndex = 1;
 		int victimIndex = 0;
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
 		clientModel.getTurnTracker().setStatus("playing");
-		HexLocation newRobberLocal = new HexLocation(0,1);
+		HexLocation newRobberLocal = new HexLocation(0, 1);
 		ClientModelController clientModelController = new ClientModelController();
-		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
+		boolean result = clientModelController.canRobPlayer(newRobberLocal,
+				robberIndex, victimIndex);
 		assertFalse(result);
-		
+
 	}
-	
+
 	@Test
-	public void canRobPlayerBadStatus(){
+	public void canRobPlayerBadStatus() {
 		clientModel.getTurnTracker().setCurrentTurn(3);
 		int robberIndex = 3;
 		int victimIndex = 0;
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
 		clientModel.getTurnTracker().setStatus("rolling");
-		HexLocation newRobberLocal = new HexLocation(0,1);
+		HexLocation newRobberLocal = new HexLocation(0, 1);
 		ClientModelController clientModelController = new ClientModelController();
-		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
+		boolean result = clientModelController.canRobPlayer(newRobberLocal,
+				robberIndex, victimIndex);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void canRobPlayerBadLocation(){
+	public void canRobPlayerBadLocation() {
 		clientModel.getTurnTracker().setCurrentTurn(3);
 		int robberIndex = 3;
 		int victimIndex = 0;
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
 		clientModel.getTurnTracker().setStatus("playing");
-		HexLocation newRobberLocal = new HexLocation(2,-1);
+		HexLocation newRobberLocal = new HexLocation(2, -1);
 		ClientModelController clientModelController = new ClientModelController();
-		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
+		boolean result = clientModelController.canRobPlayer(newRobberLocal,
+				robberIndex, victimIndex);
 		assertFalse(result);
 	}
-	
+
 	@Test
-	public void canRobPlayerSuccess(){
+	public void canRobPlayerSuccess() {
 		clientModel.getTurnTracker().setCurrentTurn(3);
 		int robberIndex = 3;
 		int victimIndex = 0;
 		clientModel.getPlayers()[victimIndex].getResources().setSheep(100);
 		clientModel.getTurnTracker().setStatus("playing");
-		HexLocation newRobberLocal = new HexLocation(1,0);
+		HexLocation newRobberLocal = new HexLocation(1, 0);
 		ClientModelController clientModelController = new ClientModelController();
-		boolean result = clientModelController.canRobPlayer(newRobberLocal, robberIndex, victimIndex);
+		boolean result = clientModelController.canRobPlayer(newRobberLocal,
+				robberIndex, victimIndex);
 		assertTrue(result);
 	}
-	
-	
+
 }

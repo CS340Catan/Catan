@@ -15,10 +15,11 @@ public class VertexLocation {
 		setHexLoc(hexLoc);
 		setDir(dir);
 	}
-	public void convertToPrimitives(){
+
+	public void convertToPrimitives() {
 		x = hexLoc.getX();
 		y = hexLoc.getY();
-		switch(dir){
+		switch (dir) {
 		case NorthWest:
 			direction = "NW";
 			break;
@@ -37,33 +38,35 @@ public class VertexLocation {
 		case SouthWest:
 			direction = "SW";
 			break;
-			
+
 		}
 	}
-//	public void 
+
+	// public void
 	public void convertFromPrimitives() {
 		this.hexLoc = new HexLocation(x, y);
 		switch (direction) {
 		case ("E"):
 			dir = VertexDirection.East;
-		break;
+			break;
 		case ("NE"):
 			dir = VertexDirection.NorthEast;
-		break;
+			break;
 		case ("SE"):
 			dir = VertexDirection.SouthEast;
-		break;
+			break;
 		case ("W"):
 			dir = VertexDirection.West;
-		break;
+			break;
 		case ("SW"):
 			dir = VertexDirection.SouthWest;
-		break;
+			break;
 		case ("NW"):
 			dir = VertexDirection.NorthWest;
-		break;
+			break;
 		}
 	}
+
 	public HexLocation getHexLoc() {
 		return hexLoc;
 	}
@@ -153,21 +156,27 @@ public class VertexLocation {
 			return null;
 		}
 	}
+
 	public String getDirection() {
 		return direction;
 	}
+
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
+
 	public int getX() {
 		return x;
 	}
+
 	public void setX(int x) {
 		this.x = x;
 	}
+
 	public int getY() {
 		return y;
 	}
+
 	public void setY(int y) {
 		this.y = y;
 	}

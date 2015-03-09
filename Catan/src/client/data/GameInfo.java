@@ -54,7 +54,7 @@ public class GameInfo {
 		if (!this.title.equals(gI.getTitle()))
 			return false;
 		for (int i = 0; i < gI.getPlayers().size(); i++) {
-			if(!this.players.get(i).equals(gI.getPlayers().get(i)))
+			if (!this.players.get(i).equals(gI.getPlayers().get(i)))
 				return false;
 		}
 

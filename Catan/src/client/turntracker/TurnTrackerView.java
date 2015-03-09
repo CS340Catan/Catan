@@ -79,36 +79,39 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 	public void initializePlayer(int playerIndex, String playerName,
 			CatanColor playerColor) {
 
-playerPanel[playerIndex].setLayout(new BorderLayout());
-		
+		playerPanel[playerIndex].setLayout(new BorderLayout());
+
 		JLabel name = new JLabel(playerName);
-		name.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
+		name.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		Font labelFont = name.getFont();
 		labelFont = labelFont.deriveFont(Font.BOLD, FONT_SIZE);
 		name.setFont(labelFont);
 		playerPanel[playerIndex].add(name, BorderLayout.WEST);
-		
+
 		JPanel indicatorPanel = new JPanel();
 		indicatorPanel.setBackground(playerColor.getJavaColor());
 		playerPanel[playerIndex].add(indicatorPanel, BorderLayout.CENTER);
-		
+
 		playerArmy[playerIndex] = new JLabel();
 		playerArmy[playerIndex].setIcon(new ImageIcon(largestArmyImage));
 		indicatorPanel.add(playerArmy[playerIndex]);
 		playerArmy[playerIndex].setVisible(false);
-		
+
 		playerRoad[playerIndex] = new JLabel();
 		playerRoad[playerIndex].setIcon(new ImageIcon(longestRoadImage));
 		indicatorPanel.add(playerRoad[playerIndex]);
 		playerRoad[playerIndex].setVisible(false);
-		
+
 		playerPoints[playerIndex] = new JLabel("0");
-		playerPoints[playerIndex].setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
+		playerPoints[playerIndex].setBorder(BorderFactory.createEmptyBorder(3,
+				3, 3, 3));
 		playerPoints[playerIndex].setFont(labelFont);
-		playerPanel[playerIndex].add(playerPoints[playerIndex], BorderLayout.EAST);
-		
+		playerPanel[playerIndex].add(playerPoints[playerIndex],
+				BorderLayout.EAST);
+
 		playerPanel[playerIndex].setBackground(playerColor.getJavaColor());
-		playerPanel[playerIndex].setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+		playerPanel[playerIndex].setBorder(BorderFactory.createEmptyBorder(3,
+				3, 3, 3));
 
 	}
 
@@ -129,7 +132,7 @@ playerPanel[playerIndex].setLayout(new BorderLayout());
 	}
 
 	public void redrawAll() {
-		for(JPanel panel : playerPanel){
+		for (JPanel panel : playerPanel) {
 			panel.repaint();
 		}
 		titlePanel.repaint();

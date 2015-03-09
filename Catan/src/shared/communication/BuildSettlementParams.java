@@ -1,8 +1,10 @@
 package shared.communication;
 
 import shared.locations.VertexLocation;
+
 /**
  * Class which contains data for 'moves/buildSettlement'
+ * 
  * @author winstonhurst
  *
  */
@@ -18,8 +20,9 @@ public class BuildSettlementParams {
 	 * Whether this is placed for free (setup)
 	 */
 	boolean free;
-	
-	public BuildSettlementParams(int playerIndex, VertexLocation vertexLocation, boolean free) {
+
+	public BuildSettlementParams(int playerIndex,
+			VertexLocation vertexLocation, boolean free) {
 		vertexLocation.convertToPrimitives();
 		this.playerIndex = playerIndex;
 		this.vertexLocation = new VertexLocationParam();

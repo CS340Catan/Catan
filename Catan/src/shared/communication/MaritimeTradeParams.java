@@ -1,18 +1,21 @@
 package shared.communication;
+
 /**
  * Class which contains data for 'moves/maritimeTrade'
+ * 
  * @author winstonhurst
  *
  */
 public class MaritimeTradeParams {
-	
+
 	String type = "maritimeTrade";
 	/**
 	 * Who's doing the trading,
 	 */
 	int playerIndex;
 	/**
-	 * (optional): The ratio of the trade your doing as an integer (ie. put 3 for a 3:1 trade),
+	 * (optional): The ratio of the trade your doing as an integer (ie. put 3
+	 * for a 3:1 trade),
 	 */
 	int ratio;
 	/**
@@ -23,8 +26,9 @@ public class MaritimeTradeParams {
 	 * (optional): What type of resource you're getting.
 	 */
 	String outputResource;
-	
-	public MaritimeTradeParams(int playerIndex, int ratio, String inputResource, String outputResource) {
+
+	public MaritimeTradeParams(int playerIndex, int ratio,
+			String inputResource, String outputResource) {
 		this.playerIndex = playerIndex;
 		this.ratio = ratio;
 		this.inputResource = inputResource;

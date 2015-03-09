@@ -39,8 +39,8 @@ public class GameListPoller {
 	 * @post has either left current ClientModel alone, or updated it
 	 */
 	public void updateGameList() {
-		//System.out.println("Entered GameListPoller:updateGameList() method");
-		
+		// System.out.println("Entered GameListPoller:updateGameList() method");
+
 		try {
 			GameSummary[] newGameSummaryList = server.getGameList();
 			GameInfo[] newGameInfoList = new GameInfo[newGameSummaryList.length];
@@ -48,12 +48,12 @@ public class GameListPoller {
 			for (int i = 0; i < newGameSummaryList.length; i++) {
 				newGameInfoList[i] = newGameSummaryList[i].toGameInfo();
 			}
-			
+
 			this.joinGameController.updateGameList(newGameInfoList);
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class GameListPoller {
 		 * (timerTask, 0 means starts now, 1000 means 1 second)
 		 */
 	}
-	
+
 	/**
 	 * @pre the game has ended or been temporarily exited
 	 * @post the java timer no longer

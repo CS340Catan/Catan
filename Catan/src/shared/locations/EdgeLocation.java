@@ -16,10 +16,11 @@ public class EdgeLocation {
 		setDir(dir);
 		direction = dir.toString();
 	}
-	public void convertToPrimitives(){
+
+	public void convertToPrimitives() {
 		x = hexLoc.getX();
 		y = hexLoc.getY();
-		switch(dir){
+		switch (dir) {
 		case NorthWest:
 			direction = "NW";
 			break;
@@ -40,7 +41,8 @@ public class EdgeLocation {
 			break;
 		}
 	}
-//	public void 
+
+	// public void
 	public void convertFromPrimitives() {
 		this.hexLoc = new HexLocation(x, y);
 		switch (direction) {
@@ -168,9 +170,11 @@ public class EdgeLocation {
 	public void setY(int y) {
 		this.y = y;
 	}
+
 	public String getDirection() {
 		return direction;
 	}
+
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}

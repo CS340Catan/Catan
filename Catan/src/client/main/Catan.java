@@ -66,7 +66,7 @@ public class Catan extends JFrame {
 						playerWaitingController.start();
 					}
 				});
-				
+
 				joinView.setController(joinController);
 				newGameView.setController(joinController);
 				selectColorView.setController(joinController);

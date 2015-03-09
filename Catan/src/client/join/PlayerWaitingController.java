@@ -53,7 +53,10 @@ public class PlayerWaitingController extends Controller implements
 			for (Player player : ClientModel.getSingleton().getPlayers()) {
 				if (player == null) {
 					if (!isFourPlayers()) {
-						getView().setPlayers(playerInfoList.toArray(new PlayerInfo[playerInfoList.size()]));
+						getView().setPlayers(
+								playerInfoList
+										.toArray(new PlayerInfo[playerInfoList
+												.size()]));
 						getView().showModal();
 						break;
 					}
@@ -115,7 +118,7 @@ public class PlayerWaitingController extends Controller implements
 			} catch (ServerResponseException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 
 	}
@@ -123,7 +126,7 @@ public class PlayerWaitingController extends Controller implements
 	@Override
 	public void update(Observable o, Object arg) {
 		playerWaitingState.action(this);
-		
+
 	}
 
 	public IPlayerWaitingState getPlayerWaitingState() {
@@ -133,11 +136,13 @@ public class PlayerWaitingController extends Controller implements
 	public void setPlayerWaitingState(IPlayerWaitingState playerWaitingState) {
 		this.playerWaitingState = playerWaitingState;
 	}
-	public void stopPlayerWaitingPolling(){
+
+	public void stopPlayerWaitingPolling() {
 		poller.stopPlayerWaitingTimer();
 	}
-	public void startNormalPolling(){
-		if(!poller.isNormalTimerRunning()){
+
+	public void startNormalPolling() {
+		if (!poller.isNormalTimerRunning()) {
 			poller.setTimer();
 		}
 	}

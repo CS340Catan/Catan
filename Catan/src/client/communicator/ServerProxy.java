@@ -78,14 +78,14 @@ public class ServerProxy implements IServer {
 		}
 		return model;
 	}
-	
-	public ClientModel updateModelNoVersionCheck() throws ServerResponseException{
-		String jsonResponseString = httpCommunicator.doGet(
-				"/game/model", null);
+
+	public ClientModel updateModelNoVersionCheck()
+			throws ServerResponseException {
+		String jsonResponseString = httpCommunicator.doGet("/game/model", null);
 		ClientModel model = null; // Returns null if current model is already
 									// correct or there was an error
 		if (jsonResponseString != null) {
-				model = Serializer.deserializeClientModel(jsonResponseString);
+			model = Serializer.deserializeClientModel(jsonResponseString);
 		}
 		return model;
 	}
@@ -356,7 +356,8 @@ public class ServerProxy implements IServer {
 	@Override
 	public ClientModel sendChat(String content) throws ServerResponseException {
 		int playerId = UserPlayerInfo.getSingleton().getPlayerIndex();
-		String jsonString = Serializer.serialize(new ChatMessage(playerId,content));
+		String jsonString = Serializer.serialize(new ChatMessage(playerId,
+				content));
 		String response = httpCommunicator
 				.doPost("/moves/sendChat", jsonString);
 		if (response != null) {
@@ -417,15 +418,17 @@ public class ServerProxy implements IServer {
 	/**
 	 * @Pre It is the current player's turn
 	 * @Pre The client modelâ€™s status is â€˜Rollingâ€™
-	 * @Post The client modelâ€™s status is now in â€˜Discardingâ€™ or
-	 *       â€˜Robbingâ€™ or â€˜Playingâ€™
+	 * @Post The client modelâ€™s status is now in
+	 *       â€˜Discardingâ€™ or â€˜Robbingâ€™ or
+	 *       â€˜Playingâ€™
 	 * @param number
 	 * @return
 	 */
 	@Override
 	public ClientModel rollNumber(int number) throws ServerResponseException {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		String jsonString = Serializer.serialize(new RollParams(playerIndex,number));
+		String jsonString = Serializer.serialize(new RollParams(playerIndex,
+				number));
 		String response = httpCommunicator.doPost("/moves/rollNumber",
 				jsonString);
 		if (response != null) {

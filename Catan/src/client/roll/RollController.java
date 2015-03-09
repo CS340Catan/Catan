@@ -79,23 +79,23 @@ public class RollController extends Controller implements IRollController,
 		if (tracker.getCurrentTurn() == playerIndex
 				&& tracker.getStatus().equals("Rolling")
 				&& !getRollView().isModalShowing()) {
-			//kill possible overlying modal
+			// kill possible overlying modal
 			getRollView().closeModal();
 			getRollView().showModal();
 			this.countDown = 10;
 			this.timer = new Timer();
-			timer.schedule(new AutoRoll(),500,1100);
-			
+			timer.schedule(new AutoRoll(), 500, 1100);
+
 		}
 
 	}
-	
-	private class AutoRoll extends TimerTask{
+
+	private class AutoRoll extends TimerTask {
 		@Override
 		public void run() {
 			countDown--;
-			getRollView().setMessage("Rolling in "+(countDown));
-			if(countDown==0)
+			getRollView().setMessage("Rolling in " + (countDown));
+			if (countDown == 0)
 				rollDice();
 		}
 	}

@@ -91,7 +91,6 @@ public class ResourceBarController extends Controller implements
 		int sheep = playerResources.getSheep();
 		int brick = playerResources.getBrick();
 		int wheat = playerResources.getWheat();
-		
 
 		this.getView().setElementAmount(ResourceBarElement.ORE, ore);
 		this.getView().setElementAmount(ResourceBarElement.WOOD, wood);
@@ -115,8 +114,10 @@ public class ResourceBarController extends Controller implements
 		int cityCnt = ClientModel.getSingleton().getPlayers()[playerIndex]
 				.getCities();
 		this.getView().setElementAmount(ResourceBarElement.CITY, cityCnt);
-		int soldierCount = ClientModel.getSingleton().getPlayers()[playerIndex].getSoldiers();
-		this.getView().setElementAmount(ResourceBarElement.SOLDIERS, soldierCount);
+		int soldierCount = ClientModel.getSingleton().getPlayers()[playerIndex]
+				.getSoldiers();
+		this.getView().setElementAmount(ResourceBarElement.SOLDIERS,
+				soldierCount);
 
 		/*
 		 * Enable or disable the ability to buy or play a development card.

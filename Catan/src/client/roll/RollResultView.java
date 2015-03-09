@@ -26,7 +26,7 @@ import client.utils.ImageUtils;
 /**
  * Implementation for the roll result view, which displays the result of a roll
  */
-@SuppressWarnings({ "serial"})
+@SuppressWarnings({ "serial" })
 public class RollResultView extends OverlayView implements IRollResultView {
 
 	private final int TITLE_TEXT_SIZE = 40;
@@ -41,7 +41,7 @@ public class RollResultView extends OverlayView implements IRollResultView {
 	private JLabel rollLabel;
 	private ImageIcon picture;
 	private JLabel pictureLabel;
-	
+
 	private int rollVal;
 
 	public RollResultView() {
@@ -105,13 +105,15 @@ public class RollResultView extends OverlayView implements IRollResultView {
 			if (e.getSource() == okayButton) {
 				try {
 					closeModal();
-					ClientModel clientModel = ServerProxy.getSingleton().rollNumber(rollVal);
+					ClientModel clientModel = ServerProxy.getSingleton()
+							.rollNumber(rollVal);
 					ClientModel.getSingleton().setClientModel(clientModel);
 				} catch (ServerResponseException e1) {
-					JOptionPane.showMessageDialog(null, "Invalid JSON or Cookie",
-							"Server Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Invalid JSON or Cookie", "Server Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		}
 	};

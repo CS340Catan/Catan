@@ -72,7 +72,7 @@ public class MapComponent extends JComponent {
 				NUMBER_IMAGES.put(i, loadNumberImage(i));
 			}
 		}
-		
+
 		ROBBER_IMAGE = loadRobberImage();
 		DISALLOW_IMAGE = loadDisallowImage();
 

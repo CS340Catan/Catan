@@ -69,7 +69,8 @@ public class TurnTrackerController extends Controller implements
 		 * button cannot be pressed.
 		 */
 		String currentStatus = model.getTurnTracker().getStatus();
-		if(currentStatus.equals("FirstRound") || currentStatus.equals("SecondRound")){
+		if (currentStatus.equals("FirstRound")
+				|| currentStatus.equals("SecondRound")) {
 			getView().updateGameState("Setup Phase", false);
 		}
 

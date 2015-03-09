@@ -136,8 +136,10 @@ public class ResourceList {
 	 * 
 	 * @Pre none
 	 * @Post boolean Returns true if there are (number) of type resource.
-	 * @param number Number of resources.
-	 * @param resource Resource being queried.
+	 * @param number
+	 *            Number of resources.
+	 * @param resource
+	 *            Resource being queried.
 	 * @return
 	 */
 	public boolean ofAKind(ResourceType resource, int number) {

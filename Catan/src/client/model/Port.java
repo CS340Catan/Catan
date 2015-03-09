@@ -42,6 +42,7 @@ public class Port {
 		this.direction = direction;
 		this.ratio = ratio;
 	}
+
 	public void convertFromPrimitives() {
 		switch (direction) {
 		case "N":

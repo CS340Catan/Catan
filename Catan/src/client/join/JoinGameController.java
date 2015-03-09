@@ -3,12 +3,7 @@ package client.join;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JOptionPane;
-
-import shared.communication.CreateGameParams;
-import shared.communication.GameSummary;
-import shared.communication.InvalidInputException;
-import shared.communication.JoinGameParams;
+import shared.communication.*;
 import shared.definitions.CatanColor;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
@@ -21,7 +16,8 @@ import client.model.ClientModel;
 /**
  * Implementation for the join game controller
  */
-public class JoinGameController extends Controller implements IJoinGameController, Observer {
+public class JoinGameController extends Controller implements
+		IJoinGameController, Observer {
 
 	private GameListPoller gameListPoller;
 	private INewGameView newGameView;
@@ -44,7 +40,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 *            Message view (used to display error messages that occur while
 	 *            the user is joining a game)
 	 */
-	public JoinGameController(IJoinGameView view, INewGameView newGameView, ISelectColorView selectColorView, IMessageView messageView) {
+	public JoinGameController(IJoinGameView view, INewGameView newGameView,
+			ISelectColorView selectColorView, IMessageView messageView) {
 
 		super(view);
 
@@ -67,7 +64,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				gameInfoList[i] = gameList[i].toGameInfo();
 			}
 
-			getJoinGameView().setGames(gameInfoList, UserPlayerInfo.getSingleton().toPlayerInfo());
+			getJoinGameView().setGames(gameInfoList,
+					UserPlayerInfo.getSingleton().toPlayerInfo());
 
 		} catch (ServerResponseException e) {
 			String outputStr = "Server Failure.";
@@ -112,20 +110,29 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				}
 			}
 
-			System.out.println("Title:" + this.newGameView.getTitle());
-			System.out.println("Random Hexes:" + this.newGameView.getRandomlyPlaceHexes());
-			System.out.println("Random Numbers:" + this.newGameView.getRandomlyPlaceNumbers());
-			System.out.println("Random Ports:" + this.newGameView.getUseRandomPorts());
+			/*
+			 * System.out.println("Title:" + this.newGameView.getTitle());
+			 * System.out.println("Random Hexes:" +
+			 * this.newGameView.getRandomlyPlaceHexes());
+			 * System.out.println("Random Numbers:" +
+			 * this.newGameView.getRandomlyPlaceNumbers());
+			 * System.out.println("Random Ports:" +
+			 * this.newGameView.getUseRandomPorts());
+			 */
 
-			CreateGameParams createGameParams = new CreateGameParams(this.newGameView.getRandomlyPlaceHexes(), this.newGameView.getRandomlyPlaceNumbers(),
-					this.newGameView.getUseRandomPorts(), this.newGameView.getTitle());
+			CreateGameParams createGameParams = new CreateGameParams(
+					this.newGameView.getRandomlyPlaceHexes(),
+					this.newGameView.getRandomlyPlaceNumbers(),
+					this.newGameView.getUseRandomPorts(),
+					this.newGameView.getTitle());
 
 			/*
 			 * Call the server to create a new game and then close the new game
 			 * view.
 			 */
 			GameInfo gameInfo = server.createGame(createGameParams);
-			JoinGameParams params = new JoinGameParams(CatanColor.RED.toString(), gameInfo.getId());
+			JoinGameParams params = new JoinGameParams(
+					CatanColor.RED.toString(), gameInfo.getId());
 			server.joinGame(params);
 			getNewGameView().closeModal();
 			getNewGameView().setTitle("");
@@ -139,7 +146,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				gameInfoList[i] = gameList[i].toGameInfo();
 			}
 
-			getJoinGameView().setGames(gameInfoList, UserPlayerInfo.getSingleton().toPlayerInfo());
+			getJoinGameView().setGames(gameInfoList,
+					UserPlayerInfo.getSingleton().toPlayerInfo());
 		} catch (ServerResponseException e) {
 			/*
 			 * Throw and error if there is an error with the server, i.e. a 400
@@ -157,7 +165,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		} catch (InvalidInputException e) {
 			String outputStr = "Invalid Game Name.";
 			String title = "Invalid Game Name.";
-			
+
 			messageView.setTitle(title);
 			messageView.setMessage(outputStr);
 			messageView.setController(this);
@@ -186,7 +194,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		getSelectColorView().setColorEnabled(CatanColor.WHITE, true);
 
 		for (PlayerInfo player : game.getPlayers()) {
-			if (!player.getName().equals(UserPlayerInfo.getSingleton().getName())) {
+			if (!player.getName().equals(
+					UserPlayerInfo.getSingleton().getName())) {
 				getSelectColorView().setColorEnabled(player.getColor(), false);
 			}
 		}
@@ -216,7 +225,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			 */
 
 			int joinGameID = this.storeGame.getId();
-			JoinGameParams joinGameParams = new JoinGameParams(color.toString(), joinGameID);
+			JoinGameParams joinGameParams = new JoinGameParams(
+					color.toString(), joinGameID);
 			server.joinGame(joinGameParams); // should return "success" in
 												// object
 
@@ -251,7 +261,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	public void updateGameList(GameInfo[] newGameList) {
 		// System.out.println("Entered JoinGameController:updateGameList() method");
-		getJoinGameView().setGames(newGameList, UserPlayerInfo.getSingleton().toPlayerInfo());
+		getJoinGameView().setGames(newGameList,
+				UserPlayerInfo.getSingleton().toPlayerInfo());
 	}
 
 	public IJoinGameView getJoinGameView() {

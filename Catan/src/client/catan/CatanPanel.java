@@ -111,7 +111,7 @@ public class CatanPanel extends JPanel {
 				}
 			}
 		});
-		//this.add(testButton, BorderLayout.SOUTH);
+		// this.add(testButton, BorderLayout.SOUTH);
 	}
 
 }

@@ -63,11 +63,11 @@ public class LoginResponse {
 	public void setId(int id) {
 		this.playerID = id;
 	}
-	
+
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
-	
+
 	public boolean isSuccess() {
 		return success;
 	}

@@ -8,7 +8,7 @@ public class LoadGameParams {
 		super();
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -16,5 +16,5 @@ public class LoadGameParams {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

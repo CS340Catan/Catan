@@ -58,15 +58,17 @@ public class ClientModel {
 		}
 		return clientModel;
 	}
-	public boolean hasFourPlayers(){
+
+	public boolean hasFourPlayers() {
 		boolean hasFourPlayers = true;
-		for(Player player : this.getPlayers()){
-			if(player == null){
+		for (Player player : this.getPlayers()) {
+			if (player == null) {
 				hasFourPlayers = false;
 			}
 		}
 		return hasFourPlayers;
 	}
+
 	public ResourceList getBank() {
 		return bank;
 	}

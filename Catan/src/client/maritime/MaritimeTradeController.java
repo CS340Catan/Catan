@@ -37,7 +37,7 @@ public class MaritimeTradeController extends Controller implements
 		getResource = null;
 		giveResource = null;
 		ratio = 0;
-		
+
 		getTradeOverlay().showModal();
 		getTradeOverlay().reset();
 		getTradeOverlay().setTradeEnabled(false);
@@ -102,7 +102,7 @@ public class MaritimeTradeController extends Controller implements
 		getResource = resource;
 
 		getTradeOverlay().selectGetOption(resource, 1);
-		if(this.giveResource.toString().equals(this.getResource.toString()))
+		if (this.giveResource.toString().equals(this.getResource.toString()))
 			getTradeOverlay().setStateMessage("Trade...(?)");
 		else
 			getTradeOverlay().setStateMessage("Trade!");

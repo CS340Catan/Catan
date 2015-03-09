@@ -8,7 +8,8 @@ public class Deck {
 	private int roadBuilding;
 	private int monopoly;
 
-	public Deck(int yearOfPlenty, int monument, int soldier, int roadBuilding, int monopoly) {
+	public Deck(int yearOfPlenty, int monument, int soldier, int roadBuilding,
+			int monopoly) {
 		this.yearOfPlenty = yearOfPlenty;
 		this.monument = monument;
 		this.soldier = soldier;

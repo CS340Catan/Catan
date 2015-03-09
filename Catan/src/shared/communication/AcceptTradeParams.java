@@ -1,6 +1,8 @@
 package shared.communication;
+
 /**
  * Class which contains data for 'moves/acceptTrade'
+ * 
  * @author winstonhurst
  *
  */
@@ -15,7 +17,7 @@ public class AcceptTradeParams {
 	 * Whether you accept the trade or not
 	 */
 	boolean willAccept;
-	
+
 	public AcceptTradeParams(int playerIndex, boolean willAccept) {
 		super();
 		this.playerIndex = playerIndex;
@@ -40,5 +42,5 @@ public class AcceptTradeParams {
 
 	public String getType() {
 		return type;
-	}	
+	}
 }

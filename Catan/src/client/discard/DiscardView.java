@@ -239,10 +239,9 @@ public class DiscardView extends OverlayView implements IDiscardView {
 		resources.get(resource).setDiscardAmount(amount);
 		this.update();
 	}
-	
+
 	@Override
-	public int getResourceDiscardAmount(ResourceType resource)
-	{
+	public int getResourceDiscardAmount(ResourceType resource) {
 		return resources.get(resource).getDiscardAmount();
 	}
 
@@ -260,12 +259,12 @@ public class DiscardView extends OverlayView implements IDiscardView {
 		resources.get(resource).setMaxAmount(maxAmount);
 		this.update();
 	}
-	
+
 	@Override
-	public int getResourceMaxAmount(ResourceType resource){
+	public int getResourceMaxAmount(ResourceType resource) {
 		return resources.get(resource).getMaxAmount();
 	}
-	
+
 	/**
 	 * Used to specify whether or not the discard amount of the specified
 	 * resource can be increased and decreased. (The buttons for increasing or
@@ -302,16 +301,15 @@ public class DiscardView extends OverlayView implements IDiscardView {
 		discardButton.setText(message);
 		this.update();
 	}
-	
+
 	@Override
-	public ResourceList getListToDiscard()
-	{
-		return new ResourceList(resources.get(ResourceType.BRICK).getDiscardAmount(),
-								resources.get(ResourceType.ORE).getDiscardAmount(),
-								resources.get(ResourceType.SHEEP).getDiscardAmount(),
-								resources.get(ResourceType.WHEAT).getDiscardAmount(),
-								resources.get(ResourceType.WOOD).getDiscardAmount()
-				);
+	public ResourceList getListToDiscard() {
+		return new ResourceList(resources.get(ResourceType.BRICK)
+				.getDiscardAmount(), resources.get(ResourceType.ORE)
+				.getDiscardAmount(), resources.get(ResourceType.SHEEP)
+				.getDiscardAmount(), resources.get(ResourceType.WHEAT)
+				.getDiscardAmount(), resources.get(ResourceType.WOOD)
+				.getDiscardAmount());
 	}
 
 	private ActionListener actionListener = new ActionListener() {

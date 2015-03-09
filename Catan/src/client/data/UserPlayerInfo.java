@@ -17,19 +17,19 @@ import shared.definitions.*;
 public class UserPlayerInfo {
 
 	private int id;
-	private  int playerIndex;
-	private  String name;
+	private int playerIndex;
+	private String name;
 	private String gameCookie;
-	private  CatanColor color;
+	private CatanColor color;
 	private static UserPlayerInfo userPlayerInfo = null;
-	
-	public static UserPlayerInfo getSingleton(){
-		if(userPlayerInfo == null){
+
+	public static UserPlayerInfo getSingleton() {
+		if (userPlayerInfo == null) {
 			userPlayerInfo = new UserPlayerInfo();
 		}
 		return userPlayerInfo;
 	}
-	
+
 	public UserPlayerInfo() {
 		setId(-1);
 		setPlayerIndex(-1);
@@ -86,32 +86,32 @@ public class UserPlayerInfo {
 
 		return this.id == other.id;
 	}
-	
-	public PlayerInfo toPlayerInfo(){
+
+	public PlayerInfo toPlayerInfo() {
 		PlayerInfo playerInfo = new PlayerInfo();
-		
+
 		playerInfo.setColor(this.getColor());
 		playerInfo.setId(this.getId());
 		playerInfo.setName(this.getName());
 		playerInfo.setPlayerIndex(this.getPlayerIndex());
-		
+
 		return playerInfo;
 	}
 
 	public void setGameId(String gameCookie) {
 		this.gameCookie = gameCookie;
-		
+
 	}
-	
+
 	public int getGameId() {
 		String tempCookie = gameCookie;
-		
+
 		if (tempCookie.contains("=")) {
 			int i = 0;
 			while (tempCookie.charAt(i) != '=') {
 				i++;
 			}
-			return Integer.valueOf(tempCookie.substring(i+1));
+			return Integer.valueOf(tempCookie.substring(i + 1));
 		}
 		return 0;
 	}

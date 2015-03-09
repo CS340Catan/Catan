@@ -4,57 +4,59 @@ import shared.locations.EdgeLocation;
 
 /**
  * Class which contains data for 'moves/buildCity'
+ * 
  * @author winstonhurst
  *
  */
 public class BuildRoadParams {
 
-		String type = "buildRoad";
-		/**
-		 * Who's placing the road
-		 */
-		int playerIndex; 
-		EdgeLocationParam roadLocation = new EdgeLocationParam();
-		/**
-		 * Whether this is placed for free (setup)
-		 */
-		boolean free;
-		
-		public BuildRoadParams(int playerIndex, EdgeLocation roadLocation, boolean free) {
-			roadLocation.convertToPrimitives();
-			this.playerIndex = playerIndex;
-			this.roadLocation = new EdgeLocationParam();
-			this.roadLocation.setDirection(roadLocation.getDirection());
-			this.roadLocation.setX(roadLocation.getX());
-			this.roadLocation.setY(roadLocation.getY());
-			this.free = free;
-		}
+	String type = "buildRoad";
+	/**
+	 * Who's placing the road
+	 */
+	int playerIndex;
+	EdgeLocationParam roadLocation = new EdgeLocationParam();
+	/**
+	 * Whether this is placed for free (setup)
+	 */
+	boolean free;
 
-		public int getPlayerIndex() {
-			return playerIndex;
-		}
+	public BuildRoadParams(int playerIndex, EdgeLocation roadLocation,
+			boolean free) {
+		roadLocation.convertToPrimitives();
+		this.playerIndex = playerIndex;
+		this.roadLocation = new EdgeLocationParam();
+		this.roadLocation.setDirection(roadLocation.getDirection());
+		this.roadLocation.setX(roadLocation.getX());
+		this.roadLocation.setY(roadLocation.getY());
+		this.free = free;
+	}
 
-		public void setPlayerIndex(int playerIndex) {
-			this.playerIndex = playerIndex;
-		}
+	public int getPlayerIndex() {
+		return playerIndex;
+	}
 
-		public EdgeLocationParam getRoadLocation() {
-			return this.roadLocation;
-		}
+	public void setPlayerIndex(int playerIndex) {
+		this.playerIndex = playerIndex;
+	}
 
-		public void setRoadLocation(EdgeLocationParam roadLocation) {
-			this.roadLocation = roadLocation;
-		}
+	public EdgeLocationParam getRoadLocation() {
+		return this.roadLocation;
+	}
 
-		public boolean isFree() {
-			return free;
-		}
+	public void setRoadLocation(EdgeLocationParam roadLocation) {
+		this.roadLocation = roadLocation;
+	}
 
-		public void setFree(boolean free) {
-			this.free = free;
-		}
+	public boolean isFree() {
+		return free;
+	}
 
-		public String getType() {
-			return type;
-		}		
+	public void setFree(boolean free) {
+		this.free = free;
+	}
+
+	public String getType() {
+		return type;
+	}
 }

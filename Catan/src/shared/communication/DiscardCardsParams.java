@@ -1,19 +1,21 @@
 package shared.communication;
 
 import client.model.ResourceList;
+
 /**
  * Class which contains data for 'moves/discardCards'
+ * 
  * @author winstonhurst
  *
  */
 public class DiscardCardsParams {
-	String type  = "discardCards";
+	String type = "discardCards";
 	/**
 	 * Who's discarding,
 	 */
 	int playerIndex;
 	ResourceList discardedCards;
-	
+
 	public DiscardCardsParams(int playerIndex, ResourceList discardedCards) {
 		this.playerIndex = playerIndex;
 		this.discardedCards = discardedCards;

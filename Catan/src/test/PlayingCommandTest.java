@@ -24,62 +24,67 @@ public class PlayingCommandTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+
 	@Test
 	public void canBuyDevCardPass() {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
-		clientModel.getPlayers()[0].setResources(new ResourceList(0,1,1,1,0));
-		clientModel.setDeck(new Deck(1,0,0,0,0));
+		clientModel.getPlayers()[0]
+				.setResources(new ResourceList(0, 1, 1, 1, 0));
+		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
 		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertTrue(pass);
 	}
-	
+
 	@Test
-	public void canBuyDevCardFail() { //player doesn't have cards
+	public void canBuyDevCardFail() { // player doesn't have cards
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
-		clientModel.getPlayers()[0].setResources(new ResourceList(0,1,0,1,0));
-		clientModel.setDeck(new Deck(1,0,0,0,0));
+		clientModel.getPlayers()[0]
+				.setResources(new ResourceList(0, 1, 0, 1, 0));
+		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
 		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
-	
+
 	@Test
-	public void canBuyDevCardFailTwo() { //bank doesn't have cards
+	public void canBuyDevCardFailTwo() { // bank doesn't have cards
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
-		clientModel.getPlayers()[0].setResources(new ResourceList(0,1,1,1,0));
-		clientModel.setDeck(new Deck(0,0,0,0,0));
+		clientModel.getPlayers()[0]
+				.setResources(new ResourceList(0, 1, 1, 1, 0));
+		clientModel.setDeck(new Deck(0, 0, 0, 0, 0));
 		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
-	
+
 	@Test
-	public void canBuyDevCardFailThree() { //not turn
+	public void canBuyDevCardFailThree() { // not turn
 		clientModel.getTurnTracker().setCurrentTurn(1);
 		clientModel.getTurnTracker().setStatus("playing");
-		clientModel.getPlayers()[0].setResources(new ResourceList(0,1,1,1,0));
-		clientModel.setDeck(new Deck(1,0,0,0,0));
+		clientModel.getPlayers()[0]
+				.setResources(new ResourceList(0, 1, 1, 1, 0));
+		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
 		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
-	
+
 	@Test
-	public void canBuyDevCardFailFour() { //not "Playing"
+	public void canBuyDevCardFailFour() { // not "Playing"
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("rolling");
-		clientModel.getPlayers()[0].setResources(new ResourceList(0,1,1,1,0));
-		clientModel.setDeck(new Deck(1,0,0,0,0));
+		clientModel.getPlayers()[0]
+				.setResources(new ResourceList(0, 1, 1, 1, 0));
+		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
 		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
-	
+
 	@Test
 	public void canFinishTurnPass() {
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -88,23 +93,23 @@ public class PlayingCommandTest {
 		boolean pass = clientModelController.canFinishTurn(0);
 		assertTrue(pass);
 	}
-	
+
 	@Test
-	public void canFinishTurnFail() { //not his turn
+	public void canFinishTurnFail() { // not his turn
 		clientModel.getTurnTracker().setCurrentTurn(1);
 		clientModel.getTurnTracker().setStatus("playing");
 		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canFinishTurn(0);
 		assertFalse(pass);
 	}
-	
+
 	@Test
-	public void canFinishTurnFailTwo() { //not his turn
+	public void canFinishTurnFailTwo() { // not his turn
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("rolling");
 		ClientModelController clientModelController = new ClientModelController();
 		boolean pass = clientModelController.canFinishTurn(0);
 		assertFalse(pass);
 	}
-	
+
 }

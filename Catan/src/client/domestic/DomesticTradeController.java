@@ -20,7 +20,8 @@ import client.model.TradeOffer;
 /**
  * Domestic trade controller implementation
  */
-public class DomesticTradeController extends Controller implements IDomesticTradeController, Observer {
+public class DomesticTradeController extends Controller implements
+		IDomesticTradeController, Observer {
 
 	private ClientModelController clientModelController;
 	private IDomesticTradeOverlay tradeOverlay;
@@ -49,7 +50,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	 *            Accept trade overlay which lets the user accept or reject a
 	 *            proposed trade
 	 */
-	public DomesticTradeController(IDomesticTradeView tradeView, IDomesticTradeOverlay tradeOverlay, IWaitView waitOverlay, IAcceptTradeOverlay acceptOverlay) {
+	public DomesticTradeController(IDomesticTradeView tradeView,
+			IDomesticTradeOverlay tradeOverlay, IWaitView waitOverlay,
+			IAcceptTradeOverlay acceptOverlay) {
 
 		super(tradeView);
 
@@ -91,7 +94,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	private void setTradeButton() {
 
-		boolean valid = (receiverPlayerIndex != -1) && containsResources(giveResources) && containsResources(getResources) && playerSelected;
+		boolean valid = (receiverPlayerIndex != -1)
+				&& containsResources(giveResources)
+				&& containsResources(getResources) && playerSelected;
 		if (valid) {
 			getTradeOverlay().setTradeEnabled(true);
 			getTradeOverlay().setStateMessage("Trade");
@@ -211,7 +216,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	private boolean canIncrease(ResourceType resource) {
 
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex].getResources();
+		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex]
+				.getResources();
 		int brick = resources.getBrick();
 		int ore = resources.getOre();
 		int sheep = resources.getSheep();
@@ -304,7 +310,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		List<PlayerInfo> playerInfos = new ArrayList<>();
 		for (int i = 0; i < players.length; i++) {
 			// don't add self
-			if (players[i].getPlayerIndex() != UserPlayerInfo.getSingleton().getPlayerIndex()) {
+			if (players[i].getPlayerIndex() != UserPlayerInfo.getSingleton()
+					.getPlayerIndex()) {
 				playerInfos.add(players[i].getPlayerInfo());
 			}
 		}
@@ -332,11 +339,13 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		if (canDecrease(resource)) {
 
 			incrementResourceAmt(resource, -1);
-			getTradeOverlay().setResourceAmount(resource, "" + resourceAmt(resource));
+			getTradeOverlay().setResourceAmount(resource,
+					"" + resourceAmt(resource));
 		}
 
 		// disable button if counter is at 0
-		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
+		getTradeOverlay().setResourceAmountChangeEnabled(resource,
+				canIncrease(resource), canDecrease(resource));
 		setTradeButton();
 	}
 
@@ -347,11 +356,13 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		if (canIncrease(resource)) {
 
 			incrementResourceAmt(resource, 1);
-			getTradeOverlay().setResourceAmount(resource, "" + resourceAmt(resource));
+			getTradeOverlay().setResourceAmount(resource,
+					"" + resourceAmt(resource));
 		}
 
 		// disable button if counter is too high
-		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
+		getTradeOverlay().setResourceAmountChangeEnabled(resource,
+				canIncrease(resource), canDecrease(resource));
 		setTradeButton();
 	}
 
@@ -365,10 +376,12 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 		// fill tradeOffer
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		tradeOfferParams = new TradeOfferParams(playerIndex, resourceList, receiverPlayerIndex);
+		tradeOfferParams = new TradeOfferParams(playerIndex, resourceList,
+				receiverPlayerIndex);
 
 		try {
-			if (this.clientModelController.canOfferTrade(playerIndex, resourceList)) {
+			if (this.clientModelController.canOfferTrade(playerIndex,
+					resourceList)) {
 				ServerProxy.getSingleton().offerTrade(tradeOfferParams);
 			} else {
 				MessageView invalidTradeMessageView = new MessageView();
@@ -388,10 +401,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void setPlayerToTradeWith(int playerIndex) {
-		if(playerIndex == -1){
+		if (playerIndex == -1) {
 			playerSelected = false;
-		}
-		else {
+		} else {
 			playerSelected = true;
 		}
 		receiverPlayerIndex = playerIndex;
@@ -411,8 +423,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		getResources.add(resource);
 
 		// can always increase a receiving resource
-		getTradeOverlay().setResourceAmount(resource, resourceAmt(resource) + "");
-		getTradeOverlay().setResourceAmountChangeEnabled(resource, true, canDecrease(resource));
+		getTradeOverlay().setResourceAmount(resource,
+				resourceAmt(resource) + "");
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, true,
+				canDecrease(resource));
 
 	}
 
@@ -427,8 +441,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 
 		// enable increase/decrease buttons, and add to giveresources
-		getTradeOverlay().setResourceAmount(resource, resourceAmt(resource) + "");
-		getTradeOverlay().setResourceAmountChangeEnabled(resource, canIncrease(resource), canDecrease(resource));
+		getTradeOverlay().setResourceAmount(resource,
+				resourceAmt(resource) + "");
+		getTradeOverlay().setResourceAmountChangeEnabled(resource,
+				canIncrease(resource), canDecrease(resource));
 	}
 
 	@Override
@@ -456,7 +472,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void acceptTrade(boolean willAccept) {
 		getAcceptOverlay().closeModal();
-		AcceptTradeParams acceptTradeParams = new AcceptTradeParams(UserPlayerInfo.getSingleton().getPlayerIndex(), willAccept);
+		AcceptTradeParams acceptTradeParams = new AcceptTradeParams(
+				UserPlayerInfo.getSingleton().getPlayerIndex(), willAccept);
 		try {
 			ServerProxy.getSingleton().acceptTrade(acceptTradeParams);
 		} catch (ServerResponseException e) {
@@ -472,7 +489,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		// if it's my turn, enable view, otherwise disable
 		if (clientModelController.isPlayerTurn(playerIndex)) {
 			getTradeView().enableDomesticTrade(true);
-			if (getWaitOverlay().isModalShowing() && ClientModel.getSingleton().getTradeOffer() == null) {
+			if (getWaitOverlay().isModalShowing()
+					&& ClientModel.getSingleton().getTradeOffer() == null) {
 				getWaitOverlay().closeModal();
 			}
 		} else {
@@ -491,7 +509,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			 * shown, display the waitOverlay so that the sender cannot play
 			 * during the trade.
 			 */
-			if (senderIndex == playerIndex && !getWaitOverlay().isModalShowing()) {
+			if (senderIndex == playerIndex
+					&& !getWaitOverlay().isModalShowing()) {
 				getWaitOverlay().showModal();
 			}
 			/*
@@ -510,7 +529,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				 * Determine who is sending the trade offer. Set that player
 				 * name within acceptOverlay.
 				 */
-				acceptOverlay.setPlayerName(clientModelController.getClientModel().getPlayers()[senderIndex].getName());
+				acceptOverlay.setPlayerName(clientModelController
+						.getClientModel().getPlayers()[senderIndex].getName());
 
 				/*
 				 * Determine which resources are being given and which are being
@@ -522,33 +542,43 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				 * sender upon trade acceptance.
 				 */
 				if (resourceList.getBrick() > 0) {
-					acceptOverlay.addGetResource(ResourceType.BRICK, resourceList.getBrick());
+					acceptOverlay.addGetResource(ResourceType.BRICK,
+							resourceList.getBrick());
 				} else if (resourceList.getBrick() < 0) {
-					acceptOverlay.addGiveResource(ResourceType.BRICK, -(resourceList.getBrick()));
+					acceptOverlay.addGiveResource(ResourceType.BRICK,
+							-(resourceList.getBrick()));
 				}
 
 				if (resourceList.getOre() > 0) {
-					acceptOverlay.addGetResource(ResourceType.ORE, resourceList.getOre());
+					acceptOverlay.addGetResource(ResourceType.ORE,
+							resourceList.getOre());
 				} else if (resourceList.getOre() < 0) {
-					acceptOverlay.addGiveResource(ResourceType.ORE, -(resourceList.getOre()));
+					acceptOverlay.addGiveResource(ResourceType.ORE,
+							-(resourceList.getOre()));
 				}
 
 				if (resourceList.getSheep() > 0) {
-					acceptOverlay.addGetResource(ResourceType.SHEEP, resourceList.getSheep());
+					acceptOverlay.addGetResource(ResourceType.SHEEP,
+							resourceList.getSheep());
 				} else if (resourceList.getSheep() < 0) {
-					acceptOverlay.addGiveResource(ResourceType.SHEEP, -(resourceList.getSheep()));
+					acceptOverlay.addGiveResource(ResourceType.SHEEP,
+							-(resourceList.getSheep()));
 				}
 
 				if (resourceList.getWheat() > 0) {
-					acceptOverlay.addGetResource(ResourceType.WHEAT, resourceList.getWheat());
+					acceptOverlay.addGetResource(ResourceType.WHEAT,
+							resourceList.getWheat());
 				} else if (resourceList.getWheat() < 0) {
-					acceptOverlay.addGiveResource(ResourceType.WHEAT, -(resourceList.getWheat()));
+					acceptOverlay.addGiveResource(ResourceType.WHEAT,
+							-(resourceList.getWheat()));
 				}
 
 				if (resourceList.getWood() > 0) {
-					acceptOverlay.addGetResource(ResourceType.WOOD, resourceList.getWood());
+					acceptOverlay.addGetResource(ResourceType.WOOD,
+							resourceList.getWood());
 				} else if (resourceList.getWood() < 0) {
-					acceptOverlay.addGiveResource(ResourceType.WOOD, -(resourceList.getWood()));
+					acceptOverlay.addGiveResource(ResourceType.WOOD,
+							-(resourceList.getWood()));
 				}
 
 				/*
@@ -557,7 +587,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				 * status equal to the boolean returned after checking if the
 				 * user has adequate resources.
 				 */
-				boolean acceptTradeBool = clientModelController.canAcceptTrade(playerIndex, resourceList.invertList());
+				boolean acceptTradeBool = clientModelController.canAcceptTrade(
+						playerIndex, resourceList.invertList());
 				acceptOverlay.setAcceptEnabled(acceptTradeBool);
 
 				acceptOverlay.showModal();
