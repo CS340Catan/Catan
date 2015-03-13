@@ -41,9 +41,9 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import shared.definitions.ResourceType;
+import shared.model.ResourceList;
 import client.base.OverlayView;
 import client.custom.cwt.RoundedButton;
-import client.model.ResourceList;
 import client.utils.ImageUtils;
 import client.utils.FontUtils;
 

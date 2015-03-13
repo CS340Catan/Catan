@@ -8,11 +8,11 @@ import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
+import shared.model.TurnTracker;
 import client.base.Controller;
 import client.data.UserPlayerInfo;
-import client.model.ClientModel;
-import client.model.ClientModelController;
-import client.model.TurnTracker;
 
 /**
  * Implementation for the roll controller

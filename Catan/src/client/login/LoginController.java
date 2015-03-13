@@ -6,7 +6,6 @@ import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.misc.*;
-import client.model.ClientModel;
 
 import java.net.*;
 import java.io.*;
@@ -18,6 +17,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import shared.communication.UserCredentials;
+import shared.model.ClientModel;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 //import com.google.gson.*;
@@ -237,7 +237,7 @@ public class LoginController extends Controller implements ILoginController,
 		 * is fewer than 3 or greater than seven characters, if the password is
 		 * less than 5 characters long or is not made of allowed characters
 		 * (alphanumerics, underscores, hyphens) or if the password verification
-		 * entry doesn’t match the original.
+		 * entry doesnï¿½t match the original.
 		 */
 
 		/*

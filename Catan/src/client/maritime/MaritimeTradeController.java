@@ -4,13 +4,13 @@ import java.util.*;
 
 import shared.communication.MaritimeTradeParams;
 import shared.definitions.*;
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
+import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.data.UserPlayerInfo;
-import client.model.ClientModel;
-import client.model.ClientModelController;
-import client.model.ResourceList;
 
 /**
  * Implementation for the maritime trade controller

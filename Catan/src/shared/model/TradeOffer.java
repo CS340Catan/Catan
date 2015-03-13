@@ -1,4 +1,4 @@
-package server.model;
+package shared.model;
 
 /**
  * Contains the contents of a trade offer, the sender, receiver, and resources.

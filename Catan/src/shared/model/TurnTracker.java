@@ -1,4 +1,4 @@
-package client.model;
+package shared.model;
 
 /**
  * Tracks the current turn as well as longest road/army awards

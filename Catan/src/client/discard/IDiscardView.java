@@ -1,8 +1,8 @@
 package client.discard;
 
 import shared.definitions.ResourceType;
+import shared.model.ResourceList;
 import client.base.IOverlayView;
-import client.model.ResourceList;
 
 /**
  * Discard view interface
