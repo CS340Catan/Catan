@@ -1,5 +1,7 @@
 package server.httpHandlers;
 
-public interface IHttpHandler {
+import com.sun.net.httpserver.HttpHandler;
+
+public interface IHttpHandler extends HttpHandler{
 
 }
