@@ -3,10 +3,9 @@ package server.commands;
 import shared.communication.BuildRoadParams;
 
 /**
- * 
  * @author Drewfus
  * This is the command class for the BuildRoad function called on the server.
- * It will receive a BuildRoadParams object and a gameID
+ * It will receive a BuildRoadParams object and a gameID in the constructor
  */
 
 public class BuildRoadCommand implements ICommand {
