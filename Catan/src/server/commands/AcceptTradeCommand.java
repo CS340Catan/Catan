@@ -1,6 +1,6 @@
 package server.commands;
 
-import server.model.ServerModel;
+import shared.model.ClientModel;
 
 /**
  * This command will manipulate the ServerModel depending upon the boolean
@@ -19,7 +19,7 @@ public class AcceptTradeCommand implements ICommand {
 	int playerIndex_1;
 	int playerIndex_2;
 	boolean willAccept;
-	ServerModel serverModel;
+	ClientModel serverModel;
 
 	/**
 	 * This method will manipulate the serverModel stored within the command. If

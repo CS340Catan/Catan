@@ -1,26 +1,28 @@
 package server.commands;
 
-import client.model.ResourceList;
 import shared.communication.DiscardCardsParams;
 
 /**
- * Discards the cards of a given player
- * @author Seth White
- *
+ * 
+ * @author winstonhurst
+ *This command removes resource cards from the players hand
  */
 public class DiscardCardsCommand implements ICommand {
-	ResourceList resourceList; //TODO: fix resource list reference
-	int playerIndex;
-	String type;
+	DiscardCardsParams params;
+	int gameID;
 	
-	public DiscardCardsCommand(DiscardCardsParams params) {
-
-	}
-
 	/**
-	 * Discards the cards of a given player
-	 * @author Seth White
-	 *
+	 * 
+	 * @param params - list of cards to discard and the id of the player discarding
+	 */
+	public DiscardCardsCommand(DiscardCardsParams params, int gameID){
+		this.params = params;
+		this.gameID = gameID;
+	}
+	
+	/**
+	 * Removes the cards from the player's hand.
+	 * If all players have are done discarding, change game status to 'Playing'
 	 */
 	@Override
 	public void execute() {
@@ -29,3 +31,4 @@ public class DiscardCardsCommand implements ICommand {
 	}
 
 }
+

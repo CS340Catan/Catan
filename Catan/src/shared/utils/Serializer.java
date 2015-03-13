@@ -1,10 +1,10 @@
 package shared.utils;
 
 import shared.communication.GameSummary;
-import client.model.ClientModel;
-import client.model.Port;
-import client.model.Road;
-import client.model.VertexObject;
+import shared.model.ClientModel;
+import shared.model.Port;
+import shared.model.Road;
+import shared.model.VertexObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

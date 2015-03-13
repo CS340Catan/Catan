@@ -9,8 +9,8 @@ import org.junit.Test;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.data.GameInfo;
-import client.model.ClientModel;
 import shared.communication.*;
+import shared.model.ClientModel;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 

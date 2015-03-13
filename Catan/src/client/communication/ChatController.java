@@ -8,11 +8,11 @@ import javax.swing.JOptionPane;
 
 import client.base.*;
 import client.communicator.ServerProxy;
-import client.model.ClientModel;
-import client.model.MessageLine;
-import client.model.MessageList;
-import client.model.Player;
 import shared.definitions.*;
+import shared.model.ClientModel;
+import shared.model.MessageLine;
+import shared.model.MessageList;
+import shared.model.Player;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 

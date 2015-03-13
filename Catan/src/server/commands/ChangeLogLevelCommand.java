@@ -1,19 +1,25 @@
 package server.commands;
 
+import shared.communication.ChangeLogLevelParams;
 /**
- * Change the log level of the server
- * @author Seth White
- *
+ * 
+ * @author winstonhurst
+ *This command changes the level of logging on the server to one of the following:
+ *SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
  */
 public class ChangeLogLevelCommand implements ICommand {
-	String LogLevel;
-	public ChangeLogLevelCommand(String level){
-		this.LogLevel = level;
-	}
+	ChangeLogLevelParams params;
+	
 	/**
-	 * Change the log level of the server
-	 * @author Seth White
-	 *
+	 * 
+	 * @param params - contains new log setting level (string)
+	 */
+	public ChangeLogLevelCommand(ChangeLogLevelParams params){
+		this.params = params;
+	}
+	
+	/**
+	 * Changes the state of the server log to the indicated.
 	 */
 	@Override
 	public void execute() {
@@ -22,3 +28,4 @@ public class ChangeLogLevelCommand implements ICommand {
 	}
 
 }
+

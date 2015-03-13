@@ -1,8 +1,8 @@
 package client.controllers;
 
 import client.communicator.ServerProxy;
-import client.model.ClientModel;
-import client.model.Player;
+import shared.model.ClientModel;
+import shared.model.Player;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 

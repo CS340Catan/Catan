@@ -1,6 +1,6 @@
 package shared.communication;
 
-import client.model.ResourceList;
+import shared.model.ResourceList;
 
 /**
  * Class which contains data for 'moves/offerParams'

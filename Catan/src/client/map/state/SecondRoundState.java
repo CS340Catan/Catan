@@ -1,12 +1,12 @@
 package client.map.state;
 
 import shared.definitions.PieceType;
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
+import shared.model.Road;
+import shared.model.VertexObject;
 import client.data.UserPlayerInfo;
 import client.map.MapController;
-import client.model.ClientModel;
-import client.model.ClientModelController;
-import client.model.Road;
-import client.model.VertexObject;
 
 public class SecondRoundState implements IMapState {
 	private final String CLASS_NAME = "SecondRoundState";

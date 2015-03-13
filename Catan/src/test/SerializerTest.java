@@ -1,9 +1,9 @@
 package test;
 
 import shared.communication.LoginResponse;
+import shared.model.ClientModel;
 import shared.utils.Serializer;
 import client.devcards.Resource;
-import client.model.ClientModel;
 import static org.junit.Assert.*;
 
 import org.junit.After;

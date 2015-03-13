@@ -2,11 +2,11 @@ package client.resources;
 
 import java.util.*;
 
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
+import shared.model.ResourceList;
 import client.base.*;
 import client.data.UserPlayerInfo;
-import client.model.ClientModel;
-import client.model.ClientModelController;
-import client.model.ResourceList;
 
 /**
  * Implementation for the resource bar controller

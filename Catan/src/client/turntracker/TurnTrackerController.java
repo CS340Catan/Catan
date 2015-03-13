@@ -5,13 +5,13 @@ import java.util.Observer;
 
 import shared.communication.UserActionParams;
 import shared.definitions.CatanColor;
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
+import shared.model.Player;
 import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.data.UserPlayerInfo;
-import client.model.ClientModel;
-import client.model.ClientModelController;
-import client.model.Player;
 
 /**
  * Implementation for the turn tracker controller

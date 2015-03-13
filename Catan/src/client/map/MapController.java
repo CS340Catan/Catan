@@ -11,6 +11,12 @@ import shared.communication.MoveSoldierParams;
 import shared.communication.UserActionParams;
 import shared.definitions.*;
 import shared.locations.*;
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
+import shared.model.Hex;
+import shared.model.Port;
+import shared.model.Road;
+import shared.model.VertexObject;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.*;
@@ -25,12 +31,6 @@ import client.map.state.PlayingState;
 import client.map.state.RobbingState;
 import client.map.state.RollingState;
 import client.map.state.SecondRoundState;
-import client.model.ClientModel;
-import client.model.ClientModelController;
-import client.model.Hex;
-import client.model.Port;
-import client.model.Road;
-import client.model.VertexObject;
 
 /**
  * Implementation for the map controller

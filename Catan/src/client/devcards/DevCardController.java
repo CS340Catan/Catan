@@ -11,16 +11,16 @@ import shared.communication.UserActionParams;
 import shared.communication.YearOfPlentyParams;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
+import shared.model.Player;
+import shared.model.ResourceList;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.Controller;
 import client.base.IAction;
 import client.communicator.ServerProxy;
 import client.data.UserPlayerInfo;
-import client.model.ClientModel;
-import client.model.ClientModelController;
-import client.model.Player;
-import client.model.ResourceList;
 
 /**
  * "Dev card" controller implementation

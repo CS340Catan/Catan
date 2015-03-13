@@ -3,10 +3,10 @@ package client.communication;
 import java.util.*;
 
 import client.base.*;
-import client.model.ClientModel;
-import client.model.MessageLine;
-import client.model.Player;
 import shared.definitions.*;
+import shared.model.ClientModel;
+import shared.model.MessageLine;
+import shared.model.Player;
 
 /**
  * Game history controller implementation
