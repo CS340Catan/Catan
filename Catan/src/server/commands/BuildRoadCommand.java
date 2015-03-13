@@ -18,7 +18,7 @@ public class BuildRoadCommand implements ICommand {
 		this.gameID = gameID;
 	}
 	/**
-	 * Adds a road to the server model and updates all info.
+	 * Adds a road to the server model and updates map, player roads, player resources.
 	 * Checks if longest road needs to be updated
 	 */
 	@Override
