@@ -2,9 +2,9 @@ package client.join;
 
 import java.util.ArrayList;
 
+import shared.model.ClientModel;
+import shared.model.Player;
 import client.data.PlayerInfo;
-import client.model.ClientModel;
-import client.model.Player;
 
 public class WaitingState implements IPlayerWaitingState {
 	private PlayerWaitingController playerWaitingController;

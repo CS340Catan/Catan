@@ -1,4 +1,4 @@
-package server.model;
+package shared.model;
 
 /**
  * One line of a message with the name of the player who sent it

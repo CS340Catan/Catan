@@ -1,4 +1,4 @@
-package client.model;
+package shared.model;
 
 /**
  * Stores the different types of development cards

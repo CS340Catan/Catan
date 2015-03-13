@@ -1,9 +1,9 @@
 package client.map.state;
 
+import shared.model.ClientModelController;
+import shared.model.Road;
+import shared.model.VertexObject;
 import client.map.MapController;
-import client.model.ClientModelController;
-import client.model.Road;
-import client.model.VertexObject;
 
 public class InitialState implements IMapState {
 

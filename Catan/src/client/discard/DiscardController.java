@@ -7,15 +7,15 @@ import javax.swing.JOptionPane;
 
 import shared.communication.DiscardCardsParams;
 import shared.definitions.ResourceType;
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
+import shared.model.ResourceList;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.Controller;
 import client.communicator.ServerProxy;
 import client.data.UserPlayerInfo;
 import client.misc.IWaitView;
-import client.model.ClientModel;
-import client.model.ClientModelController;
-import client.model.ResourceList;
 
 /**
  * Discard controller implementation

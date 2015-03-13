@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
 import shared.utils.IServer;
 import client.controllers.Poller;
-import client.model.ClientModel;
-import client.model.ClientModelController;
 
 public class PollerTest {
 

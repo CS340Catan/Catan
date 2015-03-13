@@ -7,10 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import shared.locations.HexLocation;
+import shared.model.ClientModel;
+import shared.model.ClientModelController;
+import shared.model.ResourceList;
 import shared.utils.Serializer;
-import client.model.ClientModel;
-import client.model.ClientModelController;
-import client.model.ResourceList;
 
 /**
  * Test for canAccpetTrade, canOfferTrade, canDiscardCards, and canRobPlayer

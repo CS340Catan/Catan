@@ -1,4 +1,4 @@
-package server.model;
+package shared.model;
 
 import client.data.UserPlayerInfo;
 import shared.utils.Serializer;
@@ -22,7 +22,7 @@ import shared.utils.Serializer;
  * @author Seth White
  *
  */
-public class ServerModel {
+public class ClientModel {
 	private ResourceList bank;
 	private MessageList chat;
 	private MessageList log;
@@ -35,13 +35,13 @@ public class ServerModel {
 	private int winner;
 	public static Notifier notifier = null;
 
-	private static ServerModel clientModel = null;// singleton instance of
+	private static ClientModel clientModel = null;// singleton instance of
 													// ClientModel
 
 	/**
 	 * Default constructor
 	 */
-	public ServerModel() {// empty constructor defeats instantiation
+	public ClientModel() {// empty constructor defeats instantiation
 
 	}
 
@@ -52,9 +52,9 @@ public class ServerModel {
 		return notifier;
 	}
 
-	public static ServerModel getSingleton() {// returns the singleton
+	public static ClientModel getSingleton() {// returns the singleton
 		if (clientModel == null) {
-			clientModel = new ServerModel();
+			clientModel = new ClientModel();
 		}
 		return clientModel;
 	}
@@ -149,7 +149,7 @@ public class ServerModel {
 		this.deck = deck;
 	}
 
-	private void setUserPlayerInfoIndex(ServerModel clientModel) {
+	private void setUserPlayerInfoIndex(ClientModel clientModel) {
 		for (Player player : clientModel.getPlayers()) {
 			UserPlayerInfo upi = UserPlayerInfo.getSingleton();
 			if (player != null && player.getName().equals(upi.getName())) {
@@ -159,18 +159,14 @@ public class ServerModel {
 		}
 	}
 
-	public void setClientModel(ServerModel clientModel) {
-		ServerModel.clientModel = clientModel;
+	public void setClientModel(ClientModel clientModel) {
+		ClientModel.clientModel = clientModel;
 		setUserPlayerInfoIndex(clientModel);
 		notifier.modelUpdated();
 	}
 
 	public String toString() {
-		// TODO Need to add serialize method to Serializer such that it can
-		// serialize a server.model.ServerModel
-		
-		//return Serializer.serializeClientModel(this);
-		return "TODO";
+		return Serializer.serializeClientModel(this);
 	}
 
 }

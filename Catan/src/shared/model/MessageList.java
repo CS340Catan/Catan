@@ -1,4 +1,4 @@
-package client.model;
+package shared.model;
 
 /**
  * A list of lines that make up a message
