@@ -42,12 +42,12 @@ public class Server {
 	 */
 	// Handler classes
 	private HttpServer httpServer;
-	private int portNumber = 8080; // default portnumber
+	private int portNumber = 8081; // default portnumber
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 	private String host = "localhost";
 
 	/**
-	 * starts the server with port number if specific, else uses 8080
+	 * starts the server with port number 8081
 	 * 
 	 * @param args
 	 */
@@ -70,7 +70,7 @@ public class Server {
 	}
 
 	/**
-	 * uses default port 8080
+	 * uses default port 8081
 	 */
 	private Server() {
 //		initialize();

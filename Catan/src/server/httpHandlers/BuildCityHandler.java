@@ -7,8 +7,8 @@ import com.sun.net.httpserver.HttpExchange;
 public class BuildCityHandler implements IHttpHandler {
 
 	@Override
-	public void handle(HttpExchange arg0) throws IOException {
-		// TODO Auto-generated method stub
+	public void handle(HttpExchange exchange) throws IOException {
+		System.out.println("endpoint activated");
 		
 	}
 
