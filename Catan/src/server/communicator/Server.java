@@ -52,11 +52,11 @@ public class Server {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		if (args.length > 0) {
-//			new Server(Integer.parseInt(args[0])).run();
-//		} else {
+		if (args.length > 0) {
+			new Server(Integer.parseInt(args[0])).run();
+		} else {
 			new Server().run();
-//		}
+		}
 	}
 
 	/**
