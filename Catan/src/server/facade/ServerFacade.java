@@ -33,14 +33,9 @@ public class ServerFacade implements IServer{
 	@Override
 	public boolean login(UserCredentials credentials)
 			throws ServerResponseException {
-		command = new LoginCommand(credentials);
-		try {
+			command = new LoginCommand(credentials);
 			command.execute();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
+			return true;
 	}
 
 	/**

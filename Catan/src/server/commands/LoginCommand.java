@@ -1,6 +1,8 @@
 package server.commands;
 
+import server.facade.ServerFacade;
 import shared.communication.UserCredentials;
+import shared.utils.ServerResponseException;
 
 /**
  * Logs a player in
@@ -18,10 +20,13 @@ public class LoginCommand implements ICommand {
 	}
 	/**
 	 * Returns whether or not a user has valid credentials
+	 * @throws ServerResponseException 
 	 */
 	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
+	public void execute() throws ServerResponseException {
+		if(!ServerFacade.getSingleton().getRegisteredPlayers().userExists(username, password)){
+			throw new ServerResponseException("Invalid Username or password");
+		}
 
 	}
 
