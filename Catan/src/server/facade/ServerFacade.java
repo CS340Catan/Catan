@@ -1,6 +1,8 @@
 package server.facade;
 
 import client.data.GameInfo;
+import server.commands.ICommand;
+import server.commands.LoginCommand;
 import shared.communication.*;
 import shared.model.ClientModel;
 import shared.utils.IServer;
@@ -10,6 +12,7 @@ public class ServerFacade implements IServer{
 
 	private RegisteredPlayers registeredPlayers;
 	private static ServerFacade serverFacade = null;
+	ICommand command;
 	
 	public static ServerFacade getSingleton(){
 		if(serverFacade == null){
@@ -30,7 +33,13 @@ public class ServerFacade implements IServer{
 	@Override
 	public boolean login(UserCredentials credentials)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		command = new LoginCommand(credentials);
+		try {
+			command.execute();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
