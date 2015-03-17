@@ -4,15 +4,22 @@ import java.util.HashMap;
 
 public class RegisteredPlayers {
 	
-	HashMap<String, String> registered = new HashMap<String, String>();
+	HashMap<String, String> registeredPlayers = new HashMap<String, String>();
 	
-	boolean isValidRegistration(String username, String password) {
-		if (registered.containsKey(username)) {
+	public boolean addNewPlayer(String username, String password) {
+		if (registeredPlayers.containsKey(username)) {
 			return false;
 		} else {
-			registered.put(username, password);
+			registeredPlayers.put(username, password);
 			return true;
 		}
+	}
+	
+	public boolean userExists(String username, String password){
+		if (registeredPlayers.containsKey(username) && password.equals(registeredPlayers.get(username))) {
+				return true;
+		}
+		return false;
 	}
 
 }

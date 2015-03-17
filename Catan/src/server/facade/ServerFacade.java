@@ -8,7 +8,19 @@ import shared.utils.ServerResponseException;
 
 public class ServerFacade implements IServer{
 
-	RegisteredPlayers registeredPlayers;
+	private RegisteredPlayers registeredPlayers;
+	private static ServerFacade serverFacade = null;
+	
+	public static ServerFacade getSingleton(){
+		if(serverFacade == null){
+			serverFacade = new ServerFacade();
+		}
+		return serverFacade;
+	}
+	private ServerFacade(){
+		
+	}
+	
 	/**
 	 * Verifies the user, and adds a cookie for them on the server
 	 * 
@@ -408,6 +420,16 @@ public class ServerFacade implements IServer{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public RegisteredPlayers getRegisteredPlayers() {
+		return registeredPlayers;
+	}
+
+	public void setRegisteredPlayers(RegisteredPlayers registeredPlayers) {
+		this.registeredPlayers = registeredPlayers;
+	}
+	
+	
 	
 	
 	
