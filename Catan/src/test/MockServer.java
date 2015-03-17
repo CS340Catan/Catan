@@ -44,7 +44,7 @@ public class MockServer implements IServer {
 	 * @Post A valid LoginResponse returned.
 	 */
 	@Override
-	public boolean Login(UserCredentials credentials)
+	public boolean login(UserCredentials credentials)
 			throws ServerResponseException {
 		boolean wasSuccess = true;
 		if (credentials.getUsername() == "test"

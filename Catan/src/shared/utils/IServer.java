@@ -30,7 +30,7 @@ public interface IServer {
 	 *            Information containing username and password.
 	 * 
 	 */
-	public boolean Login(UserCredentials credentials)
+	public boolean login(UserCredentials credentials)
 			throws ServerResponseException;
 
 	/**

@@ -28,7 +28,7 @@ public class ServerFacade implements IServer{
 	 * @return boolean specifying whether the login credentials were valid or not
 	 */
 	@Override
-	public boolean Login(UserCredentials credentials)
+	public boolean login(UserCredentials credentials)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return false;

@@ -42,7 +42,7 @@ public class ServerProxyTest {
 		// correct test
 		credentials = new UserCredentials("Sam", "sam");
 		try {
-			response = serverProxy.Login(credentials);
+			response = serverProxy.login(credentials);
 			assertTrue(response);
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
@@ -51,7 +51,7 @@ public class ServerProxyTest {
 		// wrong test
 		credentials = new UserCredentials("Sam", "notsam");
 		try {
-			response = serverProxy.Login(credentials);
+			response = serverProxy.login(credentials);
 			assertFalse(response);
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));

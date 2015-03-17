@@ -105,7 +105,7 @@ public class LoginController extends Controller implements ILoginController,
 				signInPassword);
 
 		try {
-			if (canLogin(signInCredentials) && server.Login(signInCredentials)) {
+			if (canLogin(signInCredentials) && server.login(signInCredentials)) {
 				/*
 				 * If the login succeeded, throw a success statement and execute
 				 * loginAction.

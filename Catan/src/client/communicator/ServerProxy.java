@@ -98,7 +98,7 @@ public class ServerProxy implements IServer {
 	 * @pre password not null
 	 * @post a valid LoginResponse returned
 	 */
-	public boolean Login(UserCredentials credentials)
+	public boolean login(UserCredentials credentials)
 			throws ServerResponseException {
 		String jsonString = Serializer.serialize(credentials);
 		String response = httpCommunicator.doPost("/user/login", jsonString);
