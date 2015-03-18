@@ -18,19 +18,21 @@ public class SendChatHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-		Headers reqHeaders = exchange.getRequestHeaders();
-		List<String> cookies = reqHeaders.get("Cookie");
-		//check to see if there is a cookie, if not send back an error message
-		
-		//then put the cookie in the chatMessage
-		ChatMessage chatMessage = (ChatMessage) Serializer.deserialize(inputStreamString, ChatMessage.class);
-		
-		try {
-			ClientModel clientModel = ServerFacade.getSingleton().sendChat(chatMessage);
-			HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
-		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, "Failed to send chat.", String.class);
-			e.printStackTrace();
+		int gameID = HandlerUtil.getGameID(exchange);
+		//if gameID is -1, there is no cookie so send back an error message
+		if (gameID == -1) {
+			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
+		} else {
+			//otherwise put the cookie in the chatMessage
+			ChatMessage chatMessage = (ChatMessage) Serializer.deserialize(inputStreamString, ChatMessage.class);
+			
+			try {
+				ClientModel clientModel = ServerFacade.getSingleton().sendChat(chatMessage);
+				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
+			} catch (ServerResponseException e) {
+				HandlerUtil.sendResponse(exchange, 400, "Failed to send chat.", String.class);
+				e.printStackTrace();
+			}
 		}
 		
 	}
