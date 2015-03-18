@@ -1,17 +1,46 @@
 package server.facade;
 
-import client.data.GameInfo;
+import java.util.ArrayList;
+
 import server.commands.CreateGameCommand;
 import server.commands.ICommand;
+import server.commands.JoinGameCommand;
 import server.commands.LoginCommand;
 import server.commands.RegisterCommand;
+import server.commands.SaveGameCommand;
 import server.commands.SendChatCommand;
-import shared.communication.*;
+import shared.communication.AcceptTradeParams;
+import shared.communication.AddAIParams;
+import shared.communication.AddAIResponse;
+import shared.communication.BuildCityParams;
+import shared.communication.BuildRoadCardParams;
+import shared.communication.BuildRoadParams;
+import shared.communication.BuildSettlementParams;
+import shared.communication.ChangeLogLevelParams;
+import shared.communication.ChangeLogLevelResponse;
+import shared.communication.ChatMessage;
+import shared.communication.CommandList;
+import shared.communication.CreateGameParams;
+import shared.communication.DiscardCardsParams;
+import shared.communication.GameSummary;
+import shared.communication.JoinGameParams;
+import shared.communication.LoadGameParams;
+import shared.communication.MaritimeTradeParams;
+import shared.communication.MoveRobberParams;
+import shared.communication.MoveSoldierParams;
+import shared.communication.PlayMonopolyParams;
+import shared.communication.PlayMonumentParams;
+import shared.communication.SaveParams;
+import shared.communication.TradeOfferParams;
+import shared.communication.UserActionParams;
+import shared.communication.UserCredentials;
+import shared.communication.YearOfPlentyParams;
 import shared.model.ClientModel;
-import shared.model.RegisteredPlayers;
+import shared.model.GameList;
 //import shared.model.RegisteredPlayers;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
+import client.data.GameInfo;
 
 public class ServerFacade implements IServer{
 
@@ -64,8 +93,10 @@ public class ServerFacade implements IServer{
 	 */
 	@Override
 	public GameSummary[] getGameList() throws ServerResponseException {
-		//**get games and put them into GameSummary objects
-		return null;
+		//don't want to us a command because the execute() function doesn't return anything,
+		//and we need some information back
+		ArrayList<GameSummary> games = GameList.getSingleton().getGames();
+		return games.toArray(new GameSummary[games.size()]);
 	}
 
 	/**
@@ -92,7 +123,7 @@ public class ServerFacade implements IServer{
 	@Override
 	public String joinGame(JoinGameParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		new JoinGameCommand(params).execute();
 		return null;
 	}
 
@@ -104,7 +135,7 @@ public class ServerFacade implements IServer{
 	 */
 	@Override
 	public String saveGame(SaveParams params) throws ServerResponseException {
-		// TODO Auto-generated method stub
+		new SaveGameCommand(params).execute();
 		return null;
 	}
 

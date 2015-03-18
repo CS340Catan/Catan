@@ -10,20 +10,21 @@ import shared.communication.SaveParams;
 
 public class SaveGameCommand implements ICommand {
 	
-	SaveParams params;
+	String fileName;
 	int gameID;
 	
-	SaveGameCommand(SaveParams params, int gameID) {
-		this.params = params;
-		this.gameID = gameID;
+	public SaveGameCommand(SaveParams params) {
+		this.fileName = params.getname();
+		this.gameID = params.getId();
 	}
 	/**
 	 * Saves state of the game to a file, which can be used later for debugging purposes
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		//get game model
+		//serialize game model
+		//save to file
 	}
 
 }
