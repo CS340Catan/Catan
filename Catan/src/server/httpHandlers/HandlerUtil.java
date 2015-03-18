@@ -2,10 +2,10 @@ package server.httpHandlers;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Scanner;
-
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -42,10 +42,11 @@ public class HandlerUtil {
 		Gson gson = new Gson();
         try {
 			exchange.sendResponseHeaders(httpCode,0);        	
-    		JsonWriter writer = new JsonWriter(new OutputStreamWriter(exchange.getResponseBody(), "UTF-8"));
-    		writer.setIndent("  ");    		
-			writer.beginArray();
-			gson.toJson(message, classType, writer);
+			String jsonString = gson.toJson(message);
+			System.out.println(jsonString);
+			for(int i = 0; i < jsonString.length();i++){
+				exchange.getResponseBody().write(jsonString.charAt(i));
+			}
 			exchange.getResponseBody().close();			
 		} catch (IOException e) {
 			e.printStackTrace();
