@@ -1,5 +1,6 @@
 package server.facade;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 
 import server.commands.CreateGameCommand;
@@ -35,18 +36,24 @@ import shared.communication.TradeOfferParams;
 import shared.communication.UserActionParams;
 import shared.communication.UserCredentials;
 import shared.communication.YearOfPlentyParams;
+import java.util.HashMap;
+import client.data.GameInfo;
+import server.commands.*;
+import shared.communication.*;
 import shared.model.ClientModel;
 import shared.model.GameList;
 //import shared.model.RegisteredPlayers;
+
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
-import client.data.GameInfo;
 
 public class ServerFacade implements IServer{
 
 //	private RegisteredPlayers registeredPlayers;
 	private static ServerFacade serverFacade = null;
 	private ICommand command;
+	private int gameID;
+	private static HashMap <Integer, ClientModel> modelMap = new HashMap<Integer, ClientModel>();
 	
 	public static ServerFacade getSingleton(){
 		if(serverFacade == null){
@@ -267,8 +274,10 @@ public class ServerFacade implements IServer{
 	@Override
 	public ClientModel acceptTrade(AcceptTradeParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		command = new AcceptTradeCommand(params);
+		command.execute();
+		
+		return ClientModel.getSingleton();
 	}
 
 	/**
@@ -464,8 +473,16 @@ public class ServerFacade implements IServer{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public int getGameID() {
+		return gameID;
+	}
+	public void setGameID(int gameID) {
+		this.gameID = gameID;
+	}
 	
-	
+	public ClientModel getClientModel() {
+		return modelMap.get(gameID);
+	}
 	
 	
 	
