@@ -105,7 +105,7 @@ public class ServerProxy implements IServer {
 		if (response == null) {
 			return false;
 		} else {
-			return (response.equals("Success"));
+			return (response.contains("Success"));
 		}
 	}
 
@@ -125,7 +125,7 @@ public class ServerProxy implements IServer {
 		if (response == null) {
 			return false;
 		} else {
-			return (response.equals("Success"));
+			return (response.contains("Success"));
 		}
 	}
 
