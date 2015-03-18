@@ -24,16 +24,13 @@ public class LoginHandler implements IHttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 		UserCredentials userCredentials = (UserCredentials) Serializer.deserialize(inputStreamString, UserCredentials.class);
-		
 		try {
 			ServerFacade.getSingleton().login(userCredentials);
+			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);			
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, "Failed to login - bad username or password.", String.class);
 			e.printStackTrace();
 		}
-		HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
-        System.out.println(inputStreamString);
-		
 	}
 
 }

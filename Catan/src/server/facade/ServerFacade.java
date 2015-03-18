@@ -3,14 +3,17 @@ package server.facade;
 import client.data.GameInfo;
 import server.commands.ICommand;
 import server.commands.LoginCommand;
+import server.commands.RegisterCommand;
 import shared.communication.*;
 import shared.model.ClientModel;
+import shared.model.RegisteredPlayers;
+//import shared.model.RegisteredPlayers;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 
 public class ServerFacade implements IServer{
 
-	private RegisteredPlayers registeredPlayers;
+//	private RegisteredPlayers registeredPlayers;
 	private static ServerFacade serverFacade = null;
 	ICommand command;
 	
@@ -47,8 +50,9 @@ public class ServerFacade implements IServer{
 	@Override
 	public boolean Register(UserCredentials credentials)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return false;
+			command = new RegisterCommand(credentials);
+			command.execute();
+			return true;
 	}
 
 	/**
@@ -423,14 +427,6 @@ public class ServerFacade implements IServer{
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public RegisteredPlayers getRegisteredPlayers() {
-		return registeredPlayers;
-	}
-
-	public void setRegisteredPlayers(RegisteredPlayers registeredPlayers) {
-		this.registeredPlayers = registeredPlayers;
 	}
 	
 	

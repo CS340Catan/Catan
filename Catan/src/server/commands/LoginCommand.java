@@ -2,6 +2,7 @@ package server.commands;
 
 import server.facade.ServerFacade;
 import shared.communication.UserCredentials;
+import shared.model.*;
 import shared.utils.ServerResponseException;
 
 /**
@@ -24,7 +25,9 @@ public class LoginCommand implements ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		if(!ServerFacade.getSingleton().getRegisteredPlayers().userExists(username, password)){
+		ServerFacade serverFacade = ServerFacade.getSingleton();
+		RegisteredPlayers registeredPlayers = RegisteredPlayers.getSingleton();
+		if(!registeredPlayers.userExists(username, password)){
 			throw new ServerResponseException("Invalid Username or password");
 		}
 

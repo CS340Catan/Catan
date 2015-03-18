@@ -121,6 +121,7 @@ public class ServerProxy implements IServer {
 			throws ServerResponseException {
 		String jsonString = Serializer.serialize(credentials);
 		String response = httpCommunicator.doPost("/user/register", jsonString);
+		System.out.println(response);
 		if (response == null) {
 			return false;
 		} else {

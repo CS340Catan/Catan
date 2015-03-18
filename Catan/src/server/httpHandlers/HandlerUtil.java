@@ -25,7 +25,6 @@ public class HandlerUtil {
     		writer.setIndent("  ");    		
 			writer.beginArray();
 			gson.toJson(message, classType, writer);
-			writer.close();
 			exchange.getResponseBody().close();			
 		} catch (IOException e) {
 			e.printStackTrace();

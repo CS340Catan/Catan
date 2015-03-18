@@ -1,6 +1,9 @@
 package server.commands;
 
+import server.facade.ServerFacade;
 import shared.communication.UserCredentials;
+import shared.model.*;
+import shared.utils.ServerResponseException;
 
 /**
  * @author Drewfus
@@ -10,18 +13,24 @@ import shared.communication.UserCredentials;
 
 public class RegisterCommand implements ICommand {
 	
-	UserCredentials params;
+	String username;
+	String password;
 	
-	RegisterCommand(UserCredentials params) {
-		this.params = params;
+	public RegisterCommand(UserCredentials params) {
+		this.username = params.getUsername();
+		this.password = params.getPassword();
 	}
 	/**
 	 * Checks to see if the requested registration is valid, adds it to the RegisteredPlayers class if it is
+	 * @throws ServerResponseException 
 	 */
 	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
+	public void execute() throws ServerResponseException {
+		RegisteredPlayers registeredPlayers = RegisteredPlayers.getSingleton();
+		if (registeredPlayers.containsKey(username)) {
+			throw new ServerResponseException("Invalid Username or password");
+		} 
+		registeredPlayers.addNewPlayer(username, password);
 	}
 
 }
