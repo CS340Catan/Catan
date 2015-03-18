@@ -1,5 +1,9 @@
 package server.facade;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import client.data.GameInfo;
 import server.commands.CreateGameCommand;
 import server.commands.ICommand;
@@ -19,6 +23,7 @@ public class ServerFacade implements IServer{
 	private static ServerFacade serverFacade = null;
 	private ICommand command;
 	private int gameID;
+	private static HashMap <Integer, ClientModel> modelMap = new HashMap<Integer, ClientModel>();
 	
 	public static ServerFacade getSingleton(){
 		if(serverFacade == null){
@@ -441,7 +446,9 @@ public class ServerFacade implements IServer{
 		this.gameID = gameID;
 	}
 	
-	
+	public ClientModel getClientModel() {
+		return modelMap.get(gameID);
+	}
 	
 	
 	
