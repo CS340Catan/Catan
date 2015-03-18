@@ -1,6 +1,5 @@
 package server.facade;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 
 import server.commands.CreateGameCommand;
