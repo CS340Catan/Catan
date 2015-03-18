@@ -1,5 +1,6 @@
 package server.commands;
 
+import server.facade.ServerFacade;
 import shared.communication.AcceptTradeParams;
 import shared.communication.TradeOfferParams;
 import shared.model.ClientModel;
@@ -10,9 +11,9 @@ import shared.model.TradeOffer;
  * This command will manipulate the ServerModel depending upon the boolean
  * contained within this command.
  * 
- * playerIndex_1 - Who initiated the trade (i.e. sent the trade)
+ * senderIndex - Who initiated the trade (i.e. sent the trade)
  * 
- * playerIndex_2 - Who's accepting / rejecting this trade
+ * receiverIndex - Who's accepting / rejecting this trade
  * 
  * willAccept - Whether you accept the trade or not
  * 
@@ -20,14 +21,13 @@ import shared.model.TradeOffer;
  */
 public class AcceptTradeCommand implements ICommand {
 
-	int playerIndex_1;
-	int playerIndex_2;
+	int senderIndex;
+	int receiverIndex;
 	boolean willAccept;
-	ClientModel serverModel;
 
 	public AcceptTradeCommand(AcceptTradeParams params) {
 		
-		serverModel = ClientModel.getSingleton();
+		receiverIndex = params.getPlayerIndex();
 		willAccept = params.isWillAccept();
 		
 	}
@@ -40,11 +40,13 @@ public class AcceptTradeCommand implements ICommand {
 	@Override
 	public void execute() {
 		// TODO see what resources were offered in model, if willAccept, reallocate, otherwise do nothing
+		ClientModel model = ServerFacade.getSingleton().getClientModel();
+		
 		if(willAccept) {
-			TradeOffer tradeOffer = serverModel.getTradeOffer();
+			TradeOffer tradeOffer = model.getTradeOffer();
 	
-			playerIndex_1 = tradeOffer.getSender();
-			playerIndex_2 = tradeOffer.getReceiver();
+			senderIndex = tradeOffer.getSender();
+			//receiverIndex = tradeOffer.getReceiver();	//already got from accept params
 			
 			ResourceList resourceList = tradeOffer.getResourceList();
 			int brick = resourceList.getBrick();
