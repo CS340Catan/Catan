@@ -1,11 +1,7 @@
 package server.facade;
 
 import client.data.GameInfo;
-import server.commands.CreateGameCommand;
-import server.commands.ICommand;
-import server.commands.LoginCommand;
-import server.commands.RegisterCommand;
-import server.commands.SendChatCommand;
+import server.commands.*;
 import shared.communication.*;
 import shared.model.ClientModel;
 import shared.model.RegisteredPlayers;
@@ -236,8 +232,10 @@ public class ServerFacade implements IServer{
 	@Override
 	public ClientModel acceptTrade(AcceptTradeParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		command = new AcceptTradeCommand(params);
+		command.execute();
+		
+		return ClientModel.getSingleton();
 	}
 
 	/**

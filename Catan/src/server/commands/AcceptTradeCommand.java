@@ -1,6 +1,10 @@
 package server.commands;
 
+import shared.communication.AcceptTradeParams;
+import shared.communication.TradeOfferParams;
 import shared.model.ClientModel;
+import shared.model.ResourceList;
+import shared.model.TradeOffer;
 
 /**
  * This command will manipulate the ServerModel depending upon the boolean
@@ -21,6 +25,13 @@ public class AcceptTradeCommand implements ICommand {
 	boolean willAccept;
 	ClientModel serverModel;
 
+	public AcceptTradeCommand(AcceptTradeParams params) {
+		
+		serverModel = ClientModel.getSingleton();
+		willAccept = params.isWillAccept();
+		
+	}
+	
 	/**
 	 * This method will manipulate the serverModel stored within the command. If
 	 * the trade is to be accepted, then the appropriate resources should be
@@ -28,7 +39,22 @@ public class AcceptTradeCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		// TODO see what resources were offered in model, if willAccept, reallocate, otherwise do nothing
+		if(willAccept) {
+			TradeOffer tradeOffer = serverModel.getTradeOffer();
+	
+			playerIndex_1 = tradeOffer.getSender();
+			playerIndex_2 = tradeOffer.getReceiver();
+			
+			ResourceList resourceList = tradeOffer.getResourceList();
+			int brick = resourceList.getBrick();
+			int ore = resourceList.getOre();
+			int sheep = resourceList.getSheep();
+			int wheat = resourceList.getWheat();
+			int wood = resourceList.getWood();
+			
+
+		}
 
 	}
 
