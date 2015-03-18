@@ -6,7 +6,11 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.Scanner;
 
+
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -15,9 +19,16 @@ public class HandlerUtil {
 	public static int getGameID(HttpExchange exchange) {
 		Headers reqHeaders = exchange.getRequestHeaders();
 		List<String> cookies = reqHeaders.get("Cookie");
+		int gameID = -1;
+		for(String cookie : cookies){
+			JsonParser parser = new JsonParser();
+			JsonObject jsonObject = (JsonObject) parser.parse(cookie);
+			JsonElement gameIDElement = jsonObject.get("gameID");
+			gameID = gameIDElement.getAsInt();
+		}
 		//if there is no game cookie return -1
 		//otherwise return the gameID
-		return -1;
+		return gameID;
 	}
 	
 	public static String requestBodyToString(HttpExchange exchange){
