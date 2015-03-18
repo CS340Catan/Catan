@@ -14,6 +14,7 @@ public class ServerFacade implements IServer{
 //	private RegisteredPlayers registeredPlayers;
 	private static ServerFacade serverFacade = null;
 	private ICommand command;
+	private int gameID;
 	
 	public static ServerFacade getSingleton(){
 		if(serverFacade == null){
@@ -430,6 +431,12 @@ public class ServerFacade implements IServer{
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public int getGameID() {
+		return gameID;
+	}
+	public void setGameID(int gameID) {
+		this.gameID = gameID;
 	}
 	
 	
