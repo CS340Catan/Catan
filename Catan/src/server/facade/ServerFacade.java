@@ -3,6 +3,7 @@ package server.facade;
 import client.data.GameInfo;
 import server.commands.ICommand;
 import server.commands.LoginCommand;
+import server.commands.SendChatCommand;
 import shared.communication.*;
 import shared.model.ClientModel;
 import shared.utils.IServer;
@@ -12,7 +13,7 @@ public class ServerFacade implements IServer{
 
 	private RegisteredPlayers registeredPlayers;
 	private static ServerFacade serverFacade = null;
-	ICommand command;
+	private ICommand command;
 	
 	public static ServerFacade getSingleton(){
 		if(serverFacade == null){
@@ -213,8 +214,9 @@ public class ServerFacade implements IServer{
 	 * @return an updated ClientModel
 	 */
 	@Override
-	public ClientModel sendChat(String content) throws ServerResponseException {
-		// TODO Auto-generated method stub
+	public ClientModel sendChat(ChatMessage chatMessage) throws ServerResponseException {
+		command = new SendChatCommand(chatMessage, 0);
+		command.execute();
 		return null;
 	}
 

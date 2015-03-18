@@ -314,9 +314,10 @@ public class ServerProxyTest {
 	public void testSendChat() {
 
 		String content = "My Message";
+		ChatMessage chatMessage = new ChatMessage(1,content);
 		ClientModel model;
 		try {
-			model = serverProxy.sendChat(content);
+			model = serverProxy.sendChat(chatMessage);
 			assertNotEquals(model, null);
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));

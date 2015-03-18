@@ -13,7 +13,7 @@ public class SendChatCommand implements ICommand {
 	ChatMessage params;
 	int gameID;
 	
-	SendChatCommand(ChatMessage params, int gameID) {
+	public SendChatCommand(ChatMessage params, int gameID) {
 		this.params = params;
 		this.gameID = gameID;
 	}
