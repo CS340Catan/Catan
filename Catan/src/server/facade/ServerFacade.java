@@ -1,9 +1,6 @@
 package server.facade;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import client.data.GameInfo;
 import server.commands.CreateGameCommand;
 import server.commands.ICommand;
@@ -12,8 +9,6 @@ import server.commands.RegisterCommand;
 import server.commands.SendChatCommand;
 import shared.communication.*;
 import shared.model.ClientModel;
-import shared.model.RegisteredPlayers;
-//import shared.model.RegisteredPlayers;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 
