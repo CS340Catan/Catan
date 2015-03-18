@@ -1,6 +1,11 @@
 package server.commands;
 
+import java.util.Random;
+
 import shared.communication.CreateGameParams;
+import shared.communication.GameSummary;
+import shared.model.GameList;
+import shared.utils.IDGenerator;
 
 /**
  * 
@@ -9,6 +14,7 @@ import shared.communication.CreateGameParams;
  */
 public class CreateGameCommand implements ICommand {
 	CreateGameParams params;
+    Random random = new Random();	
 	
 	/**
 	 * 
@@ -25,8 +31,10 @@ public class CreateGameCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		int gameID = IDGenerator.generateGameID();
+		GameSummary gameSummary = new GameSummary(params.getname(), gameID, null);
 	}
+
+	
 
 }

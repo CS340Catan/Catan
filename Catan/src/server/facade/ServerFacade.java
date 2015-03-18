@@ -1,6 +1,7 @@
 package server.facade;
 
 import client.data.GameInfo;
+import server.commands.CreateGameCommand;
 import server.commands.ICommand;
 import server.commands.LoginCommand;
 import server.commands.RegisterCommand;
@@ -76,7 +77,9 @@ public class ServerFacade implements IServer{
 	@Override
 	public GameInfo createGame(CreateGameParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		command = new CreateGameCommand(params);
+		command.execute();
+		
 		return null;
 	}
 

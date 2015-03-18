@@ -1,21 +1,12 @@
 package server.httpHandlers;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.net.HttpURLConnection;
-import java.util.Scanner;
 
 import server.facade.ServerFacade;
-import shared.communication.UserActionParams;
 import shared.communication.UserCredentials;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
-import sun.misc.IOUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonWriter;
 import com.sun.net.httpserver.HttpExchange;
 
 public class LoginHandler implements IHttpHandler {
