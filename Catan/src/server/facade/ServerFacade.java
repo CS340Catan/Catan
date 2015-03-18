@@ -63,7 +63,7 @@ public class ServerFacade implements IServer{
 	 */
 	@Override
 	public GameSummary[] getGameList() throws ServerResponseException {
-		// TODO Auto-generated method stub
+		//**get games and put them into GameSummary objects
 		return null;
 	}
 
