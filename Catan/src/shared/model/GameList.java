@@ -21,5 +21,8 @@ public class GameList {
 	public void removeGame(GameSummary summary){
 		gameList.remove(summary);
 	}
+	public ArrayList<GameSummary> getGames(){
+		return gameList;
+	}
 	
 }

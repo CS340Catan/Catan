@@ -14,7 +14,6 @@ public class RegisterHandler implements IHttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-		System.out.println("asdfasdfdafdsf");
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 		UserCredentials userCredentials = (UserCredentials) Serializer.deserialize(inputStreamString, UserCredentials.class);
 		
