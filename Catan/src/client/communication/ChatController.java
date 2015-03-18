@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
 
 import client.base.*;
 import client.communicator.ServerProxy;
+import client.data.UserPlayerInfo;
+import shared.communication.ChatMessage;
 import shared.definitions.*;
 import shared.model.ClientModel;
 import shared.model.MessageLine;
@@ -37,8 +39,9 @@ public class ChatController extends Controller implements IChatController,
 
 	@Override
 	public void sendMessage(String message) {
+		ChatMessage chatMessage = new ChatMessage(UserPlayerInfo.getSingleton().getPlayerIndex(), message);
 		try {
-			server.sendChat(message);
+			server.sendChat(chatMessage);
 		} catch (ServerResponseException e) {
 			/*
 			 * If the server throws an exception, i.e. the user is not connected

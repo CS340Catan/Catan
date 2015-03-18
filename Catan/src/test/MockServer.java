@@ -328,8 +328,8 @@ public class MockServer implements IServer {
 	 * @Post The chat contains your message at the end.
 	 */
 	@Override
-	public ClientModel sendChat(String content) throws ServerResponseException {
-		MessageLine newMessage = new MessageLine(content, "billy");
+	public ClientModel sendChat(ChatMessage chatMessage) throws ServerResponseException {
+		MessageLine newMessage = new MessageLine(chatMessage.getContent(), "billy");
 		MessageLine[] oldMessages = clientMockModel.getChat().getLines();
 		int size = oldMessages.length + 1;
 		MessageLine[] newMessages = new MessageLine[size];

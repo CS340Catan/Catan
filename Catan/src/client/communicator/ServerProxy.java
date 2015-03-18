@@ -355,10 +355,11 @@ public class ServerProxy implements IServer {
 	 * @return
 	 */
 	@Override
-	public ClientModel sendChat(String content) throws ServerResponseException {
+	public ClientModel sendChat(ChatMessage chatMessage) throws ServerResponseException {
 		int playerId = UserPlayerInfo.getSingleton().getPlayerIndex();
-		String jsonString = Serializer.serialize(new ChatMessage(playerId,
-				content));
+		//String jsonString = Serializer.serialize(new ChatMessage(playerId,
+				//content));
+		String jsonString = Serializer.serialize(chatMessage);
 		String response = httpCommunicator
 				.doPost("/moves/sendChat", jsonString);
 		if (response != null) {
