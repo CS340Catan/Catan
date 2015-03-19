@@ -1,6 +1,16 @@
 package server.commands;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+
+import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.SaveParams;
+import shared.utils.ServerResponseException;
 
 /**
  * @author Drewfus
@@ -19,12 +29,22 @@ public class SaveGameCommand implements ICommand {
 	}
 	/**
 	 * Saves state of the game to a file, which can be used later for debugging purposes
+	 * @throws ServerResponseException 
 	 */
 	@Override
-	public void execute() {
-		//get game model
-		//serialize game model
-		//save to file
+	public void execute() throws ServerResponseException {
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		model.setGameID(ServerFacade.getSingleton().getGameID());
+		try{
+			OutputStream file = new FileOutputStream("saves/"+fileName);
+			OutputStream buffer = new BufferedOutputStream(file);
+			ObjectOutput output = new ObjectOutputStream(buffer);
+			output.writeObject(model);
+			output.close();
+		}  
+		catch(IOException ex){
+			throw new ServerResponseException("Could not save to file saves/"+fileName);
+		}
 	}
 
 }

@@ -17,6 +17,7 @@ public class SaveGameHandler implements IHttpHandler {
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 		SaveParams saveParams = (SaveParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
 		try {
+			ServerFacade.getSingleton().setGameID(saveParams.getId());
 			ServerFacade.getSingleton().saveGame(saveParams);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {

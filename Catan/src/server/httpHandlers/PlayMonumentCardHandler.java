@@ -14,10 +14,17 @@ public class PlayMonumentCardHandler implements IHttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
+		/*
+		 * Grab the information from the request sent over.
+		 */
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 		int gameID = HandlerUtil.getGameID(exchange);
 
-		// if gameID is -1, there is no cookie so send back an error message
+		/*
+		 * If gameID sent from the server is -1, there is no cookie sent from
+		 * the server. Therefore, send back an "400" error message to the
+		 * client.
+		 */
 		if (gameID == -1) {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie",
 					String.class);
@@ -27,7 +34,6 @@ public class PlayMonumentCardHandler implements IHttpHandler {
 			try {
 				ClientModel model = ServerFacade.getSingleton().playMonument(
 						playMonumentParam);
-
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);
 			} catch (ServerResponseException e) {
