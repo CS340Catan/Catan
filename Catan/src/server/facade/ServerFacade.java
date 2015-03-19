@@ -270,7 +270,7 @@ public class ServerFacade implements IServer{
 	@Override
 	public ClientModel rollNumber(int number) throws ServerResponseException {
 
-		command = new RollNumberCommand(number);
+		command = new RollNumberCommand(new RollParams(playerIndex, number));
 		command.execute();
 
 		return getClientModel();

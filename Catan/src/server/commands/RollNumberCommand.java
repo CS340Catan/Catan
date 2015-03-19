@@ -12,11 +12,13 @@ import shared.model.ClientModel;
 
 public class RollNumberCommand implements ICommand {
 	
+	int playerIndex;
 	int number;
 	
-	RollNumberCommand(int number) {
+	RollNumberCommand(RollParams params) {
 		
-		this.number = number;
+		this.playerIndex = params.getPlayerIndex();
+		this.number = params.getNumber();
 	}
 	/**
 	 * Updates each players' resources according to what number was rolled
