@@ -11,8 +11,6 @@ import shared.communication.MoveSoldierParams;
 import shared.communication.UserActionParams;
 import shared.definitions.*;
 import shared.locations.*;
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
 import shared.model.Hex;
 import shared.model.Port;
 import shared.model.Road;
@@ -31,6 +29,8 @@ import client.map.state.PlayingState;
 import client.map.state.RobbingState;
 import client.map.state.RollingState;
 import client.map.state.SecondRoundState;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 
 /**
  * Implementation for the map controller
@@ -40,7 +40,7 @@ public class MapController extends Controller implements IMapController,
 
 	private IRobView robView;
 	private IMapState mapState = new InitialState();
-	private ClientModelController clientModelController;
+	private ClientModelFacade clientModelController;
 	private IServer server;
 	private boolean playingRoadBuildingCard = false;
 	private boolean firstRoadPlaced = false;
@@ -397,7 +397,7 @@ public class MapController extends Controller implements IMapController,
 
 	@Override
 	public void update(Observable o, Object arg) {
-		clientModelController = new ClientModelController();
+		clientModelController = new ClientModelFacade();
 		// populateHexes();
 		// populatePorts();
 		mapState.initialize(this);

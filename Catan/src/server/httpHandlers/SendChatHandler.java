@@ -6,9 +6,9 @@ import java.util.List;
 import server.facade.ServerFacade;
 import shared.communication.ChatMessage;
 import shared.communication.UserCredentials;
-import shared.model.ClientModel;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
+import client.model.ClientModel;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;

@@ -5,13 +5,13 @@ import java.util.Observer;
 
 import shared.communication.*;
 import shared.definitions.CatanColor;
-import shared.model.ClientModel;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.data.*;
 import client.misc.*;
+import client.model.ClientModel;
 
 /**
  * Implementation for the join game controller

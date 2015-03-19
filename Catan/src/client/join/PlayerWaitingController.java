@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 
 import shared.communication.AddAIParams;
 import shared.communication.GameSummary;
-import shared.model.ClientModel;
 import shared.model.Player;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
@@ -17,6 +16,7 @@ import client.communicator.ServerProxy;
 import client.controllers.Poller;
 import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
+import client.model.ClientModel;
 
 /**
  * Implementation for the player waiting controller

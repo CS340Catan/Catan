@@ -1,10 +1,12 @@
 package server.facade;
 
 import java.util.HashMap;
+
 import client.data.GameInfo;
+import client.model.ClientModel;
 import server.commands.*;
+import server.model.ServerModel;
 import shared.communication.*;
-import shared.model.ClientModel;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 
@@ -14,7 +16,7 @@ public class ServerFacade implements IServer{
 	private static ServerFacade serverFacade = null;
 	private ICommand command;
 	private int gameID;
-	private static HashMap <Integer, ClientModel> modelMap = new HashMap<Integer, ClientModel>();
+	private static HashMap <Integer, ServerModel> modelMap = new HashMap<Integer, ServerModel>();
 	
 	public static ServerFacade getSingleton(){
 		if(serverFacade == null){
@@ -429,7 +431,9 @@ public class ServerFacade implements IServer{
 	@Override
 	public ClientModel playMonument(PlayMonumentParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		command = new PlayMonumentCommand(params);
+		command.execute();
+		
 		return null;
 	}
 	public int getGameID() {
@@ -439,7 +443,7 @@ public class ServerFacade implements IServer{
 		this.gameID = gameID;
 	}
 	
-	public ClientModel getClientModel() {
+	public ServerModel getServerModel() {
 		return modelMap.get(gameID);
 	}
 	

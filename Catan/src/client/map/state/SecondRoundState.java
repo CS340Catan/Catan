@@ -1,12 +1,12 @@
 package client.map.state;
 
 import shared.definitions.PieceType;
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
 import shared.model.Road;
 import shared.model.VertexObject;
 import client.data.UserPlayerInfo;
 import client.map.MapController;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 
 public class SecondRoundState implements IMapState {
 	private final String CLASS_NAME = "SecondRoundState";
@@ -24,13 +24,13 @@ public class SecondRoundState implements IMapState {
 
 	@Override
 	public boolean canPlaceSettlement(VertexObject settlement,
-			boolean playingCard, ClientModelController clientModelController) {
+			boolean playingCard, ClientModelFacade clientModelController) {
 		return clientModelController.canBuildSettlement(settlement, true, true);
 	}
 
 	@Override
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
-			ClientModelController clientModelController) {
+			ClientModelFacade clientModelController) {
 		return clientModelController
 				.canBuildSecondRoad(playerIndex, road, true);
 	}
