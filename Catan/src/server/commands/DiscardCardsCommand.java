@@ -1,8 +1,8 @@
 package server.commands;
 
 import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.DiscardCardsParams;
-import shared.model.ClientModel;
 import shared.model.ResourceList;
 
 /**
@@ -32,7 +32,7 @@ public class DiscardCardsCommand implements ICommand {
 	@Override
 	public void execute() {
 	
-		ClientModel model = ServerFacade.getSingleton().getClientModel();
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		
 		ResourceList resources = model.getPlayers()[playerIndex].getResources();
 		

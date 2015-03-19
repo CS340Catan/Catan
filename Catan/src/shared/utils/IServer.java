@@ -1,8 +1,8 @@
 package shared.utils;
 
 import shared.communication.*;
-import shared.model.ClientModel;
 import client.data.GameInfo;
+import client.model.ClientModel;
 
 /**
  * Interface to be implemented by servers, i.e. MockServer, ServerProxy, Server.

@@ -1,8 +1,8 @@
 package server.commands;
 
 import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.JoinGameParams;
-import shared.model.ClientModel;
 import shared.model.Player;
 
 /**
@@ -27,7 +27,7 @@ public class JoinGameCommand implements ICommand {
 	@Override
 	public void execute() {
 		//access the map of id's to games.
-		ClientModel model = ServerFacade.getSingleton().getClientModel();
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		Player [] players = model.getPlayers();
 		if(!model.hasFourPlayers()){
 			for(int i = 0; i<4; i++){

@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import shared.model.ClientModel;
+import client.model.ClientModel;
 import shared.model.MessageLine;
 import shared.model.MessageList;
 
-public class SendChatCommand {
-	
+public class SendChatTest {
+
 	@Test
 	public void test() {
 		ClientModel clientModel = new ClientModel();
@@ -17,13 +17,14 @@ public class SendChatCommand {
 		messageLines[0] = new MessageLine("Hi there", "Sam");
 		messageLines[1] = new MessageLine("Hey man", "Gus");
 		clientModel.setChat(new MessageList(messageLines));
-		assertTrue(clientModel.getChat().getLines()[0].getMessage().equals("Hi there"));
-		
+		assertTrue(clientModel.getChat().getLines()[0].getMessage().equals(
+				"Hi there"));
+
 		MessageLine newLine = new MessageLine("This is Andrew", "Andrew");
 		clientModel.getChat().addLine(newLine);
-		assertTrue(clientModel.getChat().getLines()[2].getMessage().equals("This is Andrew"));
-		String hi = "hi";
-		hi += " hello";
+		assertTrue(clientModel.getChat().getLines()[2].getMessage().equals(
+				"This is Andrew"));
+
 	}
 
 }

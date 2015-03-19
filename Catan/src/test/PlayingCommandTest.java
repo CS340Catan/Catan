@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 import shared.model.Deck;
 import shared.model.ResourceList;
 import shared.utils.Serializer;
@@ -32,7 +32,7 @@ public class PlayingCommandTest {
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 1, 1, 0));
 		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
-		ClientModelController clientModelController = new ClientModelController();
+		ClientModelFacade clientModelController = new ClientModelFacade();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertTrue(pass);
 	}
@@ -44,7 +44,7 @@ public class PlayingCommandTest {
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 0, 1, 0));
 		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
-		ClientModelController clientModelController = new ClientModelController();
+		ClientModelFacade clientModelController = new ClientModelFacade();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
@@ -56,7 +56,7 @@ public class PlayingCommandTest {
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 1, 1, 0));
 		clientModel.setDeck(new Deck(0, 0, 0, 0, 0));
-		ClientModelController clientModelController = new ClientModelController();
+		ClientModelFacade clientModelController = new ClientModelFacade();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
@@ -68,7 +68,7 @@ public class PlayingCommandTest {
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 1, 1, 0));
 		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
-		ClientModelController clientModelController = new ClientModelController();
+		ClientModelFacade clientModelController = new ClientModelFacade();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
@@ -80,7 +80,7 @@ public class PlayingCommandTest {
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 1, 1, 0));
 		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
-		ClientModelController clientModelController = new ClientModelController();
+		ClientModelFacade clientModelController = new ClientModelFacade();
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
@@ -89,7 +89,7 @@ public class PlayingCommandTest {
 	public void canFinishTurnPass() {
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("playing");
-		ClientModelController clientModelController = new ClientModelController();
+		ClientModelFacade clientModelController = new ClientModelFacade();
 		boolean pass = clientModelController.canFinishTurn(0);
 		assertTrue(pass);
 	}
@@ -98,7 +98,7 @@ public class PlayingCommandTest {
 	public void canFinishTurnFail() { // not his turn
 		clientModel.getTurnTracker().setCurrentTurn(1);
 		clientModel.getTurnTracker().setStatus("playing");
-		ClientModelController clientModelController = new ClientModelController();
+		ClientModelFacade clientModelController = new ClientModelFacade();
 		boolean pass = clientModelController.canFinishTurn(0);
 		assertFalse(pass);
 	}
@@ -107,7 +107,7 @@ public class PlayingCommandTest {
 	public void canFinishTurnFailTwo() { // not his turn
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("rolling");
-		ClientModelController clientModelController = new ClientModelController();
+		ClientModelFacade clientModelController = new ClientModelFacade();
 		boolean pass = clientModelController.canFinishTurn(0);
 		assertFalse(pass);
 	}

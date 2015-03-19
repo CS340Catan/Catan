@@ -25,9 +25,9 @@ import client.data.UserPlayerInfo;
  */
 public class ServerModelController {
 
-	ClientModel model;
-	
-	public ServerModelController(ClientModel model){
+	ServerModel model;
+
+	public ServerModelController(ServerModel model) {
 		this.model = model;
 	}
 
@@ -119,8 +119,7 @@ public class ServerModelController {
 	 */
 	public boolean canRollNumber(int playerIndex) {
 		if (isPlayerTurn(playerIndex)
-				&& model.getTurnTracker().getStatus()
-						.equals("Rolling")) {
+				&& model.getTurnTracker().getStatus().equals("Rolling")) {
 			return true;
 		}
 		return false;
@@ -152,8 +151,8 @@ public class ServerModelController {
 				&& !roadExists(road)
 				&& (hasConnectingBuilding(road) || hasConnectingRoad(road))
 				&& (playerHasAvailableRoadPiece(playerIndex) || setupPhase)
-				&& (model.getTurnTracker().getStatus()
-						.equals("Playing") || setupPhase) && !roadOnWater(road)) {
+				&& (model.getTurnTracker().getStatus().equals("Playing") || setupPhase)
+				&& !roadOnWater(road)) {
 			return true;
 		}
 		return false;
@@ -181,8 +180,8 @@ public class ServerModelController {
 				&& !roadExists(road)
 				&& (connectedToSecondSettlement(road))
 				&& (playerHasAvailableRoadPiece(playerIndex) || setupPhase)
-				&& (model.getTurnTracker().getStatus()
-						.equals("Playing") || setupPhase) && !roadOnWater(road)) {
+				&& (model.getTurnTracker().getStatus().equals("Playing") || setupPhase)
+				&& !roadOnWater(road)) {
 			return true;
 		}
 		return false;
@@ -193,16 +192,15 @@ public class ServerModelController {
 		ResourceList requiredResourceList = new ResourceList(1, 0, 0, 0, 1);
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, requiredResourceList)
-				&& model.getPlayers()[playerIndex]
-						.getRoads() > 0)
+				&& model.getPlayers()[playerIndex].getRoads() > 0)
 			return true;
 		return false;
 	}
 
 	private boolean playerHasResources(int playerIndex,
 			ResourceList resourceList) {
-		if (model.getPlayers()[playerIndex].getResources()
-				.contains(resourceList)) {
+		if (model.getPlayers()[playerIndex].getResources().contains(
+				resourceList)) {
 			return true;
 		}
 		return false;
@@ -233,8 +231,7 @@ public class ServerModelController {
 	private boolean hasConnectingBuilding(Road road) {
 		HexLocation platformHex = road.getLocation().getHexLoc();
 
-		for (VertexObject settlement : model.getMap()
-				.getSettlements()) {
+		for (VertexObject settlement : model.getMap().getSettlements()) {
 			if (settlement.getOwner() == road.getOwner()) {
 				if (buildingExistsForRoad(settlement, road, platformHex)) {
 					return true;
@@ -242,8 +239,7 @@ public class ServerModelController {
 			}
 		}
 
-		for (VertexObject city : model.getMap()
-				.getCities()) {
+		for (VertexObject city : model.getMap().getCities()) {
 			if (city.getOwner() == road.getOwner()) {
 				if (buildingExistsForRoad(city, road, platformHex)) {
 					return true;
@@ -256,8 +252,7 @@ public class ServerModelController {
 	private boolean connectedToSecondSettlement(Road road) {
 		HexLocation platformHex = road.getLocation().getHexLoc();
 
-		for (VertexObject settlement : model.getMap()
-				.getSettlements()) {
+		for (VertexObject settlement : model.getMap().getSettlements()) {
 			if (settlement.getOwner() == road.getOwner()) {
 				if (buildingExistsForRoad(settlement, road, platformHex)
 						&& !roadTouchingNewSettlement(settlement)) {
@@ -550,8 +545,7 @@ public class ServerModelController {
 		if (isPlayerTurn(city.getOwner())
 				&& playerHasResources(city.getOwner(), resourceList)
 				&& preexistingSettlement(city, false)
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& model.getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -562,8 +556,7 @@ public class ServerModelController {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, resourceList)
-				&& model.getPlayers()[playerIndex]
-						.getCities() > 0)
+				&& model.getPlayers()[playerIndex].getCities() > 0)
 			return true;
 		return false;
 	}
@@ -747,15 +740,13 @@ public class ServerModelController {
 	 */
 	private boolean noAdjacentBuildings(VertexObject newSettlement) {
 		HexLocation platformHex = newSettlement.getLocation().getHexLoc();
-		for (VertexObject existingSettlement : model
-				.getMap().getSettlements()) {
+		for (VertexObject existingSettlement : model.getMap().getSettlements()) {
 			if (hasAdjacentVertexObject(existingSettlement, newSettlement,
 					platformHex)) {
 				return false;
 			}
 		}
-		for (VertexObject existingCity : model.getMap()
-				.getCities()) {
+		for (VertexObject existingCity : model.getMap().getCities()) {
 			if (hasAdjacentVertexObject(existingCity, newSettlement,
 					platformHex)) {
 				return false;
@@ -945,8 +936,7 @@ public class ServerModelController {
 				&& !preexistingBuilding(settlement, true)
 				&& noAdjacentBuildings(settlement)
 				&& (roadTouchingNewSettlement(settlement) || setupPhase)
-				&& (model.getTurnTracker().getStatus()
-						.equals("Playing") || setupPhase)
+				&& (model.getTurnTracker().getStatus().equals("Playing") || setupPhase)
 				&& !settlementOnWater(settlement)) {
 			return true;
 		}
@@ -1011,8 +1001,7 @@ public class ServerModelController {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, resourceList)
-				&& model.getPlayers()[playerIndex]
-						.getSettlements() > 0)
+				&& model.getPlayers()[playerIndex].getSettlements() > 0)
 			return true;
 		return false;
 	}
@@ -1021,8 +1010,7 @@ public class ServerModelController {
 			boolean dontCheckOwner) {
 		boolean result = false;
 		int buildingOwner = building.getOwner();
-		for (VertexObject settlement : model.getMap()
-				.getSettlements()) {
+		for (VertexObject settlement : model.getMap().getSettlements()) {
 			if (settlement.isEquivalent(building)) {
 				if (!dontCheckOwner)
 					result = (settlement.getOwner() == buildingOwner);
@@ -1030,8 +1018,7 @@ public class ServerModelController {
 					result = true;
 			}
 		}
-		for (VertexObject city : model.getMap()
-				.getCities()) {
+		for (VertexObject city : model.getMap().getCities()) {
 			if (city.isEquivalent(building)) {
 				result = false;
 			}
@@ -1050,15 +1037,13 @@ public class ServerModelController {
 	private boolean preexistingBuilding(VertexObject building,
 			boolean dontCheckOwner) {
 
-		for (VertexObject settlement : model.getMap()
-				.getSettlements()) {
+		for (VertexObject settlement : model.getMap().getSettlements()) {
 			if (settlement.isEquivalent(building)) {
 				return true;
 			}
 		}
 
-		for (VertexObject city : model.getMap()
-				.getCities()) {
+		for (VertexObject city : model.getMap().getCities()) {
 			if (city.isEquivalent(building)) {
 				return true;
 			}
@@ -1075,12 +1060,9 @@ public class ServerModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canDiscardCards(int playerIndex) {
-		if (model.getPlayers()[playerIndex].getResources()
-				.count() > 7
-				&& !model.getPlayers()[playerIndex]
-						.alreadyDiscarded()
-				&& model.getTurnTracker().getStatus()
-						.equals("Discarding")) {
+		if (model.getPlayers()[playerIndex].getResources().count() > 7
+				&& !model.getPlayers()[playerIndex].alreadyDiscarded()
+				&& model.getTurnTracker().getStatus().equals("Discarding")) {
 			return true;
 		}
 		return false;
@@ -1096,10 +1078,9 @@ public class ServerModelController {
 	 */
 	public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
 		if (isPlayerTurn(playerIndex)
-				&& model.getPlayers()[playerIndex]
-						.getResources().contains(resourceList)
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& model.getPlayers()[playerIndex].getResources().contains(
+						resourceList)
+				&& model.getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -1121,8 +1102,8 @@ public class ServerModelController {
 	 * @return
 	 */
 	public boolean canAcceptTrade(int playerIndex, ResourceList resourceList) {
-		if (model.getPlayers()[playerIndex].getResources()
-				.contains(resourceList)) {
+		if (model.getPlayers()[playerIndex].getResources().contains(
+				resourceList)) {
 			return true;
 		}
 		return false;
@@ -1139,10 +1120,9 @@ public class ServerModelController {
 	public boolean canMaritimeTrade(int playerIndex, ResourceType resource,
 			int ratioNumber) {
 		if (isPlayerTurn(playerIndex)
-				&& model.getPlayers()[playerIndex]
-						.getResources().ofAKind(resource, ratioNumber)
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& model.getPlayers()[playerIndex].getResources().ofAKind(
+						resource, ratioNumber)
+				&& model.getTurnTracker().getStatus().equals("Playing")) {
 
 			if (ratioNumber == 2 && playerOnResourcePort(playerIndex, resource)) {
 				return true;
@@ -1160,8 +1140,7 @@ public class ServerModelController {
 		 * Check if any settlement is connected to a normal port. If so, then
 		 * return true.
 		 */
-		for (VertexObject settlement : model.getMap()
-				.getSettlements()) {
+		for (VertexObject settlement : model.getMap().getSettlements()) {
 			if (playerIndex == settlement.getOwner()
 					&& buildingOnNormalPort(settlement)) {
 				return true;
@@ -1172,8 +1151,7 @@ public class ServerModelController {
 		 * Check if any city is connected to a normal port. If so, then return
 		 * true.
 		 */
-		for (VertexObject city : model.getMap()
-				.getCities()) {
+		for (VertexObject city : model.getMap().getCities()) {
 			if (playerIndex == city.getOwner() && buildingOnNormalPort(city)) {
 				return true;
 			}
@@ -1216,8 +1194,7 @@ public class ServerModelController {
 		 * Check if any settlement is connected to a normal port. If so, then
 		 * return true.
 		 */
-		for (VertexObject settlement : model.getMap()
-				.getSettlements()) {
+		for (VertexObject settlement : model.getMap().getSettlements()) {
 			if (playerIndex == settlement.getOwner()
 					&& buildingOnResourcePort(playerIndex, settlement, resource)) {
 				return true;
@@ -1228,8 +1205,7 @@ public class ServerModelController {
 		 * Check if any city is connected to a normal port. If so, then return
 		 * true.
 		 */
-		for (VertexObject city : model.getMap()
-				.getCities()) {
+		for (VertexObject city : model.getMap().getCities()) {
 			if (playerIndex == city.getOwner()
 					&& buildingOnResourcePort(playerIndex, city, resource)) {
 				return true;
@@ -1270,8 +1246,7 @@ public class ServerModelController {
 	}
 
 	public boolean canMoveRobber(HexLocation hexLocation) {
-		if (!model.getMap().getRobber()
-				.equals(hexLocation)
+		if (!model.getMap().getRobber().equals(hexLocation)
 				&& !hexLocation.isWater()) {
 			return true;
 		}
@@ -1284,8 +1259,7 @@ public class ServerModelController {
 		VertexLocation testLocation = null;
 
 		// check settlements
-		for (VertexObject settlement : model.getMap()
-				.getSettlements()) {
+		for (VertexObject settlement : model.getMap().getSettlements()) {
 			if (settlement.getOwner() == robbedPlayer) {
 				testLocation = new VertexLocation(robberLocation,
 						VertexDirection.NorthEast);
@@ -1327,8 +1301,7 @@ public class ServerModelController {
 		}
 
 		// check cities
-		for (VertexObject city : model.getMap()
-				.getCities()) {
+		for (VertexObject city : model.getMap().getCities()) {
 			if (city.getOwner() == robbedPlayer) {
 				testLocation = new VertexLocation(robberLocation,
 						VertexDirection.NorthEast);
@@ -1383,11 +1356,9 @@ public class ServerModelController {
 	public boolean canRobPlayer(HexLocation robberLocation, int robbingPlayer,
 			int robbedPlayer) {
 		if (isPlayerTurn(robbingPlayer)
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")
+				&& model.getTurnTracker().getStatus().equals("Playing")
 				&& playerTouchingRobber(robbedPlayer, robberLocation)
-				&& model.getPlayers()[robbedPlayer]
-						.getResources().count() > 0) {
+				&& model.getPlayers()[robbedPlayer].getResources().count() > 0) {
 			return true;
 		}
 		return false;
@@ -1406,8 +1377,7 @@ public class ServerModelController {
 		if (isPlayerTurn(playerIndex)
 				&& playerHasResources(playerIndex, resourceList)
 				&& model.getDeck().hasDevCard()
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& model.getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -1426,15 +1396,12 @@ public class ServerModelController {
 	public boolean canPlaySoldierCard(HexLocation hexLocation,
 			int robbingPlayer, int robbedPlayer) {
 		if (isPlayerTurn(robbingPlayer)
-				&& model.getPlayers()[robbingPlayer]
-						.getOldDevCards().getSoldier() > 0
-				&& !model.getPlayers()[robbingPlayer]
-						.hasPlayedDevCard()
+				&& model.getPlayers()[robbingPlayer].getOldDevCards()
+						.getSoldier() > 0
+				&& !model.getPlayers()[robbingPlayer].hasPlayedDevCard()
 				&& canRobPlayer(hexLocation, robbingPlayer, robbedPlayer)
-				&& !model.getMap().getRobber()
-						.equals(hexLocation)
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& !model.getMap().getRobber().equals(hexLocation)
+				&& model.getTurnTracker().getStatus().equals("Playing")) {
 
 			return true;
 		}
@@ -1453,14 +1420,11 @@ public class ServerModelController {
 	public boolean canPlayYearOfPlentyCard(int playerIndex,
 			ResourceList requestedResources) {
 		if (isPlayerTurn(playerIndex)
-				&& model.getPlayers()[playerIndex]
-						.getOldDevCards().getYearOfPlenty() > 0
-				&& !model.getPlayers()[playerIndex]
-						.hasPlayedDevCard()
-				&& model.getBank()
-						.contains(requestedResources)
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& model.getPlayers()[playerIndex].getOldDevCards()
+						.getYearOfPlenty() > 0
+				&& !model.getPlayers()[playerIndex].hasPlayedDevCard()
+				&& model.getBank().contains(requestedResources)
+				&& model.getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -1478,14 +1442,11 @@ public class ServerModelController {
 	 */
 	public boolean canPlayRoadBuildingCard(int playerIndex) {
 		if (isPlayerTurn(playerIndex)
-				&& model.getPlayers()[playerIndex]
-						.getOldDevCards().getRoadBuilding() > 0
-				&& !model.getPlayers()[playerIndex]
-						.hasPlayedDevCard()
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")
-				&& model.getPlayers()[playerIndex]
-						.getRoads() >= 2) {
+				&& model.getPlayers()[playerIndex].getOldDevCards()
+						.getRoadBuilding() > 0
+				&& !model.getPlayers()[playerIndex].hasPlayedDevCard()
+				&& model.getTurnTracker().getStatus().equals("Playing")
+				&& model.getPlayers()[playerIndex].getRoads() >= 2) {
 			return true;
 		}
 		return false;
@@ -1499,14 +1460,12 @@ public class ServerModelController {
 	 */
 	public boolean canPlayMonumentCard(int playerIndex) {
 		if (isPlayerTurn(playerIndex)
-				&& model.getPlayers()[playerIndex]
-						.getOldDevCards().getMonument() > 0
-				&& (model.getPlayers()[playerIndex]
-						.getVictoryPoints() + model
+				&& model.getPlayers()[playerIndex].getOldDevCards()
+						.getMonument() > 0
+				&& (model.getPlayers()[playerIndex].getVictoryPoints() + model
 						.getPlayers()[playerIndex].getOldDevCards()
 						.getMonument()) >= 10
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& model.getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -1520,12 +1479,10 @@ public class ServerModelController {
 	 */
 	public boolean canPlayMonopolyCard(int playerIndex) {
 		if (isPlayerTurn(playerIndex)
-				&& model.getPlayers()[playerIndex]
-						.getOldDevCards().getMonopoly() > 0
-				&& !model.getPlayers()[playerIndex]
-						.hasPlayedDevCard()
-				&& model.getTurnTracker().getStatus()
-						.equals("Playing")) {
+				&& model.getPlayers()[playerIndex].getOldDevCards()
+						.getMonopoly() > 0
+				&& !model.getPlayers()[playerIndex].hasPlayedDevCard()
+				&& model.getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
 		return false;
@@ -1539,7 +1496,7 @@ public class ServerModelController {
 		return false;
 	}
 
-	public ClientModel getClientModel() {
+	public ServerModel getServerModel() {
 		return model;
 	}
 
@@ -1573,8 +1530,7 @@ public class ServerModelController {
 	 */
 	public boolean hasLargestArmy(int playerIndex) {
 
-		int largestArmyPlayerIndex = model
-				.getTurnTracker().getLargestArmy();
+		int largestArmyPlayerIndex = model.getTurnTracker().getLargestArmy();
 		return (largestArmyPlayerIndex == playerIndex);
 
 	}
@@ -1587,10 +1543,8 @@ public class ServerModelController {
 	 */
 	public boolean hasLongestRoad(int playerIndex) {
 
-		int longestRoadPlayerIndex = model
-				.getTurnTracker().getLongestRoad();
+		int longestRoadPlayerIndex = model.getTurnTracker().getLongestRoad();
 		return (longestRoadPlayerIndex == playerIndex);
 
 	}
 }
-
