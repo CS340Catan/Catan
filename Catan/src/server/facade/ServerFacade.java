@@ -257,7 +257,7 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel sendChat(ChatMessage chatMessage)
 			throws ServerResponseException {
-		command = new SendChatCommand(chatMessage, 0);
+		command = new SendChatCommand(chatMessage, gameID);
 		command.execute();
 		return null;
 	}
