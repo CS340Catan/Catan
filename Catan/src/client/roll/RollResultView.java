@@ -17,10 +17,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import shared.model.ClientModel;
 import shared.utils.ServerResponseException;
 import client.base.OverlayView;
 import client.communicator.ServerProxy;
+import client.model.ClientModel;
 import client.utils.ImageUtils;
 
 /**

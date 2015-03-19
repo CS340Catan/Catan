@@ -2,11 +2,11 @@ package client.resources;
 
 import java.util.*;
 
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
 import shared.model.ResourceList;
 import client.base.*;
 import client.data.UserPlayerInfo;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 
 /**
  * Implementation for the resource bar controller
@@ -122,7 +122,7 @@ public class ResourceBarController extends Controller implements
 		/*
 		 * Enable or disable the ability to buy or play a development card.
 		 */
-		ClientModelController modelController = new ClientModelController();
+		ClientModelFacade modelController = new ClientModelFacade();
 		this.getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
 		if (modelController.canBuyDevCard(playerIndex))
 			this.getView().setElementEnabled(ResourceBarElement.BUY_CARD, true);

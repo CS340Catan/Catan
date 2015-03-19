@@ -4,13 +4,13 @@ import java.util.*;
 
 import shared.communication.MaritimeTradeParams;
 import shared.definitions.*;
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
 import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.data.UserPlayerInfo;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 
 /**
  * Implementation for the maritime trade controller
@@ -20,7 +20,7 @@ public class MaritimeTradeController extends Controller implements
 
 	private IMaritimeTradeOverlay tradeOverlay;
 	private ResourceType getResource, giveResource;
-	private ClientModelController modelController;
+	private ClientModelFacade modelController;
 	private int playerIndex, ratio;
 
 	public MaritimeTradeController(IMaritimeTradeView tradeView,
@@ -141,7 +141,7 @@ public class MaritimeTradeController extends Controller implements
 		 * player resources (stored as integers) list to be compared in later
 		 * parts of the code.
 		 */
-		modelController = new ClientModelController();
+		modelController = new ClientModelFacade();
 		playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 
 		ResourceList resources = ClientModel.getSingleton().getPlayers()[playerIndex]
@@ -184,7 +184,7 @@ public class MaritimeTradeController extends Controller implements
 	}
 
 	private boolean tradeValid(ResourceType resource, int resourceCount) {
-		ClientModelController controller = new ClientModelController();
+		ClientModelFacade controller = new ClientModelFacade();
 
 		if (controller.canMaritimeTrade(playerIndex, resource, 2)
 				|| controller.canMaritimeTrade(playerIndex, resource, 3)
@@ -199,7 +199,7 @@ public class MaritimeTradeController extends Controller implements
 	public void update(Observable o, Object arg) {
 
 		playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
-		modelController = new ClientModelController();
+		modelController = new ClientModelFacade();
 
 		// if it's my turn, enable view, otherwise disable
 		if (modelController.isPlayerTurn(playerIndex)) {

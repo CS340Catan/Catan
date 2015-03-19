@@ -1,8 +1,8 @@
 package server.commands;
 
 import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.JoinGameParams;
-import shared.model.ClientModel;
 import shared.model.Player;
 
 /**
@@ -12,11 +12,13 @@ import shared.model.Player;
 public class JoinGameCommand implements ICommand {
 	private String color;
 	private int gameId;
+	private int playerID;
 	
 	
-	public JoinGameCommand(JoinGameParams joinGameParams){
+	public JoinGameCommand(JoinGameParams joinGameParams, int playerId){
 		this.color = joinGameParams.getColor();
 		this.gameId = joinGameParams.getId();
+		this.playerID = playerId;
 	}
 	
 	/**
@@ -25,10 +27,15 @@ public class JoinGameCommand implements ICommand {
 	@Override
 	public void execute() {
 		//access the map of id's to games.
-		ClientModel model = ServerFacade.getSingleton().getClientModel();
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		Player [] players = model.getPlayers();
-		//get game,
-		//add player
+		if(!model.hasFourPlayers()){
+			for(int i = 0; i<4; i++){
+				if(players[i]==null){
+					//players[i] = new Player(i,);
+				}
+			}
+		}
 	
 
 	}
