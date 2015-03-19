@@ -1,6 +1,9 @@
 package server.commands;
 
+import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.ChatMessage;
+import shared.model.MessageLine;
 
 /**
  * @author Drewfus
@@ -22,8 +25,10 @@ public class SendChatCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		ServerModel clientModel = ServerFacade.getSingleton().getServerModel();
+		MessageLine messageLine = new MessageLine(params.getContent(),
+				clientModel.getPlayers()[params.getPlayerIndex()].getName());
+		clientModel.getChat().addLine(messageLine);
 	}
 
 }

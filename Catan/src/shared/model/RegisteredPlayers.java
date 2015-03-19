@@ -2,8 +2,12 @@ package shared.model;
 
 import java.util.HashMap;
 
+import shared.utils.IDGenerator;
+
 public class RegisteredPlayers {
 	private static RegisteredPlayers currentPlayers = null;
+	private HashMap<String, String> registeredPlayers = new HashMap<String, String>();
+	private HashMap<String,Integer> playerIDs = new HashMap<String,Integer>();
 	
 	public static RegisteredPlayers getSingleton(){
 		if(currentPlayers == null){
@@ -14,10 +18,10 @@ public class RegisteredPlayers {
 	private RegisteredPlayers(){
 		
 	}
-	HashMap<String, String> registeredPlayers = new HashMap<String, String>();
 	
 	public void addNewPlayer(String username, String password) {
 			registeredPlayers.put(username, password);
+			playerIDs.put(username,IDGenerator.generatePlayerID());
 	}
 	
 	public boolean userExists(String username, String password){
@@ -26,7 +30,9 @@ public class RegisteredPlayers {
 		}
 		return false;
 	}
-	
+	public int getPlayerId(String username){
+		return playerIDs.get(username);
+	}
 	public boolean containsKey(String key){
 		return registeredPlayers.containsKey(key);
 	}

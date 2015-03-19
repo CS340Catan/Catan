@@ -33,4 +33,13 @@ public class MessageList {
 	public void setLines(MessageLine[] lines) {
 		this.lines = lines;
 	}
+	
+	public void addLine(MessageLine line) {
+		MessageLine[] newLines = new MessageLine[lines.length+1];
+		for (int i = 0; i < lines.length; i++) {
+			newLines[i] = lines[i];
+		}
+		newLines[lines.length] = line; 
+		lines = newLines;
+	}
 }

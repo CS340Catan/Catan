@@ -22,7 +22,6 @@ import shared.model.TradeOffer;
  */
 public class AcceptTradeCommand implements ICommand {
 
-	int senderIndex;
 	int receiverIndex;
 	boolean willAccept;
 
@@ -46,9 +45,12 @@ public class AcceptTradeCommand implements ICommand {
 		if(willAccept) {
 			TradeOffer tradeOffer = model.getTradeOffer();
 	
-			senderIndex = tradeOffer.getSender();
+			int senderIndex = tradeOffer.getSender();
 			//receiverIndex = tradeOffer.getReceiver();	//already got from accept params
 			
+			/*these shouldn't be copies of the model data, this should be accessing and changing the model itself, right?*/
+			
+			//get resources that will be traded
 			ResourceList resourceList = tradeOffer.getResourceList();
 			int brick = resourceList.getBrick();
 			int ore = resourceList.getOre();
@@ -56,8 +58,27 @@ public class AcceptTradeCommand implements ICommand {
 			int wheat = resourceList.getWheat();
 			int wood = resourceList.getWood();
 			
+			//adjust the senders resources
+			ResourceList senderList = model.getPlayers()[senderIndex].getResources();
+			senderList.setBrick(senderList.getBrick() + brick);
+			senderList.setOre(senderList.getOre() + ore);
+			senderList.setSheep(senderList.getSheep() + sheep);
+			senderList.setWheat(senderList.getWheat() + wheat);
+			senderList.setWood(senderList.getWood() + wood);
+			
+			//adjust the receivers resources
+			ResourceList receiverList = model.getPlayers()[receiverIndex].getResources();
+			receiverList.setBrick(receiverList.getBrick() - brick);
+			receiverList.setOre(receiverList.getOre() - ore);
+			receiverList.setSheep(receiverList.getSheep() - sheep);
+			receiverList.setWheat(receiverList.getWheat() - wheat);
+			receiverList.setWood(receiverList.getWood() - wood);
+
 
 		}
+		
+		//get rid of offerTrade params in model
+		model.setTradeOffer(null);
 
 	}
 

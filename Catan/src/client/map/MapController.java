@@ -398,6 +398,7 @@ public class MapController extends Controller implements IMapController,
 	@Override
 	public void update(Observable o, Object arg) {
 		clientModelController = new ClientModelFacade();
+		ClientModel cm = ClientModel.getSingleton();
 		// populateHexes();
 		// populatePorts();
 		mapState.initialize(this);

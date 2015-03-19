@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import server.facade.ServerFacade;
 import shared.communication.AcceptTradeParams;
-import shared.communication.ChatMessage;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 import client.model.ClientModel;
@@ -32,10 +31,10 @@ public class AcceptTradeHandler implements IHttpHandler {
 					.deserialize(inputStreamString, AcceptTradeParams.class);
 
 			try {
-				ClientModel clientModel = ServerFacade.getSingleton()
+				ServerFacade.getSingleton().setGameID(gameID);
+				ClientModel model = ServerFacade.getSingleton()
 						.acceptTrade(acceptTradeParams);
-				HandlerUtil.sendResponse(exchange, 200, clientModel,
-						ClientModel.class);
+				HandlerUtil.sendResponse(exchange, 200, model, ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400,
 						"Failed to accept trade.", String.class);
