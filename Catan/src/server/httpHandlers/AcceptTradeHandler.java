@@ -29,6 +29,7 @@ public class AcceptTradeHandler implements IHttpHandler {
 			AcceptTradeParams acceptTradeParams = (AcceptTradeParams) Serializer.deserialize(inputStreamString, AcceptTradeParams.class);	
 		
 			try {
+				ServerFacade.getSingleton().setGameID(gameID);
 				ClientModel clientModel = ServerFacade.getSingleton().acceptTrade(acceptTradeParams);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
