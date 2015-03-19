@@ -32,7 +32,7 @@ public class JoinGameCommand implements ICommand {
 		if(!model.hasFourPlayers()){
 			for(int i = 0; i<4; i++){
 				if(players[i]==null){
-					//players[i] = new Player(i,);
+					players[i] = new Player(i,playerID,0,0);
 				}
 			}
 		}
