@@ -19,8 +19,6 @@ public class RegisterHandler implements IHttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 		UserCredentials userCredentials = (UserCredentials) Serializer.deserialize(inputStreamString, UserCredentials.class);
-		
-		 
 		  
 		try {
 			ServerFacade.getSingleton().Register(userCredentials);

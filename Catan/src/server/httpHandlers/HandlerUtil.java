@@ -30,7 +30,20 @@ public class HandlerUtil {
 		//otherwise return the gameID
 		return gameID;
 	}
-	
+	public static int getPlayerID(HttpExchange exchange) {
+		Headers reqHeaders = exchange.getRequestHeaders();
+		List<String> cookies = reqHeaders.get("Cookie");
+		int playerID = -1;
+		for(String cookie : cookies){
+			JsonParser parser = new JsonParser();
+			JsonObject jsonObject = (JsonObject) parser.parse(cookie);
+			JsonElement gameIDElement = jsonObject.get("playerID");
+			playerID = gameIDElement.getAsInt();
+		}
+		//if there is no game cookie return -1
+		//otherwise return the gameID
+		return playerID;
+	}
 	public static String requestBodyToString(HttpExchange exchange){
 		Scanner scanner = new Scanner(exchange.getRequestBody(), "UTF-8");
 		String jsonString = scanner.useDelimiter("\\A").next();
