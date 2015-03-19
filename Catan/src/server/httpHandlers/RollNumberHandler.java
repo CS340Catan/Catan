@@ -7,6 +7,7 @@ import server.model.ServerModel;
 import shared.communication.RollParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
+import client.model.ClientModel;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -31,8 +32,8 @@ public class RollNumberHandler implements IHttpHandler {
 			try {
 				ServerFacade.getSingleton().setGameID(gameID);
 				ServerFacade.getSingleton().setPlayerID(playerID);
-				ServerModel serverModel = ServerFacade.getSingleton().rollNumber(params.getNumber());
-				HandlerUtil.sendResponse(exchange, 200, serverModel, ServerModel.class);
+				ClientModel clientModel = ServerFacade.getSingleton().rollNumber(params.getNumber());
+				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400, "Failed to discard cards", String.class);
 				e.printStackTrace();

@@ -1,8 +1,8 @@
 package server.commands;
 
 import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.RollParams;
-import shared.model.ClientModel;
 
 /**
  * @author Drewfus
@@ -15,7 +15,7 @@ public class RollNumberCommand implements ICommand {
 	int playerIndex;
 	int number;
 	
-	RollNumberCommand(RollParams params) {
+	public RollNumberCommand(RollParams params) {
 		
 		this.playerIndex = params.getPlayerIndex();
 		this.number = params.getNumber();
@@ -27,7 +27,7 @@ public class RollNumberCommand implements ICommand {
 	public void execute() {
 		//assume current turn player called roll command :/
 		
-		ClientModel model = ServerFacade.getSingleton().getClientModel();
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		
 		int playerIndex = model.getTurnTracker().getCurrentTurn();
 		

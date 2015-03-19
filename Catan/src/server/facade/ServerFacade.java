@@ -305,10 +305,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel rollNumber(int number) throws ServerResponseException {
 
-		command = new RollNumberCommand(new RollParams(playerIndex, number));
+		command = new RollNumberCommand(new RollParams(getPlayerIndex(), number));
 		command.execute();
 
-		return getServerModel();
+		return getServerModel().toClientModel();
 	}
 
 	/**
