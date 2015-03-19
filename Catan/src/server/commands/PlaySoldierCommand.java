@@ -44,9 +44,9 @@ public class PlaySoldierCommand implements ICommand {
 			Player player = model.getPlayers()[playerIndex];
 
 			/*
-			 * If the user can play a year of plenty card, then get the current
-			 * number of monuments in his or her hand. From this value, subtract
-			 * one and reset the current player's year of plenty count.
+			 * If the user can play a soldier card, then get the current number
+			 * of soldiers in his or her hand. From this value, subtract one and
+			 * reset the current player's soldier count.
 			 */
 			int preSoldier = player.getOldDevCards().getSoldier();
 			int postSoldier = preSoldier - 1;

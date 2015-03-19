@@ -395,7 +395,8 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel robPlayer(MoveRobberParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		command = new RobPlayerCommand(params);
+		command.execute();
 		return this.getServerModel().toClientModel();
 	}
 
@@ -535,8 +536,8 @@ public class ServerFacade implements IServer {
 		RegisteredPlayers.getSingleton().addNewPlayer("Pete", "pete");
 		RegisteredPlayers.getSingleton().addNewPlayer("Mark", "mark");
 	}
-	
-	public HashMap<Integer, ServerModel> getModelMap(){
+
+	public HashMap<Integer, ServerModel> getModelMap() {
 		return modelMap;
 	}
 
