@@ -11,6 +11,7 @@ import shared.communication.*;
 import shared.model.GameList;
 //import shared.model.RegisteredPlayers;
 
+import shared.model.Player;
 import shared.model.RegisteredPlayers;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
@@ -473,8 +474,17 @@ public class ServerFacade implements IServer{
 	}
 	
 	public int getPlayerIndex() {
+		
 		ServerModel model = getServerModel();
-		RegisteredPlayers.getSingleton().g
+		String playerName = RegisteredPlayers.getSingleton().getPlayerName(getPlayerID());
+		Player[] players = model.getPlayers();
+		
+		for(Player p: players) {
+			if(p.getName().equals(playerName)) {
+				return p.getPlayerIndex();
+			}
+		}
+		
 		return -1;
 	}
 	
