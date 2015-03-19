@@ -24,7 +24,15 @@ import shared.utils.Serializer;
  *
  */
 public class ServerModel extends AbstractModel{
+	int gameID;
 	
+	public int getGameID(){
+		return gameID;
+	}
+	
+	public void setGameID(int ID){
+		this.gameID = ID;
+	}
 	public String toString() {
 		return Serializer.serializeServerModel(this);
 	}
