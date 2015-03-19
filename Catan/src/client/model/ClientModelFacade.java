@@ -1521,6 +1521,7 @@ public class ClientModelFacade {
 	 * Tests if the player can play a monopoly card.
 	 * 
 	 * @param playerIndex
+	 * @param resourceString
 	 * @return
 	 */
 	public boolean canPlayMonopolyCard(int playerIndex) {
