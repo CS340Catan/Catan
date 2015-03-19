@@ -7,6 +7,7 @@ package server.commands;
 public class GameListCommand implements ICommand {
 	/**
 	 * Transmits a list of all the current games
+	 * WE DON'T NEED THIS CLASS
 	 */
 	@Override
 	public void execute() {

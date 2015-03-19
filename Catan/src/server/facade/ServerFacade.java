@@ -1,16 +1,14 @@
 package server.facade;
 
 import java.util.HashMap;
-
+import java.util.ArrayList;
 import client.data.GameInfo;
-import server.commands.CreateGameCommand;
-import server.commands.ICommand;
-import server.commands.LoginCommand;
-import server.commands.RegisterCommand;
-import server.commands.SendChatCommand;
+import server.commands.*;
 import shared.communication.*;
 import shared.model.ClientModel;
+import shared.model.GameList;
 //import shared.model.RegisteredPlayers;
+
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 
@@ -67,8 +65,10 @@ public class ServerFacade implements IServer{
 	 */
 	@Override
 	public GameSummary[] getGameList() throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		//don't want to us a command because the execute() function doesn't return anything,
+		//and we need some information back
+		ArrayList<GameSummary> games = GameList.getSingleton().getGames();
+		return games.toArray(new GameSummary[games.size()]);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class ServerFacade implements IServer{
 	@Override
 	public String joinGame(JoinGameParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		new JoinGameCommand(params).execute();
 		return null;
 	}
 
@@ -107,7 +107,7 @@ public class ServerFacade implements IServer{
 	 */
 	@Override
 	public String saveGame(SaveParams params) throws ServerResponseException {
-		// TODO Auto-generated method stub
+		new SaveGameCommand(params).execute();
 		return null;
 	}
 
@@ -239,8 +239,10 @@ public class ServerFacade implements IServer{
 	@Override
 	public ClientModel acceptTrade(AcceptTradeParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		command = new AcceptTradeCommand(params);
+		command.execute();
+		
+		return ClientModel.getSingleton();
 	}
 
 	/**
