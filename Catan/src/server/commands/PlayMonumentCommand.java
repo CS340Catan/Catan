@@ -3,7 +3,6 @@ package server.commands;
 import server.facade.ServerFacade;
 import server.model.*;
 import shared.communication.PlayMonumentParams;
-import shared.model.Player;
 import shared.utils.ServerResponseException;
 
 /**

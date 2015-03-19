@@ -27,7 +27,7 @@ public class JoinGameHandler implements IHttpHandler {
 			exchange.getResponseHeaders().put("Set-Cookie",values);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, "Failed to join game.", String.class);
+			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
 			e.printStackTrace();
 		}
 	}

@@ -1052,6 +1052,38 @@ public class ServerModelController {
 		return false;
 
 	}
+	
+	/**
+	 * checks the owner of a settlement at a location, returns -1 if no one
+	 * @param location
+	 * @return
+	 */
+	public int settlementOwner(VertexObject location) {
+
+		for (VertexObject settlement : model.getMap().getSettlements()) {
+			if (settlement.isEquivalent(location)) {
+				return settlement.getOwner();
+			}
+		}
+
+		return -1;
+	}
+	
+	/**
+	 * checks the owner of a city at a location, returns -1 if no one
+	 * @param location
+	 * @return
+	 */
+	public int cityOwner(VertexObject location) {
+
+		for (VertexObject city : model.getMap().getCities()) {
+			if (city.isEquivalent(location)) {
+				return city.getOwner();
+			}
+		}
+
+		return -1;
+	}
 
 	/**
 	 * tests if the player can discard cards

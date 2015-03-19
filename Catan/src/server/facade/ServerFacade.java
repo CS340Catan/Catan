@@ -142,7 +142,7 @@ public class ServerFacade implements IServer {
 	@Override
 	public String loadGame(LoadGameParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		new LoadGameCommand(params).execute();
 		return null;
 	}
 
@@ -159,7 +159,7 @@ public class ServerFacade implements IServer {
 	public ClientModel getCurrentGame(int version)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel resetGame() throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class ServerFacade implements IServer {
 	public ClientModel updateModel(int versionNumber)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -259,7 +259,7 @@ public class ServerFacade implements IServer {
 			throws ServerResponseException {
 		command = new SendChatCommand(chatMessage, gameID);
 		command.execute();
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -310,7 +310,7 @@ public class ServerFacade implements IServer {
 				new RollParams(getPlayerIndex(), number));
 		command.execute();
 
-		return getServerModel().toClientModel();
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -324,7 +324,7 @@ public class ServerFacade implements IServer {
 	public ClientModel buildRoad(BuildRoadParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -338,7 +338,7 @@ public class ServerFacade implements IServer {
 	public ClientModel buildSettlement(BuildSettlementParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -352,7 +352,7 @@ public class ServerFacade implements IServer {
 	public ClientModel buildCity(BuildCityParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -366,7 +366,7 @@ public class ServerFacade implements IServer {
 	public ClientModel offerTrade(TradeOfferParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -381,7 +381,7 @@ public class ServerFacade implements IServer {
 	public ClientModel maritimeTrade(MaritimeTradeParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -396,7 +396,7 @@ public class ServerFacade implements IServer {
 	public ClientModel robPlayer(MoveRobberParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -410,7 +410,7 @@ public class ServerFacade implements IServer {
 	public ClientModel finishTurn(UserActionParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -424,7 +424,7 @@ public class ServerFacade implements IServer {
 	public ClientModel buyDevCard(UserActionParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -439,7 +439,7 @@ public class ServerFacade implements IServer {
 	public ClientModel playSoldierCard(MoveSoldierParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -453,7 +453,7 @@ public class ServerFacade implements IServer {
 	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -468,7 +468,7 @@ public class ServerFacade implements IServer {
 	public ClientModel playRoadBuildingCard(BuildRoadCardParams params)
 			throws ServerResponseException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -482,8 +482,9 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playMonopolyCard(PlayMonopolyParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		command = new PlayMonopolyCommand(params);
+		command.execute();
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -496,10 +497,9 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playMonument(PlayMonumentParams params)
 			throws ServerResponseException {
-
 		command = new PlayMonumentCommand(params);
 		command.execute();
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	public int getGameID() {
@@ -530,6 +530,10 @@ public class ServerFacade implements IServer {
 		RegisteredPlayers.getSingleton().addNewPlayer("Brooke", "brooke");
 		RegisteredPlayers.getSingleton().addNewPlayer("Pete", "pete");
 		RegisteredPlayers.getSingleton().addNewPlayer("Mark", "mark");
+	}
+	
+	public HashMap<Integer, ServerModel> getModelMap(){
+		return modelMap;
 	}
 
 	public int getPlayerIndex() {

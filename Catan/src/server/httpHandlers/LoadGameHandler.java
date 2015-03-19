@@ -18,8 +18,9 @@ public class LoadGameHandler implements IHttpHandler {
 		LoadGameParams loadParams = (LoadGameParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
 		try {
 			ServerFacade.getSingleton().loadGame(loadParams);
+			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, "Could not save game. Be sure you have given a valid file name.", String.class);
+			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
 			e.printStackTrace();
 		}
 	}
