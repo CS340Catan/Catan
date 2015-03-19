@@ -516,6 +516,7 @@ public class ServerFacade implements IServer {
 
 	public void setFirstGame() {
 		ClientModel clientModel = new ClientModel();
+		
 	}
 
 }
