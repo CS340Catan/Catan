@@ -2,6 +2,7 @@ package server.facade;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+
 import client.data.GameInfo;
 import client.model.ClientModel;
 import server.commands.*;
@@ -10,6 +11,7 @@ import shared.communication.*;
 import shared.model.GameList;
 //import shared.model.RegisteredPlayers;
 
+import shared.model.RegisteredPlayers;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 
@@ -275,7 +277,7 @@ public class ServerFacade implements IServer{
 		command = new RollNumberCommand(new RollParams(playerIndex, number));
 		command.execute();
 
-		return getClientModel();
+		return getServerModel();
 	}
 
 	/**
@@ -471,8 +473,8 @@ public class ServerFacade implements IServer{
 	}
 	
 	public int getPlayerIndex() {
-		ClientModel model = getClientModel();
-		
+		ServerModel model = getServerModel();
+		RegisteredPlayers.getSingleton().g
 		return -1;
 	}
 	
