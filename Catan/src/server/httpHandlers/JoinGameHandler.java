@@ -19,6 +19,8 @@ public class JoinGameHandler implements IHttpHandler {
 		JoinGameParams joinParams = (JoinGameParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
 		try {
 			ServerFacade.getSingleton().setGameID(joinParams.getId());
+			int playerId = 0;//<<<<<<<<<<GET THIS FROM SETH's THING>>>>>>>>>>>>>>>>>>
+			ServerFacade.getSingleton().setPlayerID(playerId);
 			ServerFacade.getSingleton().joinGame(joinParams);
 			ArrayList<String> values=new ArrayList<String>();
 			values.add("catan.game=" + joinParams.getId() + ";Path=/;");
