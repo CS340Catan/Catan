@@ -1,8 +1,12 @@
 package server.httpHandlers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import shared.communication.UserCredentials;
+import shared.model.RegisteredPlayers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -26,7 +30,20 @@ public class HandlerUtil {
 		//otherwise return the gameID
 		return gameID;
 	}
-	
+	public static int getPlayerID(HttpExchange exchange) {
+		Headers reqHeaders = exchange.getRequestHeaders();
+		List<String> cookies = reqHeaders.get("Cookie");
+		int playerID = -1;
+		for(String cookie : cookies){
+			JsonParser parser = new JsonParser();
+			JsonObject jsonObject = (JsonObject) parser.parse(cookie);
+			JsonElement gameIDElement = jsonObject.get("playerID");
+			playerID = gameIDElement.getAsInt();
+		}
+		//if there is no game cookie return -1
+		//otherwise return the gameID
+		return playerID;
+	}
 	public static String requestBodyToString(HttpExchange exchange){
 		Scanner scanner = new Scanner(exchange.getRequestBody(), "UTF-8");
 		String jsonString = scanner.useDelimiter("\\A").next();
@@ -47,5 +64,14 @@ public class HandlerUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public static void setUserCookie(HttpExchange exchange, UserCredentials userCredentials){
+		Headers respHeaders = exchange.getResponseHeaders();
+		 List<String> values=new ArrayList<>();
+		 String username = userCredentials.getUsername();
+		 String password = userCredentials.getPassword();
+		 int playerId = RegisteredPlayers.getSingleton().getPlayerId(password);
+		  values.add("catan.user={\"name\":\""+username+"\",\"password\":\""+password+"\",\"playerID\":"+playerId+"};Path=/;");
+		  respHeaders.put("Set-Cookie",values);
 	}
 }

@@ -1,8 +1,7 @@
 package server.facade;
 
-import java.util.ArrayList;
-
 import java.util.HashMap;
+import java.util.ArrayList;
 import client.data.GameInfo;
 import server.commands.*;
 import shared.communication.*;
