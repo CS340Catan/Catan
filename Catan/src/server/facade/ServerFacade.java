@@ -423,7 +423,8 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel buyDevCard(UserActionParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		command = new BuyDevCardCommand(params);
+		command.execute();
 		return this.getServerModel().toClientModel();
 	}
 
@@ -438,7 +439,8 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playSoldierCard(MoveSoldierParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		command = new PlaySoldierCommand(params);
+		command.execute();
 		return this.getServerModel().toClientModel();
 	}
 
@@ -452,7 +454,8 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		command = new PlayYearOfPlentyCommand(params);
+		command.execute();
 		return this.getServerModel().toClientModel();
 	}
 
@@ -467,7 +470,8 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playRoadBuildingCard(BuildRoadCardParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		command = new PlayRoadBuildingCommand(params);
+		command.execute();
 		return this.getServerModel().toClientModel();
 	}
 

@@ -1,5 +1,7 @@
 package shared.model;
 
+import java.util.Random;
+
 import shared.definitions.ResourceType;
 
 /**
@@ -170,5 +172,33 @@ public class ResourceList {
 		ResourceList invertList = new ResourceList(-(this.brick), -(this.ore),
 				-(this.sheep), -(this.wheat), -(this.wood));
 		return invertList;
+	}
+
+	public void addResources(ResourceList newResources) {
+		this.brick += newResources.getBrick();
+		this.ore += newResources.getOre();
+		this.sheep += newResources.getSheep();
+		this.wheat += newResources.getWheat();
+		this.wood += newResources.getWood();
+	}
+
+	public ResourceType getRandomResourceFromList() {
+		int totalResourceCount = this.brick + this.ore + this.sheep
+				+ this.wheat + this.wood;
+		Random rand = new Random();
+		int randomNum = rand.nextInt(totalResourceCount) + 1;
+
+		if (randomNum - this.brick <= 0) {
+			return ResourceType.BRICK;
+		} else if (randomNum - this.brick - this.ore <= 0)
+			return ResourceType.ORE;
+		else if (randomNum - this.brick - this.ore - this.sheep <= 0)
+			return ResourceType.SHEEP;
+		else if (randomNum - this.brick - this.ore - this.sheep - this.wheat <= 0)
+			return ResourceType.WHEAT;
+		else if (randomNum - this.brick - this.ore - this.sheep - this.wheat
+				- this.wood <= 0)
+			return ResourceType.WOOD;
+		return null;
 	}
 }

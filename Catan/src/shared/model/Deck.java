@@ -1,5 +1,9 @@
 package shared.model;
 
+import java.util.Random;
+
+import shared.definitions.ResourceType;
+
 public class Deck {
 
 	private int yearOfPlenty;
@@ -62,6 +66,37 @@ public class Deck {
 
 	public void setMonopoly(int monopoly) {
 		this.monopoly = monopoly;
+	}
+
+	public void drawFromDeck(Player drawingPlayer) {
+		int totalCardCount = this.yearOfPlenty + this.monument + this.soldier
+				+ this.roadBuilding + this.monopoly;
+		Random rand = new Random();
+		int randomCardIndex = rand.nextInt(totalCardCount) + 1;
+
+		/*
+		 * If the development card is monument, it is added to the old cards
+		 * list. If the development card is NOT monument, it is added to the new
+		 * cards list.
+		 */
+		if (randomCardIndex - this.yearOfPlenty <= 0) {
+			DevCardList oldList = drawingPlayer.getNewDevCards();
+			oldList.setYearOfPlenty(oldList.getYearOfPlenty() + 1);
+		} else if (randomCardIndex - this.yearOfPlenty - this.monument <= 0) {
+			DevCardList oldList = drawingPlayer.getOldDevCards();
+			oldList.setMonument(oldList.getMonument() + 1);
+		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier <= 0) {
+			DevCardList oldList = drawingPlayer.getNewDevCards();
+			oldList.setSoldier(oldList.getSoldier() + 1);
+		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier
+				- this.roadBuilding <= 0) {
+			DevCardList oldList = drawingPlayer.getNewDevCards();
+			oldList.setRoadBuilding(oldList.getRoadBuilding() + 1);
+		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier
+				- this.roadBuilding - this.monopoly <= 0) {
+			DevCardList oldList = drawingPlayer.getNewDevCards();
+			oldList.setMonopoly(oldList.getMonopoly() + 1);
+		}
 	}
 
 }
