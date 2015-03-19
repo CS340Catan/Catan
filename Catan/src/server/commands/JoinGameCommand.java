@@ -1,6 +1,9 @@
 package server.commands;
 
+import server.facade.ServerFacade;
 import shared.communication.JoinGameParams;
+import shared.model.ClientModel;
+import shared.model.Player;
 
 /**
  * @author Seth White
@@ -21,7 +24,12 @@ public class JoinGameCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		//access the map of id's to games.
+		ClientModel model = ServerFacade.getSingleton().getClientModel();
+		Player [] players = model.getPlayers();
+		//get game,
+		//add player
+	
 
 	}
 
