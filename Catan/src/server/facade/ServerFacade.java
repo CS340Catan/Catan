@@ -270,8 +270,11 @@ public class ServerFacade implements IServer{
 	 */
 	@Override
 	public ClientModel rollNumber(int number) throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+
+		command = new RollNumberCommand(number);
+		command.execute();
+
+		return getClientModel();
 	}
 
 	/**
