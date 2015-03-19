@@ -1,5 +1,7 @@
 package server.commands;
 
+import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.RollParams;
 
 /**
@@ -10,19 +12,26 @@ import shared.communication.RollParams;
 
 public class RollNumberCommand implements ICommand {
 	
-	RollParams params;
-	int gameID;
+	int playerIndex;
+	int number;
 	
-	RollNumberCommand(RollParams params, int gameID) {
-		this.params = params;
-		this.gameID = gameID;
+	public RollNumberCommand(RollParams params) {
+		
+		this.playerIndex = params.getPlayerIndex();
+		this.number = params.getNumber();
 	}
 	/**
 	 * Updates each players' resources according to what number was rolled
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		//assume current turn player called roll command :/
+		
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		
+		int playerIndex = model.getTurnTracker().getCurrentTurn();
+		
+		
 
 	}
 

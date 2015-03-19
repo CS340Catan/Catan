@@ -8,7 +8,7 @@ import client.model.ClientModel;
 import shared.model.MessageLine;
 import shared.model.MessageList;
 
-public class SendChatTest {
+public class AndrewsTesties {
 
 	@Test
 	public void test() {
@@ -25,6 +25,11 @@ public class SendChatTest {
 		assertTrue(clientModel.getChat().getLines()[2].getMessage().equals(
 				"This is Andrew"));
 
+	}
+	
+	@Test
+	public void test1() {
+		
 	}
 
 }
