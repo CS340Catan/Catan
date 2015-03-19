@@ -70,6 +70,7 @@ public class ServerProxy implements IServer {
 	public ClientModel updateModel(int version) throws ServerResponseException {
 		String jsonResponseString = httpCommunicator.doGet(
 				"/game/model?version=" + version, null);
+		System.out.println(jsonResponseString);
 		ClientModel model = null; // Returns null if current model is already
 									// correct or there was an error
 		if (jsonResponseString != null) {
