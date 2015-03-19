@@ -5,24 +5,24 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
 import shared.utils.IServer;
 import client.controllers.Poller;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 
 public class PollerTest {
 
 	private IServer server;
 	private ClientModel clientModel;
 	private ClientModel mockServerModel;
-	private ClientModelController clientModelController;
+	private ClientModelFacade clientModelController;
 
 	@Before
 	public void setUp() throws Exception {
 		// create and populate model
 		clientModel = new ClientModel();
 		mockServerModel = new ClientModel();
-		clientModelController = new ClientModelController();
+		clientModelController = new ClientModelFacade();
 		server = new MockServer(mockServerModel);
 	}
 

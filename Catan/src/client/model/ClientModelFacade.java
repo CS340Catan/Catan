@@ -1,4 +1,4 @@
-package shared.model;
+package client.model;
 
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
@@ -9,6 +9,10 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
+import shared.model.Port;
+import shared.model.ResourceList;
+import shared.model.Road;
+import shared.model.VertexObject;
 import client.data.UserPlayerInfo;
 
 /**
@@ -22,7 +26,7 @@ import client.data.UserPlayerInfo;
  * @author Seth White
  *
  */
-public class ClientModelController {
+public class ClientModelFacade {
 
 	/**
 	 * Default constructor.

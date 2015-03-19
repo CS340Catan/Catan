@@ -5,20 +5,20 @@ import java.util.Observer;
 
 import shared.communication.UserActionParams;
 import shared.definitions.CatanColor;
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
 import shared.model.Player;
 import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
 import client.data.UserPlayerInfo;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 
 /**
  * Implementation for the turn tracker controller
  */
 public class TurnTrackerController extends Controller implements
 		ITurnTrackerController, Observer {
-	private ClientModelController clientModelController;
+	private ClientModelFacade clientModelController;
 	private ITurnTrackerControllerState state = new TurnTrackerInitialState();
 
 	public TurnTrackerController(ITurnTrackerView view) {
@@ -26,7 +26,7 @@ public class TurnTrackerController extends Controller implements
 		super(view);
 
 		ClientModel.getNotifier().addObserver(this);
-		clientModelController = new ClientModelController();
+		clientModelController = new ClientModelFacade();
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class TurnTrackerController extends Controller implements
 		// initialize players, but only if in initial state
 		state.initFromModel(getView(), this);
 
-		clientModelController = new ClientModelController();
+		clientModelController = new ClientModelFacade();
 		ClientModel model = ClientModel.getSingleton();
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 

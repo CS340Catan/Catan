@@ -8,6 +8,7 @@ import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
+import client.model.ClientModel;
 
 /**
  * This class implements the IServer interface, such that it may be used as a

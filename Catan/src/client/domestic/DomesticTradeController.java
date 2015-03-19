@@ -5,8 +5,6 @@ import java.util.*;
 import shared.communication.AcceptTradeParams;
 import shared.communication.TradeOfferParams;
 import shared.definitions.*;
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
 import shared.model.Player;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
@@ -16,6 +14,8 @@ import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.misc.*;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 
 /**
  * Domestic trade controller implementation
@@ -23,7 +23,7 @@ import client.misc.*;
 public class DomesticTradeController extends Controller implements
 		IDomesticTradeController, Observer {
 
-	private ClientModelController clientModelController;
+	private ClientModelFacade clientModelController;
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
@@ -60,7 +60,7 @@ public class DomesticTradeController extends Controller implements
 		setWaitOverlay(waitOverlay);
 		setAcceptOverlay(acceptOverlay);
 		ClientModel.getNotifier().addObserver(this);
-		clientModelController = new ClientModelController();
+		clientModelController = new ClientModelFacade();
 	}
 
 	public IDomesticTradeView getTradeView() {

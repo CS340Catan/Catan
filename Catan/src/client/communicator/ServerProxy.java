@@ -5,6 +5,7 @@ import shared.model.*;
 import shared.utils.*;
 import client.data.GameInfo;
 import client.data.UserPlayerInfo;
+import client.model.ClientModel;
 
 /**
  * This class implements the IServer interface, as the way in which the Client

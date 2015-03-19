@@ -3,8 +3,8 @@ package client.communication;
 import java.util.*;
 
 import client.base.*;
+import client.model.ClientModel;
 import shared.definitions.*;
-import shared.model.ClientModel;
 import shared.model.MessageLine;
 import shared.model.Player;
 
