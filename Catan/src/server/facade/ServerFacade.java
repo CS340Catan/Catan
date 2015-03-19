@@ -20,6 +20,7 @@ public class ServerFacade implements IServer{
 	private ICommand command;
 	private int gameID;
 	private static HashMap <Integer, ServerModel> modelMap = new HashMap<Integer, ServerModel>();
+	private int currentPlayerID;//!!!!!NOT THE INDEX WITHIN THE GAME!!!!!!!
 	
 	public static ServerFacade getSingleton(){
 		if(serverFacade == null){
@@ -96,7 +97,7 @@ public class ServerFacade implements IServer{
 	@Override
 	public String joinGame(JoinGameParams params)
 			throws ServerResponseException {
-		new JoinGameCommand(params).execute();
+		new JoinGameCommand(params,currentPlayerID).execute();
 		return null;
 	}
 
@@ -454,8 +455,17 @@ public class ServerFacade implements IServer{
 	public ServerModel getServerModel() {
 		return modelMap.get(gameID);
 	}
+	public int getPlayerID(){
+		return currentPlayerID;
+	}
 	
+	public void setPlayerID(int playerId){
+		this.currentPlayerID = playerId;
+	}
 	
+	public void setFirstGame() {
+		ClientModel clientModel = new ClientModel();
+	}
 	
 }
 
