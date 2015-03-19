@@ -239,10 +239,11 @@ public class ServerFacade implements IServer{
 	@Override
 	public ClientModel acceptTrade(AcceptTradeParams params)
 			throws ServerResponseException {
+		
 		command = new AcceptTradeCommand(params);
 		command.execute();
 		
-		return ClientModel.getSingleton();
+		return getClientModel();
 	}
 
 	/**
@@ -254,8 +255,10 @@ public class ServerFacade implements IServer{
 	@Override
 	public ClientModel discardCards(DiscardCardsParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		command = new DiscardCardsCommand(params);
+		command.execute();
+
+		return getClientModel();
 	}
 
 	/**
