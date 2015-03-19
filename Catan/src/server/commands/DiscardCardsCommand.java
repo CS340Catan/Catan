@@ -2,6 +2,7 @@ package server.commands;
 
 import server.facade.ServerFacade;
 import server.model.ServerModel;
+import server.model.ServerModelController;
 import shared.communication.DiscardCardsParams;
 import shared.model.ResourceList;
 
@@ -33,6 +34,7 @@ public class DiscardCardsCommand implements ICommand {
 	public void execute() {
 	
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModelController controller = new ServerModelController(model);
 		
 		ResourceList resources = model.getPlayers()[playerIndex].getResources();
 		
@@ -43,12 +45,14 @@ public class DiscardCardsCommand implements ICommand {
 		int wheat = discardedCards.getWheat();
 		int wood = discardedCards.getWood();
 		
-		//subtract discarded cards from players resources
-		resources.setBrick(resources.getBrick() - brick);
-		resources.setOre(resources.getOre() - ore);
-		resources.setSheep(resources.getSheep() - sheep);
-		resources.setWheat(resources.getWheat() - wheat);
-		resources.setWood(resources.getWood() - wood);
+		if(controller.canDiscardCards(playerIndex)) {
+			//subtract discarded cards from players resources
+			resources.setBrick(resources.getBrick() - brick);
+			resources.setOre(resources.getOre() - ore);
+			resources.setSheep(resources.getSheep() - sheep);
+			resources.setWheat(resources.getWheat() - wheat);
+			resources.setWood(resources.getWood() - wood);
+		}
 		
 	}
 

@@ -1,8 +1,17 @@
 package server.commands;
 
+import java.util.*;
+import java.util.Map;
+
 import server.facade.ServerFacade;
 import server.model.ServerModel;
+import server.model.ServerModelController;
 import shared.communication.RollParams;
+import shared.definitions.ResourceType;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
+import shared.model.*;
 
 /**
  * @author Drewfus
@@ -25,14 +34,72 @@ public class RollNumberCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		//assume current turn player called roll command :/
 		
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModelController controller = new ServerModelController(model);
 		
-		int playerIndex = model.getTurnTracker().getCurrentTurn();
-		
-		
+		if(controller.canRollNumber(playerIndex)) {
+			
+			if(number == 7) {
+				//set to discarding state, then to rob state?
+				
+				
+			}
+			else {
+				//go around all hexes, if number matches then give resource(s) to people living on vertexes
+				Hex[] hexes = model.getMap().getHexes();
 
+				
+				for(Hex hex: hexes) {
+					if(hex.getNumber() == number) {
+						
+						//give resources to everyone living here
+						HexLocation location = hex.getLocation();
+						ResourceType resource = ResourceType.valueOf(hex.getResource());
+						
+						//create 6 locations, one at each vertex, test it
+						VertexObject testLocation = new VertexObject(-1, new VertexLocation(location, VertexDirection.NorthWest));
+						checkLocation(testLocation, resource);
+						
+						testLocation.setLocation(new VertexLocation(location, VertexDirection.NorthEast));
+						checkLocation(testLocation, resource);
+						
+						testLocation.setLocation(new VertexLocation(location, VertexDirection.East));
+						checkLocation(testLocation, resource);
+						
+						testLocation.setLocation(new VertexLocation(location, VertexDirection.SouthEast));
+						checkLocation(testLocation, resource);
+						
+						testLocation.setLocation(new VertexLocation(location, VertexDirection.SouthWest));
+						checkLocation(testLocation, resource);
+						
+						testLocation.setLocation(new VertexLocation(location, VertexDirection.West));
+						checkLocation(testLocation, resource);
+						
+					}
+				}
+				
+			}
+			
+		}
+
+	}
+	
+	private void checkLocation(VertexObject testLocation, ResourceType type) {
+		
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModelController controller = new ServerModelController(model);
+		
+		int owner = controller.settlementOwner(testLocation);
+		if(owner != -1) {
+			//add 1 to the map
+			model.addResource(owner, type, 1);
+		}
+		controller.cityOwner(testLocation);
+		if(owner != -1) {
+			//add 2 to the map
+			model.addResource(owner, type, 2);
+		}
 	}
 
 }
