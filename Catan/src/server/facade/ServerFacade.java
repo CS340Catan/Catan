@@ -488,9 +488,9 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playMonument(PlayMonumentParams params)
 			throws ServerResponseException {
+
 		command = new PlayMonumentCommand(params);
 		command.execute();
-
 		return null;
 	}
 
@@ -516,7 +516,7 @@ public class ServerFacade implements IServer {
 
 	public void setFirstGame() {
 		ClientModel clientModel = new ClientModel();
-		
+
 	}
 
 }
