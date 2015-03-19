@@ -7,7 +7,9 @@ import shared.utils.IDGenerator;
 public class RegisteredPlayers {
 	private static RegisteredPlayers currentPlayers = null;
 	private HashMap<String, String> registeredPlayers = new HashMap<String, String>();
-	private HashMap<String,Integer> playerIDs = new HashMap<String,Integer>();
+	private HashMap<String,Integer> playerID = new HashMap<String,Integer>();
+	private HashMap<Integer,String> IDPlayer = new HashMap<Integer,String>();
+	
 	
 	public static RegisteredPlayers getSingleton(){
 		if(currentPlayers == null){
@@ -21,7 +23,9 @@ public class RegisteredPlayers {
 	
 	public void addNewPlayer(String username, String password) {
 			registeredPlayers.put(username, password);
-			playerIDs.put(username,IDGenerator.generatePlayerID());
+			int playerID = IDGenerator.generatePlayerID();
+			this.playerID.put(username,playerID);
+			IDPlayer.put(playerID, username);
 	}
 	
 	public boolean userExists(String username, String password){
@@ -31,7 +35,10 @@ public class RegisteredPlayers {
 		return false;
 	}
 	public int getPlayerId(String username){
-		return playerIDs.get(username);
+		return playerID.get(username);
+	}
+	public String getPlayerName(int id){
+		return IDPlayer.get(id);
 	}
 	public boolean containsKey(String key){
 		return registeredPlayers.containsKey(key);
