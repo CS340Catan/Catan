@@ -57,6 +57,7 @@ public class Server {
 		} else {
 			new Server().run();
 		}
+		ServerFacade.getSingleton().setFirstGame();
 	}
 
 	/**

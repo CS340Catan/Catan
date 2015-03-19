@@ -452,7 +452,9 @@ public class ServerFacade implements IServer{
 		return modelMap.get(gameID);
 	}
 	
-	
+	public void setFirstGame() {
+		ClientModel clientModel = new ClientModel();
+	}
 	
 }
 
