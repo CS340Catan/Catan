@@ -19,7 +19,7 @@ public class JoinGameHandler implements IHttpHandler {
 		JoinGameParams joinParams = (JoinGameParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
 		try {
 			ServerFacade.getSingleton().setGameID(joinParams.getId());
-			int playerId = 0;//<<<<<<<<<<GET THIS FROM SETH's THING>>>>>>>>>>>>>>>>>>
+			int playerId = HandlerUtil.getPlayerID(exchange);
 			ServerFacade.getSingleton().setPlayerID(playerId);
 			ServerFacade.getSingleton().joinGame(joinParams);
 			ArrayList<String> values=new ArrayList<String>();
@@ -27,7 +27,7 @@ public class JoinGameHandler implements IHttpHandler {
 			exchange.getResponseHeaders().put("Set-Cookie",values);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, "Failed to join game.", String.class);
+			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
 			e.printStackTrace();
 		}
 	}

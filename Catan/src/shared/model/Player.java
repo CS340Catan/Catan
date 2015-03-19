@@ -171,6 +171,10 @@ public class Player {
 
 		return catanColor;
 	}
+	
+	public String getColorString(){
+		return this.color;
+	}
 
 	public void setColor(String color) {
 		this.color = color;

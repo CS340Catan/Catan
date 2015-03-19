@@ -26,5 +26,10 @@ public class AndrewsTesties {
 				"This is Andrew"));
 
 	}
+	
+	@Test
+	public void test1() {
+		
+	}
 
 }
