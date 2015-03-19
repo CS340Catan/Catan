@@ -1,9 +1,9 @@
 package client.map.state;
 
-import shared.model.ClientModelController;
 import shared.model.Road;
 import shared.model.VertexObject;
 import client.map.MapController;
+import client.model.ClientModelFacade;
 
 public class InitialState implements IMapState {
 
@@ -21,13 +21,13 @@ public class InitialState implements IMapState {
 
 	@Override
 	public boolean canPlaceSettlement(VertexObject settlement,
-			boolean playingCard, ClientModelController clientModelController) {
+			boolean playingCard, ClientModelFacade clientModelController) {
 		return false;
 	}
 
 	@Override
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
-			ClientModelController clientModelController) {
+			ClientModelFacade clientModelController) {
 		return false;
 	}
 

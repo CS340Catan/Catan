@@ -8,11 +8,11 @@ import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
 import shared.model.TurnTracker;
 import client.base.Controller;
 import client.data.UserPlayerInfo;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 
 /**
  * Implementation for the roll controller
@@ -21,7 +21,7 @@ public class RollController extends Controller implements IRollController,
 		Observer {
 
 	private IRollResultView resultView;
-	private ClientModelController modelController;
+	private ClientModelFacade modelController;
 	private int rollVal;
 	private Timer timer;
 	private int countDown;
@@ -40,7 +40,7 @@ public class RollController extends Controller implements IRollController,
 
 		setResultView(resultView);
 		ClientModel.getNotifier().addObserver(this);
-		modelController = new ClientModelController();
+		modelController = new ClientModelFacade();
 	}
 
 	public IRollResultView getResultView() {

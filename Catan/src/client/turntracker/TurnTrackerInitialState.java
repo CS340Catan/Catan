@@ -1,6 +1,6 @@
 package client.turntracker;
 
-import shared.model.ClientModel;
+import client.model.ClientModel;
 import shared.model.Player;
 
 public class TurnTrackerInitialState implements ITurnTrackerControllerState {

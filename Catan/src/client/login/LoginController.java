@@ -6,6 +6,7 @@ import client.communicator.ServerProxy;
 import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.misc.*;
+import client.model.ClientModel;
 
 import java.net.*;
 import java.io.*;
@@ -17,7 +18,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import shared.communication.UserCredentials;
-import shared.model.ClientModel;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 //import com.google.gson.*;

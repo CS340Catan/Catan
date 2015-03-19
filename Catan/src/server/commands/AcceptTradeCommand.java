@@ -1,9 +1,10 @@
 package server.commands;
 
+import client.model.ClientModel;
 import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.AcceptTradeParams;
 import shared.communication.TradeOfferParams;
-import shared.model.ClientModel;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
 
@@ -39,7 +40,7 @@ public class AcceptTradeCommand implements ICommand {
 	@Override
 	public void execute() {
 		// TODO see what resources were offered in model, if willAccept, reallocate, otherwise do nothing
-		ClientModel model = ServerFacade.getSingleton().getClientModel();
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		
 		if(willAccept) {
 			TradeOffer tradeOffer = model.getTradeOffer();

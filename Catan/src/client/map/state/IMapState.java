@@ -1,9 +1,9 @@
 package client.map.state;
 
-import shared.model.ClientModelController;
 import shared.model.Road;
 import shared.model.VertexObject;
 import client.map.MapController;
+import client.model.ClientModelFacade;
 
 public interface IMapState {
 	public void initialize(MapController mapController);
@@ -11,10 +11,10 @@ public interface IMapState {
 	public String getClassName();
 
 	public boolean canPlaceSettlement(VertexObject settlement,
-			boolean playingCard, ClientModelController clientModelController);
+			boolean playingCard, ClientModelFacade clientModelController);
 
 	public boolean canPlaceRoad(int playerIndex, Road road, boolean isFree,
-			ClientModelController clientModelController);
+			ClientModelFacade clientModelController);
 
 	public void beginRound(MapController mapController);
 }

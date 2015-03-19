@@ -1,5 +1,8 @@
 package server.commands;
 
+import client.model.ClientModel;
+import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.PlayMonumentParams;
 
 /**
@@ -10,19 +13,17 @@ import shared.communication.PlayMonumentParams;
 
 public class PlayMonumentCommand implements ICommand {
 	
-	PlayMonumentParams params;
-	int gameID;
+	int playerIndex;
 	
-	PlayMonumentCommand(PlayMonumentParams params, int gameID) {
-		this.params = params;
-		this.gameID = gameID;
+	public PlayMonumentCommand(PlayMonumentParams params) {
+		this.playerIndex = params.getPlayerIndex();
 	}
 	/**
 	 * Gives the player the victory points, should set the game to say he won
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
 
 	}
 

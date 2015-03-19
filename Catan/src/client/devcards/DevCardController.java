@@ -11,8 +11,6 @@ import shared.communication.UserActionParams;
 import shared.communication.YearOfPlentyParams;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
-import shared.model.ClientModel;
-import shared.model.ClientModelController;
 import shared.model.Player;
 import shared.model.ResourceList;
 import shared.utils.IServer;
@@ -21,6 +19,8 @@ import client.base.Controller;
 import client.base.IAction;
 import client.communicator.ServerProxy;
 import client.data.UserPlayerInfo;
+import client.model.ClientModel;
+import client.model.ClientModelFacade;
 
 /**
  * "Dev card" controller implementation
@@ -32,7 +32,7 @@ public class DevCardController extends Controller implements
 	private IAction soldierAction;
 	private IAction roadAction;
 	private IServer serverProxy = ServerProxy.getSingleton();
-	private ClientModelController modelController;
+	private ClientModelFacade modelController;
 	private final String SERVER_ERROR = "Give us a minute to get the server working...";
 	private final String NO_CAN_DO = "Sorry buster, no can do right now";
 
@@ -60,7 +60,7 @@ public class DevCardController extends Controller implements
 		this.soldierAction = soldierAction;
 		this.roadAction = roadAction;
 		ClientModel.getNotifier().addObserver(this);
-		modelController = new ClientModelController();
+		modelController = new ClientModelFacade();
 	}
 
 	public IPlayDevCardView getPlayCardView() {
