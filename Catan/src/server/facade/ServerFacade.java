@@ -468,5 +468,11 @@ public class ServerFacade implements IServer{
 		ClientModel clientModel = new ClientModel();
 	}
 	
+	public int getPlayerIndex() {
+		ClientModel model = getClientModel();
+		
+		return -1;
+	}
+	
 }
 
