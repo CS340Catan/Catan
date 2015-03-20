@@ -90,13 +90,53 @@ public class ServerModel extends AbstractModel{
 		//see who has most roads, must be >=5 if there's a tie keep the old player, else switch to new player
 		
 		Player[] players = this.getPlayers();
+		int[] playerRoads = new int[4];
 		
+		// iterate
 		for(Player player: players) {
-			
-			
-			
-			
+			if(hasLongestRoad(player.getPlayerIndex())) {
+				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());	//need to increment/decrement victory points?
+			}
+			// special case: 2 people tie and surpass 5 at the same time
+			else if(hasTiedLongestRoad(player.getPlayerIndex())
+					&& (this.getTurnTracker().getLongestRoad() == -1)) {		//initialized to -1 right?
+						this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
+			}
 		}
 		
+	}
+	
+	private boolean hasLongestRoad(int playerIndex) {
+		
+		Player[] players = this.getPlayers();
+		
+		for(Player player: players) {
+			if(player.getPlayerIndex() != playerIndex 
+					&& player.getRoads() >= players[playerIndex].getRoads()) {
+				return false;
+			}
+		}
+		
+		if(players[playerIndex].getRoads() >= 5) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private boolean hasTiedLongestRoad(int playerIndex) {
+		
+		Player[] players = this.getPlayers();
+		
+		for(Player player: players) {
+			if(player.getPlayerIndex() != playerIndex 
+					&& players[playerIndex].getRoads() >= 5
+					&& player.getRoads() == players[playerIndex].getRoads()) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
