@@ -92,13 +92,13 @@ public class RollNumberCommand implements ICommand {
 		int owner = controller.settlementOwner(testLocation);
 		if(owner != -1) {
 			//add 1 to the map
-			model.addResource(owner, type, 1);
+			model.addResourceFromBank(owner, type, 1);
 		}
 		
 		owner = controller.cityOwner(testLocation);
 		if(owner != -1) {
 			//add 2 to the map
-			model.addResource(owner, type, 2);
+			model.addResourceFromBank(owner, type, 2);
 		}
 	}
 

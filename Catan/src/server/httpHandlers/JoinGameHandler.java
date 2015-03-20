@@ -16,7 +16,7 @@ public class JoinGameHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-		JoinGameParams joinParams = (JoinGameParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
+		JoinGameParams joinParams = (JoinGameParams) Serializer.deserialize(inputStreamString, JoinGameParams.class);
 		try {
 			ServerFacade.getSingleton().setGameID(joinParams.getId());
 			int playerId = HandlerUtil.getPlayerID(exchange);

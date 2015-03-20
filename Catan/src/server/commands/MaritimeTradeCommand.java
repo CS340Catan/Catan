@@ -1,6 +1,10 @@
 package server.commands;
 
+import server.facade.ServerFacade;
+import server.model.ServerModel;
+import server.model.ServerModelController;
 import shared.communication.MaritimeTradeParams;
+import shared.definitions.ResourceType;
 
 /**
  * @author Drewfus
@@ -10,11 +14,18 @@ import shared.communication.MaritimeTradeParams;
 
 public class MaritimeTradeCommand implements ICommand {
 	
-	MaritimeTradeParams params;
+	int playerIndex;
+	ResourceType input;
+	ResourceType output;
+	int ratio;
 	int gameID;
 	
-	MaritimeTradeCommand(MaritimeTradeParams params, int gameID) {
-		this.params = params;
+	public MaritimeTradeCommand(MaritimeTradeParams params, int gameID) {
+		
+		this.playerIndex = params.getPlayerIndex();
+		this.input = ResourceType.valueOf(params.getInputResource());
+		this.output = ResourceType.valueOf(params.getOutputResource());
+		this.ratio = params.getRatio();
 		this.gameID = gameID;
 	}
 	/**
@@ -22,7 +33,15 @@ public class MaritimeTradeCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModelController controller = new ServerModelController(model);
+		
+		if(controller.canMaritimeTrade(playerIndex, input, ratio)) {
+			
+			model.addResourceFromBank(playerIndex, input, ratio);
+			model.addResourceFromBank(playerIndex, output, 1);
+		}
 
 	}
 
