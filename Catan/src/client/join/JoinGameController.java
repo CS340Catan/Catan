@@ -57,11 +57,17 @@ public class JoinGameController extends Controller implements
 	@Override
 	public void start() {
 		try {
+			GameInfo[] gameInfoList = null;
 			GameSummary[] gameList = server.getGameList();
-			GameInfo[] gameInfoList = new GameInfo[gameList.length];
-
-			for (int i = 0; i < gameList.length; i++) {
-				gameInfoList[i] = gameList[i].toGameInfo();
+			
+			if(gameList != null){
+				gameInfoList = new GameInfo[gameList.length];
+				for (int i = 0; i < gameList.length; i++) {
+					gameInfoList[i] = gameList[i].toGameInfo();
+				}
+			}
+			else {
+				gameInfoList = new GameInfo[0];
 			}
 
 			getJoinGameView().setGames(gameInfoList,
