@@ -2,7 +2,6 @@ package server.facade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import server.commands.*;
 import server.model.*;
 import shared.communication.*;
@@ -365,7 +364,7 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel offerTrade(TradeOfferParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		new OfferTradeCommand(params,this.gameID);
 		return this.getServerModel().toClientModel();
 	}
 

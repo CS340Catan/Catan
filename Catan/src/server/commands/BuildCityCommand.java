@@ -9,6 +9,7 @@ import shared.definitions.ResourceType;
 import shared.locations.VertexLocation;
 import shared.model.Player;
 import shared.model.VertexObject;
+import shared.utils.ServerResponseException;
 
 /**
  * 
@@ -37,9 +38,10 @@ public class BuildCityCommand implements ICommand {
 	 * Places a city for a player at a certain location within that game's model.
 	 * Removes 2 wheat and 3 ore from the player's resource list
 	 * Gives a point to the player who has placed the city.
+	 * @throws ServerResponseException 
 	 */
 	@Override
-	public void execute() {
+	public void execute() throws ServerResponseException {
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 		
@@ -66,6 +68,10 @@ public class BuildCityCommand implements ICommand {
 			//give a single victory point
 			player.setVictoryPoints(player.getVictoryPoints() + 1);
 			
+		}
+		
+		else{
+			throw new ServerResponseException("This player cannot build a road at this location");
 		}
 	
 	}
