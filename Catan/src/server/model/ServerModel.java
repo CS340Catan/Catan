@@ -164,5 +164,17 @@ public class ServerModel extends AbstractModel{
 	
 	public void addSettlement(VertexObject settlement) {
 		
+		VertexObject[] settlements = this.getMap().getSettlements();
+		
+		// copy old array into slightly bigger new array 
+		VertexObject[] newSettlements = new VertexObject[settlements.length + 1];
+		for(int i = 0; i < settlements.length; i++) {
+			newSettlements[i] = settlements[i];
+		}
+		// add new settlement
+		newSettlements[newSettlements.length] = settlement;
+		
+		this.getMap().setSettlements(newSettlements);
+		
 	}
 }
