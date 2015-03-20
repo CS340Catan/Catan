@@ -34,7 +34,7 @@ public class BuildRoadHandler implements IHttpHandler {
 				ClientModel clientModel = ServerFacade.getSingleton().buildRoad(params);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
-				HandlerUtil.sendResponse(exchange, 400, "Failed to discard cards", String.class);
+				HandlerUtil.sendResponse(exchange, 400, "Failed to build road", String.class);
 				e.printStackTrace();
 			}
 			
