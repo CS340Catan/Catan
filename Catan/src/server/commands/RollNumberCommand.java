@@ -41,7 +41,15 @@ public class RollNumberCommand implements ICommand {
 		if(controller.canRollNumber(playerIndex)) {
 			
 			if(number == 7) {
-				//set to discarding state, then to rob state?, not quite sure here
+				
+				String status;
+				if(model.needToDiscard()) {
+					status = "Discarding";
+				}
+				else {
+					status = "Robbing";
+				}
+				model.getTurnTracker().setStatus(status);
 				
 			}
 			else {

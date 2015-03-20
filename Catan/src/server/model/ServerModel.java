@@ -163,6 +163,7 @@ public class ServerModel extends AbstractModel{
 	
 	
 	public void addSettlement(VertexObject settlement) {
+		
 		VertexObject[] settlements = this.getMap().getSettlements();
 		
 		// copy old array into slightly bigger new array 
@@ -185,5 +186,19 @@ public class ServerModel extends AbstractModel{
 		}
 		newCityList[currentCount] = city;
 		this.getMap().setCities(newCityList);
+	}
+	
+	
+	public boolean needToDiscard() {
+		
+		Player[] players = this.getPlayers();
+		
+		for(Player player: players) {
+			if(player.getResources().count() > 7) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

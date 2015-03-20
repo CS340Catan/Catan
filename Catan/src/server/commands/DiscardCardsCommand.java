@@ -4,6 +4,7 @@ import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.DiscardCardsParams;
+import shared.definitions.ResourceType;
 import shared.model.ResourceList;
 
 /**
@@ -28,7 +29,7 @@ public class DiscardCardsCommand implements ICommand {
 	
 	/**
 	 * Removes the cards from the player's hand.
-	 * If all players have are done discarding, change game status to 'Playing'
+	 * If all players are done discarding, change game status to 'Robbing'
 	 */
 	@Override
 	public void execute() {
@@ -46,13 +47,16 @@ public class DiscardCardsCommand implements ICommand {
 		int wood = discardedCards.getWood();
 		
 		if(controller.canDiscardCards(playerIndex)) {
-			//subtract discarded cards from players resources
-			resources.setBrick(resources.getBrick() - brick);
-			resources.setOre(resources.getOre() - ore);
-			resources.setSheep(resources.getSheep() - sheep);
-			resources.setWheat(resources.getWheat() - wheat);
-			resources.setWood(resources.getWood() - wood);
+			//subtract discarded cards from players resources, add back to bank
+			model.addResourceFromBank(playerIndex, ResourceType.BRICK, -brick);
+			model.addResourceFromBank(playerIndex, ResourceType.ORE, -ore);
+			model.addResourceFromBank(playerIndex, ResourceType.SHEEP, -sheep);
+			model.addResourceFromBank(playerIndex, ResourceType.WHEAT, -wheat);
+			model.addResourceFromBank(playerIndex, ResourceType.WOOD, -wood);
 		}
+		
+		// if this is last person to discard, change state to "Robbing", how to know if last person?
+		//-----
 		
 	}
 
