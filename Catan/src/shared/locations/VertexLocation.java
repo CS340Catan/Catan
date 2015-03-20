@@ -15,6 +15,8 @@ public class VertexLocation {
 		setHexLoc(hexLoc);
 		setDir(dir);
 	}
+	
+	public VertexLocation(){};
 
 	public void convertToPrimitives() {
 		x = hexLoc.getX();
