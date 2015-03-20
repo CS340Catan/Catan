@@ -1,21 +1,66 @@
 package server.facade;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import client.data.GameInfo;
-import client.model.ClientModel;
-import server.commands.*;
+import server.commands.AcceptTradeCommand;
+import server.commands.BuildCityCommand;
+import server.commands.BuildRoadCommand;
+import server.commands.BuildSettlementCommand;
+import server.commands.BuyDevCardCommand;
+import server.commands.CreateGameCommand;
+import server.commands.DiscardCardsCommand;
+import server.commands.ICommand;
+import server.commands.JoinGameCommand;
+import server.commands.LoadGameCommand;
+import server.commands.LoginCommand;
+import server.commands.PlayMonopolyCommand;
+import server.commands.PlayMonumentCommand;
+import server.commands.PlayRoadBuildingCommand;
+import server.commands.PlaySoldierCommand;
+import server.commands.PlayYearOfPlentyCommand;
+import server.commands.RegisterCommand;
+import server.commands.RobPlayerCommand;
+import server.commands.RollNumberCommand;
+import server.commands.SaveGameCommand;
+import server.commands.SendChatCommand;
 import server.model.ServerModel;
-import shared.communication.*;
+import shared.communication.AcceptTradeParams;
+import shared.communication.AddAIParams;
+import shared.communication.AddAIResponse;
+import shared.communication.BuildCityParams;
+import shared.communication.BuildRoadCardParams;
+import shared.communication.BuildRoadParams;
+import shared.communication.BuildSettlementParams;
+import shared.communication.ChangeLogLevelParams;
+import shared.communication.ChangeLogLevelResponse;
+import shared.communication.ChatMessage;
+import shared.communication.CommandList;
+import shared.communication.CreateGameParams;
+import shared.communication.DiscardCardsParams;
+import shared.communication.GameSummary;
+import shared.communication.JoinGameParams;
+import shared.communication.LoadGameParams;
+import shared.communication.MaritimeTradeParams;
+import shared.communication.MoveRobberParams;
+import shared.communication.MoveSoldierParams;
+import shared.communication.PlayMonopolyParams;
+import shared.communication.PlayMonumentParams;
+import shared.communication.RollParams;
+import shared.communication.SaveParams;
+import shared.communication.TradeOfferParams;
+import shared.communication.UserActionParams;
+import shared.communication.UserCredentials;
+import shared.communication.YearOfPlentyParams;
 import shared.model.GameList;
 //import shared.model.RegisteredPlayers;
-
 import shared.model.Player;
 import shared.model.RegisteredPlayers;
 import shared.utils.IServer;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
+import client.data.GameInfo;
+import client.model.ClientModel;
 
 public class ServerFacade implements IServer {
 
@@ -357,7 +402,7 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel buildCity(BuildCityParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		new BuildCityCommand(params,this.gameID).execute();
 		return this.getServerModel().toClientModel();
 	}
 
