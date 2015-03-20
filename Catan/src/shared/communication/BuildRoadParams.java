@@ -11,14 +11,10 @@ import shared.locations.EdgeLocation;
 public class BuildRoadParams {
 
 	String type = "buildRoad";
-	/**
-	 * Who's placing the road
-	 */
+	/**Who's placing the road*/
 	int playerIndex;
 	EdgeLocationParam roadLocation = new EdgeLocationParam();
-	/**
-	 * Whether this is placed for free (setup)
-	 */
+	/**Whether this is placed for free (setup)*/
 	boolean free;
 
 	public BuildRoadParams(int playerIndex, EdgeLocation roadLocation,

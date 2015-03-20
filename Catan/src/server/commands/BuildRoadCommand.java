@@ -1,6 +1,11 @@
 package server.commands;
 
-import shared.communication.BuildRoadParams;
+import server.facade.ServerFacade;
+import server.model.*;
+import shared.communication.*;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeLocation;
+import shared.model.*;
 
 /**
  * @author Drewfus
@@ -9,13 +14,19 @@ import shared.communication.BuildRoadParams;
  */
 
 public class BuildRoadCommand implements ICommand {
-	
-	BuildRoadParams params;
+
 	int gameID;
+	int playerIndex;
+	EdgeLocationParam roadLocation;
+	boolean free;
+
 	
-	BuildRoadCommand(BuildRoadParams params, int gameID) {
-		this.params = params;
+	public BuildRoadCommand(BuildRoadParams params, int gameID) {
+
 		this.gameID = gameID;
+		this.roadLocation = params.getRoadLocation();
+		this.playerIndex = params.getPlayerIndex();
+		this.free = params.isFree();
 	}
 	/**
 	 * Adds a road to the server model and updates map, player roads, player resources.
@@ -23,8 +34,32 @@ public class BuildRoadCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModelController controller = new ServerModelController(model);
+		
+		EdgeLocation roadEdgeLocation = new EdgeLocation();
+		roadEdgeLocation.setDirection(roadLocation.getDirection());
+		roadEdgeLocation.setX(roadLocation.getX());
+		roadEdgeLocation.setY(roadLocation.getY());
+		roadEdgeLocation.convertFromPrimitives();
+		Road road = new Road(playerIndex, roadEdgeLocation);
+		
+		if(controller.canBuildRoad(playerIndex, road, free, free)) {	//just used free for setupPhase param, should be the same right?
+			
+			// add road to model
+			model.addRoad(road);
+			
+			// decrement player resources and roads
+			Player player = model.getPlayers()[playerIndex];
+			model.addResource(playerIndex, ResourceType.BRICK, -1);
+			model.addResource(playerIndex, ResourceType.WOOD, -1);
+			player.setRoads(player.getRoads() - 1);
+			
+			// re-allocate longest road
+			model.reallocateLongestRoad();
+			
+		}
 	}
 
 }

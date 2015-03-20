@@ -2,8 +2,7 @@ package server.model;
 
 import client.model.ClientModel;
 import shared.definitions.ResourceType;
-import shared.model.AbstractModel;
-import shared.model.ResourceList;
+import shared.model.*;
 import shared.utils.Serializer;
 
 /**
@@ -69,6 +68,35 @@ public class ServerModel extends AbstractModel{
 			break;
 		}
 		
+		
+	}
+	
+	public void addRoad(Road road) {
+		
+		Road[] roads = this.getMap().getRoads();
+		
+		// copy old array into slightly bigger new array 
+		Road[] newRoads = new Road[roads.length + 1];
+		for(int i = 0; i < roads.length; i++) {
+			newRoads[i] = roads[i];
+		}
+		// add new road
+		newRoads[newRoads.length] = road;
+		
+		this.getMap().setRoads(newRoads);
+	}
+	
+	public void reallocateLongestRoad() {
+		//see who has most roads, must be >=5 if there's a tie keep the old player, else switch to new player
+		
+		Player[] players = this.getPlayers();
+		
+		for(Player player: players) {
+			
+			
+			
+			
+		}
 		
 	}
 }

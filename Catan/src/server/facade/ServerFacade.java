@@ -323,7 +323,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel buildRoad(BuildRoadParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		
+		command = new BuildRoadCommand(params, getGameID());
+		command.execute();
+		
 		return this.getServerModel().toClientModel();
 	}
 

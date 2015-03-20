@@ -41,8 +41,7 @@ public class RollNumberCommand implements ICommand {
 		if(controller.canRollNumber(playerIndex)) {
 			
 			if(number == 7) {
-				//set to discarding state, then to rob state?
-				
+				//set to discarding state, then to rob state?, not quite sure here
 				
 			}
 			else {
@@ -95,7 +94,8 @@ public class RollNumberCommand implements ICommand {
 			//add 1 to the map
 			model.addResource(owner, type, 1);
 		}
-		controller.cityOwner(testLocation);
+		
+		owner = controller.cityOwner(testLocation);
 		if(owner != -1) {
 			//add 2 to the map
 			model.addResource(owner, type, 2);
