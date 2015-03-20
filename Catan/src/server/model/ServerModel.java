@@ -163,16 +163,20 @@ public class ServerModel extends AbstractModel{
 	
 	
 	public void addSettlement(VertexObject settlement) {
-		VertexObject[] currentSettlements = this.getMap().getSettlements();
-		int currentCount = currentSettlements.length;
-		VertexObject[] newSettleList = new VertexObject[currentCount + 1];
-		for(int i = 0 ; i<currentCount; i++){
-			newSettleList[i] = currentSettlements[i];
+		VertexObject[] settlements = this.getMap().getSettlements();
+		
+		// copy old array into slightly bigger new array 
+		VertexObject[] newSettlements = new VertexObject[settlements.length + 1];
+		for(int i = 0; i < settlements.length; i++) {
+			newSettlements[i] = settlements[i];
 		}
-		newSettleList[currentCount] = settlement;
+		// add new settlement
+		newSettlements[newSettlements.length] = settlement;
+		
+		this.getMap().setSettlements(newSettlements);
 	}
-	
-	public void AddCity(VertexObject city){
+
+	public void addCity(VertexObject city){
 		VertexObject[] currentCities = this.getMap().getCities();
 		int currentCount = currentCities.length;
 		VertexObject[] newCityList = new VertexObject[currentCount + 1];
@@ -180,5 +184,6 @@ public class ServerModel extends AbstractModel{
 			newCityList[i] = currentCities[i];
 		}
 		newCityList[currentCount] = city;
+		this.getMap().setCities(newCityList);
 	}
 }
