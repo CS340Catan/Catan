@@ -2,6 +2,11 @@ package server.communicator;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import com.sun.net.httpserver.HttpServer;
 
@@ -18,6 +23,20 @@ public class Server {
 	private int portNumber = 8081; // default portnumber
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 	private String host = "localhost";
+	
+	private static Logger ServerLogger;
+	
+	static
+	{
+		Level logLevel = Level.ALL;
+		ServerLogger = Logger.getLogger("CatanServer");
+		ServerLogger.setLevel(logLevel);
+		ServerLogger.setUseParentHandlers(false);
+		Handler consoleHandler = new ConsoleHandler();
+		consoleHandler.setLevel(logLevel);
+		consoleHandler.setFormatter(new SimpleFormatter());
+		ServerLogger.addHandler(consoleHandler);
+	}
 
 	/**
 	 * starts the server with port number 8081

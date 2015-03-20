@@ -1,5 +1,7 @@
 package shared.utils;
 
+import java.util.logging.Logger;
+
 import server.model.ServerModel;
 import shared.communication.GameSummary;
 import shared.model.Port;
@@ -17,6 +19,7 @@ import com.google.gson.GsonBuilder;
  *
  */
 public class Serializer {
+	
 	/**
 	 * Generic serializer. This will take in a general Java object and convert
 	 * that object into a JSON string.

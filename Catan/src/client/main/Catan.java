@@ -1,5 +1,7 @@
 package client.main;
 
+import java.util.logging.*;
+
 import javax.swing.*;
 
 import client.catan.*;
@@ -15,6 +17,20 @@ import client.base.*;
 public class Catan extends JFrame {
 
 	private CatanPanel catanPanel;
+	
+	private static Logger ClientLogger;
+	
+	static
+	{
+		Level logLevel = Level.ALL;
+		ClientLogger = Logger.getLogger("CatanClient");
+		ClientLogger.setLevel(logLevel);
+		ClientLogger.setUseParentHandlers(false);
+		Handler consoleHandler = new ConsoleHandler();
+		consoleHandler.setLevel(logLevel);
+		consoleHandler.setFormatter(new SimpleFormatter());
+		ClientLogger.addHandler(consoleHandler);
+	}
 
 	public Catan() {
 
@@ -39,6 +55,7 @@ public class Catan extends JFrame {
 	//
 
 	public static void main(final String[] args) {
+		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {

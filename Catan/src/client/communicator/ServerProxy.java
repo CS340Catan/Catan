@@ -1,5 +1,7 @@
 package client.communicator;
 
+import java.util.logging.Logger;
+
 import shared.communication.*;
 import shared.utils.*;
 import client.data.GameInfo;
@@ -17,6 +19,12 @@ import client.model.ClientModel;
  * 
  */
 public class ServerProxy implements IServer {
+	
+	private static Logger logger;
+	
+	static {
+		logger = Logger.getLogger("CatanClient");
+	}
 
 	/**
 	 * The future singleton
@@ -120,9 +128,11 @@ public class ServerProxy implements IServer {
 	 */
 	public boolean Register(UserCredentials credentials)
 			throws ServerResponseException {
+		logger.info("client/communicator/ServerProxy - entering Register");
 		String jsonString = Serializer.serialize(credentials);
 		String response = httpCommunicator.doPost("/user/register", jsonString);
 		System.out.println(response);
+		logger.info("client/communicator/ServerProxy - exiting Register");
 		if (response == null) {
 			return false;
 		} else {

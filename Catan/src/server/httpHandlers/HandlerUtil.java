@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import shared.communication.UserCredentials;
 import shared.model.RegisteredPlayers;
@@ -16,6 +17,12 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 public class HandlerUtil {
+	
+	private static Logger logger;
+	static {
+		logger = Logger.getLogger("CatanServer");
+	}
+	
 	public static int getGameID(HttpExchange exchange) {
 		Headers reqHeaders = exchange.getRequestHeaders();
 		List<String> cookies = reqHeaders.get("Cookie");
@@ -47,9 +54,11 @@ public class HandlerUtil {
 	}
 
 	public static String requestBodyToString(HttpExchange exchange) {
+		logger.info("server/httpHandlers/HandlerUtil - entering requestBodyToString");
 		Scanner scanner = new Scanner(exchange.getRequestBody(), "UTF-8");
 		String jsonString = scanner.useDelimiter("\\A").next();
 		scanner.close();
+		logger.info("server/httpHandlers/HandlerUtil - exiting requestBodyToString");
 		return jsonString;
 	}
 
