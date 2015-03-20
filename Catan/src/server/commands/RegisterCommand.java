@@ -1,5 +1,7 @@
 package server.commands;
 
+import java.util.logging.Logger;
+
 import server.facade.ServerFacade;
 import shared.communication.UserCredentials;
 import shared.model.*;
@@ -15,6 +17,10 @@ public class RegisterCommand implements ICommand {
 	
 	String username;
 	String password;
+	private static Logger logger;
+	static {
+		logger = Logger.getLogger("CatanServer");
+	}
 	
 	public RegisterCommand(UserCredentials params) {
 		this.username = params.getUsername();
@@ -26,12 +32,14 @@ public class RegisterCommand implements ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
+		logger.info("server/commands/RegisterCommand - entering execute");
 		RegisteredPlayers registeredPlayers = RegisteredPlayers.getSingleton();
 		if (registeredPlayers.containsKey(username)) {
 			throw new ServerResponseException("Invalid Username or password");
 		} 
 		registeredPlayers.addNewPlayer(username, password);
+		logger.info("server/commands/RegisterCommand - exiting execute");
 	}
-
+	
 }
 
