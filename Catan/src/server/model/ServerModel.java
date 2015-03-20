@@ -44,25 +44,31 @@ public class ServerModel extends AbstractModel{
 		return cm;
 	}
 	
-	public void addResource(int playerIndex, ResourceType type, int amount) {
+	public void addResourceFromBank(int playerIndex, ResourceType type, int amount) {
 		
 		ResourceList resources = this.getPlayers()[playerIndex].getResources();
+		ResourceList bank = this.getBank();
 		
 		switch(type) {
 		case BRICK:
 			resources.setBrick(resources.getBrick() + amount);
+			bank.setBrick(bank.getBrick() - amount);
 			break;
 		case ORE:
 			resources.setOre(resources.getOre() + amount);
+			bank.setOre(bank.getOre() - amount);
 			break;
 		case SHEEP:
 			resources.setSheep(resources.getSheep() + amount);
+			bank.setSheep(bank.getSheep() - amount);
 			break;
 		case WHEAT:
 			resources.setWheat(resources.getWheat() + amount);
+			bank.setWheat(bank.getWheat() - amount);
 			break;
 		case WOOD:
 			resources.setWood(resources.getWood() + amount);
+			bank.setWood(bank.getWood() - amount);
 			break;
 		default:
 			break;
@@ -95,12 +101,27 @@ public class ServerModel extends AbstractModel{
 		// iterate
 		for(Player player: players) {
 			if(hasLongestRoad(player.getPlayerIndex())) {
-				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());	//need to increment/decrement victory points?
+				
+				// decrement old longest road player victory points
+				if(this.getTurnTracker().getLongestRoad() != -1) {
+					Player loser = players[this.getTurnTracker().getLongestRoad()];
+					loser.setVictoryPoints(loser.getVictoryPoints() - 1);
+				}
+				
+				// change longest road player
+				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
+				
+
+				// increment victory points for new longest road player
+				player.setVictoryPoints(player.getVictoryPoints() + 1);
+
+				
 			}
 			// special case: 2 people tie and surpass 5 at the same time
 			else if(hasTiedLongestRoad(player.getPlayerIndex())
 					&& (this.getTurnTracker().getLongestRoad() == -1)) {		//initialized to -1 right?
 						this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
+						player.setVictoryPoints(player.getVictoryPoints() + 1);
 			}
 		}
 		
@@ -138,5 +159,31 @@ public class ServerModel extends AbstractModel{
 		}
 		
 		return false;
+	}
+	
+	
+	public void addSettlement(VertexObject settlement) {
+		VertexObject[] settlements = this.getMap().getSettlements();
+		
+		// copy old array into slightly bigger new array 
+		VertexObject[] newSettlements = new VertexObject[settlements.length + 1];
+		for(int i = 0; i < settlements.length; i++) {
+			newSettlements[i] = settlements[i];
+		}
+		// add new settlement
+		newSettlements[newSettlements.length] = settlement;
+		
+		this.getMap().setSettlements(newSettlements);
+	}
+
+	public void addCity(VertexObject city){
+		VertexObject[] currentCities = this.getMap().getCities();
+		int currentCount = currentCities.length;
+		VertexObject[] newCityList = new VertexObject[currentCount + 1];
+		for(int i = 0 ; i<currentCount; i++){
+			newCityList[i] = currentCities[i];
+		}
+		newCityList[currentCount] = city;
+		this.getMap().setCities(newCityList);
 	}
 }

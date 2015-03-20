@@ -52,11 +52,12 @@ public class BuildRoadCommand implements ICommand {
 			
 			// decrement player resources and roads
 			Player player = model.getPlayers()[playerIndex];
-			model.addResource(playerIndex, ResourceType.BRICK, -1);
-			model.addResource(playerIndex, ResourceType.WOOD, -1);
+			model.addResourceFromBank(playerIndex, ResourceType.BRICK, -1);
+			model.addResourceFromBank(playerIndex, ResourceType.WOOD, -1);
 			player.setRoads(player.getRoads() - 1);
+
 			
-			// re-allocate longest road
+			// re-allocate longest road, and victory points
 			model.reallocateLongestRoad();
 			
 		}
