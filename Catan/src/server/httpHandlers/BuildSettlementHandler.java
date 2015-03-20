@@ -23,7 +23,10 @@ public class BuildSettlementHandler implements IHttpHandler {
 		//if gameID is -1, there is no cookie so send back an error message
 		if (gameID == -1) {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
-		} 
+		}
+		else if(playerID == -1) {
+			HandlerUtil.sendResponse(exchange, 400, "No Player Cookie", String.class);
+		}
 		else {
 			//otherwise send params to server model
 			BuildSettlementParams params = (BuildSettlementParams) Serializer.deserialize(inputStreamString, BuildSettlementParams.class);	

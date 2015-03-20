@@ -6,6 +6,7 @@ import server.facade.ServerFacade;
 import shared.communication.BuildCityParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
+import client.model.ClientModel;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -27,7 +28,10 @@ public class BuildCityHandler implements IHttpHandler {
 		else{
 			BuildCityParams params = (BuildCityParams) Serializer.deserialize(inputString, BuildCityParams.class);
 			try {
-				ServerFacade.getSingleton().buildCity(params);
+				ServerFacade.getSingleton().setGameID(gameID);
+				ServerFacade.getSingleton().setPlayerID(playerID);
+				ClientModel clientModel = ServerFacade.getSingleton().buildCity(params);
+				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 				
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
