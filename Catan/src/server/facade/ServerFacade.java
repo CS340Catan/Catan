@@ -14,6 +14,7 @@ import server.commands.ICommand;
 import server.commands.JoinGameCommand;
 import server.commands.LoadGameCommand;
 import server.commands.LoginCommand;
+import server.commands.OfferTradeCommand;
 import server.commands.PlayMonopolyCommand;
 import server.commands.PlayMonumentCommand;
 import server.commands.PlayRoadBuildingCommand;
@@ -416,7 +417,7 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel offerTrade(TradeOfferParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		new OfferTradeCommand(params,this.gameID);
 		return this.getServerModel().toClientModel();
 	}
 
