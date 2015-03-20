@@ -6,34 +6,7 @@ import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpServer;
 
 import server.facade.ServerFacade;
-import server.httpHandlers.AcceptTradeHandler;
-import server.httpHandlers.AddAIHandler;
-import server.httpHandlers.BuildCityHandler;
-import server.httpHandlers.BuildRoadHandler;
-import server.httpHandlers.BuildSettlementHandler;
-import server.httpHandlers.BuyDevCardHandler;
-import server.httpHandlers.CommandsHandler;
-import server.httpHandlers.CreateGameHandler;
-import server.httpHandlers.DiscardCardsHandler;
-import server.httpHandlers.FinishTurnHandler;
-import server.httpHandlers.ListAIHandler;
-import server.httpHandlers.ListGameHandler;
-import server.httpHandlers.LoadGameHandler;
-import server.httpHandlers.LoginHandler;
-import server.httpHandlers.MaritimeTradeHandler;
-import server.httpHandlers.ModelHandler;
-import server.httpHandlers.OfferTradeHandler;
-import server.httpHandlers.PlayMonopolyCardHandler;
-import server.httpHandlers.PlayMonumentCardHandler;
-import server.httpHandlers.PlayRoadBuildingCardHandler;
-import server.httpHandlers.PlaySoldierCardHandler;
-import server.httpHandlers.PlayYearOfPlentyCardHandler;
-import server.httpHandlers.RegisterHandler;
-import server.httpHandlers.ResetGameHandler;
-import server.httpHandlers.RobPlayerHandler;
-import server.httpHandlers.RollNumberHandler;
-import server.httpHandlers.SaveGameHandler;
-import server.httpHandlers.SendChatHandler;
+import server.httpHandlers.*;
 
 public class Server {
 
@@ -89,6 +62,11 @@ public class Server {
 			System.out.println("Error starting HTTP server: " + e.getMessage());
 			e.printStackTrace();
 		}
+		
+		//Swagger contexts
+		httpServer.createContext("/docs/api/data", new Handlers.JSONAppender("")); 
+		httpServer.createContext("/docs/api/view", new Handlers.BasicFile("")); 
+		
 		httpServer.createContext("/user/login", new LoginHandler());
 		httpServer.createContext("/user/register", new RegisterHandler());
 		httpServer.createContext("/games/list", new ListGameHandler());
