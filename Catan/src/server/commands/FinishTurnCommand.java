@@ -1,6 +1,9 @@
 package server.commands;
 
+import server.facade.ServerFacade;
+import server.model.ServerModel;
 import shared.communication.UserActionParams;
+import shared.model.DevCardList;
 
 /**
  * 
@@ -8,7 +11,8 @@ import shared.communication.UserActionParams;
  *This command finishes a player's turn
  */
 public class FinishTurnCommand implements ICommand {
-	UserActionParams params;
+	
+	int playerIndex;
 	int gameID;
 	
 	/**
@@ -17,7 +21,8 @@ public class FinishTurnCommand implements ICommand {
 	 * @param gameID - id of the game on which to act
 	 */
 	public FinishTurnCommand(UserActionParams params, int gameID){
-		this.params = params;
+		
+		this.playerIndex = params.getPlayerIndex();
 		this.gameID = gameID;
 	}
 	
@@ -27,7 +32,12 @@ public class FinishTurnCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		
+		// adjust dev cards
+		DevCardList newCards = model.getPlayers()[playerIndex].getNewDevCards();
+		model.getPlayers()[playerIndex].setOldDevCards(newCards);
 
 	}
 

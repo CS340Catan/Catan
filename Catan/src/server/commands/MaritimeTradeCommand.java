@@ -39,7 +39,7 @@ public class MaritimeTradeCommand implements ICommand {
 		
 		if(controller.canMaritimeTrade(playerIndex, input, ratio)) {
 			
-			model.addResourceFromBank(playerIndex, input, ratio);
+			model.addResourceFromBank(playerIndex, input, -ratio);
 			model.addResourceFromBank(playerIndex, output, 1);
 		}
 

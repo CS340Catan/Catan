@@ -397,8 +397,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel robPlayer(MoveRobberParams params)
 			throws ServerResponseException {
+		
 		command = new RobPlayerCommand(params);
 		command.execute();
+		
 		return this.getServerModel().toClientModel();
 	}
 
@@ -412,7 +414,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel finishTurn(UserActionParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+	
+		command = new FinishTurnCommand(params, getGameID());
+		command.execute();
+		
 		return this.getServerModel().toClientModel();
 	}
 
