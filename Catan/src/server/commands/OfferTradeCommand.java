@@ -35,17 +35,26 @@ public class OfferTradeCommand implements ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
+		
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 
 		if (controller.canOfferTrade(playerIndex, offer)) {
+			
 			model.setTradeOffer(new TradeOffer(playerIndex, receiver, offer));
+			
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
+			
 		} else {
 			throw new ServerResponseException("Player " + playerIndex
 					+ " cannot offer this trade");
 		}
-		
-		model.incrementVersion();
+
 	}
 
 }

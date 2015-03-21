@@ -81,6 +81,16 @@ public class AcceptTradeCommand implements ICommand {
 				receiverList.setSheep(receiverList.getSheep() - sheep);
 				receiverList.setWheat(receiverList.getWheat() - wheat);
 				receiverList.setWood(receiverList.getWood() - wood);
+				
+				//get rid of offerTrade params in model
+				model.setTradeOffer(null);
+				
+				/*
+				 * Add this command to the list of commands currently stored inside
+				 * the model.
+				 */
+				model.getCommands().add(this);
+				model.incrementVersion();
 			}
 			else {
 				throw new ServerResponseException("Unable to accept trade offer, insufficient resources");
@@ -88,10 +98,7 @@ public class AcceptTradeCommand implements ICommand {
 
 		}
 		
-		//get rid of offerTrade params in model
-		model.setTradeOffer(null);
-		
-		model.incrementVersion();
+
 
 	}
 
