@@ -61,7 +61,7 @@ public class BuyDevCardCommand implements ICommand {
 			 */
 			ResourceList devCardCost = new ResourceList(0, 1, 1, 1, 0);
 			player.getResources().addResources(devCardCost.invertList());
-			
+
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.
@@ -70,7 +70,7 @@ public class BuyDevCardCommand implements ICommand {
 			model.incrementVersion();
 
 		} else {
-			throw new ServerResponseException("Unable to buy dev card.");
+			throw new ServerResponseException("Unable to buy a development card.");
 		}
 	}
 

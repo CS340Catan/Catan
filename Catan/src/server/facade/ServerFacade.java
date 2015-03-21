@@ -375,7 +375,7 @@ public class ServerFacade implements IServer {
 	public ClientModel buildCity(BuildCityParams params)
 			throws ServerResponseException {
 
-		ICommand command = new BuildCityCommand(params, getGameID());
+		ICommand command = new BuildCityCommand(params);
 		command.execute();
 
 		return this.getServerModel().toClientModel();
