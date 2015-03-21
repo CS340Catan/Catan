@@ -83,6 +83,8 @@ public class BuildSettlementCommand extends ICommand {
 			Player player = model.getPlayers()[playerIndex];
 			model.addResourceFromBank(playerIndex, ResourceType.BRICK, -1);
 			model.addResourceFromBank(playerIndex, ResourceType.WOOD, -1);
+			model.addResourceFromBank(playerIndex, ResourceType.WHEAT, -1);
+			model.addResourceFromBank(playerIndex, ResourceType.SHEEP, -1);
 
 			/*
 			 * Remove one settlement piece from the player's hand and add an

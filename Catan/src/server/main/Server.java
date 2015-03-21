@@ -95,7 +95,7 @@ public class Server {
 		httpServer.createContext("/game/model", new ModelHandler());
 		httpServer.createContext("/game/reset", new ResetGameHandler());
 		httpServer.createContext("/game/commmands", new CommandsHandler());//handle get and post
-		httpServer.createContext("/game/addAI", new AddAIHandler());
+//		httpServer.createContext("/game/addAI", new AddAIHandler());
 		httpServer.createContext("/game/listAI", new ListAIHandler());
 		httpServer.createContext("/moves/sendChat", new SendChatHandler());
 		httpServer.createContext("/moves/rollNumber", new RollNumberHandler());

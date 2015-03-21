@@ -21,7 +21,7 @@ public class PlayMonopolyCommand extends ICommand {
 	ResourceType resource;
 
 	public PlayMonopolyCommand(PlayMonopolyParams params) {
-		this.resource = ResourceType.valueOf(params.getResource());
+		this.resource = ResourceType.valueOf(params.getResource().toUpperCase());
 		this.playerIndex = params.getPlayerIndex();
 		this.setType("PlayMonopoly");
 	}

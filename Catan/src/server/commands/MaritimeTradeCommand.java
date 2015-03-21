@@ -26,8 +26,8 @@ public class MaritimeTradeCommand extends ICommand {
 	public MaritimeTradeCommand(MaritimeTradeParams params, int gameID) {
 
 		this.playerIndex = params.getPlayerIndex();
-		this.input = ResourceType.valueOf(params.getInputResource());
-		this.output = ResourceType.valueOf(params.getOutputResource());
+		this.input = ResourceType.valueOf(params.getInputResource().toUpperCase());
+		this.output = ResourceType.valueOf(params.getOutputResource().toUpperCase());
 		this.ratio = params.getRatio();
 		this.gameID = gameID;
 		this.setType("MaritimeTrade");

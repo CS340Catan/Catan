@@ -25,8 +25,8 @@ public class PlayYearOfPlentyCommand extends ICommand {
 
 	public PlayYearOfPlentyCommand(YearOfPlentyParams params) {
 		this.playerIndex = params.getPlayerIndex();
-		this.resource_1 = ResourceType.valueOf(params.getResource1());
-		this.resource_2 = ResourceType.valueOf(params.getResource2());
+		this.resource_1 = ResourceType.valueOf(params.getResource1().toUpperCase());
+		this.resource_2 = ResourceType.valueOf(params.getResource2().toUpperCase());
 		this.setType("PlayYearOfPlenty");
 	}
 
