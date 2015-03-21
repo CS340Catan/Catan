@@ -25,9 +25,12 @@ public class HandlerUtil {
 		int gameID = -1;
 		for (String cookie : cookies) {
 			JsonParser parser = new JsonParser();
-			JsonObject jsonObject = (JsonObject) parser.parse(cookie);
+			/*JsonObject jsonObject = (JsonObject) parser.parse(cookie);
 			JsonElement gameIDElement = jsonObject.get("gameID");
-			gameID = gameIDElement.getAsInt();
+			gameID = gameIDElement.getAsInt();*/
+			String[] cookieParts = cookie.split("=");
+			gameID = Integer.valueOf(cookieParts[2]);
+			return gameID;
 		}
 		// if there is no game cookie return -1
 		// otherwise return the gameID
@@ -41,7 +44,8 @@ public class HandlerUtil {
 		for (String cookie : cookies) {
 			JsonParser parser = new JsonParser();
 			cookie = cookie.replace("catan.user=", "");
-			JsonObject jsonObject = (JsonObject) parser.parse(cookie);
+			String[] splitArray = cookie.split(";",-1);
+			JsonObject jsonObject = (JsonObject) parser.parse(splitArray[0]);
 			JsonElement gameIDElement = jsonObject.get("playerID");
 			playerID = gameIDElement.getAsInt();
 		}
