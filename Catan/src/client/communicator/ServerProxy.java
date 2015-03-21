@@ -82,8 +82,10 @@ public class ServerProxy implements IServer {
 		ClientModel model = null; // Returns null if current model is already
 									// correct or there was an error
 		if (jsonResponseString != null) {
-			if (!jsonResponseString.equals("\"true\"")) {
-				model = Serializer.deserializeClientModel(jsonResponseString);
+			if (!jsonResponseString.equals("null")) {
+				if (!jsonResponseString.equals("\"true\"")) {
+					model = Serializer.deserializeClientModel(jsonResponseString);
+				}
 			}
 		}
 		logger.info("client/communicator/ServerProxy - entering updateModel");
