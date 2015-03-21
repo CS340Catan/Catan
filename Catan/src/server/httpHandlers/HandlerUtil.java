@@ -86,8 +86,10 @@ public class HandlerUtil {
 		String username = userCredentials.getUsername();
 		String password = userCredentials.getPassword();
 		int playerId = RegisteredPlayers.getSingleton().getPlayerId(username);
+		/*values.add("catan.user={\"name\":\"" + username + "\",\"password\":\""
+				+ password + "\",\"playerID\":" + playerId + "};Path=/;");*/
 		values.add("catan.user={\"name\":\"" + username + "\",\"password\":\""
-				+ password + "\",\"playerID\":" + playerId + "};Path=/;");
+				+ password + "\",\"playerID\":" + playerId + "}");
 		respHeaders.put("Set-Cookie", values);
 	}
 }
