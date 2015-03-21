@@ -27,6 +27,7 @@ public class OfferTradeCommand extends ICommand {
 		this.offer = params.getOffer();
 		this.receiver = params.getReceiver();
 		this.gameID = gameID;
+		this.setType("OfferTrade");
 	}
 
 	/**

@@ -18,6 +18,7 @@ public class PlayMonumentCommand extends ICommand {
 
 	public PlayMonumentCommand(PlayMonumentParams params) {
 		this.playerIndex = params.getPlayerIndex();
+		this.setType("PlayMonument");
 	}
 
 	/**

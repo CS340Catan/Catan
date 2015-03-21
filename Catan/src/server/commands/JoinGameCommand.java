@@ -21,6 +21,8 @@ public class JoinGameCommand extends ICommand {
 	public JoinGameCommand(JoinGameParams joinGameParams, int playerId) {
 		this.color = joinGameParams.getColor();
 		this.playerID = playerId;
+		this.setType("JoinGame");
+
 	}
 
 	/**

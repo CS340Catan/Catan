@@ -26,6 +26,8 @@ public class LoadGameCommand extends ICommand {
 	 */
 	public LoadGameCommand(LoadGameParams params) {
 		this.fileName = params.getName();
+		this.setType("LoadGame");
+
 	}
 
 	/**

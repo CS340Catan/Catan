@@ -27,6 +27,7 @@ public class SaveGameCommand extends ICommand {
 	public SaveGameCommand(SaveParams params) {
 		this.fileName = params.getname();
 		this.gameID = params.getId();
+		this.setType("SaveGame");
 	}
 
 	/**

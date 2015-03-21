@@ -28,6 +28,7 @@ public class PlayRoadBuildingCommand extends ICommand {
 		this.playerIndex = params.getPlayerIndex();
 		this.location_1 = params.getSpot1();
 		this.location_2 = params.getSpot2();
+		this.setType("PlayRoadBuilding");
 	}
 
 	/**

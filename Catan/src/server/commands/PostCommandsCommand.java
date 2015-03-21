@@ -15,6 +15,7 @@ public class PostCommandsCommand extends ICommand {
 
 	PostCommandsCommand(CommandList params) {
 		this.params = params;
+		this.setType("PostCommands");
 	}
 
 	/**

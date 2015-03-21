@@ -26,6 +26,8 @@ public class DiscardCardsCommand extends ICommand {
 	public DiscardCardsCommand(DiscardCardsParams params) {
 		playerIndex = params.getPlayerIndex();
 		discardedCards = params.getDiscardedCards();
+		this.setType("DiscardCards");
+
 	}
 
 	/**
