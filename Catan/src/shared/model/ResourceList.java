@@ -182,6 +182,14 @@ public class ResourceList {
 		this.wood += newResources.getWood();
 	}
 
+	/**
+	 * This function will return a random resource type that currently stored
+	 * within the resource list. this function is mainly used when a robber is
+	 * played and a random resource must be stolen.
+	 * 
+	 * @return Randomized resource type that is present within the resource
+	 *         list.
+	 */
 	public ResourceType getRandomResourceFromList() {
 		int totalResourceCount = this.brick + this.ore + this.sheep
 				+ this.wheat + this.wood;

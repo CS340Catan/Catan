@@ -6,16 +6,16 @@ import server.model.ServerModelController;
 import shared.communication.PlayMonopolyParams;
 import shared.definitions.ResourceType;
 import shared.model.Player;
-import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Drewfus This is the command class for the PlayMonopoly function
- *         called on the server. It will receive a PlayMonopolyParams object and
- *         a gameID in the constructor
+ * This is the command class for the PlayMonopoly function called on the server.
+ * It will receive a PlayMonopolyParams object and a gameID in the constructor
+ * 
+ * @author Drewfus
  */
 
-public class PlayMonopolyCommand implements ICommand {
+public class PlayMonopolyCommand extends ICommand {
 
 	int playerIndex;
 	ResourceType resource;
@@ -93,14 +93,14 @@ public class PlayMonopolyCommand implements ICommand {
 					break;
 				}
 			}
-			
+
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
-			
+
 		} else {
 			throw new ServerResponseException("Unable to play monopoly card.");
 		}

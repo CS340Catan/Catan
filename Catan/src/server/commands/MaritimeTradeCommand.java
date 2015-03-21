@@ -8,12 +8,14 @@ import shared.definitions.ResourceType;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Drewfus This is the command class for the MaritimeTrade function
- *         called on the server. It will receive a MaritimeTradeParams object
- *         and a gameID in the constructor
+ * This is the command class for the MaritimeTrade function called on the
+ * server. It will receive a MaritimeTradeParams object and a gameID in the
+ * constructor
+ * 
+ * @author Drewfus
  */
 
-public class MaritimeTradeCommand implements ICommand {
+public class MaritimeTradeCommand extends ICommand {
 
 	int playerIndex;
 	ResourceType input;
@@ -37,7 +39,6 @@ public class MaritimeTradeCommand implements ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 
@@ -50,14 +51,14 @@ public class MaritimeTradeCommand implements ICommand {
 			 */
 			model.addResourceFromBank(playerIndex, input, -ratio);
 			model.addResourceFromBank(playerIndex, output, 1);
-			
+
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
-			
+
 		} else {
 			throw new ServerResponseException(
 					"Unable to maritime trade. Invalid input parameters.");

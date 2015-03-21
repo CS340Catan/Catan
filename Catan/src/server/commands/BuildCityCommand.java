@@ -12,13 +12,14 @@ import shared.model.VertexObject;
 import shared.utils.ServerResponseException;
 
 /**
+ * Command class for placing a city. Places a new city in the model for a
+ * player, and removes some of that player's resources. The validity of the
+ * location and player index, as well as other pre-conditions, have been checked
+ * earlier.
  * 
- * @author winstonhurst Command class for placing a city. Places a new city in
- *         the model for a player, and removes some of that player's resources.
- *         The validity of the location and player index, as well as other
- *         pre-conditions, have been checked earlier.
+ * @author winstonhurst
  */
-public class BuildCityCommand implements ICommand {
+public class BuildCityCommand extends ICommand {
 	VertexLocationParam location;
 	int playerIndex;
 
@@ -33,6 +34,7 @@ public class BuildCityCommand implements ICommand {
 	public BuildCityCommand(BuildCityParams params) {
 		this.location = params.getVertexLocation();
 		this.playerIndex = params.getPlayerIndex();
+		this.setType("BuildCity");
 		
 	}
 

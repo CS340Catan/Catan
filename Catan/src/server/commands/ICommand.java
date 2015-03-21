@@ -2,7 +2,18 @@ package server.commands;
 
 import shared.utils.ServerResponseException;
 
-public interface ICommand {
+public abstract class ICommand {
+
+	private String type;
 	
-	public void execute() throws ServerResponseException;
+	public abstract void execute() throws ServerResponseException;
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 }

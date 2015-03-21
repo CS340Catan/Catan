@@ -276,7 +276,7 @@ public class ServerFacade implements IServer {
 	public ClientModel sendChat(ChatMessage chatMessage)
 			throws ServerResponseException {
 
-		ICommand command = new SendChatCommand(chatMessage, gameID);
+		ICommand command = new SendChatCommand(chatMessage);
 		command.execute();
 
 		return this.getServerModel().toClientModel();

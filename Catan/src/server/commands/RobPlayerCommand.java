@@ -11,12 +11,13 @@ import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Drewfus This is the command class for the RobPlayer function called
- *         on the server. It will receive a MoveRobberParams object and a gameID
- *         in the constructor
+ * This is the command class for the RobPlayer function called on the server. It
+ * will receive a MoveRobberParams object and a gameID in the constructor
+ * 
+ * @author Drewfus
  */
 
-public class RobPlayerCommand implements ICommand {
+public class RobPlayerCommand extends ICommand {
 
 	int playerIndex;
 	int victimIndex;
