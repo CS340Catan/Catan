@@ -59,6 +59,7 @@ public class RollNumberCommand extends ICommand {
 			 */
 			else {
 				resourceRoll(model);
+				model.getTurnTracker().setStatus("Playing");
 			}
 
 			/*
