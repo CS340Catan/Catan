@@ -142,6 +142,7 @@ public class HTTPCommunicator {
 		// if (gameCookie == null || userCookie == null) {
 		// strip ;Path=/; and catan.****
 		cookieString = cookieString.replace("~Path=/~", "");
+		cookieString = cookieString.replace(";Path=/;", "");
 		if (userCookie == null) {
 			String decodedCookie = URLDecoder.decode(cookieString);
 			decodedCookie = decodedCookie.replace("catan.user=", "");
