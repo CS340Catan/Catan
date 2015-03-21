@@ -1,11 +1,9 @@
 package server.commands;
 
-import client.model.ClientModel;
 import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.AcceptTradeParams;
-import shared.communication.TradeOfferParams;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
 import shared.utils.ServerResponseException;
@@ -28,78 +26,93 @@ public class AcceptTradeCommand implements ICommand {
 	boolean willAccept;
 
 	public AcceptTradeCommand(AcceptTradeParams params) {
-		
+
 		receiverIndex = params.getPlayerIndex();
 		willAccept = params.isWillAccept();
-		
+
 	}
-	
+
 	/**
 	 * This method will manipulate the serverModel stored within the command. If
 	 * the trade is to be accepted, then the appropriate resources should be
 	 * added or removed from the players listed.
-	 * @throws ServerResponseException 
+	 * 
+	 * @throws ServerResponseException
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		// TODO see what resources were offered in model, if willAccept, reallocate, otherwise do nothing
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
-		
-		ResourceList resourceList = model.getTradeOffer().getResourceList();
-			
-		if(willAccept) {
-			
-			if(controller.canAcceptTrade(receiverIndex, resourceList)) {
-				
-				TradeOffer tradeOffer = model.getTradeOffer();
-		
-				int senderIndex = tradeOffer.getSender();
-				//receiverIndex = tradeOffer.getReceiver();	//already got from accept params
-				
-				/*these shouldn't be copies of the model data, this should be accessing and changing the model itself, right?*/
-				
-				//get resources that will be traded
-				int brick = resourceList.getBrick();
-				int ore = resourceList.getOre();
-				int sheep = resourceList.getSheep();
-				int wheat = resourceList.getWheat();
-				int wood = resourceList.getWood();
-				
-				//adjust the senders resources
-				ResourceList senderList = model.getPlayers()[senderIndex].getResources();
-				senderList.setBrick(senderList.getBrick() + brick);
-				senderList.setOre(senderList.getOre() + ore);
-				senderList.setSheep(senderList.getSheep() + sheep);
-				senderList.setWheat(senderList.getWheat() + wheat);
-				senderList.setWood(senderList.getWood() + wood);
-				
-				//adjust the receivers resources
-				ResourceList receiverList = model.getPlayers()[receiverIndex].getResources();
-				receiverList.setBrick(receiverList.getBrick() - brick);
-				receiverList.setOre(receiverList.getOre() - ore);
-				receiverList.setSheep(receiverList.getSheep() - sheep);
-				receiverList.setWheat(receiverList.getWheat() - wheat);
-				receiverList.setWood(receiverList.getWood() - wood);
-				
-				//get rid of offerTrade params in model
-				model.setTradeOffer(null);
-				
+
+		ResourceList tradeResources = model.getTradeOffer().getResourceList();
+
+		if (willAccept) {
+			if (controller.canAcceptTrade(receiverIndex, tradeResources)) {
 				/*
-				 * Add this command to the list of commands currently stored inside
-				 * the model.
+				 * Grab the trade offer currently stored within the tradeOffer
+				 * object within the server model. Grab the sender index from
+				 * this object.
+				 */
+				TradeOffer tradeOffer = model.getTradeOffer();
+				int senderIndex = tradeOffer.getSender();
+
+				/*
+				 * Access the resources that are going to be traded between the
+				 * two players.
+				 */
+				int tradeBrick = tradeResources.getBrick();
+				int tradeOre = tradeResources.getOre();
+				int tradeSheep = tradeResources.getSheep();
+				int tradeWheat = tradeResources.getWheat();
+				int tradeWood = tradeResources.getWood();
+
+				/*
+				 * Adjust the resources of the sender by adding the trade
+				 * resources to the player's current resource list.
+				 */
+				ResourceList senderResources = model.getPlayers()[senderIndex]
+						.getResources();
+				senderResources.setBrick(senderResources.getBrick()
+						+ tradeBrick);
+				senderResources.setOre(senderResources.getOre() + tradeOre);
+				senderResources.setSheep(senderResources.getSheep()
+						+ tradeSheep);
+				senderResources.setWheat(senderResources.getWheat()
+						+ tradeWheat);
+				senderResources.setWood(senderResources.getWood() + tradeWood);
+
+				/*
+				 * Adjust the resources of the receiver by subtracting the trade
+				 * resources to the player's current resource list.
+				 */
+				ResourceList receiverResources = model.getPlayers()[receiverIndex]
+						.getResources();
+				receiverResources.setBrick(receiverResources.getBrick()
+						- tradeBrick);
+				receiverResources.setOre(receiverResources.getOre() - tradeOre);
+				receiverResources.setSheep(receiverResources.getSheep()
+						- tradeSheep);
+				receiverResources.setWheat(receiverResources.getWheat()
+						- tradeWheat);
+				receiverResources.setWood(receiverResources.getWood()
+						- tradeWood);
+
+				/*
+				 * Eliminate the trade offer from the model by setting the trade
+				 * offer to null.
+				 */
+				model.setTradeOffer(null);
+
+				/*
+				 * Add this command to the list of commands currently stored
+				 * inside the model.
 				 */
 				model.getCommands().add(this);
 				model.incrementVersion();
+			} else {
+				throw new ServerResponseException(
+						"Unable to accept trade offer, insufficient resources or invalid trade offer.");
 			}
-			else {
-				throw new ServerResponseException("Unable to accept trade offer, insufficient resources");
-			}
-
 		}
-		
-
-
 	}
-
 }

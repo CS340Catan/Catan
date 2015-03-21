@@ -22,6 +22,11 @@ public class ChangeLogLevelCommand implements ICommand {
 	 *            - contains new log setting level (string)
 	 */
 	public ChangeLogLevelCommand(ChangeLogLevelParams params) {
+		/*
+		 * If the string stored within ChangeLogLevelParams matches a valid log
+		 * level, appropriately set logLevel equal to the matching level. Else,
+		 * set logLevel equal to null.
+		 */
 		if (params.getLogLevel().equals(Level.ALL.toString())) {
 			logLevel = Level.ALL;
 		} else if (params.getLogLevel().equals(Level.CONFIG.toString())) {
@@ -47,12 +52,18 @@ public class ChangeLogLevelCommand implements ICommand {
 
 	/**
 	 * Changes the state of the server log to the indicated.
-	 * @throws ServerResponseException 
+	 * 
+	 * @throws ServerResponseException
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
 		Logger logger = ServerFacade.getLogger();
 
+		/*
+		 * If logLevel is not null (i.e. a valid log level), set the level of
+		 * the logger within the server facade. Else, throw an invalid request
+		 * error.
+		 */
 		if (logLevel != null) {
 			logger.setLevel(logLevel);
 		} else {
