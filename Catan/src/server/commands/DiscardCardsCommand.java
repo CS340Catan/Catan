@@ -6,6 +6,7 @@ import server.model.ServerModelController;
 import shared.communication.DiscardCardsParams;
 import shared.definitions.ResourceType;
 import shared.model.ResourceList;
+import shared.utils.ServerResponseException;
 
 /**
  * 
@@ -30,33 +31,42 @@ public class DiscardCardsCommand implements ICommand {
 	/**
 	 * Removes the cards from the player's hand.
 	 * If all players are done discarding, change game status to 'Robbing'
+	 * @throws ServerResponseException 
 	 */
 	@Override
-	public void execute() {
+	public void execute() throws ServerResponseException {
 	
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 		
-		ResourceList resources = model.getPlayers()[playerIndex].getResources();
-		
-		//get discarded cards
-		int brick = discardedCards.getBrick();
-		int ore = discardedCards.getOre();
-		int sheep = discardedCards.getSheep();
-		int wheat = discardedCards.getWheat();
-		int wood = discardedCards.getWood();
-		
 		if(controller.canDiscardCards(playerIndex)) {
+			
+			ResourceList resources = model.getPlayers()[playerIndex].getResources();
+			
+			//get discarded cards
+			int brick = discardedCards.getBrick();
+			int ore = discardedCards.getOre();
+			int sheep = discardedCards.getSheep();
+			int wheat = discardedCards.getWheat();
+			int wood = discardedCards.getWood();
+			
 			//subtract discarded cards from players resources, add back to bank
 			model.addResourceFromBank(playerIndex, ResourceType.BRICK, -brick);
 			model.addResourceFromBank(playerIndex, ResourceType.ORE, -ore);
 			model.addResourceFromBank(playerIndex, ResourceType.SHEEP, -sheep);
 			model.addResourceFromBank(playerIndex, ResourceType.WHEAT, -wheat);
 			model.addResourceFromBank(playerIndex, ResourceType.WOOD, -wood);
+			
+			// if this is last person to discard, change state to "Robbing", how to know if last person?
+			if(!model.needToDiscard()) {
+				String status = "Playing";
+				model.getTurnTracker().setStatus(status);
+			}
 		}
-		
-		// if this is last person to discard, change state to "Robbing", how to know if last person?
-		//-----
+		else {
+			throw new ServerResponseException("Unable to discard cards");
+		}
+
 		
 	}
 
