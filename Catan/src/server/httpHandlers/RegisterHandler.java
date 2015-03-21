@@ -29,16 +29,13 @@ public class RegisterHandler implements IHttpHandler {
 		  
 		try {
 			ServerFacade.getSingleton().Register(userCredentials);
-			logger.info("***server/httpHandlers/RegisterHandler - successfuly registered");
 			HandlerUtil.setUserCookie(exchange, userCredentials);
-			logger.info("***server/httpHandlers/RegisterHandler - successfuly set user credentials");
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);		
-			logger.info("***server/httpHandlers/RegisterHandler - successfuly sent response");
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, "Failed to register - someone already has that username.", String.class);
 			e.printStackTrace();
 		}
-		logger.info("***server/httpHandlers/RegisterHandler - exiting handle");
+		logger.info("server/httpHandlers/RegisterHandler - exiting handle");
 	}
 
 }
