@@ -82,7 +82,7 @@ public class ServerFacade implements IServer {
 	 */
 	@Override
 	public GameSummary[] getGameList() throws ServerResponseException {
-		// don't want to us a command because the execute() function doesn't
+		// don't want to use a command because the execute() function doesn't
 		// return anything,
 		// and we need some information back
 		ArrayList<GameSummary> games = GameList.getSingleton().getGames();
