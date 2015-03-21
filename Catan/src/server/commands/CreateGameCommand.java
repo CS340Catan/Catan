@@ -16,56 +16,59 @@ import shared.utils.IDGenerator;
 
 /**
  * 
- * @author winstonhurst
- *This command creates a new game and adds it to the list of games.
+ * @author winstonhurst This command creates a new game and adds it to the list
+ *         of games.
  */
 public class CreateGameCommand implements ICommand {
 	private CreateGameParams params;
-    private Random random = new Random();
-    private int sheepTileCount = 4;
-    private int wheatTileCount = 4;
-    private int oreTileCount = 3;
-    private int woodTileCount = 4;
-    private int brickTileCount = 3;
-    private int desertCount = 1;
-    private ServerModel serverModel;
+	private Random random = new Random();
+	private int sheepTileCount = 4;
+	private int wheatTileCount = 4;
+	private int oreTileCount = 3;
+	private int woodTileCount = 4;
+	private int brickTileCount = 3;
+	private int desertCount = 1;
+	private ServerModel serverModel;
+
 	/**
 	 * 
-	 * @param params - contains randomTiles (bool) randomNumbers (bool), and the game's name 
+	 * @param params
+	 *            - contains randomTiles (bool) randomNumbers (bool), and the
+	 *            game's name
 	 */
-	public CreateGameCommand(CreateGameParams params){
+	public CreateGameCommand(CreateGameParams params) {
 		this.params = params;
 		serverModel = new ServerModel();
 	}
-	
+
 	/**
-	 * Generates a new game id
-	 * Adds new game to the game list.
-	 * Adds a new key => pair to the game map (id=>this new game)
+	 * Generates a new game id Adds new game to the game list. Adds a new key =>
+	 * pair to the game map (id=>this new game)
 	 */
 	@Override
 	public void execute() {
 		int gameID = IDGenerator.generateGameID();
-		GameSummary gameSummary = new GameSummary(params.getname(), gameID, null);
+		GameSummary gameSummary = new GameSummary(params.getname(), gameID,
+				null);
 		GameList.getSingleton().addGame(gameSummary);
 		serverModel = new ServerModel();
-		
+
 	}
-	
-	private void addPorts(){
+
+	private void addPorts() {
 		PortType portType = PortType.BRICK;
 		String[] resources = new String[9];
 		resources[0] = "three";
 		resources[1] = "wheat";
-		resources[2]= "ore";
+		resources[2] = "ore";
 		resources[3] = "three";
 		resources[4] = "sheep";
 		resources[5] = "three";
 		resources[6] = "brick";
 		resources[7] = "wood";
 		resources[8] = "three";
-		
-		if(params.isRandomPorts()){
+
+		if (params.isRandomPorts()) {
 			this.randomizeResources(resources);
 		}
 		Port[] ports = new Port[9];
@@ -79,34 +82,32 @@ public class CreateGameCommand implements ICommand {
 		ports[7] = new Port(resources[7], new HexLocation(-3, 2), "NE", 2);
 		ports[8] = new Port(resources[8], new HexLocation(-3, 0), "SE", 3);
 		serverModel.getMap().setPorts(ports);
-	
-		
-//		getView().placeRobber(new HexLocation(0, 0));
-//		
-//		getView().addNumber(new HexLocation(-2, 0), 2);
-//		getView().addNumber(new HexLocation(-2, 1), 3);
-//		getView().addNumber(new HexLocation(-2, 2), 4);
-//		getView().addNumber(new HexLocation(-1, 0), 5);
-//		getView().addNumber(new HexLocation(-1, 1), 6);
-//		getView().addNumber(new HexLocation(1, -1), 8);
-//		getView().addNumber(new HexLocation(1, 0), 9);
-//		getView().addNumber(new HexLocation(2, -2), 10);
-//		getView().addNumber(new HexLocation(2, -1), 11);
-//		getView().addNumber(new HexLocation(2, 0), 12);
-		
+
+		// getView().placeRobber(new HexLocation(0, 0));
+		//
+		// getView().addNumber(new HexLocation(-2, 0), 2);
+		// getView().addNumber(new HexLocation(-2, 1), 3);
+		// getView().addNumber(new HexLocation(-2, 2), 4);
+		// getView().addNumber(new HexLocation(-1, 0), 5);
+		// getView().addNumber(new HexLocation(-1, 1), 6);
+		// getView().addNumber(new HexLocation(1, -1), 8);
+		// getView().addNumber(new HexLocation(1, 0), 9);
+		// getView().addNumber(new HexLocation(2, -2), 10);
+		// getView().addNumber(new HexLocation(2, -1), 11);
+		// getView().addNumber(new HexLocation(2, 0), 12);
+
 	}
-	public String[] randomizeResources(String[] resources){
+
+	public String[] randomizeResources(String[] resources) {
 		Random rand = new Random();
 		String[] tempArray = new String[resources.length];
 		int j = 0;
-		for(int i = resources.length-1; i >= 0; i--){
-			int randomNum = rand.nextInt((resources.length - j) );
+		for (int i = resources.length - 1; i >= 0; i--) {
+			int randomNum = rand.nextInt((resources.length - j));
 			tempArray[randomNum] = resources[i];
 			j++;
 		}
 		return tempArray;
 	}
-
-	
 
 }
