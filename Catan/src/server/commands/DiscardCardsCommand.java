@@ -9,11 +9,11 @@ import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 
 /**
+ * This command removes resource cards from the players hand
  * 
- * @author winstonhurst This command removes resource cards from the players
- *         hand
+ * @author winstonhurst
  */
-public class DiscardCardsCommand implements ICommand {
+public class DiscardCardsCommand extends ICommand {
 
 	int playerIndex;
 	ResourceList discardedCards;
@@ -71,7 +71,7 @@ public class DiscardCardsCommand implements ICommand {
 			 * the game to playing within the model's turn tracker.
 			 */
 			if (!model.needToDiscard()) {
-				model.getTurnTracker().setStatus("Playing");
+				model.getTurnTracker().setStatus("Robbing");
 			}
 
 			/*

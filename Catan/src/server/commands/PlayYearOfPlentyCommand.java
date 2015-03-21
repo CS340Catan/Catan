@@ -10,12 +10,14 @@ import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Drewfus This is the command class for the PlayYearOfPlenty function
- *         called on the server. It will receive a YearOfPlentyParams object and
- *         a gameID in the constructor
+ * This is the command class for the PlayYearOfPlenty function called on the
+ * server. It will receive a YearOfPlentyParams object and a gameID in the
+ * constructor
+ * 
+ * @author Drewfus
  */
 
-public class PlayYearOfPlentyCommand implements ICommand {
+public class PlayYearOfPlentyCommand extends ICommand {
 
 	int playerIndex;
 	ResourceType resource_1;
@@ -53,16 +55,12 @@ public class PlayYearOfPlentyCommand implements ICommand {
 			player.getOldDevCards().setMonopoly(postYearOfPlenty);
 
 			/*
-			 * Given a resource list, add to the player's resources the
-			 * requestedResources and subtract from the bank the requested
-			 * resources.
-			 * 
-			 * By inverting the requestedResources list, this will subtract from
-			 * the bank's resource supply.
+			 * Given the resource types inputed into the command, remove 1 of
+			 * each from the bank and transfer those cards to the player's hand.
 			 */
-			player.getResources().addResources(requestedResources);
-			model.getBank().addResources(requestedResources.invertList());
-			
+			model.addResourceFromBank(playerIndex, resource_1, 1);
+			model.addResourceFromBank(playerIndex, resource_2, 1);
+
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.
@@ -76,6 +74,11 @@ public class PlayYearOfPlentyCommand implements ICommand {
 	}
 
 	private ResourceList getRequestedResourceList() {
+		/*
+		 * Converts the inputted resource types for the command into an
+		 * appropriate resource list, which can then be added or removed from
+		 * the bank.
+		 */
 		int brick = 0;
 		int ore = 0;
 		int sheep = 0;
@@ -101,6 +104,7 @@ public class PlayYearOfPlentyCommand implements ICommand {
 		default:
 			break;
 		}
+
 		switch (this.resource_2) {
 		case BRICK:
 			brick++;

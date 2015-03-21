@@ -65,12 +65,12 @@ public class PlayerWaitingController extends Controller implements
 			}
 		}
 
-		String[] AIChoices = { "" };
-		try {
+		String[] AIChoices = { "LARGEST_ARMY" };
+		/*try {
 			AIChoices = server.getAITypes();
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		getView().setAIChoices(AIChoices);
 	}
