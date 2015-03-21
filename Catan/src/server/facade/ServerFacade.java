@@ -8,11 +8,10 @@ import java.util.logging.Logger;
 import client.data.GameInfo;
 import client.model.ClientModel;
 import server.commands.*;
+import server.model.GameList;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
 import shared.communication.*;
-import shared.model.GameList;
-
 import shared.model.Player;
 import shared.utils.IServer;
 import shared.utils.Serializer;
@@ -25,7 +24,7 @@ public class ServerFacade implements IServer {
 	private static HashMap<Integer, ServerModel> modelMap = new HashMap<Integer, ServerModel>();
 	private int currentPlayerID; // !!!!!NOT THE INDEX WITHIN THE GAME!!!!!!!
 	private static Logger logger;
-	
+
 	static {
 		logger = Logger.getLogger("CatanServer");
 	}
@@ -38,7 +37,7 @@ public class ServerFacade implements IServer {
 	}
 
 	private ServerFacade() {
-		commands = new ArrayList<>();
+
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class ServerFacade implements IServer {
 	 */
 	@Override
 	public GameSummary[] getGameList() throws ServerResponseException {
-		// don't want to us a command because the execute() function doesn't
+		// don't want to use a command because the execute() function doesn't
 		// return anything,
 		// and we need some information back
 		ArrayList<GameSummary> games = GameList.getSingleton().getGames();
@@ -103,7 +102,6 @@ public class ServerFacade implements IServer {
 			throws ServerResponseException {
 		ICommand command = new CreateGameCommand(params);
 		command.execute();
-		commands.add(command);
 
 		return null;
 	}
@@ -165,8 +163,11 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel getCurrentGame(int version)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return this.getServerModel().toClientModel();
+		if (this.getServerModel().getVersion() != version) {
+			return this.getServerModel().toClientModel();
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -250,7 +251,7 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel updateModel(int versionNumber)
 			throws ServerResponseException {
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -264,10 +265,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel sendChat(ChatMessage chatMessage)
 			throws ServerResponseException {
-		
+
 		ICommand command = new SendChatCommand(chatMessage, gameID);
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -299,7 +300,7 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel discardCards(DiscardCardsParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new DiscardCardsCommand(params);
 		command.execute();
 
@@ -316,8 +317,8 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel rollNumber(int number) throws ServerResponseException {
 
-		ICommand command = new RollNumberCommand(
-				new RollParams(getPlayerIndex(), number));
+		ICommand command = new RollNumberCommand(new RollParams(
+				getPlayerIndex(), number));
 		command.execute();
 
 		return this.getServerModel().toClientModel();
@@ -333,10 +334,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel buildRoad(BuildRoadParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new BuildRoadCommand(params, getGameID());
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -350,10 +351,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel buildSettlement(BuildSettlementParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new BuildSettlementCommand(params, getGameID());
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -367,10 +368,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel buildCity(BuildCityParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new BuildCityCommand(params, getGameID());
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -384,10 +385,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel offerTrade(TradeOfferParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new OfferTradeCommand(params, getGameID());
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -402,10 +403,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel maritimeTrade(MaritimeTradeParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new MaritimeTradeCommand(params, getGameID());
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -420,10 +421,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel robPlayer(MoveRobberParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new RobPlayerCommand(params);
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -437,10 +438,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel finishTurn(UserActionParams params)
 			throws ServerResponseException {
-	
+
 		ICommand command = new FinishTurnCommand(params, getGameID());
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -454,10 +455,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel buyDevCard(UserActionParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new BuyDevCardCommand(params);
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -472,10 +473,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playSoldierCard(MoveSoldierParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new PlaySoldierCommand(params);
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -489,10 +490,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playYearOfPlentyCard(YearOfPlentyParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new PlayYearOfPlentyCommand(params);
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -507,10 +508,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playRoadBuildingCard(BuildRoadCardParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new PlayRoadBuildingCommand(params);
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -525,10 +526,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playMonopolyCard(PlayMonopolyParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new PlayMonopolyCommand(params);
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -542,10 +543,10 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel playMonument(PlayMonumentParams params)
 			throws ServerResponseException {
-		
+
 		ICommand command = new PlayMonumentCommand(params);
 		command.execute();
-		
+
 		return this.getServerModel().toClientModel();
 	}
 
@@ -578,6 +579,17 @@ public class ServerFacade implements IServer {
 		RegisteredPlayers.getSingleton().addNewPlayer("Brooke", "brooke");
 		RegisteredPlayers.getSingleton().addNewPlayer("Pete", "pete");
 		RegisteredPlayers.getSingleton().addNewPlayer("Mark", "mark");
+		PlayerSummary sam = new PlayerSummary("orange", "Sam", 1);
+		PlayerSummary brooke = new PlayerSummary("blue", "Brooke", 2);
+		PlayerSummary pete = new PlayerSummary("green", "Pete", 3);
+		PlayerSummary mark = new PlayerSummary("red", "Mark", 4);
+		PlayerSummary[] summaries = new PlayerSummary[4];
+		summaries[0] = sam;
+		summaries[1] = brooke;
+		summaries[2] = pete;
+		summaries[3] = mark;
+		GameSummary gameSummary = new GameSummary("Default Game", 0, summaries);
+		GameList.getSingleton().addGame(gameSummary);
 		logger.info("server/facade/ServerFacade - exiting setFirstGame");
 	}
 

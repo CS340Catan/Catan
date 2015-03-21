@@ -3,6 +3,7 @@ package server.commands;
 import java.util.Random;
 
 import server.facade.ServerFacade;
+import server.model.GameList;
 import server.model.ServerModel;
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
@@ -10,7 +11,6 @@ import shared.definitions.PortType;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
-import shared.model.GameList;
 import shared.model.Port;
 import shared.utils.IDGenerator;
 
