@@ -10,7 +10,6 @@ import server.commands.*;
 import server.model.ServerModel;
 import shared.communication.*;
 import shared.model.GameList;
-//import shared.model.RegisteredPlayers;
 
 import shared.model.Player;
 import shared.model.RegisteredPlayers;
@@ -20,7 +19,6 @@ import shared.utils.ServerResponseException;
 
 public class ServerFacade implements IServer {
 
-	// private RegisteredPlayers registeredPlayers;
 	private static ServerFacade serverFacade = null;
 	private ICommand command;
 	private int gameID;
