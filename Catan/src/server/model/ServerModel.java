@@ -33,8 +33,10 @@ public class ServerModel extends AbstractModel {
 	List<ICommand> commands = new ArrayList<>();
 
 	public ClientModel toClientModel() {
-		AbstractModel am = (AbstractModel) this;
-		ClientModel cm = (ClientModel) am;
+		//AbstractModel am = (AbstractModel) this;
+		//ClientModel cm = (ClientModel) am;
+		String jsonString = Serializer.serializeServerModel(this);
+		ClientModel cm = Serializer.deserializeClientModel(jsonString);
 		return cm;
 	}
 
