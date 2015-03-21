@@ -29,7 +29,7 @@ public class JoinGameHandler implements IHttpHandler {
 			ServerFacade.getSingleton().setPlayerID(playerId);
 			ServerFacade.getSingleton().joinGame(joinParams);
 			ArrayList<String> values=new ArrayList<String>();
-			values.add("catan.game=" + joinParams.getId() + ";Path=/;");
+			values.add("catan.game=" + joinParams.getId());
 			exchange.getResponseHeaders().put("Set-Cookie",values);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {

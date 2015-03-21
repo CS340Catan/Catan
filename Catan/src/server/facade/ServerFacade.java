@@ -587,8 +587,8 @@ public class ServerFacade implements IServer {
 		RegisteredPlayers.getSingleton().addNewPlayer("Mark", "mark");
 		PlayerSummary sam = new PlayerSummary("orange", "Sam", 1);
 		PlayerSummary brooke = new PlayerSummary("blue", "Brooke", 2);
-		PlayerSummary pete = new PlayerSummary("green", "Pete", 3);
-		PlayerSummary mark = new PlayerSummary("red", "Mark", 4);
+		PlayerSummary pete = new PlayerSummary("red", "Pete", 3);
+		PlayerSummary mark = new PlayerSummary("green", "Mark", 4);
 		PlayerSummary[] summaries = new PlayerSummary[4];
 		summaries[0] = sam;
 		summaries[1] = brooke;

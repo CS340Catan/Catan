@@ -40,6 +40,7 @@ public class HandlerUtil {
 		int playerID = -1;
 		for (String cookie : cookies) {
 			JsonParser parser = new JsonParser();
+			cookie = cookie.replace("catan.user=", "");
 			JsonObject jsonObject = (JsonObject) parser.parse(cookie);
 			JsonElement gameIDElement = jsonObject.get("playerID");
 			playerID = gameIDElement.getAsInt();
