@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import server.facade.ServerFacade;
 import shared.communication.GameSummary;
-import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
 import com.sun.net.httpserver.HttpExchange;
