@@ -121,7 +121,8 @@ public class ServerFacade implements IServer {
 	@Override
 	public String joinGame(JoinGameParams params)
 			throws ServerResponseException {
-		new JoinGameCommand(params, currentPlayerID).execute();
+		ICommand command = new JoinGameCommand(params, currentPlayerID);
+		command.execute();
 		return null;
 	}
 
