@@ -20,6 +20,7 @@ public class SendChatCommand extends ICommand {
 	public SendChatCommand(ChatMessage params) {
 		this.playerIndex = params.getPlayerIndex();
 		this.content = params.getContent();
+		this.setType("SendChat");
 	}
 
 	/**

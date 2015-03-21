@@ -9,7 +9,7 @@ package server.commands;
 public class GetCommandsCommand extends ICommand {
 
 	public GetCommandsCommand(int gameId) {
-
+		this.setType("GetCommands");
 	}
 
 	/**

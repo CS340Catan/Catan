@@ -38,6 +38,7 @@ public class BuildSettlementCommand extends ICommand {
 		this.settlementLocation = params.getVertexLocation();
 		this.playerIndex = params.getPlayerIndex();
 		this.free = params.isFree();
+		this.setType("BuildSettlement");
 
 	}
 

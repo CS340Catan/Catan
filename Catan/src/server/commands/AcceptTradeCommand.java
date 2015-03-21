@@ -29,7 +29,7 @@ public class AcceptTradeCommand extends ICommand {
 
 		receiverIndex = params.getPlayerIndex();
 		willAccept = params.isWillAccept();
-
+		this.setType("AcceptTrade");
 	}
 
 	/**

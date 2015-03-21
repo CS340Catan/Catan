@@ -30,6 +30,7 @@ public class MaritimeTradeCommand extends ICommand {
 		this.output = ResourceType.valueOf(params.getOutputResource());
 		this.ratio = params.getRatio();
 		this.gameID = gameID;
+		this.setType("MaritimeTrade");
 	}
 
 	/**

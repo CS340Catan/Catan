@@ -27,6 +27,7 @@ public class PlaySoldierCommand extends ICommand {
 		this.playerIndex = params.getPlayerIndex();
 		this.victimIndex = params.getVictimIndex();
 		this.location = params.getLocation();
+		this.setType("PlaySoldier");
 	}
 
 	/**

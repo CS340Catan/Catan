@@ -26,6 +26,8 @@ public class RegisterCommand extends ICommand {
 	public RegisterCommand(UserCredentials params) {
 		this.username = params.getUsername();
 		this.password = params.getPassword();
+		this.setType("Register");
+
 	}
 
 	/**

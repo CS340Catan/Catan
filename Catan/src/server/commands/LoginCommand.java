@@ -17,6 +17,8 @@ public class LoginCommand extends ICommand {
 	public LoginCommand(UserCredentials credentials) {
 		this.username = credentials.getUsername();
 		this.password = credentials.getPassword();
+		this.setType("Login");
+
 	}
 
 	/**

@@ -28,6 +28,7 @@ public class BuildRoadCommand extends ICommand {
 		this.roadLocation = params.getRoadLocation();
 		this.playerIndex = params.getPlayerIndex();
 		this.free = params.isFree();
+		this.setType("BuildRoad");
 	}
 
 	/**

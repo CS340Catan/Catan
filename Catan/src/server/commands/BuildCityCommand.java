@@ -34,6 +34,8 @@ public class BuildCityCommand extends ICommand {
 	public BuildCityCommand(BuildCityParams params) {
 		this.location = params.getVertexLocation();
 		this.playerIndex = params.getPlayerIndex();
+		this.setType("BuildCity");
+		
 	}
 
 	/**

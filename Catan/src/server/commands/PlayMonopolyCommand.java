@@ -23,6 +23,7 @@ public class PlayMonopolyCommand extends ICommand {
 	public PlayMonopolyCommand(PlayMonopolyParams params) {
 		this.resource = ResourceType.valueOf(params.getResource());
 		this.playerIndex = params.getPlayerIndex();
+		this.setType("PlayMonopoly");
 	}
 
 	/**

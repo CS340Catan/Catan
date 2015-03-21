@@ -28,6 +28,8 @@ public class FinishTurnCommand extends ICommand {
 
 		this.playerIndex = params.getPlayerIndex();
 		this.gameID = gameID;
+		this.setType("FinishTurn");
+
 	}
 
 	/**

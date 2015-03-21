@@ -26,6 +26,7 @@ public class RollNumberCommand extends ICommand {
 	public RollNumberCommand(RollParams params) {
 		this.playerIndex = params.getPlayerIndex();
 		this.number = params.getNumber();
+		this.setType("RollNumber");
 	}
 
 	/**
@@ -58,6 +59,7 @@ public class RollNumberCommand extends ICommand {
 			 */
 			else {
 				resourceRoll(model);
+				model.getTurnTracker().setStatus("Playing");
 			}
 
 			/*

@@ -28,6 +28,7 @@ public class BuyDevCardCommand extends ICommand {
 	 */
 	public BuyDevCardCommand(UserActionParams params) {
 		this.playerIndex = params.getPlayerIndex();
+		this.setType("BuyDevCard");
 	}
 
 	/**

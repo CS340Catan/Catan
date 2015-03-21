@@ -98,7 +98,6 @@ public class ServerModel extends AbstractModel {
 		// player, else switch to new player
 
 		Player[] players = this.getPlayers();
-		int[] playerRoads = new int[4];
 
 		// iterate
 		for (Player player : players) {
