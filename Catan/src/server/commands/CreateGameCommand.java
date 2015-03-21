@@ -10,8 +10,6 @@ import server.model.ServerModel;
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
 import shared.definitions.PortType;
-import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.Hex;
 import shared.model.Port;
@@ -24,13 +22,6 @@ import shared.utils.IDGenerator;
  */
 public class CreateGameCommand extends ICommand {
 	private CreateGameParams params;
-	private Random random = new Random();
-	private int sheepTileCount = 4;
-	private int wheatTileCount = 4;
-	private int oreTileCount = 3;
-	private int woodTileCount = 4;
-	private int brickTileCount = 3;
-	private int desertCount = 1;
 	private ServerModel serverModel;
 
 	/**
