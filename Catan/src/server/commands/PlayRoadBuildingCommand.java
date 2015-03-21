@@ -5,16 +5,17 @@ import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.BuildRoadCardParams;
 import shared.communication.EdgeLocationParam;
-import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.model.Player;
 import shared.model.Road;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Drewfus This is the command class for the PlayRoadBuilding function
- *         called on the server. It will receive a BuildRoadCardParams object
- *         and a gameID in the constructor
+ * This is the command class for the PlayRoadBuilding function called on the
+ * server. It will receive a BuildRoadCardParams object and a gameID in the
+ * constructor
+ * 
+ * @author Drewfus
  */
 
 public class PlayRoadBuildingCommand implements ICommand {
@@ -31,53 +32,52 @@ public class PlayRoadBuildingCommand implements ICommand {
 
 	/**
 	 * Places the two roads, updates the player's development cards
-	 * @throws ServerResponseException 
+	 * 
+	 * @throws ServerResponseException
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		
+
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
-		
-		if(controller.canPlayRoadBuildingCard(playerIndex)) {
-			
+
+		if (controller.canPlayRoadBuildingCard(playerIndex)) {
+
 			EdgeLocation roadEdgeLocation1 = new EdgeLocation();
 			roadEdgeLocation1.setDirection(location_1.getDirection());
 			roadEdgeLocation1.setX(location_1.getX());
 			roadEdgeLocation1.setY(location_1.getY());
 			roadEdgeLocation1.convertFromPrimitives();
 			Road road1 = new Road(playerIndex, roadEdgeLocation1);
-			
+
 			EdgeLocation roadEdgeLocation2 = new EdgeLocation();
 			roadEdgeLocation2.setDirection(location_2.getDirection());
 			roadEdgeLocation2.setX(location_2.getX());
 			roadEdgeLocation2.setY(location_2.getY());
 			roadEdgeLocation2.convertFromPrimitives();
 			Road road2 = new Road(playerIndex, roadEdgeLocation2);
-			
+
 			// add road to model
 			model.addRoad(road1);
 			model.addRoad(road2);
-			
+
 			// decrement player roads
 			Player player = model.getPlayers()[playerIndex];
 			player.setRoads(player.getRoads() - 2);
 
-			
 			// re-allocate longest road, and victory points
 			model.reallocateLongestRoad();
-			
+
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
+		} else {
+			throw new ServerResponseException(
+					"Unable to play road building card");
 		}
-		else {
-			throw new ServerResponseException("Unable to play road building card");
-		}
-
 
 	}
 

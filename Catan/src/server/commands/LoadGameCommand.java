@@ -14,38 +14,47 @@ import shared.utils.ServerResponseException;
 
 /**
  * Loads a saved game
+ * 
  * @author Seth White
  *
  */
 public class LoadGameCommand implements ICommand {
 	private String fileName;
+
 	/**
 	 * Sets the gameid to load
 	 */
-	public LoadGameCommand(LoadGameParams params){
+	public LoadGameCommand(LoadGameParams params) {
 		this.fileName = params.getName();
 	}
+
 	/**
 	 * Load a saved game and transmit the right model to the client
-	 * @throws ServerResponseException 
+	 * 
+	 * @throws ServerResponseException
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		//load from disk
-		String fullName = "path/"+fileName;
-		try{
-			      InputStream file = new FileInputStream(fullName);
-			      InputStream buffer = new BufferedInputStream(file);
-			      ObjectInput input = new ObjectInputStream (buffer);
-			      ServerModel model = (ServerModel)input.readObject();
-			      ServerFacade.getSingleton().getModelMap().put(model.getGameID(),model);
-			      input.close();
-		}
-		catch(ClassNotFoundException ex){
-			throw new ServerResponseException("Could not find class ServerModel");
-		}
-		catch(IOException ex){
-			throw new ServerResponseException("Could not access the file "+fullName);
+		/*
+		 * Load from disk the game using the inputed fileName. If the file could
+		 * not be found or the ServerModel class does not work with the object,
+		 * throw an exception.
+		 */
+		String fullName = "path/" + fileName;
+		try {
+			InputStream file = new FileInputStream(fullName);
+			InputStream buffer = new BufferedInputStream(file);
+			ObjectInput input = new ObjectInputStream(buffer);
+			ServerModel model = (ServerModel) input.readObject();
+			ServerFacade.getSingleton().getModelMap()
+					.put(model.getGameID(), model);
+			input.close();
+		} catch (ClassNotFoundException ex) {
+			throw new ServerResponseException(
+					"Could not find class ServerModel");
+		} catch (IOException ex) {
+			throw new ServerResponseException("Could not access the file "
+					+ fullName);
 		}
 	}
 

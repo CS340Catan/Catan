@@ -9,9 +9,10 @@ import shared.model.TradeOffer;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Drewfus This is the command class for the OfferTrade function called
- *         on the server. It will receive a TradeOfferParams object and a gameID
- *         in the constructor
+ * This is the command class for the OfferTrade function called on the server.
+ * It will receive a TradeOfferParams object and a gameID in the constructor
+ * 
+ * @author Drewfus
  */
 
 public class OfferTradeCommand implements ICommand {
@@ -35,21 +36,25 @@ public class OfferTradeCommand implements ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		
+
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 
 		if (controller.canOfferTrade(playerIndex, offer)) {
-			
+			/*
+			 * If the trade can be offered, store within the model the trade
+			 * offer such that the receiver can see the new trade offer and can
+			 * respond appropriately.
+			 */
 			model.setTradeOffer(new TradeOffer(playerIndex, receiver, offer));
-			
+
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
-			
+
 		} else {
 			throw new ServerResponseException("Player " + playerIndex
 					+ " cannot offer this trade");

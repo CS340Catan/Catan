@@ -4,16 +4,16 @@ import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.UserActionParams;
-import shared.definitions.ResourceType;
 import shared.model.Player;
 import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 
 /**
+ * Gives a player a development card. The development card is added to the
+ * player hand, and the appropriate resources are removed. All pre-conditions
+ * have been met earlier.
  * 
- * @author winstonhurst Gives a player a development card. The development card
- *         is added to the player hand, and the appropriate resources are
- *         removed. All pre-conditions have been met earlier.
+ * @author winstonhurst
  */
 public class BuyDevCardCommand implements ICommand {
 	int playerIndex;
@@ -70,7 +70,8 @@ public class BuyDevCardCommand implements ICommand {
 			model.incrementVersion();
 
 		} else {
-			throw new ServerResponseException("Unable to buy a development card.");
+			throw new ServerResponseException(
+					"Unable to buy a development card.");
 		}
 	}
 

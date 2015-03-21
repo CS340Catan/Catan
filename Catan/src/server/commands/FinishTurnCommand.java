@@ -9,8 +9,9 @@ import shared.model.Player;
 import shared.utils.ServerResponseException;
 
 /**
+ * This command finishes a player's turn
  * 
- * @author winstonhurst This command finishes a player's turn
+ * @author winstonhurst
  */
 public class FinishTurnCommand implements ICommand {
 	int playerIndex;

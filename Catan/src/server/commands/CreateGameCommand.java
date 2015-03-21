@@ -16,9 +16,9 @@ import shared.model.Port;
 import shared.utils.IDGenerator;
 
 /**
+ * This command creates a new game and adds it to the list of games.
  * 
- * @author winstonhurst This command creates a new game and adds it to the list
- *         of games.
+ * @author winstonhurst
  */
 public class CreateGameCommand implements ICommand {
 	private CreateGameParams params;
@@ -70,11 +70,11 @@ public class CreateGameCommand implements ICommand {
 		resources[6] = "brick";
 		resources[7] = "wood";
 		resources[8] = "three";
-		
-		if(params.isRandomPorts()){
+
+		if (params.isRandomPorts()) {
 			resources = (String[]) this.randomize(resources);
 		}
-		
+
 		Port[] ports = new Port[9];
 		ports[0] = new Port(resources[0], new HexLocation(0, 3), "N", 3);
 		ports[1] = new Port(resources[1], new HexLocation(-1, -2), "S", 2);
@@ -100,10 +100,9 @@ public class CreateGameCommand implements ICommand {
 		// getView().addNumber(new HexLocation(2, -1), 11);
 		// getView().addNumber(new HexLocation(2, 0), 12);
 
-		
 	}
 
-	public Object[] randomize(Object[] resources){
+	public Object[] randomize(Object[] resources) {
 		Random rand = new Random();
 		Object[] tempArray = new Object[resources.length];
 		int j = 0;
@@ -115,9 +114,9 @@ public class CreateGameCommand implements ICommand {
 		return tempArray;
 	}
 
-public void addHexes(){
-	//	getView().placeRobber(new HexLocation(0, 0));
-	//	
+	public void addHexes() {
+		// getView().placeRobber(new HexLocation(0, 0));
+		//
 		Integer[] numbers = new Integer[18];
 		numbers[0] = 5;
 		numbers[1] = 2;
@@ -137,7 +136,7 @@ public void addHexes(){
 		numbers[15] = 11;
 		numbers[16] = 12;
 		numbers[17] = 6;
-		if(params.isRandomNumbers()){
+		if (params.isRandomNumbers()) {
 			numbers = (Integer[]) this.randomize(numbers);
 		}
 		HexLocation[] locations = new HexLocation[19];
@@ -148,7 +147,7 @@ public void addHexes(){
 		locations[4] = new HexLocation(-1, 0);
 		locations[5] = new HexLocation(-1, 1);
 		locations[6] = new HexLocation(-1, 2);
-		locations[7] = new HexLocation(0, -2);//default robber
+		locations[7] = new HexLocation(0, -2);// default robber
 		locations[8] = new HexLocation(0, -1);
 		locations[9] = new HexLocation(0, 0);
 		locations[10] = new HexLocation(0, 1);
@@ -160,7 +159,7 @@ public void addHexes(){
 		locations[16] = new HexLocation(2, -2);
 		locations[17] = new HexLocation(2, -1);
 		locations[18] = new HexLocation(2, 0);
-		
+
 		String[] resources = new String[19];
 		resources[0] = "ore";
 		resources[1] = "wheat";
@@ -181,11 +180,11 @@ public void addHexes(){
 		resources[16] = "wood";
 		resources[17] = "sheep";
 		resources[18] = "wheat";
-		
-		if(params.isRandomTiles()){
+
+		if (params.isRandomTiles()) {
 			resources = (String[]) randomize(resources);
 		}
-		
+
 		Hex[] hexes = new Hex[19];
 		hexes[0] = new Hex(locations[0], resources[0], numbers[0]);
 		hexes[1] = new Hex(locations[1], resources[1], numbers[1]);
@@ -194,7 +193,7 @@ public void addHexes(){
 		hexes[4] = new Hex(locations[4], resources[4], numbers[4]);
 		hexes[5] = new Hex(locations[5], resources[5], numbers[5]);
 		hexes[6] = new Hex(locations[6], resources[6], numbers[6]);
-		hexes[7] = new Hex(locations[7], resources[7], -1);//default robber
+		hexes[7] = new Hex(locations[7], resources[7], -1);// default robber
 		hexes[8] = new Hex(locations[8], resources[8], numbers[7]);
 		hexes[9] = new Hex(locations[9], resources[9], numbers[8]);
 		hexes[10] = new Hex(locations[10], resources[10], numbers[9]);

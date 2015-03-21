@@ -11,10 +11,11 @@ import shared.model.*;
 import shared.utils.ServerResponseException;
 
 /**
+ * Command class for placing a settlement. Places a settlement and updates the
+ * player's resource list. The validity of pre-conditions has been checked
+ * earlier.
  * 
- * @author winstonhurst Command class for placing a settlement. Places a
- *         settlement and updates the player's resource list. The validity of
- *         pre-conditions has been checked earlier.
+ * @author winstonhurst
  */
 public class BuildSettlementCommand implements ICommand {
 

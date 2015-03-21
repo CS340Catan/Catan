@@ -3,18 +3,22 @@ package server.commands;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import server.facade.ServerFacade;
 import shared.communication.ChangeLogLevelParams;
 import shared.utils.ServerResponseException;
 
 /**
+ * This command changes the level of logging on the server to one of the
+ * following: SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
  * 
- * @author winstonhurst This command changes the level of logging on the server
- *         to one of the following: SEVERE, WARNING, INFO, CONFIG, FINE, FINER,
- *         FINEST
+ * @author winstonhurst
  */
 public class ChangeLogLevelCommand implements ICommand {
 	Level logLevel;
+	private static Logger logger;
+
+	static {
+		logger = Logger.getLogger("CatanServer");
+	}
 
 	/**
 	 * 
@@ -57,8 +61,6 @@ public class ChangeLogLevelCommand implements ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		Logger logger = ServerFacade.getLogger();
-
 		/*
 		 * If logLevel is not null (i.e. a valid log level), set the level of
 		 * the logger within the server facade. Else, throw an invalid request

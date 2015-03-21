@@ -10,8 +10,9 @@ import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Seth White Join Game Command adds a player to the associate Game in
- *         the Client Model
+ * Join Game Command adds a player to the associate Game in the Client Model
+ * 
+ * @author Seth White
  */
 public class JoinGameCommand implements ICommand {
 	private String color;

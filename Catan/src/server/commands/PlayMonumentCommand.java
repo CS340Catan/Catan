@@ -6,9 +6,10 @@ import shared.communication.PlayMonumentParams;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Drewfus This is the command class for the PlayMonument function
- *         called on the server. It will receive a PlayMonumentParams object and
- *         a gameID in the constructor
+ * This is the command class for the PlayMonument function called on the server.
+ * It will receive a PlayMonumentParams object and a gameID in the constructor
+ * 
+ * @author Drewfus
  */
 
 public class PlayMonumentCommand implements ICommand {
@@ -49,14 +50,14 @@ public class PlayMonumentCommand implements ICommand {
 					.getVictoryPoints();
 			int postVictoryPoints = preVictoryPoints + 1;
 			model.getPlayers()[playerIndex].setVictoryPoints(postVictoryPoints);
-			
+
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
-			
+
 		} else {
 			throw new ServerResponseException("Unable to play monument card.");
 		}

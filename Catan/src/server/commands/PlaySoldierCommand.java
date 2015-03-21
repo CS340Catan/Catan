@@ -11,9 +11,10 @@ import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Drewfus This is the command class for the PlaySoldier function called
- *         on the server. It will receive a MoveSoldierParams object and a
- *         gameID in the constructor
+ * This is the command class for the PlaySoldier function called on the server.
+ * It will receive a MoveSoldierParams object and a gameID in the constructor
+ * 
+ * @author Drewfus
  */
 
 public class PlaySoldierCommand implements ICommand {
@@ -81,14 +82,14 @@ public class PlaySoldierCommand implements ICommand {
 			default:
 				break;
 			}
-			
+
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
-			
+
 		} else {
 			throw new ServerResponseException(
 					"Unable to play soldier card. Invalid input parameters");
@@ -100,6 +101,10 @@ public class PlaySoldierCommand implements ICommand {
 		ResourceType stealResource = victimResources
 				.getRandomResourceFromList();
 
+		/*
+		 * Given a randomly selected resource from the victim, subtract one
+		 * resource from the victim's resources.
+		 */
 		switch (stealResource) {
 		case BRICK:
 			victimResources.setBrick(victimResources.getBrick() - 1);
