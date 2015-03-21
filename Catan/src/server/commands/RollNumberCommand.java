@@ -12,6 +12,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.*;
+import shared.utils.ServerResponseException;
 
 /**
  * @author Drewfus
@@ -31,9 +32,10 @@ public class RollNumberCommand implements ICommand {
 	}
 	/**
 	 * Updates each players' resources according to what number was rolled
+	 * @throws ServerResponseException 
 	 */
 	@Override
-	public void execute() {
+	public void execute() throws ServerResponseException {
 		
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
@@ -88,6 +90,9 @@ public class RollNumberCommand implements ICommand {
 				
 			}
 			
+		}
+		else {
+			throw new ServerResponseException("Unable to roll number");
 		}
 
 	}
