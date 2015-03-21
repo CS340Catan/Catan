@@ -33,26 +33,58 @@ public class JoinGameCommand implements ICommand {
 		String playerName = RegisteredPlayers.getSingleton().getPlayerName(
 				playerID);
 		Player[] players = model.getPlayers();
-		// if(!model.hasFourPlayers()){
-		for (int i = 0; i < 4; i++) {
+
+		/*
+		 * Iterate through each player currently saved within the model. This
+		 * may either grab an empty slot or a slot already occupied by a player.
+		 */
+		int playerIsInTheGame_Index = -1;
+
+		for (int i = 0; i < players.length; i++) {
+			/*
+			 * If player_i's name matches the inputer player, then set the
+			 * temporary index value equal to i and continue the loop.
+			 */
 			if (players[i].getName().equals(playerName)) {
-				// rejoining game, just send back the model
-				return;
-			} else if (players[i] == null) {
+				playerIsInTheGame_Index = i;
+			}
+
+			/*
+			 * If player_i is null (empty slot) and inputed player does not
+			 * already exist within the game, then fill the null/empty slot with
+			 * the inputed player and return.
+			 */
+			else if (players[i] == null && playerIsInTheGame_Index == -1) {
 				players[i] = new Player(i, playerID, 0, 0, playerName, color,
 						false, 0, new DevCardList(0, 0, 0, 0, 0),
 						new DevCardList(0, 0, 0, 0, 0), false,
 						new ResourceList(0, 0, 0, 0, 0), 0, 0, 0);
+				model.incrementVersion(); // TODO Is this increment needed?
 				return;
-			} else if (players[i].getColorString().equals(color)) {
+			}
+
+			/*
+			 * If player_i is not null (a valid player) and player_i's color
+			 * matches 'color', then throw an exception stating that the inputed
+			 * color is invalid.
+			 */
+			else if (players[i] != null
+					&& players[i].getColorString().equals(color)) {
 				throw new ServerResponseException(
-						"Player with that color already exists");
+						"A player with that color already exists.");
 			}
 		}
-		// }
-		// else{
-		throw new ServerResponseException("The Game is full");
-		// }
-	}
 
+		/*
+		 * If the player did exist within the game, then set the color of the
+		 * player equal to the inputed color and return. Else, throw an
+		 * exception stating that the game was full.
+		 */
+		if (playerIsInTheGame_Index != -1) {
+			players[playerIsInTheGame_Index].setColor(color);
+			return;
+		} else {
+			throw new ServerResponseException("The Game is full");
+		}
+	}
 }
