@@ -188,8 +188,10 @@ public class ServerProxy implements IServer {
 	 */
 	public String joinGame(JoinGameParams params)
 			throws ServerResponseException {
+		logger.info("client/communicator/ServerProxy - entering joinGame");
 		String jsonString = Serializer.serialize(params);
 		String response = httpCommunicator.doPost("/games/join", jsonString);
+		logger.info("client/communicator/ServerProxy - exiting joinGame");
 		return response;
 	}
 

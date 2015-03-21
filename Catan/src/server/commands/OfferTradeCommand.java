@@ -44,6 +44,8 @@ public class OfferTradeCommand implements ICommand {
 			throw new ServerResponseException("Player " + playerIndex
 					+ " cannot offer this trade");
 		}
+		
+		model.incrementVersion();
 	}
 
 }

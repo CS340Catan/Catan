@@ -54,6 +54,8 @@ public class MaritimeTradeCommand implements ICommand {
 			throw new ServerResponseException(
 					"Unable to maritime trade. Invalid input parameters.");
 		}
+		
+		model.incrementVersion();
 	}
 
 }

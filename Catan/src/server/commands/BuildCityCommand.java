@@ -71,9 +71,11 @@ public class BuildCityCommand implements ICommand {
 		}
 		
 		else{
-			throw new ServerResponseException("This player cannot build a road at this location");
+			throw new ServerResponseException("This player cannot build a city at this location");
 		}
-	
+		
+		model.incrementVersion();
+		
 	}
 
 }
