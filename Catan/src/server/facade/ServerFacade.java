@@ -7,13 +7,13 @@ import java.util.logging.Logger;
 import client.data.GameInfo;
 import client.model.ClientModel;
 import server.commands.*;
+import server.model.RegisteredPlayers;
 import server.model.ServerModel;
 import shared.communication.*;
 import shared.model.GameList;
 //import shared.model.RegisteredPlayers;
 
 import shared.model.Player;
-import shared.model.RegisteredPlayers;
 import shared.utils.IServer;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -25,8 +25,9 @@ public class ServerFacade implements IServer {
 	private ICommand command;
 	private int gameID;
 	private static HashMap<Integer, ServerModel> modelMap = new HashMap<Integer, ServerModel>();
-	private int currentPlayerID;// !!!!!NOT THE INDEX WITHIN THE GAME!!!!!!!
+	private int currentPlayerID; // !!!!!NOT THE INDEX WITHIN THE GAME!!!!!!!
 	private static Logger logger;
+	
 	static {
 		logger = Logger.getLogger("CatanServer");
 	}

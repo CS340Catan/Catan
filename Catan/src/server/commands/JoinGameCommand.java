@@ -1,11 +1,11 @@
 package server.commands;
 
 import server.facade.ServerFacade;
+import server.model.RegisteredPlayers;
 import server.model.ServerModel;
 import shared.communication.JoinGameParams;
 import shared.model.DevCardList;
 import shared.model.Player;
-import shared.model.RegisteredPlayers;
 import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import server.model.RegisteredPlayers;
 import shared.communication.UserCredentials;
-import shared.model.RegisteredPlayers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
