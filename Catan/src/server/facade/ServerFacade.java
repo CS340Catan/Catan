@@ -104,7 +104,11 @@ public class ServerFacade implements IServer {
 			throws ServerResponseException {
 		ICommand command = new CreateGameCommand(params);
 		command.execute();
-
+		for(GameSummary summary : GameList.getSingleton().getGames()){
+			if(summary.getTitle().equals(params.getname())){
+				return summary.toGameInfo();
+			}
+		}
 		return null;
 	}
 
