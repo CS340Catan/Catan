@@ -85,7 +85,7 @@ public class HandlerUtil {
 		List<String> values = new ArrayList<>();
 		String username = userCredentials.getUsername();
 		String password = userCredentials.getPassword();
-		int playerId = RegisteredPlayers.getSingleton().getPlayerId(password);
+		int playerId = RegisteredPlayers.getSingleton().getPlayerId(username);
 		values.add("catan.user={\"name\":\"" + username + "\",\"password\":\""
 				+ password + "\",\"playerID\":" + playerId + "};Path=/;");
 		respHeaders.put("Set-Cookie", values);
