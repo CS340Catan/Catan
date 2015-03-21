@@ -4,7 +4,7 @@ import shared.utils.ServerResponseException;
 
 public abstract class ICommand {
 
-	private String type;
+	private String type = "";
 	
 	public abstract void execute() throws ServerResponseException;
 

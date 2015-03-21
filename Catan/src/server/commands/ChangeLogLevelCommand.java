@@ -52,7 +52,8 @@ public class ChangeLogLevelCommand extends ICommand {
 		} else {
 			logLevel = null;
 		}
-		
+		this.setType("ChangeLogLevel");
+
 	}
 
 	/**

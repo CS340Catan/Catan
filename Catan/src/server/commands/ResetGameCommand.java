@@ -13,6 +13,8 @@ public class ResetGameCommand extends ICommand {
 
 	ResetGameCommand(int gameID) {
 		this.gameID = gameID;
+		this.setType("ResetGame");
+
 	}
 
 	/**

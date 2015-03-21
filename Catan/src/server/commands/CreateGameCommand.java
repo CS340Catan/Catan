@@ -33,6 +33,8 @@ public class CreateGameCommand extends ICommand {
 	public CreateGameCommand(CreateGameParams params) {
 		this.params = params;
 		serverModel = new ServerModel();
+		this.setType("CreateGame");
+
 	}
 
 	/**
