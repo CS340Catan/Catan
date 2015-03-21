@@ -42,7 +42,17 @@ public class Serializer {
 	 */
 	public static ClientModel deserializeClientModel(String jsonString) {
 		Gson gson = new Gson();
+		System.out.println("in deserializer");
+		System.out.println("JsonString is:");
+		System.out.println(jsonString!=null);
+		System.out.println("JsonString length:");
+		System.out.println(jsonString.length());
+		System.out.println(jsonString);
 		ClientModel clientModel = gson.fromJson(jsonString, ClientModel.class);
+		System.out.println("get map");
+		System.out.println(clientModel.getMap()!=null);
+		System.out.println("get roads");
+		System.out.println(clientModel.getMap().getRoads()!=null);
 		for (Road road : clientModel.getMap().getRoads()) {
 			road.getLocation().convertFromPrimitives();
 		}

@@ -90,13 +90,14 @@ public class Server {
 		httpServer.createContext("/user/register", new RegisterHandler());
 		httpServer.createContext("/games/list", new ListGameHandler());
 		httpServer.createContext("/games/create", new CreateGameHandler());
+		httpServer.createContext("/games/join", new JoinGameHandler());
 		httpServer.createContext("/games/save", new SaveGameHandler());
 		httpServer.createContext("/games/load", new LoadGameHandler());
 		httpServer.createContext("/game/model", new ModelHandler());
 		httpServer.createContext("/game/reset", new ResetGameHandler());
 		httpServer.createContext("/game/commmands", new CommandsHandler());//handle get and post
-//		httpServer.createContext("/game/addAI", new AddAIHandler());
-		httpServer.createContext("/game/listAI", new ListAIHandler());
+		//httpServer.createContext("/game/addAI", new AddAIHandler());
+		//httpServer.createContext("/game/listAI", new ListAIHandler());
 		httpServer.createContext("/moves/sendChat", new SendChatHandler());
 		httpServer.createContext("/moves/rollNumber", new RollNumberHandler());
 		httpServer.createContext("/moves/robPlayer", new RobPlayerHandler());
