@@ -1,21 +1,23 @@
 package server.commands;
+
 /**
- * Returns the client model 
+ * Returns the client model
+ * 
  * @author Seth White
  *
  */
 public class GetModelCommand implements ICommand {
-	private int gameId;
-	
+	private int version;
+
 	/**
 	 * returns the model based on a game id
 	 */
-	GetModelCommand(int gameId){
-		this.gameId = gameId;
+	public GetModelCommand(int version) {
+		this.version = version;
 	}
+
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 
 	}
 
