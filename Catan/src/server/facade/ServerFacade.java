@@ -577,6 +577,17 @@ public class ServerFacade implements IServer {
 		RegisteredPlayers.getSingleton().addNewPlayer("Brooke", "brooke");
 		RegisteredPlayers.getSingleton().addNewPlayer("Pete", "pete");
 		RegisteredPlayers.getSingleton().addNewPlayer("Mark", "mark");
+		PlayerSummary sam = new PlayerSummary("orange", "Sam", 1);
+		PlayerSummary brooke = new PlayerSummary("blue", "Brooke", 2);
+		PlayerSummary pete = new PlayerSummary("green", "Pete", 3);
+		PlayerSummary mark = new PlayerSummary("red", "Mark", 4);
+		PlayerSummary[] summaries = new PlayerSummary[4];
+		summaries[0] = sam;
+		summaries[1] = brooke;
+		summaries[2] = pete;
+		summaries[3] = mark;
+		GameSummary gameSummary = new GameSummary("Default Game", 0, summaries);
+		GameList.getSingleton().addGame(gameSummary);
 		logger.info("server/facade/ServerFacade - exiting setFirstGame");
 	}
 
