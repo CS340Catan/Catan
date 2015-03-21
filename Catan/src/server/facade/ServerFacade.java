@@ -2,7 +2,6 @@ package server.facade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Logger;
 
 import client.data.GameInfo;
@@ -213,8 +212,8 @@ public class ServerFacade implements IServer {
 	 */
 	@Override
 	public String[] getAITypes() throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		String[] AITypeArray = new String[0];
+		return AITypeArray;
 	}
 
 	/**
@@ -228,8 +227,9 @@ public class ServerFacade implements IServer {
 	@Override
 	public AddAIResponse addAI(AddAIParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		AddAIResponse response = new AddAIResponse();
+		response.setResponse("Failed");
+		return response;
 	}
 
 	/**
@@ -243,7 +243,8 @@ public class ServerFacade implements IServer {
 	@Override
 	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams params)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+		
+		
 		return null;
 	}
 
