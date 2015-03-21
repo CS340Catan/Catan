@@ -201,4 +201,8 @@ public class ServerModel extends AbstractModel{
 		
 		return false;
 	}
+	
+	public void incrementVersion() {
+		this.setVersion(this.getVersion() + 1);
+	}
 }

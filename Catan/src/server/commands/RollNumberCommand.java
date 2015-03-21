@@ -94,6 +94,8 @@ public class RollNumberCommand implements ICommand {
 		else {
 			throw new ServerResponseException("Unable to roll number");
 		}
+		
+		model.incrementVersion();
 
 	}
 	

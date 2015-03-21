@@ -20,7 +20,6 @@ import shared.utils.ServerResponseException;
 
 public class ServerFacade implements IServer {
 
-	private List<ICommand> commands;
 	private static ServerFacade serverFacade = null;
 	private int gameID;
 	private static HashMap<Integer, ServerModel> modelMap = new HashMap<Integer, ServerModel>();
@@ -104,6 +103,7 @@ public class ServerFacade implements IServer {
 			throws ServerResponseException {
 		ICommand command = new CreateGameCommand(params);
 		command.execute();
+		commands.add(command);
 
 		return null;
 	}

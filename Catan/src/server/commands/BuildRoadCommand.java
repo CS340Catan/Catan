@@ -6,6 +6,7 @@ import shared.communication.*;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.model.*;
+import shared.utils.ServerResponseException;
 
 /**
  * @author Drewfus
@@ -31,9 +32,10 @@ public class BuildRoadCommand implements ICommand {
 	/**
 	 * Adds a road to the server model and updates map, player roads, player resources.
 	 * Checks if longest road needs to be updated
+	 * @throws ServerResponseException 
 	 */
 	@Override
-	public void execute() {
+	public void execute() throws ServerResponseException {
 		
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
@@ -61,6 +63,11 @@ public class BuildRoadCommand implements ICommand {
 			model.reallocateLongestRoad();
 			
 		}
+		else {
+			throw new ServerResponseException("Unable to build road");
+		}
+		
+		model.incrementVersion();
 	}
 
 }

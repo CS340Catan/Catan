@@ -29,6 +29,8 @@ public class SendChatCommand implements ICommand {
 		MessageLine messageLine = new MessageLine(params.getContent(),
 				clientModel.getPlayers()[params.getPlayerIndex()].getName());
 		clientModel.getChat().addLine(messageLine);
+		
+		clientModel.incrementVersion();
 	}
 
 }
