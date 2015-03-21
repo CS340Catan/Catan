@@ -73,6 +73,12 @@ public class RobPlayerCommand implements ICommand {
 				break;
 			}
 
+			/*
+			 * Set the state of the game from "Robbing" to "Playing" under
+			 * status of the server model.
+			 */
+			model.getTurnTracker().setStatus("Playing");
+
 		} else {
 			throw new ServerResponseException("Unable to rob player.");
 		}

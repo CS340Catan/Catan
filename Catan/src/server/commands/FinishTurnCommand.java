@@ -2,67 +2,80 @@ package server.commands;
 
 import server.facade.ServerFacade;
 import server.model.ServerModel;
+import server.model.ServerModelController;
 import shared.communication.UserActionParams;
 import shared.model.DevCardList;
 import shared.model.Player;
-import shared.model.VertexObject;
+import shared.utils.ServerResponseException;
 
 /**
  * 
- * @author winstonhurst
- *This command finishes a player's turn
+ * @author winstonhurst This command finishes a player's turn
  */
 public class FinishTurnCommand implements ICommand {
-	
+
 	int playerIndex;
 	int gameID;
-	
+
 	/**
 	 * 
-	 * @param params - contains the player's index in the game
-	 * @param gameID - id of the game on which to act
+	 * @param params
+	 *            - contains the player's index in the game
+	 * @param gameID
+	 *            - id of the game on which to act
 	 */
-	public FinishTurnCommand(UserActionParams params, int gameID){
-		
+	public FinishTurnCommand(UserActionParams params, int gameID) {
+
 		this.playerIndex = params.getPlayerIndex();
 		this.gameID = gameID;
 	}
-	
+
 	/**
-	 * Changes current player turn to next player's id.
-	 * Changes the status of the game associated with the gameID to Rolling.
+	 * Changes current player turn to next player's id. Changes the status of
+	 * the game associated with the gameID to Rolling.
+	 * 
+	 * @throws ServerResponseException
+	 *             Thrown if is not the player's turn, therefore, they should
+	 *             not be able to end their turn.
 	 */
 	@Override
-	public void execute() {
-		
+	public void execute() throws ServerResponseException {
+
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
-		
-		Player player = model.getPlayers()[playerIndex];
-		DevCardList newCards = player.getNewDevCards();
-		DevCardList oldCards = player.getOldDevCards();
-		
-		// add new cards to old cards
-		oldCards.setMonopoly(oldCards.getMonopoly() + newCards.getMonopoly());
-		oldCards.setMonument(oldCards.getMonument() + newCards.getMonument());
-		oldCards.setRoadBuilding(oldCards.getRoadBuilding() + newCards.getRoadBuilding());
-		oldCards.setMonopoly(oldCards.getMonopoly() + newCards.getMonopoly());
-		oldCards.setYearOfPlenty(oldCards.getYearOfPlenty() + newCards.getYearOfPlenty());
-		
-		// reset new cards
-		newCards.setMonopoly(0);
-		newCards.setMonument(0);
-		newCards.setRoadBuilding(0);
-		newCards.setSoldier(0);
-		newCards.setYearOfPlenty(0);
-		
-		// rotate to next player's turn
-		int nextPlayer = playerIndex + 1;
-		if(nextPlayer > 3) {
-			nextPlayer = 0;
+		ServerModelController controller = new ServerModelController(model);
+
+		if (controller.canFinishTurn(this.playerIndex)) {
+			Player player = model.getPlayers()[playerIndex];
+
+			/*
+			 * If you can finish the player's turn, update the player's
+			 * development cards such that the "new" development cards are
+			 * appropriately added to the old development card list. Then reset
+			 * the new development card list.
+			 */
+			DevCardList newCards = player.getNewDevCards();
+			DevCardList oldCards = player.getOldDevCards();
+
+			oldCards.addDevCards(newCards);
+			newCards.resetDevCards();
+
+			/*
+			 * Change the current turn player index, such that the next player
+			 * is able to roll the dice. Set this within the model TurnTracker,
+			 * as well set the status to 'Rolling'.
+			 */
+			int nextPlayer = playerIndex + 1;
+			if (nextPlayer > 3) {
+				nextPlayer = 0;
+			}
+			model.getTurnTracker().setCurrentTurn(nextPlayer);
+			model.getTurnTracker().setStatus("Rolling");
+
+		} else {
+			throw new ServerResponseException(
+					"Unable to finish turn. Invalid input parameters.");
 		}
-		model.getTurnTracker().setCurrentTurn(nextPlayer);
-		
+
 	}
 
 }
-
