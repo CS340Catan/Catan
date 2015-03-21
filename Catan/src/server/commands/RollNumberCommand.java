@@ -18,7 +18,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class RollNumberCommand implements ICommand {
+public class RollNumberCommand extends ICommand {
 
 	int playerIndex;
 	int number;

@@ -10,7 +10,7 @@ import shared.utils.ServerResponseException;
  * @author Seth White
  *
  */
-public class LoginCommand implements ICommand {
+public class LoginCommand extends ICommand {
 	private String username;
 	private String password;
 

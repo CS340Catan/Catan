@@ -19,7 +19,7 @@ import shared.utils.ServerResponseException;
  * 
  * @author winstonhurst
  */
-public class BuildCityCommand implements ICommand {
+public class BuildCityCommand extends ICommand {
 	VertexLocationParam location;
 	int playerIndex;
 

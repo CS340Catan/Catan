@@ -9,7 +9,7 @@ import shared.communication.CommandList;
  * @author Drewfus
  */
 
-public class PostCommandsCommand implements ICommand {
+public class PostCommandsCommand extends ICommand {
 
 	CommandList params;
 

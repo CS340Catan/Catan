@@ -18,7 +18,7 @@ import shared.utils.ServerResponseException;
  * @author Seth White
  *
  */
-public class LoadGameCommand implements ICommand {
+public class LoadGameCommand extends ICommand {
 	private String fileName;
 
 	/**

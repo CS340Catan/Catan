@@ -7,7 +7,7 @@ package server.commands;
  * @author Drewfus
  */
 
-public class ResetGameCommand implements ICommand {
+public class ResetGameCommand extends ICommand {
 
 	int gameID;
 

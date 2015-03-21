@@ -6,7 +6,7 @@ package server.commands;
  * @author Seth White
  *
  */
-public class GetCommandsCommand implements ICommand {
+public class GetCommandsCommand extends ICommand {
 
 	public GetCommandsCommand(int gameId) {
 

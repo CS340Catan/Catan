@@ -13,7 +13,7 @@ import shared.utils.ServerResponseException;
  * 
  * @author winstonhurst
  */
-public class DiscardCardsCommand implements ICommand {
+public class DiscardCardsCommand extends ICommand {
 
 	int playerIndex;
 	ResourceList discardedCards;

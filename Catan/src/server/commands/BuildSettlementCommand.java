@@ -17,7 +17,7 @@ import shared.utils.ServerResponseException;
  * 
  * @author winstonhurst
  */
-public class BuildSettlementCommand implements ICommand {
+public class BuildSettlementCommand extends ICommand {
 
 	VertexLocationParam settlementLocation;
 	int playerIndex;

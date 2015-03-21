@@ -20,7 +20,7 @@ import shared.utils.ServerResponseException;
  * 
  * @author Keloric
  */
-public class AcceptTradeCommand implements ICommand {
+public class AcceptTradeCommand extends ICommand {
 
 	int receiverIndex;
 	boolean willAccept;

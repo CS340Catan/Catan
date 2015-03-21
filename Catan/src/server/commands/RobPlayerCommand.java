@@ -17,7 +17,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class RobPlayerCommand implements ICommand {
+public class RobPlayerCommand extends ICommand {
 
 	int playerIndex;
 	int victimIndex;

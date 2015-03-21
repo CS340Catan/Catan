@@ -13,7 +13,7 @@ import shared.utils.ServerResponseException;
  * 
  * @author winstonhurst
  */
-public class FinishTurnCommand implements ICommand {
+public class FinishTurnCommand extends ICommand {
 	int playerIndex;
 	int gameID;
 

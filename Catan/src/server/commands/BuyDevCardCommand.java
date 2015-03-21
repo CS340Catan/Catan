@@ -15,7 +15,7 @@ import shared.utils.ServerResponseException;
  * 
  * @author winstonhurst
  */
-public class BuyDevCardCommand implements ICommand {
+public class BuyDevCardCommand extends ICommand {
 	int playerIndex;
 
 	/**

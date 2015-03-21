@@ -12,7 +12,7 @@ import shared.model.MessageLine;
  * @author Drewfus
  */
 
-public class SendChatCommand implements ICommand {
+public class SendChatCommand extends ICommand {
 
 	int playerIndex;
 	String content;

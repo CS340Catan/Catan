@@ -20,7 +20,7 @@ import shared.utils.IDGenerator;
  * 
  * @author winstonhurst
  */
-public class CreateGameCommand implements ICommand {
+public class CreateGameCommand extends ICommand {
 	private CreateGameParams params;
 	private Random random = new Random();
 	private int sheepTileCount = 4;

@@ -18,7 +18,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class PlayRoadBuildingCommand implements ICommand {
+public class PlayRoadBuildingCommand extends ICommand {
 
 	int playerIndex;
 	EdgeLocationParam location_1;

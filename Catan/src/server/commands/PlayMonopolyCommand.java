@@ -15,7 +15,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class PlayMonopolyCommand implements ICommand {
+public class PlayMonopolyCommand extends ICommand {
 
 	int playerIndex;
 	ResourceType resource;

@@ -13,7 +13,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class RegisterCommand implements ICommand {
+public class RegisterCommand extends ICommand {
 
 	String username;
 	String password;

@@ -15,7 +15,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class MaritimeTradeCommand implements ICommand {
+public class MaritimeTradeCommand extends ICommand {
 
 	int playerIndex;
 	ResourceType input;

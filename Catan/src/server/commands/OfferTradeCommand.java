@@ -15,7 +15,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class OfferTradeCommand implements ICommand {
+public class OfferTradeCommand extends ICommand {
 
 	int playerIndex;
 	ResourceList offer;

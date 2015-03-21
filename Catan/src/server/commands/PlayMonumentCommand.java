@@ -12,7 +12,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class PlayMonumentCommand implements ICommand {
+public class PlayMonumentCommand extends ICommand {
 
 	int playerIndex;
 

@@ -2,7 +2,7 @@ package server.commands;
 
 import shared.utils.ServerResponseException;
 
-public interface ICommand {
+public abstract class ICommand {
 
-	public void execute() throws ServerResponseException;
+	public abstract void execute() throws ServerResponseException;
 }

@@ -17,7 +17,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class PlaySoldierCommand implements ICommand {
+public class PlaySoldierCommand extends ICommand {
 
 	int playerIndex;
 	int victimIndex;

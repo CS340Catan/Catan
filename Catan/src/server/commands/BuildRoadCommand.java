@@ -15,7 +15,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class BuildRoadCommand implements ICommand {
+public class BuildRoadCommand extends ICommand {
 
 	int gameID;
 	int playerIndex;

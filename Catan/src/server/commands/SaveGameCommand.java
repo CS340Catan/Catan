@@ -19,7 +19,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class SaveGameCommand implements ICommand {
+public class SaveGameCommand extends ICommand {
 
 	String fileName;
 	int gameID;

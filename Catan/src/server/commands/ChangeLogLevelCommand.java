@@ -12,7 +12,7 @@ import shared.utils.ServerResponseException;
  * 
  * @author winstonhurst
  */
-public class ChangeLogLevelCommand implements ICommand {
+public class ChangeLogLevelCommand extends ICommand {
 	Level logLevel;
 	private static Logger logger;
 

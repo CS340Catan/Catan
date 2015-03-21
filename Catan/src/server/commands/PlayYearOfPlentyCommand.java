@@ -17,7 +17,7 @@ import shared.utils.ServerResponseException;
  * @author Drewfus
  */
 
-public class PlayYearOfPlentyCommand implements ICommand {
+public class PlayYearOfPlentyCommand extends ICommand {
 
 	int playerIndex;
 	ResourceType resource_1;

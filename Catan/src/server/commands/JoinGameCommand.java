@@ -14,7 +14,7 @@ import shared.utils.ServerResponseException;
  * 
  * @author Seth White
  */
-public class JoinGameCommand implements ICommand {
+public class JoinGameCommand extends ICommand {
 	private String color;
 	private int playerID;
 
