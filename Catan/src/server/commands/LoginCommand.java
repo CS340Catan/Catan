@@ -1,6 +1,7 @@
 package server.commands;
 
 import server.facade.ServerFacade;
+import server.model.RegisteredPlayers;
 import shared.communication.UserCredentials;
 import shared.model.*;
 import shared.utils.ServerResponseException;

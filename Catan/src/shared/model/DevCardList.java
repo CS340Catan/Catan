@@ -82,5 +82,21 @@ public class DevCardList {
 	public void setYearOfPlenty(int yearOfPlenty) {
 		this.yearOfPlenty = yearOfPlenty;
 	}
+	
+	public void addDevCards(DevCardList newCards){
+		this.setMonopoly(this.getMonopoly() + newCards.getMonopoly());
+		this.setMonument(this.getMonument() + newCards.getMonument());
+		this.setRoadBuilding(this.getRoadBuilding() + newCards.getRoadBuilding());
+		this.setMonopoly(this.getMonopoly() + newCards.getMonopoly());
+		this.setYearOfPlenty(this.getYearOfPlenty() + newCards.getYearOfPlenty());
+	}
+	
+	public void resetDevCards(){
+		this.setMonopoly(0);
+		this.setMonument(0);
+		this.setRoadBuilding(0);
+		this.setSoldier(0);
+		this.setYearOfPlenty(0);
+	}
 
 }

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import server.model.RegisteredPlayers;
 import shared.communication.UserCredentials;
-import shared.model.RegisteredPlayers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -85,9 +85,11 @@ public class HandlerUtil {
 		List<String> values = new ArrayList<>();
 		String username = userCredentials.getUsername();
 		String password = userCredentials.getPassword();
-		int playerId = RegisteredPlayers.getSingleton().getPlayerId(password);
+		int playerId = RegisteredPlayers.getSingleton().getPlayerId(username);
+		/*values.add("catan.user={\"name\":\"" + username + "\",\"password\":\""
+				+ password + "\",\"playerID\":" + playerId + "};Path=/;");*/
 		values.add("catan.user={\"name\":\"" + username + "\",\"password\":\""
-				+ password + "\",\"playerID\":" + playerId + "};Path=/;");
+				+ password + "\",\"playerID\":" + playerId + "}");
 		respHeaders.put("Set-Cookie", values);
 	}
 }

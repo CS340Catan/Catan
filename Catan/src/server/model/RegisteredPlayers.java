@@ -1,4 +1,4 @@
-package shared.model;
+package server.model;
 
 import java.util.HashMap;
 import java.util.logging.Logger;

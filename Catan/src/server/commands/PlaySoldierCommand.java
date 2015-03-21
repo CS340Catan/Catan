@@ -81,9 +81,9 @@ public class PlaySoldierCommand implements ICommand {
 			default:
 				break;
 			}
-
 		} else {
-			throw new ServerResponseException("Unable to play monument card.");
+			throw new ServerResponseException(
+					"Unable to play soldier card. Invalid input parameters");
 		}
 	}
 
