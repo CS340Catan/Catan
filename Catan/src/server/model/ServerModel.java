@@ -46,29 +46,29 @@ public class ServerModel extends AbstractModel{
 	
 	public void addResourceFromBank(int playerIndex, ResourceType type, int amount) {
 		
-		ResourceList resources = this.getPlayers()[playerIndex].getResources();
-		ResourceList bank = this.getBank();
+		ResourceList playerResources = this.getPlayers()[playerIndex].getResources();
+		ResourceList bankResources = this.getBank();
 		
 		switch(type) {
 		case BRICK:
-			resources.setBrick(resources.getBrick() + amount);
-			bank.setBrick(bank.getBrick() - amount);
+			playerResources.setBrick(playerResources.getBrick() + amount);
+			bankResources.setBrick(bankResources.getBrick() - amount);
 			break;
 		case ORE:
-			resources.setOre(resources.getOre() + amount);
-			bank.setOre(bank.getOre() - amount);
+			playerResources.setOre(playerResources.getOre() + amount);
+			bankResources.setOre(bankResources.getOre() - amount);
 			break;
 		case SHEEP:
-			resources.setSheep(resources.getSheep() + amount);
-			bank.setSheep(bank.getSheep() - amount);
+			playerResources.setSheep(playerResources.getSheep() + amount);
+			bankResources.setSheep(bankResources.getSheep() - amount);
 			break;
 		case WHEAT:
-			resources.setWheat(resources.getWheat() + amount);
-			bank.setWheat(bank.getWheat() - amount);
+			playerResources.setWheat(playerResources.getWheat() + amount);
+			bankResources.setWheat(bankResources.getWheat() - amount);
 			break;
 		case WOOD:
-			resources.setWood(resources.getWood() + amount);
-			bank.setWood(bank.getWood() - amount);
+			playerResources.setWood(playerResources.getWood() + amount);
+			bankResources.setWood(bankResources.getWood() - amount);
 			break;
 		default:
 			break;
