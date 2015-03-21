@@ -8,6 +8,7 @@ import shared.communication.VertexLocationParam;
 import shared.definitions.ResourceType;
 import shared.locations.VertexLocation;
 import shared.model.*;
+import shared.utils.ServerResponseException;
 
 
 /**
@@ -42,9 +43,10 @@ public class BuildSettlementCommand implements ICommand {
 	 * Places a settlement on the location for the player whose index has been passed.
 	 * Player looses 1 wood, 1 brick, 1 wheat, 1 sheep from his or her hand.
 	 * Gives the player who placed the settlement a point.
+	 * @throws ServerResponseException 
 	 */
 	@Override
-	public void execute() {
+	public void execute() throws ServerResponseException {
 
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
@@ -69,6 +71,11 @@ public class BuildSettlementCommand implements ICommand {
 			player.setVictoryPoints(player.getVictoryPoints() + 1);
 			
 		}
+		else {
+			throw new ServerResponseException("Unable to build settlement");
+		}
+		
+		model.incrementVersion();
 	}
 
 }

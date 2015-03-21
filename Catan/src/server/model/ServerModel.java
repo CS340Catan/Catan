@@ -216,4 +216,8 @@ public class ServerModel extends AbstractModel {
 	public void setGameID(int ID) {
 		this.gameID = ID;
 	}
+	
+	public void incrementVersion() {
+		this.setVersion(this.getVersion() + 1);
+	}
 }

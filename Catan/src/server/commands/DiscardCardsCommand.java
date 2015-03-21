@@ -62,11 +62,12 @@ public class DiscardCardsCommand implements ICommand {
 				String status = "Playing";
 				model.getTurnTracker().setStatus(status);
 			}
+			
+			model.incrementVersion();
 		}
 		else {
 			throw new ServerResponseException("Unable to discard cards");
 		}
-
 		
 	}
 
