@@ -31,8 +31,8 @@ public class PlayRoadBuildingCommand implements ICommand {
 		 * Add this command to the list of commands currently stored inside
 		 * the model.
 		 */
-		model.getCommands().add(this);
-		model.incrementVersion();
+		//model.getCommands().add(this);
+		//model.incrementVersion();
 
 	}
 
