@@ -55,11 +55,17 @@ public class GameSummary {
 
 		gameInfo.setId(this.id);
 		gameInfo.setTitle(this.title);
-
+		if(players == null){
+			for(int i = 0; i < 4; i++){
+				gameInfo.addPlayer(null);
+			}
+		}
+		else{
 		for (PlayerSummary player : players) {
 			if (player.getName() != "") {
 				gameInfo.addPlayer(player.toPlayerInfo());
 			}
+		}
 		}
 
 		return gameInfo;

@@ -31,7 +31,11 @@ import shared.utils.Serializer;
 public class ServerModel extends AbstractModel {
 	int gameID;
 	List<ICommand> commands = new ArrayList<>();
-
+	public ServerModel(){
+		this.setMap(new Map(null, null, null, null, null, gameID, null));
+		this.setBank(new ResourceList(19, 19, 19, 19, 19));
+		this.setDeck(new Deck(2, 5, 14, 2, 2));
+	}
 	public ClientModel toClientModel() {
 		//AbstractModel am = (AbstractModel) this;
 		//ClientModel cm = (ClientModel) am;
