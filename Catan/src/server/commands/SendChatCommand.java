@@ -25,10 +25,17 @@ public class SendChatCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		ServerModel clientModel = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		MessageLine messageLine = new MessageLine(params.getContent(),
-				clientModel.getPlayers()[params.getPlayerIndex()].getName());
-		clientModel.getChat().addLine(messageLine);
+				model.getPlayers()[params.getPlayerIndex()].getName());
+		model.getChat().addLine(messageLine);
+		
+		/*
+		 * Add this command to the list of commands currently stored inside
+		 * the model.
+		 */
+		model.getCommands().add(this);
+		model.incrementVersion();
 	}
 
 }

@@ -1,4 +1,4 @@
-package server.communicator;
+package server.main;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -90,7 +90,6 @@ public class Server {
 		httpServer.createContext("/user/register", new RegisterHandler());
 		httpServer.createContext("/games/list", new ListGameHandler());
 		httpServer.createContext("/games/create", new CreateGameHandler());
-		httpServer.createContext("/games/join", new JoinGameHandler());
 		httpServer.createContext("/games/save", new SaveGameHandler());
 		httpServer.createContext("/games/load", new LoadGameHandler());
 		httpServer.createContext("/game/model", new ModelHandler());

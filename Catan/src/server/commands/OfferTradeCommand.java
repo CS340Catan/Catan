@@ -9,42 +9,52 @@ import shared.model.TradeOffer;
 import shared.utils.ServerResponseException;
 
 /**
- * @author Drewfus
- * This is the command class for the OfferTrade function called on the server.
- * It will receive a TradeOfferParams object and a gameID in the constructor
+ * @author Drewfus This is the command class for the OfferTrade function called
+ *         on the server. It will receive a TradeOfferParams object and a gameID
+ *         in the constructor
  */
 
 public class OfferTradeCommand implements ICommand {
-	
+
 	int playerIndex;
 	ResourceList offer;
 	int receiver;
 	int gameID;
-	
+
 	public OfferTradeCommand(TradeOfferParams params, int gameID) {
 		this.playerIndex = params.getPlayerIndex();
 		this.offer = params.getOffer();
 		this.receiver = params.getReceiver();
 		this.gameID = gameID;
 	}
-	
+
 	/**
 	 * Updates the model to contain the trade offer
-	 * @throws ServerResponseException 
+	 * 
+	 * @throws ServerResponseException
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		ServerModel model  = ServerFacade.getSingleton().getServerModel();
+		
+		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
-		
-		if(controller.canOfferTrade(playerIndex, offer)){
-			model.setTradeOffer(new TradeOffer(playerIndex,receiver, offer));
+
+		if (controller.canOfferTrade(playerIndex, offer)) {
+			
+			model.setTradeOffer(new TradeOffer(playerIndex, receiver, offer));
+			
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
+			
+		} else {
+			throw new ServerResponseException("Player " + playerIndex
+					+ " cannot offer this trade");
 		}
-		
-		else{
-			throw new ServerResponseException("Player " + playerIndex +" cannot offer this trade");
-		}
+
 	}
 
 }
-

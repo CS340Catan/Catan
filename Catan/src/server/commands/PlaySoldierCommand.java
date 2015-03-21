@@ -81,6 +81,14 @@ public class PlaySoldierCommand implements ICommand {
 			default:
 				break;
 			}
+			
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
+			
 		} else {
 			throw new ServerResponseException(
 					"Unable to play soldier card. Invalid input parameters");

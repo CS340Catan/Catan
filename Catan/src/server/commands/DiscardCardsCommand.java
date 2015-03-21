@@ -10,65 +10,78 @@ import shared.utils.ServerResponseException;
 
 /**
  * 
- * @author winstonhurst
- *This command removes resource cards from the players hand
+ * @author winstonhurst This command removes resource cards from the players
+ *         hand
  */
 public class DiscardCardsCommand implements ICommand {
-	
+
 	int playerIndex;
 	ResourceList discardedCards;
-	
+
 	/**
 	 * 
-	 * @param params - list of cards to discard and the id of the player discarding
+	 * @param params
+	 *            - list of cards to discard and the id of the player discarding
 	 */
-	public DiscardCardsCommand(DiscardCardsParams params){
-		
+	public DiscardCardsCommand(DiscardCardsParams params) {
 		playerIndex = params.getPlayerIndex();
 		discardedCards = params.getDiscardedCards();
 	}
-	
+
 	/**
-	 * Removes the cards from the player's hand.
-	 * If all players are done discarding, change game status to 'Robbing'
-	 * @throws ServerResponseException 
+	 * Removes the cards from the player's hand. If all players are done
+	 * discarding, change game status to 'Robbing'
+	 * 
+	 * @throws ServerResponseException
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-	
+
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
-		
-		if(controller.canDiscardCards(playerIndex)) {
-			
-			ResourceList resources = model.getPlayers()[playerIndex].getResources();
-			
-			//get discarded cards
-			int brick = discardedCards.getBrick();
-			int ore = discardedCards.getOre();
-			int sheep = discardedCards.getSheep();
-			int wheat = discardedCards.getWheat();
-			int wood = discardedCards.getWood();
-			
-			//subtract discarded cards from players resources, add back to bank
-			model.addResourceFromBank(playerIndex, ResourceType.BRICK, -brick);
-			model.addResourceFromBank(playerIndex, ResourceType.ORE, -ore);
-			model.addResourceFromBank(playerIndex, ResourceType.SHEEP, -sheep);
-			model.addResourceFromBank(playerIndex, ResourceType.WHEAT, -wheat);
-			model.addResourceFromBank(playerIndex, ResourceType.WOOD, -wood);
-			
-			// if this is last person to discard, change state to "Robbing", how to know if last person?
-			if(!model.needToDiscard()) {
-				String status = "Playing";
-				model.getTurnTracker().setStatus(status);
+
+		if (controller.canDiscardCards(playerIndex)) {
+			/*
+			 * Get the cards that are being discarded from the discardedCards
+			 * resource list.
+			 */
+			int discardBrick = discardedCards.getBrick();
+			int discardOre = discardedCards.getOre();
+			int discardSheep = discardedCards.getSheep();
+			int discardWheat = discardedCards.getWheat();
+			int discardWood = discardedCards.getWood();
+
+			/*
+			 * Removed the cards that are being discarded from the user while
+			 * returning those cards back to the bank.
+			 */
+			model.addResourceFromBank(playerIndex, ResourceType.BRICK,
+					-discardBrick);
+			model.addResourceFromBank(playerIndex, ResourceType.ORE,
+					-discardOre);
+			model.addResourceFromBank(playerIndex, ResourceType.SHEEP,
+					-discardSheep);
+			model.addResourceFromBank(playerIndex, ResourceType.WHEAT,
+					-discardWheat);
+			model.addResourceFromBank(playerIndex, ResourceType.WOOD,
+					-discardWood);
+
+			/*
+			 * If no other players need to discard, then change the status of
+			 * the game to playing within the model's turn tracker.
+			 */
+			if (!model.needToDiscard()) {
+				model.getTurnTracker().setStatus("Playing");
 			}
-		}
-		else {
+
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
+		} else {
 			throw new ServerResponseException("Unable to discard cards");
 		}
-
-		
 	}
-
 }
-

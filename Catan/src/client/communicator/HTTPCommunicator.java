@@ -52,7 +52,6 @@ public class HTTPCommunicator {
 	 */
 	public String doGet(String urlString, String gsonString)
 			throws ServerResponseException {
-		logger.info("client/communicator/HTTPCommunicator - doGet");
 		return communicate(urlString, gsonString, GET);
 	}
 
@@ -63,13 +62,11 @@ public class HTTPCommunicator {
 	 */
 	public String doPost(String url, String gsonString)
 			throws ServerResponseException {
-		logger.info("client/communicator/HTTPCommunicator - doPost");
 		return communicate(url, gsonString, POST);
 	}
 
 	private String communicate(String urlString, String gsonString,
 			int requestType) throws ServerResponseException {
-		logger.info("client/communicator/HTTPCommunicator - entering communicate");
 		try {
 			URL url = new URL(URL_PREFIX + urlString);
 
@@ -118,12 +115,10 @@ public class HTTPCommunicator {
 				String body = sb.toString();
 				if (body == null)
 					body = "";
-				logger.info("client/communicator/HTTPCommunicator - exiting communicate");
 				return body;
 			} else {
 				String response = "ERROR: " + connection.getResponseCode()
 						+ " - " + connection.getResponseMessage() + "\n";
-				logger.info("client/communicator/HTTPCommunicator - exiting communicate");
 				throw new ServerResponseException(response);
 			}
 		} catch (IOException e) {

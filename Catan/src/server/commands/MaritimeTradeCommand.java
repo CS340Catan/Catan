@@ -50,10 +50,19 @@ public class MaritimeTradeCommand implements ICommand {
 			 */
 			model.addResourceFromBank(playerIndex, input, -ratio);
 			model.addResourceFromBank(playerIndex, output, 1);
+			
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
+			
 		} else {
 			throw new ServerResponseException(
 					"Unable to maritime trade. Invalid input parameters.");
 		}
+
 	}
 
 }

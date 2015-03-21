@@ -75,6 +75,7 @@ public class ServerProxy implements IServer {
 	 * @post ClientModel is updated
 	 */
 	public ClientModel updateModel(int version) throws ServerResponseException {
+		logger.info("client/communicator/ServerProxy - entering updateModel");
 		String jsonResponseString = httpCommunicator.doGet(
 				"/game/model?version=" + version, null);
 		System.out.println(jsonResponseString);
@@ -85,17 +86,20 @@ public class ServerProxy implements IServer {
 				model = Serializer.deserializeClientModel(jsonResponseString);
 			}
 		}
+		logger.info("client/communicator/ServerProxy - entering updateModel");
 		return model;
 	}
 
 	public ClientModel updateModelNoVersionCheck()
 			throws ServerResponseException {
+		logger.info("client/communicator/ServerProxy - entering updateModelNoVersionCheck");
 		String jsonResponseString = httpCommunicator.doGet("/game/model", null);
 		ClientModel model = null; // Returns null if current model is already
 									// correct or there was an error
 		if (jsonResponseString != null) {
 			model = Serializer.deserializeClientModel(jsonResponseString);
 		}
+		logger.info("client/communicator/ServerProxy - entering updateModelNoVersionCheck");
 		return model;
 	}
 
@@ -188,8 +192,10 @@ public class ServerProxy implements IServer {
 	 */
 	public String joinGame(JoinGameParams params)
 			throws ServerResponseException {
+		logger.info("client/communicator/ServerProxy - entering joinGame");
 		String jsonString = Serializer.serialize(params);
 		String response = httpCommunicator.doPost("/games/join", jsonString);
+		logger.info("client/communicator/ServerProxy - exiting joinGame");
 		return response;
 	}
 
