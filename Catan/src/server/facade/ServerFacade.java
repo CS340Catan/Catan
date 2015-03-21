@@ -241,11 +241,16 @@ public class ServerFacade implements IServer {
 	 *         successful, or error data if it failed
 	 */
 	@Override
-	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams params)
-			throws ServerResponseException {
-		
-		
-		return null;
+	public ChangeLogLevelResponse changeLogLevel(ChangeLogLevelParams params) {
+		ChangeLogLevelResponse response = new ChangeLogLevelResponse();
+		try {
+			new ChangeLogLevelCommand(params).execute();
+			response.setResponse("Success");
+		} catch (ServerResponseException e) {
+			response.setResponse("Invalid request");
+			e.printStackTrace();
+		}
+		return response;
 	}
 
 	// Unnecessary, get model does it
@@ -612,6 +617,14 @@ public class ServerFacade implements IServer {
 		}
 
 		return -1;
+	}
+
+	public static Logger getLogger() {
+		return logger;
+	}
+
+	public static void setLogger(Logger logger) {
+		ServerFacade.logger = logger;
 	}
 
 }
