@@ -30,7 +30,7 @@ import shared.utils.Serializer;
  */
 public class ServerModel extends AbstractModel {
 	int gameID;
-	List<ICommand> modelCommands = new ArrayList<>();
+	List<ICommand> commands = new ArrayList<>();
 
 	public ClientModel toClientModel() {
 		AbstractModel am = (AbstractModel) this;
@@ -197,12 +197,12 @@ public class ServerModel extends AbstractModel {
 		return false;
 	}
 
-	public List<ICommand> getModelCommands() {
-		return modelCommands;
+	public List<ICommand> getCommands() {
+		return commands;
 	}
 
-	public void setModelCommands(List<ICommand> modelCommands) {
-		this.modelCommands = modelCommands;
+	public void setCommands(List<ICommand> modelCommands) {
+		this.commands = modelCommands;
 	}
 
 	public String toString() {

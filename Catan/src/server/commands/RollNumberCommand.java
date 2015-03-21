@@ -95,13 +95,18 @@ public class RollNumberCommand implements ICommand {
 				}
 
 			}
+			
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
 
 		}
 		else {
 			throw new ServerResponseException("Unable to roll number");
 		}
-		
-		model.incrementVersion();
 
 	}
 

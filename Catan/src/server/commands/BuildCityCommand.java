@@ -68,13 +68,18 @@ public class BuildCityCommand implements ICommand {
 			//give a single victory point
 			player.setVictoryPoints(player.getVictoryPoints() + 1);
 			
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
+			
 		}
 		
 		else{
 			throw new ServerResponseException("This player cannot build a city at this location");
 		}
-		
-		model.incrementVersion();
 		
 	}
 

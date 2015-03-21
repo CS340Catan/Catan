@@ -63,6 +63,11 @@ public class DiscardCardsCommand implements ICommand {
 				model.getTurnTracker().setStatus(status);
 			}
 			
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
 			model.incrementVersion();
 		}
 		else {

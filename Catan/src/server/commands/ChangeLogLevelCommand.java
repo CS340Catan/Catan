@@ -8,14 +8,14 @@ import shared.communication.ChangeLogLevelParams;
  *SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
  */
 public class ChangeLogLevelCommand implements ICommand {
-	ChangeLogLevelParams params;
+	String logLevel;
 	
 	/**
 	 * 
 	 * @param params - contains new log setting level (string)
 	 */
 	public ChangeLogLevelCommand(ChangeLogLevelParams params){
-		this.params = params;
+		this.logLevel = params.getLogLevel();
 	}
 	
 	/**
