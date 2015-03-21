@@ -26,7 +26,13 @@ public class PlayRoadBuildingCommand implements ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		
+		/*
+		 * Add this command to the list of commands currently stored inside
+		 * the model.
+		 */
+		model.getCommands().add(this);
+		model.incrementVersion();
 
 	}
 

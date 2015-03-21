@@ -70,6 +70,13 @@ public class FinishTurnCommand implements ICommand {
 			}
 			model.getTurnTracker().setCurrentTurn(nextPlayer);
 			model.getTurnTracker().setStatus("Rolling");
+			
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
 
 		} else {
 			throw new ServerResponseException(
