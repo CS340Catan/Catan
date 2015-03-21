@@ -33,6 +33,7 @@ public class BuildCityCommand implements ICommand {
 	public BuildCityCommand(BuildCityParams params) {
 		this.location = params.getVertexLocation();
 		this.playerIndex = params.getPlayerIndex();
+		
 	}
 
 	/**
