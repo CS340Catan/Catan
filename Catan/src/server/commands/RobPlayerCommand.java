@@ -89,7 +89,13 @@ public class RobPlayerCommand extends ICommand {
 			model.getCommands().add(this);
 			model.incrementVersion();
 
-		} else {
+		} else if (victimIndex == -1){
+			model.getTurnTracker().setStatus("Playing");
+			model.getCommands().add(this);
+			model.incrementVersion();
+		}
+		
+		else {
 			throw new ServerResponseException("Unable to rob player.");
 		}
 
