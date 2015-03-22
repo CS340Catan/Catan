@@ -9,6 +9,7 @@ import server.model.GameList;
 import server.model.ServerModel;
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
+import shared.communication.PlayerSummary;
 import shared.definitions.PortType;
 import shared.locations.HexLocation;
 import shared.model.Hex;
@@ -44,8 +45,16 @@ public class CreateGameCommand extends ICommand {
 	@Override
 	public void execute() {
 		int gameID = IDGenerator.generateGameID();
-		GameSummary gameSummary = new GameSummary(params.getname(), gameID,
-				null);
+		/*PlayerSummary sam = new PlayerSummary();
+		sam.setName("");
+		PlayerSummary brooke = new PlayerSummary();
+		brooke.setName("");
+		PlayerSummary pete = new PlayerSummary();
+		pete.setName("");
+		PlayerSummary mark = new PlayerSummary();
+		mark.setName("");
+		PlayerSummary[] summaries = new PlayerSummary[] {sam, brooke, pete, mark};*/
+		GameSummary gameSummary = new GameSummary(params.getname(), gameID, null);
 		GameList.getSingleton().addGame(gameSummary);
 		serverModel = new ServerModel();
 		this.addPorts();
