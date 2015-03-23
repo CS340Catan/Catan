@@ -69,35 +69,35 @@ public class AcceptTradeCommand extends ICommand {
 				int tradeWood = tradeResources.getWood();
 
 				/*
-				 * Adjust the resources of the sender by adding the trade
+				 * Adjust the resources of the sender by subtracting the trade
 				 * resources to the player's current resource list.
 				 */
 				ResourceList senderResources = model.getPlayers()[senderIndex]
 						.getResources();
 				senderResources.setBrick(senderResources.getBrick()
-						+ tradeBrick);
-				senderResources.setOre(senderResources.getOre() + tradeOre);
+						- tradeBrick);
+				senderResources.setOre(senderResources.getOre() - tradeOre);
 				senderResources.setSheep(senderResources.getSheep()
-						+ tradeSheep);
+						- tradeSheep);
 				senderResources.setWheat(senderResources.getWheat()
-						+ tradeWheat);
-				senderResources.setWood(senderResources.getWood() + tradeWood);
+						- tradeWheat);
+				senderResources.setWood(senderResources.getWood() - tradeWood);
 
 				/*
-				 * Adjust the resources of the receiver by subtracting the trade
+				 * Adjust the resources of the receiver by adding the trade
 				 * resources to the player's current resource list.
 				 */
 				ResourceList receiverResources = model.getPlayers()[receiverIndex]
 						.getResources();
 				receiverResources.setBrick(receiverResources.getBrick()
-						- tradeBrick);
-				receiverResources.setOre(receiverResources.getOre() - tradeOre);
+						+ tradeBrick);
+				receiverResources.setOre(receiverResources.getOre() + tradeOre);
 				receiverResources.setSheep(receiverResources.getSheep()
-						- tradeSheep);
+						+ tradeSheep);
 				receiverResources.setWheat(receiverResources.getWheat()
-						- tradeWheat);
+						+ tradeWheat);
 				receiverResources.setWood(receiverResources.getWood()
-						- tradeWood);
+						+ tradeWood);
 
 				/*
 				 * Eliminate the trade offer from the model by setting the trade
@@ -108,10 +108,9 @@ public class AcceptTradeCommand extends ICommand {
 				/*
 				 * Add this command to the game history
 				 */
-				String color = model.getPlayers()[senderIndex].getColor();
 				String senderName = model.getPlayers()[senderIndex].getName();
 				String receiverName = model.getPlayers()[receiverIndex].getName();
-				model.getLog().addLine(new MessageLine(color, senderName + " traded with " + receiverName));
+				model.getLog().addLine(new MessageLine(senderName + " traded with " + receiverName, senderName));
 				/*
 				 * Add this command to the list of commands currently stored
 				 * inside the model.
