@@ -1,6 +1,5 @@
 package server.commands;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -9,8 +8,6 @@ import server.model.GameList;
 import server.model.ServerModel;
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
-import shared.communication.PlayerSummary;
-import shared.definitions.PortType;
 import shared.locations.HexLocation;
 import shared.model.Hex;
 import shared.model.Port;
@@ -63,7 +60,7 @@ public class CreateGameCommand extends ICommand {
 	}
 
 	private void addPorts() {
-		PortType portType = PortType.BRICK;
+		//PortType portType = PortType.BRICK;
 		String[] resources = new String[9];
 		resources[0] = "three";
 		resources[1] = "wheat";
@@ -109,7 +106,7 @@ public class CreateGameCommand extends ICommand {
 	public Object[] randomize(Object[] resources) {
 		Random rand = new Random();
 		Object[] tempArray = new Object[resources.length];
-		int j = 0;
+		//int j = 0;
 		for(int i = resources.length-1; i >= 0; i--){
 			int randomNum = rand.nextInt((resources.length));
 			while(tempArray[randomNum] != null){
