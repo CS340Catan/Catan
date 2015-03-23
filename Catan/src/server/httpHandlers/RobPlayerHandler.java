@@ -17,6 +17,7 @@ public class RobPlayerHandler implements IHttpHandler {
 		/*
 		 * Grab the information from the request sent over.
 		 */
+		
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 		int gameID = HandlerUtil.getGameID(exchange);
 
