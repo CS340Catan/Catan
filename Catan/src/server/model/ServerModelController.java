@@ -1388,7 +1388,7 @@ public class ServerModelController {
 	public boolean canRobPlayer(HexLocation robberLocation, int robbingPlayer,
 			int robbedPlayer) {
 		if (isPlayerTurn(robbingPlayer)
-				&& model.getTurnTracker().getStatus().equals("Playing")
+				&& model.getTurnTracker().getStatus().equals("Robbing")
 				&& playerTouchingRobber(robbedPlayer, robberLocation)
 				&& model.getPlayers()[robbedPlayer].getResources().count() > 0) {
 			return true;
