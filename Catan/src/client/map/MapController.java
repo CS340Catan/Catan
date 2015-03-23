@@ -358,6 +358,7 @@ public class MapController extends Controller implements IMapController,
 	}
 
 	public void robPlayer(RobPlayerInfo victim) {
+		robStarted = false;
 		if (usingSoldierCard) {
 			usingSoldierCard = false;
 			MoveSoldierParams params = null;
@@ -393,6 +394,7 @@ public class MapController extends Controller implements IMapController,
 				e.printStackTrace();
 			}
 		}
+		
 	}
 
 	@Override

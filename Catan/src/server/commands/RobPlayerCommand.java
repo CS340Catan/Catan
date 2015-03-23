@@ -96,7 +96,6 @@ public class RobPlayerCommand extends ICommand {
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
-
 		} else if (victimIndex == -1){
 			model.getTurnTracker().setStatus("Playing");
 			model.getCommands().add(this);

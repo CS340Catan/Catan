@@ -7,9 +7,7 @@ import java.util.logging.Logger;
 
 import client.model.ClientModel;
 import server.commands.*;
-import server.model.GameList;
-import server.model.RegisteredPlayers;
-import server.model.ServerModel;
+import server.model.*;
 import shared.communication.*;
 import shared.locations.*;
 import shared.data.GameInfo;
@@ -214,15 +212,12 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel setCommands(CommandList commands)
 			throws ServerResponseException {
-
-		for (String command : commands.getCommands()) {
-			ICommand iCommand = (ICommand) Serializer.deserialize(command,
-					ICommand.class);
-			String type = iCommand.getType();
-			System.out.println("Command Type: " + type);
+		for (String commandJSONString : commands.getCommands()) {
+			ICommand command = ICommand.fromJSONString(commandJSONString);
+			command.execute();
 		}
 
-		return null;
+		return this.getServerModel().toClientModel();
 	}
 
 	/**
@@ -706,7 +701,7 @@ public class ServerFacade implements IServer {
 		location_12.convertToPrimitives();
 		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(2,
 				location_12, true)));
-		
+
 		VertexLocation location_13 = new VertexLocation(new HexLocation(-2, 1),
 				VertexDirection.SouthWest);
 		location_13.convertToPrimitives();
@@ -719,8 +714,8 @@ public class ServerFacade implements IServer {
 		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(0,
 				location_14, true)));
 
-		VertexLocation location_15 = new VertexLocation(new HexLocation(-1, -1),
-				VertexDirection.SouthWest);
+		VertexLocation location_15 = new VertexLocation(
+				new HexLocation(-1, -1), VertexDirection.SouthWest);
 		location_15.convertToPrimitives();
 		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(1,
 				location_15, true)));

@@ -70,6 +70,7 @@ public class BuildCityCommand extends ICommand {
 			 */
 			model.addCity(city);	//settlement automatically removed
 
+
 			/*
 			 * Decrement from the player's resources the appropriate amount of
 			 * resources. In addition, add the appropriate amount of resources
