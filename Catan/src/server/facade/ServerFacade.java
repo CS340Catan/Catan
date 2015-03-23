@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import client.model.ClientModel;
 import server.commands.*;
 import server.model.GameList;
