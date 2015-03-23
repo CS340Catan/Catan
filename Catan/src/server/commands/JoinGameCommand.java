@@ -1,8 +1,10 @@
 package server.commands;
 
 import server.facade.ServerFacade;
+import server.model.GameList;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
+import shared.communication.GameSummary;
 import shared.communication.JoinGameParams;
 import shared.model.DevCardList;
 import shared.model.Player;
@@ -85,6 +87,13 @@ public class JoinGameCommand extends ICommand {
 		 */
 		if (playerIsInTheGame_Index != -1) {
 			players[playerIsInTheGame_Index].setColor(color);
+			int gameID = ServerFacade.getSingleton().getGameID();
+			for(GameSummary game : GameList.getSingleton().getGames()){
+				if(game.getId() == gameID){
+					game.getPlayers()[playerIsInTheGame_Index].setColor(color);
+					break;
+				}
+			}
 			return;
 		} else {
 			throw new ServerResponseException("The Game is full");
