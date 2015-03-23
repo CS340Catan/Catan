@@ -81,7 +81,8 @@ public class RollNumberCommand extends ICommand {
 		 * the vertices of the hex.
 		 */
 		for (Hex hex : model.getMap().getHexes()) {
-			if (hex.getNumber() == this.number) {
+			if (hex.getNumber() == this.number
+					&& !model.getMap().getRobber().equals(hex.getLocation())) {
 				HexLocation hexLocation = hex.getLocation();
 				ResourceType hexResource = ResourceType.valueOf(hex
 						.getResource().toUpperCase());
