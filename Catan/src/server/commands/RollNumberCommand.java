@@ -84,7 +84,7 @@ public class RollNumberCommand extends ICommand {
 			if (hex.getNumber() == this.number) {
 				HexLocation hexLocation = hex.getLocation();
 				ResourceType hexResource = ResourceType.valueOf(hex
-						.getResource());
+						.getResource().toUpperCase());
 
 				/*
 				 * Create a test location, that will be updated such that it

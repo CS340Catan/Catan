@@ -73,6 +73,10 @@ public class PlayerWaitingController extends Controller implements
 		}*/
 
 		getView().setAIChoices(AIChoices);
+		if (isFourPlayers()){
+			poller.stopPlayerWaitingTimer();
+			poller.setTimer();
+		}
 	}
 
 	public boolean isFourPlayers() {

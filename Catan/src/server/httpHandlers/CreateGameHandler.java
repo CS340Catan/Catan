@@ -20,14 +20,14 @@ public class CreateGameHandler implements IHttpHandler {
 		CreateGameParams params = (CreateGameParams) Serializer.deserialize(inputStreamString, CreateGameParams.class);
 		try {
 			GameInfo gameInfo = ServerFacade.getSingleton().createGame(params);
-			int playerId = HandlerUtil.getPlayerID(exchange);
-			String playerName = RegisteredPlayers.getSingleton().getPlayerName(playerId);
-			Player[] players = new Player[4];
-			players[0]= new Player(0, playerId, 0, 0, playerName, "Red", false, 0, null, null, false, null, 0, 0, 0);
-			players[1] = null;
-			players[2] = null;
-			players[3] = null;
-			ServerFacade.getSingleton().getModelMap().get(gameInfo.getId()).setPlayers(players);
+//			int playerId = HandlerUtil.getPlayerID(exchange);
+//			String playerName = RegisteredPlayers.getSingleton().getPlayerName(playerId);
+//			Player[] players = new Player[4];
+//			players[0]= new Player(0, playerId, 0, 0, playerName, "Red", false, 0, null, null, false, null, 0, 0, 0);
+//			players[1] = null;
+//			players[2] = null;
+//			players[3] = null;
+//			ServerFacade.getSingleton().getModelMap().get(gameInfo.getId()).setPlayers(players);
 			HandlerUtil.sendResponse(exchange, 200, gameInfo, GameInfo.class);			
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, "Failed to register - someone already has that username.", String.class);

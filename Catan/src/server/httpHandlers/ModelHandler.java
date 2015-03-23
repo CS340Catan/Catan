@@ -18,13 +18,16 @@ public class ModelHandler implements IHttpHandler {
 	
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-		logger.info("server/httpHandlers/ModelHandler - entering ModelHandler");
+		//logger.info("server/httpHandlers/ModelHandler - entering ModelHandler");
 		int gameID = HandlerUtil.getGameID(exchange);
 		ServerFacade.getSingleton().setGameID(gameID);
-		int playerID = HandlerUtil.getPlayerID(exchange);
 		String query = exchange.getRequestURI().getQuery();
-		String[] queryArray = query.split("=");
-		int gameVersion = Integer.valueOf(queryArray[1]);
+		int gameVersion = -1;
+		if (query!=null){
+			String[] queryArray = query.split("=");
+			gameVersion = Integer.valueOf(queryArray[1]);
+		}
+			
 		try {
 			ClientModel clientModel = ServerFacade.getSingleton().getCurrentGame(gameVersion);
 			HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
@@ -32,7 +35,7 @@ public class ModelHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
 			e.printStackTrace();
 		}
-		logger.info("server/httpHandlers/ModelHandler - exiting ModelHandler");
+		//logger.info("server/httpHandlers/ModelHandler - exiting ModelHandler");
 	}
 
 }

@@ -129,8 +129,4 @@ public class Poller {
 		return normalTimerRunning;
 	}
 
-	public void setTimerRunning(boolean timerRunning) {
-		this.normalTimerRunning = timerRunning;
-	}
-
 }

@@ -67,10 +67,12 @@ public class HandlerUtil {
 		Gson gson = new Gson();
 		try {
 			exchange.sendResponseHeaders(httpCode, 0);
-			String jsonString = gson.toJson(message);
-			System.out.println(jsonString);
-			for (int i = 0; i < jsonString.length(); i++) {
-				exchange.getResponseBody().write(jsonString.charAt(i));
+			if(message!=null){
+				String jsonString = gson.toJson(message);
+				//System.out.println(jsonString);
+				for (int i = 0; i < jsonString.length(); i++) {
+					exchange.getResponseBody().write(jsonString.charAt(i));
+				}
 			}
 			exchange.getResponseBody().close();
 		} catch (IOException e) {

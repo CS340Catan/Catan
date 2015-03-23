@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-
 import java.util.logging.*;
 
 import client.data.UserPlayerInfo;
@@ -32,6 +31,7 @@ public class HTTPCommunicator {
 	 */
 	private static String userCookie;
 	private static String gameCookie;
+	@SuppressWarnings("unused")
 	private static Logger logger;
 	
 	static {

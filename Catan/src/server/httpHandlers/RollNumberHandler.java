@@ -1,6 +1,7 @@
 package server.httpHandlers;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import server.facade.ServerFacade;
 import server.model.ServerModel;
@@ -12,10 +13,14 @@ import client.model.ClientModel;
 import com.sun.net.httpserver.HttpExchange;
 
 public class RollNumberHandler implements IHttpHandler {
-
+	private static Logger logger;
+	static {
+		logger = Logger.getLogger("CatanServer");
+	}
+	
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-		
+		logger.info("***server/httpHandlers/RollNumberHandler - entering handle");
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 		
 		int gameID = HandlerUtil.getGameID(exchange);
@@ -40,6 +45,7 @@ public class RollNumberHandler implements IHttpHandler {
 			}
 			
 		}
+		logger.info("***server/httpHandlers/RollNumberHandler - exiting handle");
 	}
 
 }
