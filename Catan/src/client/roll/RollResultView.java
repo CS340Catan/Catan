@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import shared.communication.CommandList;
 import shared.utils.ServerResponseException;
 import client.base.OverlayView;
 import client.communicator.ServerProxy;
@@ -107,6 +108,7 @@ public class RollResultView extends OverlayView implements IRollResultView {
 					closeModal();
 					ClientModel clientModel = ServerProxy.getSingleton()
 							.rollNumber(rollVal);
+					//TODO Remove after testing of get Commands
 					ClientModel.getSingleton().setClientModel(clientModel);
 				} catch (ServerResponseException e1) {
 					JOptionPane.showMessageDialog(null,

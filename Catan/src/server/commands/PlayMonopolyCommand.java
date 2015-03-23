@@ -5,6 +5,7 @@ import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.PlayMonopolyParams;
 import shared.definitions.ResourceType;
+import shared.model.MessageLine;
 import shared.model.Player;
 import shared.utils.ServerResponseException;
 
@@ -95,6 +96,12 @@ public class PlayMonopolyCommand extends ICommand {
 				}
 			}
 
+			/*
+			 * Update game history
+			 */
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine(name + " played a monopoly card",name));
+			
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.

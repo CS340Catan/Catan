@@ -17,14 +17,12 @@ import shared.utils.ServerResponseException;
 
 public class BuildRoadCommand extends ICommand {
 
-	int gameID;
 	int playerIndex;
 	EdgeLocationParam roadLocation;
 	boolean free;
 
-	public BuildRoadCommand(BuildRoadParams params, int gameID) {
+	public BuildRoadCommand(BuildRoadParams params) {
 
-		this.gameID = gameID;
 		this.roadLocation = params.getRoadLocation();
 		this.playerIndex = params.getPlayerIndex();
 		this.free = params.isFree();
@@ -76,6 +74,12 @@ public class BuildRoadCommand extends ICommand {
 			 * points.
 			 */
 			model.reallocateLongestRoad();
+			
+			/*
+			 * Update game history
+			 */
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine( name + " built a road",name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

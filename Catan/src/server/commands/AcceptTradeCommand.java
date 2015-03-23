@@ -108,10 +108,9 @@ public class AcceptTradeCommand extends ICommand {
 				/*
 				 * Add this command to the game history
 				 */
-				String color = model.getPlayers()[senderIndex].getColor();
 				String senderName = model.getPlayers()[senderIndex].getName();
 				String receiverName = model.getPlayers()[receiverIndex].getName();
-				model.getLog().addLine(new MessageLine(color, senderName + " traded with " + receiverName));
+				model.getLog().addLine(new MessageLine(senderName + " traded with " + receiverName, senderName));
 				/*
 				 * Add this command to the list of commands currently stored
 				 * inside the model.

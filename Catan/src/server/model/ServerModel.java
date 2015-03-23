@@ -31,14 +31,16 @@ import shared.utils.Serializer;
 public class ServerModel extends AbstractModel {
 	int gameID;
 	List<ICommand> commands = new ArrayList<>();
-	public ServerModel(){
+
+	public ServerModel() {
 		this.setMap(new Map(null, null, null, null, null, gameID, null));
 		this.setBank(new ResourceList(19, 19, 19, 19, 19));
 		this.setDeck(new Deck(2, 5, 14, 2, 2));
 	}
+
 	public ClientModel toClientModel() {
-		//AbstractModel am = (AbstractModel) this;
-		//ClientModel cm = (ClientModel) am;
+		// AbstractModel am = (AbstractModel) this;
+		// ClientModel cm = (ClientModel) am;
 		String jsonString = Serializer.serializeServerModel(this);
 		ClientModel cm = Serializer.deserializeClientModel(jsonString);
 		return cm;
@@ -202,6 +204,14 @@ public class ServerModel extends AbstractModel {
 		return false;
 	}
 
+	public String toString() {
+		return Serializer.serializeServerModel(this);
+	}
+
+	public void incrementVersion() {
+		this.setVersion(this.getVersion() + 1);
+	}
+
 	public List<ICommand> getCommands() {
 		return commands;
 	}
@@ -210,19 +220,11 @@ public class ServerModel extends AbstractModel {
 		this.commands = modelCommands;
 	}
 
-	public String toString() {
-		return Serializer.serializeServerModel(this);
-	}
-
 	public int getGameID() {
 		return gameID;
 	}
 
 	public void setGameID(int ID) {
 		this.gameID = ID;
-	}
-	
-	public void incrementVersion() {
-		this.setVersion(this.getVersion() + 1);
 	}
 }
