@@ -70,7 +70,7 @@ public class HandlerUtil {
 			exchange.sendResponseHeaders(httpCode, 0);
 			if(message!=null){
 				String jsonString = gson.toJson(message);
-				//System.out.println(jsonString);
+				System.out.println(jsonString);
 				for (int i = 0; i < jsonString.length(); i++) {
 					exchange.getResponseBody().write(jsonString.charAt(i));
 				}
