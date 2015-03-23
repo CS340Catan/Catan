@@ -17,14 +17,12 @@ import shared.utils.ServerResponseException;
 
 public class BuildRoadCommand extends ICommand {
 
-	int gameID;
 	int playerIndex;
 	EdgeLocationParam roadLocation;
 	boolean free;
 
-	public BuildRoadCommand(BuildRoadParams params, int gameID) {
+	public BuildRoadCommand(BuildRoadParams params) {
 
-		this.gameID = gameID;
 		this.roadLocation = params.getRoadLocation();
 		this.playerIndex = params.getPlayerIndex();
 		this.free = params.isFree();

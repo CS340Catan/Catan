@@ -1,5 +1,6 @@
 package server.commands;
 
+import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
 public abstract class ICommand {
@@ -15,5 +16,8 @@ public abstract class ICommand {
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	
+	public String toJSONString() {
+		return Serializer.serialize(this);
+	}
 }

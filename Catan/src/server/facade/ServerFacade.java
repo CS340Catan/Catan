@@ -2,6 +2,7 @@ package server.facade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 import client.data.GameInfo;
@@ -11,6 +12,11 @@ import server.model.GameList;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
 import shared.communication.*;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 import shared.model.Player;
 import shared.utils.IServer;
 import shared.utils.Serializer;
@@ -79,9 +85,10 @@ public class ServerFacade implements IServer {
 	 */
 	@Override
 	public GameSummary[] getGameList() throws ServerResponseException {
-		// don't want to use a command because the execute() function doesn't
-		// return anything,
-		// and we need some information back
+		/*
+		 * Don't want to use a command because the execute() function doesn't
+		 * return anything, and we need some information back
+		 */
 		ArrayList<GameSummary> games = GameList.getSingleton().getGames();
 		return games.toArray(new GameSummary[games.size()]);
 	}
@@ -100,8 +107,8 @@ public class ServerFacade implements IServer {
 			throws ServerResponseException {
 		ICommand command = new CreateGameCommand(params);
 		command.execute();
-		for(GameSummary summary : GameList.getSingleton().getGames()){
-			if(summary.getTitle().equals(params.getname())){
+		for (GameSummary summary : GameList.getSingleton().getGames()) {
+			if (summary.getTitle().equals(params.getname())) {
 				return summary.toGameInfo();
 			}
 		}
@@ -191,8 +198,13 @@ public class ServerFacade implements IServer {
 	 */
 	@Override
 	public CommandList getCommands() throws ServerResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> commandList = new ArrayList<String>();
+
+		for (ICommand command : this.getServerModel().getCommands()) {
+			commandList.add(command.toJSONString());
+		}
+
+		return new CommandList(commandList);
 	}
 
 	/**
@@ -205,7 +217,14 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel setCommands(CommandList commands)
 			throws ServerResponseException {
-		// TODO Auto-generated method stub
+
+		for (String command : commands.getCommands()) {
+			ICommand iCommand = (ICommand) Serializer.deserialize(command,
+					ICommand.class);
+			String type = iCommand.getType();
+			System.out.println("Command Type: " + type);
+		}
+
 		return null;
 	}
 
@@ -345,7 +364,7 @@ public class ServerFacade implements IServer {
 	public ClientModel buildRoad(BuildRoadParams params)
 			throws ServerResponseException {
 
-		ICommand command = new BuildRoadCommand(params, getGameID());
+		ICommand command = new BuildRoadCommand(params);
 		command.execute();
 
 		return this.getServerModel().toClientModel();
@@ -362,7 +381,7 @@ public class ServerFacade implements IServer {
 	public ClientModel buildSettlement(BuildSettlementParams params)
 			throws ServerResponseException {
 
-		ICommand command = new BuildSettlementCommand(params, getGameID());
+		ICommand command = new BuildSettlementCommand(params);
 		command.execute();
 
 		return this.getServerModel().toClientModel();
@@ -584,23 +603,136 @@ public class ServerFacade implements IServer {
 		logger.info("server/facade/ServerFacade - entering setFirstGame");
 		ServerModel serverModel = Serializer
 				.deserializeServerModel("{\"deck\":{\"yearOfPlenty\":2,\"monopoly\":2,\"soldier\":14,\"roadBuilding\":2,\"monument\":5},\"map\":{\"hexes\":[{\"location\":{\"x\":0,\"y\":-2}},{\"resource\":\"brick\",\"location\":{\"x\":1,\"y\":-2},\"number\":4},{\"resource\":\"wood\",\"location\":{\"x\":2,\"y\":-2},\"number\":11},{\"resource\":\"brick\",\"location\":{\"x\":-1,\"y\":-1},\"number\":8},{\"resource\":\"wood\",\"location\":{\"x\":0,\"y\":-1},\"number\":3},{\"resource\":\"ore\",\"location\":{\"x\":1,\"y\":-1},\"number\":9},{\"resource\":\"sheep\",\"location\":{\"x\":2,\"y\":-1},\"number\":12},{\"resource\":\"ore\",\"location\":{\"x\":-2,\"y\":0},\"number\":5},{\"resource\":\"sheep\",\"location\":{\"x\":-1,\"y\":0},\"number\":10},{\"resource\":\"wheat\",\"location\":{\"x\":0,\"y\":0},\"number\":11},{\"resource\":\"brick\",\"location\":{\"x\":1,\"y\":0},\"number\":5},{\"resource\":\"wheat\",\"location\":{\"x\":2,\"y\":0},\"number\":6},{\"resource\":\"wheat\",\"location\":{\"x\":-2,\"y\":1},\"number\":2},{\"resource\":\"sheep\",\"location\":{\"x\":-1,\"y\":1},\"number\":9},{\"resource\":\"wood\",\"location\":{\"x\":0,\"y\":1},\"number\":4},{\"resource\":\"sheep\",\"location\":{\"x\":1,\"y\":1},\"number\":10},{\"resource\":\"wood\",\"location\":{\"x\":-2,\"y\":2},\"number\":6},{\"resource\":\"ore\",\"location\":{\"x\":-1,\"y\":2},\"number\":3},{\"resource\":\"wheat\",\"location\":{\"x\":0,\"y\":2},\"number\":8}],\"roads\":[{\"owner\":1,\"location\":{\"direction\":\"S\",\"x\":-1,\"y\":-1}},{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":1}},{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":-2}},{\"owner\":2,\"location\":{\"direction\":\"S\",\"x\":1,\"y\":-1}},{\"owner\":0,\"location\":{\"direction\":\"S\",\"x\":0,\"y\":1}},{\"owner\":2,\"location\":{\"direction\":\"S\",\"x\":0,\"y\":0}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-2,\"y\":1}},{\"owner\":0,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":0}}],\"cities\":[],\"settlements\":[{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":1}},{\"owner\":3,\"location\":{\"direction\":\"SE\",\"x\":1,\"y\":-2}},{\"owner\":2,\"location\":{\"direction\":\"SW\",\"x\":0,\"y\":0}},{\"owner\":2,\"location\":{\"direction\":\"SW\",\"x\":1,\"y\":-1}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-2,\"y\":1}},{\"owner\":0,\"location\":{\"direction\":\"SE\",\"x\":0,\"y\":1}},{\"owner\":1,\"location\":{\"direction\":\"SW\",\"x\":-1,\"y\":-1}},{\"owner\":0,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":0}}],\"radius\":3,\"ports\":[{\"ratio\":3,\"direction\":\"SE\",\"location\":{\"x\":-3,\"y\":0}},{\"ratio\":2,\"resource\":\"brick\",\"direction\":\"NE\",\"location\":{\"x\":-2,\"y\":3}},{\"ratio\":2,\"resource\":\"wood\",\"direction\":\"NE\",\"location\":{\"x\":-3,\"y\":2}},{\"ratio\":2,\"resource\":\"wheat\",\"direction\":\"S\",\"location\":{\"x\":-1,\"y\":-2}},{\"ratio\":3,\"direction\":\"N\",\"location\":{\"x\":0,\"y\":3}},{\"ratio\":2,\"resource\":\"sheep\",\"direction\":\"NW\",\"location\":{\"x\":3,\"y\":-1}},{\"ratio\":3,\"direction\":\"SW\",\"location\":{\"x\":3,\"y\":-3}},{\"ratio\":2,\"resource\":\"ore\",\"direction\":\"S\",\"location\":{\"x\":1,\"y\":-3}},{\"ratio\":3,\"direction\":\"NW\",\"location\":{\"x\":2,\"y\":1}}],\"robber\":{\"x\":0,\"y\":-2}},\"players\":[{\"resources\":{\"brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":1,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":0,\"playerIndex\":0,\"name\":\"Sam\",\"color\":\"orange\"},{\"resources\":{\"brick\":1,\"wood\":0,\"sheep\":1,\"wheat\":0,\"ore\":1},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":1,\"playerIndex\":1,\"name\":\"Brooke\",\"color\":\"blue\"},{\"resources\":{\"brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":1,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":10,\"playerIndex\":2,\"name\":\"Pete\",\"color\":\"red\"},{\"resources\":{\"brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":0,\"ore\":1},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":13,\"cities\":4,\"settlements\":3,\"soldiers\":0,\"victoryPoints\":2,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":11,\"playerIndex\":3,\"name\":\"Mark\",\"color\":\"green\"}],\"log\":{\"lines\":[{\"source\":\"Sam\",\"message\":\"Sam built a road\"},{\"source\":\"Sam\",\"message\":\"Sam built a settlement\"},{\"source\":\"Sam\",\"message\":\"Sam\u0027s turn just ended\"},{\"source\":\"Brooke\",\"message\":\"Brooke built a road\"},{\"source\":\"Brooke\",\"message\":\"Brooke built a settlement\"},{\"source\":\"Brooke\",\"message\":\"Brooke\u0027s turn just ended\"},{\"source\":\"Pete\",\"message\":\"Pete built a road\"},{\"source\":\"Pete\",\"message\":\"Pete built a settlement\"},{\"source\":\"Pete\",\"message\":\"Pete\u0027s turn just ended\"},{\"source\":\"Mark\",\"message\":\"Mark built a road\"},{\"source\":\"Mark\",\"message\":\"Mark built a settlement\"},{\"source\":\"Mark\",\"message\":\"Mark\u0027s turn just ended\"},{\"source\":\"Mark\",\"message\":\"Mark built a road\"},{\"source\":\"Mark\",\"message\":\"Mark built a settlement\"},{\"source\":\"Mark\",\"message\":\"Mark\u0027s turn just ended\"},{\"source\":\"Pete\",\"message\":\"Pete built a road\"},{\"source\":\"Pete\",\"message\":\"Pete built a settlement\"},{\"source\":\"Pete\",\"message\":\"Pete\u0027s turn just ended\"},{\"source\":\"Brooke\",\"message\":\"Brooke built a road\"},{\"source\":\"Brooke\",\"message\":\"Brooke built a settlement\"},{\"source\":\"Brooke\",\"message\":\"Brooke\u0027s turn just ended\"},{\"source\":\"Sam\",\"message\":\"Sam built a road\"},{\"source\":\"Sam\",\"message\":\"Sam built a settlement\"},{\"source\":\"Sam\",\"message\":\"Sam\u0027s turn just ended\"}]},\"chat\":{\"lines\":[]},\"bank\":{\"brick\":23,\"wood\":21,\"sheep\":20,\"wheat\":22,\"ore\":22},\"turnTracker\":{\"status\":\"Rolling\",\"currentTurn\":0,\"longestRoad\":-1,\"largestArmy\":-1},\"winner\":-1,\"version\":0}");
+
+		this.setFirstGameCommands(serverModel);
+
 		modelMap.put(0, serverModel);
+
 		RegisteredPlayers.getSingleton().addNewPlayer("Sam", "sam");
 		RegisteredPlayers.getSingleton().addNewPlayer("Brooke", "brooke");
 		RegisteredPlayers.getSingleton().addNewPlayer("Pete", "pete");
 		RegisteredPlayers.getSingleton().addNewPlayer("Mark", "mark");
+
 		PlayerSummary sam = new PlayerSummary("orange", "Sam", 1);
 		PlayerSummary brooke = new PlayerSummary("blue", "Brooke", 2);
 		PlayerSummary pete = new PlayerSummary("red", "Pete", 3);
 		PlayerSummary mark = new PlayerSummary("green", "Mark", 4);
 		PlayerSummary[] summaries = new PlayerSummary[4];
+
 		summaries[0] = sam;
 		summaries[1] = brooke;
 		summaries[2] = pete;
 		summaries[3] = mark;
+
 		GameSummary gameSummary = new GameSummary("Default Game", 0, summaries);
 		GameList.getSingleton().addGame(gameSummary);
 		logger.info("server/facade/ServerFacade - exiting setFirstGame");
+	}
+
+	private void setFirstGameCommands(ServerModel serverModel) {
+		List<ICommand> commandList = serverModel.getCommands();
+
+		/*
+		 * Create commands for all roads.
+		 */
+		EdgeLocation location_1 = new EdgeLocation(new HexLocation(-1, -1),
+				EdgeDirection.South);
+		location_1.convertToPrimitives();
+		commandList.add(new BuildRoadCommand(new BuildRoadParams(1, location_1,
+				true)));
+
+		EdgeLocation location_2 = new EdgeLocation(new HexLocation(-1, 1),
+				EdgeDirection.SouthWest);
+		location_2.convertToPrimitives();
+		commandList.add(new BuildRoadCommand(new BuildRoadParams(3, location_2,
+				true)));
+
+		EdgeLocation location_3 = new EdgeLocation(new HexLocation(2, -2),
+				EdgeDirection.SouthWest);
+		location_3.convertToPrimitives();
+		commandList.add(new BuildRoadCommand(new BuildRoadParams(3, location_3,
+				true)));
+
+		EdgeLocation location_4 = new EdgeLocation(new HexLocation(1, -1),
+				EdgeDirection.South);
+		location_4.convertToPrimitives();
+		commandList.add(new BuildRoadCommand(new BuildRoadParams(2, location_4,
+				true)));
+
+		EdgeLocation location_5 = new EdgeLocation(new HexLocation(0, 1),
+				EdgeDirection.South);
+		location_5.convertToPrimitives();
+		commandList.add(new BuildRoadCommand(new BuildRoadParams(0, location_5,
+				true)));
+
+		EdgeLocation location_6 = new EdgeLocation(new HexLocation(0, 0),
+				EdgeDirection.South);
+		location_6.convertToPrimitives();
+		commandList.add(new BuildRoadCommand(new BuildRoadParams(2, location_6,
+				true)));
+
+		EdgeLocation location_7 = new EdgeLocation(new HexLocation(-2, 1),
+				EdgeDirection.SouthWest);
+		location_7.convertToPrimitives();
+		commandList.add(new BuildRoadCommand(new BuildRoadParams(1, location_7,
+				true)));
+
+		EdgeLocation location_8 = new EdgeLocation(new HexLocation(2, 0),
+				EdgeDirection.SouthWest);
+		location_8.convertToPrimitives();
+		commandList.add(new BuildRoadCommand(new BuildRoadParams(0, location_8,
+				true)));
+
+		/*
+		 * Create commands for all settlements.
+		 */
+		VertexLocation location_9 = new VertexLocation(new HexLocation(-1, 1),
+				VertexDirection.SouthWest);
+		location_9.convertToPrimitives();
+		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(3,
+				location_9, true)));
+
+		VertexLocation location_10 = new VertexLocation(new HexLocation(1, -2),
+				VertexDirection.SouthEast);
+		location_10.convertToPrimitives();
+		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(3,
+				location_10, true)));
+
+		VertexLocation location_11 = new VertexLocation(new HexLocation(0, 0),
+				VertexDirection.SouthWest);
+		location_11.convertToPrimitives();
+		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(2,
+				location_11, true)));
+
+		VertexLocation location_12 = new VertexLocation(new HexLocation(1, -1),
+				VertexDirection.SouthWest);
+		location_12.convertToPrimitives();
+		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(2,
+				location_12, true)));
+		
+		VertexLocation location_13 = new VertexLocation(new HexLocation(-2, 1),
+				VertexDirection.SouthWest);
+		location_13.convertToPrimitives();
+		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(1,
+				location_13, true)));
+
+		VertexLocation location_14 = new VertexLocation(new HexLocation(0, 1),
+				VertexDirection.SouthEast);
+		location_14.convertToPrimitives();
+		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(0,
+				location_14, true)));
+
+		VertexLocation location_15 = new VertexLocation(new HexLocation(-1, -1),
+				VertexDirection.SouthWest);
+		location_15.convertToPrimitives();
+		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(1,
+				location_15, true)));
+
+		VertexLocation location_16 = new VertexLocation(new HexLocation(2, 0),
+				VertexDirection.SouthWest);
+		location_16.convertToPrimitives();
+		commandList.add(new BuildSettlementCommand(new BuildSettlementParams(0,
+				location_16, true)));
 	}
 
 	public HashMap<Integer, ServerModel> getModelMap() {
