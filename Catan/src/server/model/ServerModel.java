@@ -26,7 +26,7 @@ import shared.utils.Serializer;
  * </pre>
  * 
  * @author Seth White
- *
+ * 
  */
 public class ServerModel extends AbstractModel {
 	int gameID;
@@ -138,7 +138,8 @@ public class ServerModel extends AbstractModel {
 
 		for (Player player : players) {
 			if (player.getPlayerIndex() != playerIndex
-					&& player.getNumberRoadsBuilt() >= players[playerIndex].getNumberRoadsBuilt()) {
+					&& player.getNumberRoadsBuilt() >= players[playerIndex]
+							.getNumberRoadsBuilt()) {
 				return false;
 			}
 		}
@@ -157,7 +158,8 @@ public class ServerModel extends AbstractModel {
 		for (Player player : players) {
 			if (player.getPlayerIndex() != playerIndex
 					&& players[playerIndex].getNumberRoadsBuilt() >= 5
-					&& player.getNumberRoadsBuilt() == players[playerIndex].getNumberRoadsBuilt()) {
+					&& player.getNumberRoadsBuilt() == players[playerIndex]
+							.getNumberRoadsBuilt()) {
 				return true;
 			}
 		}
@@ -189,6 +191,9 @@ public class ServerModel extends AbstractModel {
 		}
 		newCityList[currentCount] = city;
 		this.getMap().setCities(newCityList);
+		
+		//remove old settlement
+		this.removeSettlementForCity(city);
 	}
 
 	public boolean needToDiscard() {
@@ -202,6 +207,30 @@ public class ServerModel extends AbstractModel {
 		}
 
 		return false;
+	}
+
+	private void removeSettlementForCity(VertexObject city) {
+
+		for (VertexObject settlement : this.getMap().getSettlements()) {
+			if (settlement.isEquivalent(city)) {
+
+				VertexObject[] oldSettlements = this.getMap().getSettlements();
+				VertexObject[] newSettlements = new VertexObject[oldSettlements.length - 1];
+
+				int i = 0;
+				for (VertexObject s : oldSettlements) {
+					if (s.equals(settlement)) {
+						continue;
+					} else {
+						newSettlements[i] = s;
+						i++;
+					}
+				}
+
+				this.getMap().setSettlements(newSettlements);
+				return;
+			}
+		}
 	}
 
 	public String toString() {
