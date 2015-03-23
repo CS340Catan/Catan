@@ -23,11 +23,10 @@ public class Server {
 	private int portNumber = 8081; // default portnumber
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 	private String host = "localhost";
-	
+
 	private static Logger ServerLogger;
-	
-	static
-	{
+
+	static {
 		Level logLevel = Level.ALL;
 		ServerLogger = Logger.getLogger("CatanServer");
 		ServerLogger.setLevel(logLevel);
@@ -59,14 +58,14 @@ public class Server {
 	 */
 	private Server(int portnumber) {
 		this.portNumber = portnumber;
-//		initialize();
+		// initialize();
 	}
 
 	/**
 	 * uses default port 8081
 	 */
 	private Server() {
-//		initialize();
+		// initialize();
 	}
 
 	/**
@@ -81,11 +80,12 @@ public class Server {
 			System.out.println("Error starting HTTP server: " + e.getMessage());
 			e.printStackTrace();
 		}
-		
-		//Swagger contexts
-		httpServer.createContext("/docs/api/data", new Handlers.JSONAppender("")); 
-		httpServer.createContext("/docs/api/view", new Handlers.BasicFile("")); 
-		
+
+		// Swagger contexts
+		httpServer.createContext("/docs/api/data",
+				new Handlers.JSONAppender(""));
+		httpServer.createContext("/docs/api/view", new Handlers.BasicFile(""));
+
 		httpServer.createContext("/user/login", new LoginHandler());
 		httpServer.createContext("/user/register", new RegisterHandler());
 		httpServer.createContext("/games/list", new ListGameHandler());
@@ -95,27 +95,37 @@ public class Server {
 		httpServer.createContext("/games/load", new LoadGameHandler());
 		httpServer.createContext("/game/model", new ModelHandler());
 		httpServer.createContext("/game/reset", new ResetGameHandler());
-		httpServer.createContext("/game/commmands", new CommandsHandler());//handle get and post
-		//httpServer.createContext("/game/addAI", new AddAIHandler());
-		//httpServer.createContext("/game/listAI", new ListAIHandler());
+		httpServer.createContext("/game/commands", new CommandsHandler());
+		// httpServer.createContext("/game/addAI", new AddAIHandler());
+		// httpServer.createContext("/game/listAI", new ListAIHandler());
 		httpServer.createContext("/moves/sendChat", new SendChatHandler());
 		httpServer.createContext("/moves/rollNumber", new RollNumberHandler());
 		httpServer.createContext("/moves/robPlayer", new RobPlayerHandler());
 		httpServer.createContext("/moves/finishTurn", new FinishTurnHandler());
 		httpServer.createContext("/moves/buyDevCard", new BuyDevCardHandler());
-		httpServer.createContext("/moves/Year_of_Plenty", new PlayYearOfPlentyCardHandler());
-		httpServer.createContext("/moves/Road_Building", new PlayRoadBuildingCardHandler());
-		httpServer.createContext("/moves/Soldier", new PlaySoldierCardHandler());
-		httpServer.createContext("/moves/Monopoly", new PlayMonopolyCardHandler());
-		httpServer.createContext("/moves/Monument", new PlayMonumentCardHandler());
+		httpServer.createContext("/moves/Year_of_Plenty",
+				new PlayYearOfPlentyCardHandler());
+		httpServer.createContext("/moves/Road_Building",
+				new PlayRoadBuildingCardHandler());
+		httpServer
+				.createContext("/moves/Soldier", new PlaySoldierCardHandler());
+		httpServer.createContext("/moves/Monopoly",
+				new PlayMonopolyCardHandler());
+		httpServer.createContext("/moves/Monument",
+				new PlayMonumentCardHandler());
 		httpServer.createContext("/moves/buildRoad", new BuildRoadHandler());
-		httpServer.createContext("/moves/buildSettlement", new BuildSettlementHandler());
+		httpServer.createContext("/moves/buildSettlement",
+				new BuildSettlementHandler());
 		httpServer.createContext("/moves/buildCity", new BuildCityHandler());
 		httpServer.createContext("/moves/offerTrade", new OfferTradeHandler());
-		httpServer.createContext("/moves/acceptTrade", new AcceptTradeHandler());
-		httpServer.createContext("/moves/maritimeTrade", new MaritimeTradeHandler());
-		httpServer.createContext("/moves/discardCards", new DiscardCardsHandler());
-		httpServer.createContext("/util/buildSettlement", new BuildSettlementHandler());
+		httpServer
+				.createContext("/moves/acceptTrade", new AcceptTradeHandler());
+		httpServer.createContext("/moves/maritimeTrade",
+				new MaritimeTradeHandler());
+		httpServer.createContext("/moves/discardCards",
+				new DiscardCardsHandler());
+		httpServer.createContext("/util/buildSettlement",
+				new BuildSettlementHandler());
 
 		httpServer.start();
 	}

@@ -5,6 +5,7 @@ import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.MaritimeTradeParams;
 import shared.definitions.ResourceType;
+import shared.model.MessageLine;
 import shared.utils.ServerResponseException;
 
 /**
@@ -52,6 +53,12 @@ public class MaritimeTradeCommand extends ICommand {
 			 */
 			model.addResourceFromBank(playerIndex, input, -ratio);
 			model.addResourceFromBank(playerIndex, output, 1);
+			
+			/*
+			 * Update game history
+			 */
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine(name + " traded by sea",name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

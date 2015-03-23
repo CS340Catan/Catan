@@ -5,6 +5,7 @@ import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.UserActionParams;
 import shared.model.DevCardList;
+import shared.model.MessageLine;
 import shared.model.Player;
 import shared.utils.ServerResponseException;
 
@@ -72,6 +73,12 @@ public class FinishTurnCommand extends ICommand {
 			}
 			model.getTurnTracker().setCurrentTurn(nextPlayer);
 			model.getTurnTracker().setStatus("Rolling");
+			
+			/*
+			 * Update game history
+			 */
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine(name + "'s turn ended",name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

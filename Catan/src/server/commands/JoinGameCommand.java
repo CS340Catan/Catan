@@ -1,9 +1,12 @@
 package server.commands;
 
 import server.facade.ServerFacade;
+import server.model.GameList;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
+import shared.communication.GameSummary;
 import shared.communication.JoinGameParams;
+import shared.communication.PlayerSummary;
 import shared.model.DevCardList;
 import shared.model.Player;
 import shared.model.ResourceList;
@@ -36,6 +39,7 @@ public class JoinGameCommand extends ICommand {
 		String playerName = RegisteredPlayers.getSingleton().getPlayerName(
 				playerID);
 		Player[] players = model.getPlayers();
+		int gameID = ServerFacade.getSingleton().getGameID();
 
 		/*
 		 * Iterate through each player currently saved within the model. This
@@ -62,6 +66,12 @@ public class JoinGameCommand extends ICommand {
 						false, 0, new DevCardList(0, 0, 0, 0, 0),
 						new DevCardList(0, 0, 0, 0, 0), false,
 						new ResourceList(0, 0, 0, 0, 0), 0, 0, 0);
+				for(GameSummary game : GameList.getSingleton().getGames()){
+					if(game.getId() == gameID){
+						game.getPlayers()[i] = new PlayerSummary(color,playerName,playerID);
+						break;
+					}
+				}
 				model.incrementVersion(); // TODO Is this increment needed?
 				return;
 			}
@@ -85,6 +95,12 @@ public class JoinGameCommand extends ICommand {
 		 */
 		if (playerIsInTheGame_Index != -1) {
 			players[playerIsInTheGame_Index].setColor(color);
+			for(GameSummary game : GameList.getSingleton().getGames()){
+				if(game.getId() == gameID){
+					game.getPlayers()[playerIsInTheGame_Index].setColor(color);
+					break;
+				}
+			}
 			return;
 		} else {
 			throw new ServerResponseException("The Game is full");

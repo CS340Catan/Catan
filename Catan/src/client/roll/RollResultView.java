@@ -106,7 +106,7 @@ public class RollResultView extends OverlayView implements IRollResultView {
 				try {
 					closeModal();
 					ClientModel clientModel = ServerProxy.getSingleton()
-							.rollNumber(rollVal);
+							.rollNumber(rollVal);					
 					ClientModel.getSingleton().setClientModel(clientModel);
 				} catch (ServerResponseException e1) {
 					JOptionPane.showMessageDialog(null,

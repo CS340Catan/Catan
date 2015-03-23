@@ -3,6 +3,7 @@ package server.commands;
 import server.facade.ServerFacade;
 import server.model.*;
 import shared.communication.PlayMonumentParams;
+import shared.model.MessageLine;
 import shared.utils.ServerResponseException;
 
 /**
@@ -51,6 +52,12 @@ public class PlayMonumentCommand extends ICommand {
 					.getVictoryPoints();
 			int postVictoryPoints = preVictoryPoints + 1;
 			model.getPlayers()[playerIndex].setVictoryPoints(postVictoryPoints);
+			
+			/*
+			 * Update game history
+			 */
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine(name + " played a monument card",name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside
