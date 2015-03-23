@@ -1,7 +1,7 @@
 package shared.communication;
 
+import shared.data.PlayerInfo;
 import shared.definitions.CatanColor;
-import client.data.PlayerInfo;
 
 /**
  * This class wraps about data about a player to be sent across the network It

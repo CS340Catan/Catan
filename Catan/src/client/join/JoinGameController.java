@@ -4,6 +4,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.communication.*;
+import shared.data.GameInfo;
+import shared.data.PlayerInfo;
 import shared.definitions.CatanColor;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;

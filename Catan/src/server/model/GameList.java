@@ -24,5 +24,13 @@ public class GameList {
 	public ArrayList<GameSummary> getGames(){
 		return gameList;
 	}
+	public GameSummary getGame(String name){
+		for(GameSummary summary : gameList){
+			if(name.equals(summary.getTitle())){
+				return summary;
+			}
+		}
+		return null;
+	}
 	
 }
