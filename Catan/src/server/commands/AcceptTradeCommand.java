@@ -49,7 +49,7 @@ public class AcceptTradeCommand extends ICommand {
 		ResourceList tradeResources = model.getTradeOffer().getResourceList();
 
 		if (willAccept) {
-			if (controller.canAcceptTrade(receiverIndex, tradeResources)) {
+			if (controller.canAcceptTrade(receiverIndex, tradeResources.invertList())) {
 				/*
 				 * Grab the trade offer currently stored within the tradeOffer
 				 * object within the server model. Grab the sender index from
