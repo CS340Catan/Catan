@@ -7,9 +7,7 @@ import java.util.logging.Logger;
 
 import client.model.ClientModel;
 import server.commands.*;
-import server.model.GameList;
-import server.model.RegisteredPlayers;
-import server.model.ServerModel;
+import server.model.*;
 import shared.communication.*;
 import shared.locations.*;
 import shared.data.GameInfo;
