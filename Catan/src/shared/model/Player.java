@@ -1,7 +1,7 @@
 package shared.model;
 
+import shared.data.PlayerInfo;
 import shared.definitions.CatanColor;
-import client.data.PlayerInfo;
 
 /**
  * Represents a player in the game, contains relevant data, cards held, etc.

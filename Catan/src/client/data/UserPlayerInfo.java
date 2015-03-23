@@ -1,5 +1,6 @@
 package client.data;
 
+import shared.data.PlayerInfo;
 import shared.definitions.*;
 
 /**

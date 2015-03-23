@@ -3,11 +3,11 @@ package test;
 import java.util.ArrayList;
 
 import shared.communication.*;
+import shared.data.GameInfo;
+import shared.data.PlayerInfo;
 import shared.model.*;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
-import client.data.GameInfo;
-import client.data.PlayerInfo;
 import client.model.ClientModel;
 
 /**

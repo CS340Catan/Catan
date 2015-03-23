@@ -88,7 +88,7 @@ public class ServerModel extends AbstractModel {
 			newRoads[i] = roads[i];
 		}
 		// add new road
-		newRoads[newRoads.length] = road;
+		newRoads[newRoads.length - 1] = road;
 
 		this.getMap().setRoads(newRoads);
 	}
@@ -173,7 +173,7 @@ public class ServerModel extends AbstractModel {
 			newSettlements[i] = settlements[i];
 		}
 		// add new settlement
-		newSettlements[newSettlements.length] = settlement;
+		newSettlements[newSettlements.length - 1] = settlement;
 
 		this.getMap().setSettlements(newSettlements);
 	}

@@ -1,7 +1,7 @@
 package client.join;
 
-import client.data.GameInfo;
 import shared.communication.GameSummary;
+import shared.data.GameInfo;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 

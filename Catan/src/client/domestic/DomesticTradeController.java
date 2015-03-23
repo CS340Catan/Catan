@@ -4,6 +4,7 @@ import java.util.*;
 
 import shared.communication.AcceptTradeParams;
 import shared.communication.TradeOfferParams;
+import shared.data.PlayerInfo;
 import shared.definitions.*;
 import shared.model.Player;
 import shared.model.ResourceList;
@@ -11,7 +12,6 @@ import shared.model.TradeOffer;
 import shared.utils.ServerResponseException;
 import client.base.*;
 import client.communicator.ServerProxy;
-import client.data.PlayerInfo;
 import client.data.UserPlayerInfo;
 import client.misc.*;
 import client.model.ClientModel;
