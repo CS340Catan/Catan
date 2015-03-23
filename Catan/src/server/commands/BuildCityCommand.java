@@ -68,6 +68,7 @@ public class BuildCityCommand extends ICommand {
 			 * If a city can be built, add the city to the model.
 			 */
 			model.addCity(city);
+			//add remove city command
 
 			/*
 			 * Decrement from the player's resources the appropriate amount of

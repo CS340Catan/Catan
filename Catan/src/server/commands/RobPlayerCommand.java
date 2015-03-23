@@ -6,6 +6,7 @@ import server.model.ServerModelController;
 import shared.communication.MoveRobberParams;
 import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
+import shared.model.MessageLine;
 import shared.model.Player;
 import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
@@ -88,7 +89,6 @@ public class RobPlayerCommand extends ICommand {
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
-
 		} else if (victimIndex == -1){
 			model.getTurnTracker().setStatus("Playing");
 			model.getCommands().add(this);
