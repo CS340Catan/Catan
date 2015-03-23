@@ -3,8 +3,8 @@ package client.communicator;
 import java.util.logging.Logger;
 
 import shared.communication.*;
+import shared.data.GameInfo;
 import shared.utils.*;
-import client.data.GameInfo;
 import client.data.UserPlayerInfo;
 import client.model.ClientModel;
 

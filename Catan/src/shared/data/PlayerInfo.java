@@ -1,4 +1,4 @@
-package client.data;
+package shared.data;
 
 import shared.definitions.*;
 
@@ -16,8 +16,8 @@ import shared.definitions.*;
  */
 public class PlayerInfo {
 
-	private int id;
-	private int playerIndex;
+	private Integer id;
+	private Integer playerIndex;
 	private String name;
 	private CatanColor color;
 
@@ -26,6 +26,10 @@ public class PlayerInfo {
 		setPlayerIndex(-1);
 		setName("");
 		setColor(CatanColor.WHITE);
+	}
+	public PlayerInfo(String emptyPlayer){
+		id = null;
+		playerIndex = null;
 	}
 
 	public int getId() {
