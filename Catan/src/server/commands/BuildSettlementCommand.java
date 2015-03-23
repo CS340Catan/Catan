@@ -22,7 +22,6 @@ public class BuildSettlementCommand extends ICommand {
 	VertexLocationParam settlementLocation;
 	int playerIndex;
 	boolean free;
-	int gameID;
 
 	/**
 	 * 
@@ -32,9 +31,8 @@ public class BuildSettlementCommand extends ICommand {
 	 * @param gameID
 	 *            - id of game on which the command is to be executed
 	 */
-	public BuildSettlementCommand(BuildSettlementParams params, int gameID) {
+	public BuildSettlementCommand(BuildSettlementParams params) {
 
-		this.gameID = gameID;
 		this.settlementLocation = params.getVertexLocation();
 		this.playerIndex = params.getPlayerIndex();
 		this.free = params.isFree();
