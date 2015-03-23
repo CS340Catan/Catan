@@ -7,6 +7,7 @@ import shared.communication.BuildCityParams;
 import shared.communication.VertexLocationParam;
 import shared.definitions.ResourceType;
 import shared.locations.VertexLocation;
+import shared.model.MessageLine;
 import shared.model.Player;
 import shared.model.VertexObject;
 import shared.utils.ServerResponseException;
@@ -90,7 +91,13 @@ public class BuildCityCommand extends ICommand {
 			 * Add an additional victory point to the player for playing a city.
 			 */
 			player.setVictoryPoints(player.getVictoryPoints() + 1);
-
+			
+			/*
+			 * Update game history
+			 */
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine(name + " built a city", name));
+			
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.

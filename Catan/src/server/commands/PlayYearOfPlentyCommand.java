@@ -5,6 +5,7 @@ import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.YearOfPlentyParams;
 import shared.definitions.ResourceType;
+import shared.model.MessageLine;
 import shared.model.Player;
 import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
@@ -61,6 +62,13 @@ public class PlayYearOfPlentyCommand extends ICommand {
 			 */
 			model.addResourceFromBank(playerIndex, resource_1, 1);
 			model.addResourceFromBank(playerIndex, resource_2, 1);
+			
+			/*
+			 * Update game history
+			 */
+			String color = model.getPlayers()[playerIndex].getColor();
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine(name + " played a year of plenty card",name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside
@@ -70,7 +78,7 @@ public class PlayYearOfPlentyCommand extends ICommand {
 			model.incrementVersion();
 
 		} else {
-			throw new ServerResponseException("Unable to play monument card.");
+			throw new ServerResponseException("Unable to play year of plenty card.");
 		}
 	}
 
