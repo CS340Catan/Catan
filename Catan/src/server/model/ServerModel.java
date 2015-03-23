@@ -109,14 +109,14 @@ public class ServerModel extends AbstractModel {
 				if (this.getTurnTracker().getLongestRoad() != -1) {
 					Player loser = players[this.getTurnTracker()
 							.getLongestRoad()];
-					loser.setVictoryPoints(loser.getVictoryPoints() - 1);
+					loser.setVictoryPoints(loser.getVictoryPoints() - 2);
 				}
 
 				// change longest road player
 				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
 
 				// increment victory points for new longest road player
-				player.setVictoryPoints(player.getVictoryPoints() + 1);
+				player.setVictoryPoints(player.getVictoryPoints() + 2);
 
 			}
 			// special case: 2 people tie and surpass 5 at the same time
@@ -126,7 +126,7 @@ public class ServerModel extends AbstractModel {
 																			// -1
 																			// right?
 				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
-				player.setVictoryPoints(player.getVictoryPoints() + 1);
+				player.setVictoryPoints(player.getVictoryPoints() + 2);
 			}
 		}
 
@@ -138,12 +138,12 @@ public class ServerModel extends AbstractModel {
 
 		for (Player player : players) {
 			if (player.getPlayerIndex() != playerIndex
-					&& player.getRoads() >= players[playerIndex].getRoads()) {
+					&& player.getNumberRoadsBuilt() >= players[playerIndex].getNumberRoadsBuilt()) {
 				return false;
 			}
 		}
 
-		if (players[playerIndex].getRoads() >= 5) {
+		if (players[playerIndex].getNumberRoadsBuilt() >= 5) {
 			return true;
 		} else {
 			return false;
@@ -156,8 +156,8 @@ public class ServerModel extends AbstractModel {
 
 		for (Player player : players) {
 			if (player.getPlayerIndex() != playerIndex
-					&& players[playerIndex].getRoads() >= 5
-					&& player.getRoads() == players[playerIndex].getRoads()) {
+					&& players[playerIndex].getNumberRoadsBuilt() >= 5
+					&& player.getNumberRoadsBuilt() == players[playerIndex].getNumberRoadsBuilt()) {
 				return true;
 			}
 		}

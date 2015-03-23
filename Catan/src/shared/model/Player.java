@@ -298,4 +298,8 @@ public class Player {
 
 		return playerInfo;
 	}
+	
+	public int getNumberRoadsBuilt() {
+		return (13 - getRoads());
+	}
 }

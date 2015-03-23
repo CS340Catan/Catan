@@ -37,8 +37,6 @@ public class BuildRoadCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-
-		System.out.println("BuildRoadCommand called");
 		
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
