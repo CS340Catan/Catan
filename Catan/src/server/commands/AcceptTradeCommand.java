@@ -4,6 +4,8 @@ import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.AcceptTradeParams;
+import shared.definitions.CatanColor;
+import shared.model.MessageLine;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
 import shared.utils.ServerResponseException;
@@ -102,7 +104,14 @@ public class AcceptTradeCommand extends ICommand {
 				 * offer to null.
 				 */
 				model.setTradeOffer(null);
-
+				
+				/*
+				 * Add this command to the game history
+				 */
+				String color = model.getPlayers()[senderIndex].getColor();
+				String senderName = model.getPlayers()[senderIndex].getName();
+				String receiverName = model.getPlayers()[receiverIndex].getName();
+				model.getLog().addLine(new MessageLine(color, senderName + " traded with " + receiverName));
 				/*
 				 * Add this command to the list of commands currently stored
 				 * inside the model.
