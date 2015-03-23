@@ -1,7 +1,7 @@
 package shared.utils;
 
 import shared.communication.*;
-import client.data.GameInfo;
+import shared.data.GameInfo;
 import client.model.ClientModel;
 
 /**

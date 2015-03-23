@@ -1,6 +1,7 @@
 package shared.communication;
 
-import client.data.GameInfo;
+import shared.data.GameInfo;
+import shared.data.PlayerInfo;
 
 /**
  * This class is for sending a list of games currently on the server per the
@@ -56,9 +57,10 @@ public class GameSummary {
 		gameInfo.setId(this.id);
 		gameInfo.setTitle(this.title);
 		if(players == null){
-			for(int i = 0; i < 4; i++){
-				gameInfo.addPlayer(null);
-			}
+			gameInfo.addPlayer(new PlayerInfo("empty"));
+			gameInfo.addPlayer(new PlayerInfo("empty"));
+			gameInfo.addPlayer(new PlayerInfo("empty"));
+			gameInfo.addPlayer(new PlayerInfo("empty"));			
 		}
 		else{
 		for (PlayerSummary player : players) {
