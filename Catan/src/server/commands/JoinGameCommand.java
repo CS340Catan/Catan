@@ -1,9 +1,12 @@
 package server.commands;
 
 import server.facade.ServerFacade;
+import server.model.GameList;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
+import shared.communication.GameSummary;
 import shared.communication.JoinGameParams;
+import shared.communication.PlayerSummary;
 import shared.model.DevCardList;
 import shared.model.Player;
 import shared.model.ResourceList;
@@ -35,19 +38,21 @@ public class JoinGameCommand extends ICommand {
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		String playerName = RegisteredPlayers.getSingleton().getPlayerName(playerID);
 		Player[] players = model.getPlayers();
+		int gameID = ServerFacade.getSingleton().getGameID();
 
 		/*
 		 * Iterate through each player currently saved within the model. This
 		 * may either grab an empty slot or a slot already occupied by a player.
 		 */
 		int playerIsInTheGame_Index = -1;
+
 		if (players == null) {
 			players = new Player[4];
 			players[0] = new Player(0, playerID, 0, 0, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0), false,
 					new ResourceList(0, 0, 0, 0, 0), 0, 0, 0);
 			model.setPlayers(players);
-		} else {
-
+		} 
+		else {
 			for (int i = 0; i < players.length; i++) {
 				/*
 				 * If player_i's name matches the inputer player, then set the
@@ -65,6 +70,12 @@ public class JoinGameCommand extends ICommand {
 				else if (players[i] == null && playerIsInTheGame_Index == -1) {
 					players[i] = new Player(i, playerID, 0, 0, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0),
 							false, new ResourceList(0, 0, 0, 0, 0), 0, 0, 0);
+					for (GameSummary game : GameList.getSingleton().getGames()) {
+						if (game.getId() == gameID) {
+							game.getPlayers()[i] = new PlayerSummary(color, playerName, playerID);
+							break;
+						}
+					}
 					model.incrementVersion(); // TODO Is this increment needed?
 					return;
 				}
@@ -86,9 +97,13 @@ public class JoinGameCommand extends ICommand {
 			 */
 			if (playerIsInTheGame_Index != -1) {
 				players[playerIsInTheGame_Index].setColor(color);
+				for (GameSummary game : GameList.getSingleton().getGames()) {
+					if (game.getId() == gameID) {
+						game.getPlayers()[playerIsInTheGame_Index].setColor(color);
+						break;
+					}
+				}
 				return;
-			} else {
-				throw new ServerResponseException("The Game is full");
 			}
 		}
 	}

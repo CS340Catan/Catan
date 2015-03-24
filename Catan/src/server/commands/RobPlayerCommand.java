@@ -6,6 +6,7 @@ import server.model.ServerModelController;
 import shared.communication.MoveRobberParams;
 import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
+import shared.model.MessageLine;
 import shared.model.Player;
 import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
@@ -81,18 +82,29 @@ public class RobPlayerCommand extends ICommand {
 			 * status of the server model.
 			 */
 			model.getTurnTracker().setStatus("Playing");
-
+			
+			/*
+			 * Update game history
+			 */
+			String senderName = model.getPlayers()[playerIndex].getName();
+			String victimName = model.getPlayers()[victimIndex].getName();
+			model.getLog().addLine(new MessageLine(senderName + " moved the robber and robbed " + victimName,senderName));
+			
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
-
 		} else if (victimIndex == -1){
 			model.getTurnTracker().setStatus("Playing");
 			model.getCommands().add(this);
 			model.incrementVersion();
+			
+			String color = model.getPlayers()[playerIndex].getColor();
+			String senderName = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine(color, senderName + " moved the robber"));
+			
 		}
 		
 		else {

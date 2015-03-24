@@ -61,6 +61,12 @@ public class RollNumberCommand extends ICommand {
 				resourceRoll(model);
 				model.getTurnTracker().setStatus("Playing");
 			}
+			
+			/*
+			 * Update game history
+			 */
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine(name + " rolled a " + this.number,name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside
@@ -81,7 +87,8 @@ public class RollNumberCommand extends ICommand {
 		 * the vertices of the hex.
 		 */
 		for (Hex hex : model.getMap().getHexes()) {
-			if (hex.getNumber() == this.number) {
+			if (hex.getNumber() == this.number
+					&& !model.getMap().getRobber().equals(hex.getLocation())) {
 				HexLocation hexLocation = hex.getLocation();
 				ResourceType hexResource = ResourceType.valueOf(hex
 						.getResource().toUpperCase());

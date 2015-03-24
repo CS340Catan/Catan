@@ -6,6 +6,7 @@ import server.model.ServerModelController;
 import shared.communication.MoveSoldierParams;
 import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
+import shared.model.MessageLine;
 import shared.model.Player;
 import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
@@ -83,6 +84,12 @@ public class PlaySoldierCommand extends ICommand {
 			default:
 				break;
 			}
+			
+			/*
+			 * Update game history
+			 */
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(new MessageLine(name + " played a soldier card",name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

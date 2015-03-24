@@ -26,19 +26,21 @@ import shared.utils.Serializer;
  * </pre>
  * 
  * @author Seth White
- *
+ * 
  */
 public class ServerModel extends AbstractModel {
 	int gameID;
 	List<ICommand> commands = new ArrayList<>();
-	public ServerModel(){
+
+	public ServerModel() {
 		this.setMap(new Map(null, null, null, null, null, gameID, null));
 		this.setBank(new ResourceList(19, 19, 19, 19, 19));
 		this.setDeck(new Deck(2, 5, 14, 2, 2));
 	}
+
 	public ClientModel toClientModel() {
-		//AbstractModel am = (AbstractModel) this;
-		//ClientModel cm = (ClientModel) am;
+		// AbstractModel am = (AbstractModel) this;
+		// ClientModel cm = (ClientModel) am;
 		String jsonString = Serializer.serializeServerModel(this);
 		ClientModel cm = Serializer.deserializeClientModel(jsonString);
 		return cm;
@@ -88,7 +90,7 @@ public class ServerModel extends AbstractModel {
 			newRoads[i] = roads[i];
 		}
 		// add new road
-		newRoads[newRoads.length] = road;
+		newRoads[newRoads.length - 1] = road;
 
 		this.getMap().setRoads(newRoads);
 	}
@@ -107,14 +109,14 @@ public class ServerModel extends AbstractModel {
 				if (this.getTurnTracker().getLongestRoad() != -1) {
 					Player loser = players[this.getTurnTracker()
 							.getLongestRoad()];
-					loser.setVictoryPoints(loser.getVictoryPoints() - 1);
+					loser.setVictoryPoints(loser.getVictoryPoints() - 2);
 				}
 
 				// change longest road player
 				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
 
 				// increment victory points for new longest road player
-				player.setVictoryPoints(player.getVictoryPoints() + 1);
+				player.setVictoryPoints(player.getVictoryPoints() + 2);
 
 			}
 			// special case: 2 people tie and surpass 5 at the same time
@@ -124,7 +126,7 @@ public class ServerModel extends AbstractModel {
 																			// -1
 																			// right?
 				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
-				player.setVictoryPoints(player.getVictoryPoints() + 1);
+				player.setVictoryPoints(player.getVictoryPoints() + 2);
 			}
 		}
 
@@ -136,12 +138,13 @@ public class ServerModel extends AbstractModel {
 
 		for (Player player : players) {
 			if (player.getPlayerIndex() != playerIndex
-					&& player.getRoads() >= players[playerIndex].getRoads()) {
+					&& player.getNumberRoadsBuilt() >= players[playerIndex]
+							.getNumberRoadsBuilt()) {
 				return false;
 			}
 		}
 
-		if (players[playerIndex].getRoads() >= 5) {
+		if (players[playerIndex].getNumberRoadsBuilt() >= 5) {
 			return true;
 		} else {
 			return false;
@@ -154,8 +157,9 @@ public class ServerModel extends AbstractModel {
 
 		for (Player player : players) {
 			if (player.getPlayerIndex() != playerIndex
-					&& players[playerIndex].getRoads() >= 5
-					&& player.getRoads() == players[playerIndex].getRoads()) {
+					&& players[playerIndex].getNumberRoadsBuilt() >= 5
+					&& player.getNumberRoadsBuilt() == players[playerIndex]
+							.getNumberRoadsBuilt()) {
 				return true;
 			}
 		}
@@ -173,7 +177,7 @@ public class ServerModel extends AbstractModel {
 			newSettlements[i] = settlements[i];
 		}
 		// add new settlement
-		newSettlements[newSettlements.length] = settlement;
+		newSettlements[newSettlements.length - 1] = settlement;
 
 		this.getMap().setSettlements(newSettlements);
 	}
@@ -187,6 +191,9 @@ public class ServerModel extends AbstractModel {
 		}
 		newCityList[currentCount] = city;
 		this.getMap().setCities(newCityList);
+		
+		//remove old settlement
+		this.removeSettlementForCity(city);
 	}
 
 	public boolean needToDiscard() {
@@ -202,6 +209,38 @@ public class ServerModel extends AbstractModel {
 		return false;
 	}
 
+	private void removeSettlementForCity(VertexObject city) {
+
+		for (VertexObject settlement : this.getMap().getSettlements()) {
+			if (settlement.isEquivalent(city)) {
+
+				VertexObject[] oldSettlements = this.getMap().getSettlements();
+				VertexObject[] newSettlements = new VertexObject[oldSettlements.length - 1];
+
+				int i = 0;
+				for (VertexObject s : oldSettlements) {
+					if (s.equals(settlement)) {
+						continue;
+					} else {
+						newSettlements[i] = s;
+						i++;
+					}
+				}
+
+				this.getMap().setSettlements(newSettlements);
+				return;
+			}
+		}
+	}
+
+	public String toString() {
+		return Serializer.serializeServerModel(this);
+	}
+
+	public void incrementVersion() {
+		this.setVersion(this.getVersion() + 1);
+	}
+
 	public List<ICommand> getCommands() {
 		return commands;
 	}
@@ -210,19 +249,11 @@ public class ServerModel extends AbstractModel {
 		this.commands = modelCommands;
 	}
 
-	public String toString() {
-		return Serializer.serializeServerModel(this);
-	}
-
 	public int getGameID() {
 		return gameID;
 	}
 
 	public void setGameID(int ID) {
 		this.gameID = ID;
-	}
-	
-	public void incrementVersion() {
-		this.setVersion(this.getVersion() + 1);
 	}
 }
