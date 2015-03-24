@@ -21,8 +21,7 @@ import client.model.ClientModel;
 /**
  * Implementation for the player waiting controller
  */
-public class PlayerWaitingController extends Controller implements
-		IPlayerWaitingController, Observer {
+public class PlayerWaitingController extends Controller implements IPlayerWaitingController, Observer {
 
 	private IServer server;
 	private Poller poller;
@@ -53,10 +52,7 @@ public class PlayerWaitingController extends Controller implements
 			for (Player player : ClientModel.getSingleton().getPlayers()) {
 				if (player == null) {
 					if (!isFourPlayers()) {
-						getView().setPlayers(
-								playerInfoList
-										.toArray(new PlayerInfo[playerInfoList
-												.size()]));
+						getView().setPlayers(playerInfoList.toArray(new PlayerInfo[playerInfoList.size()]));
 						getView().showModal();
 						break;
 					}
@@ -66,14 +62,13 @@ public class PlayerWaitingController extends Controller implements
 		}
 
 		String[] AIChoices = { "LARGEST_ARMY" };
-		/*try {
-			AIChoices = server.getAITypes();
-		} catch (ServerResponseException e) {
-			e.printStackTrace();
-		}*/
+		/*
+		 * try { AIChoices = server.getAITypes(); } catch
+		 * (ServerResponseException e) { e.printStackTrace(); }
+		 */
 
 		getView().setAIChoices(AIChoices);
-		if (isFourPlayers()){
+		if (isFourPlayers()) {
 			poller.stopPlayerWaitingTimer();
 			poller.setTimer();
 		}
@@ -107,8 +102,7 @@ public class PlayerWaitingController extends Controller implements
 			server.addAI(addAIParams);
 		} catch (ServerResponseException e) {
 			String outputStr = "Server Failure";
-			JOptionPane.showMessageDialog(null, outputStr, "Server Failure",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, outputStr, "Server Failure", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 		if (isFourPlayers()) {

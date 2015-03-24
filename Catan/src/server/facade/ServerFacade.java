@@ -10,7 +10,7 @@ import server.model.GameList;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
 import shared.communication.*;
-import shared.data.GameInfo;
+import shared.data.*;
 import shared.model.Player;
 import shared.utils.IServer;
 import shared.utils.Serializer;
