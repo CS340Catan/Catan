@@ -1,5 +1,6 @@
 package client.join;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -7,6 +8,7 @@ import shared.communication.*;
 import shared.data.GameInfo;
 import shared.data.PlayerInfo;
 import shared.definitions.CatanColor;
+import shared.model.Player;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.*;
@@ -269,6 +271,15 @@ public class JoinGameController extends Controller implements
 
 	public void updateGameList(GameInfo[] newGameList) {
 		// System.out.println("Entered JoinGameController:updateGameList() method");
+		for(GameInfo info : newGameList){
+			ArrayList<PlayerInfo> tempPlayers = new ArrayList<PlayerInfo>();
+			for(PlayerInfo player : info.getPlayers()){
+				if(player.getName() != null){
+					tempPlayers.add(player);					
+				}
+			}
+			info.setPlayers(tempPlayers);
+		}
 		getJoinGameView().setGames(newGameList,
 				UserPlayerInfo.getSingleton().toPlayerInfo());
 	}

@@ -19,7 +19,7 @@ import com.google.gson.GsonBuilder;
  *
  */
 public class Serializer {
-	
+
 	/**
 	 * Generic serializer. This will take in a general Java object and convert
 	 * that object into a JSON string.
@@ -43,6 +43,7 @@ public class Serializer {
 	public static ClientModel deserializeClientModel(String jsonString) {
 		Gson gson = new Gson();
 		ClientModel clientModel = gson.fromJson(jsonString, ClientModel.class);
+		if(clientModel.getMap().getRoads() != null){
 		for (Road road : clientModel.getMap().getRoads()) {
 			road.getLocation().convertFromPrimitives();
 		}
@@ -54,6 +55,7 @@ public class Serializer {
 		}
 		for (Port port : clientModel.getMap().getPorts()) {
 			port.convertFromPrimitives();
+		}
 		}
 		return clientModel;
 	}
@@ -82,11 +84,10 @@ public class Serializer {
 		}
 		return serverModel;
 	}
-	
+
 	public static GameSummary[] deserializeGameList(String jsonString) {
 		Gson gson = new Gson();
-		GameSummary[] gameSummary = gson.fromJson(jsonString,
-				GameSummary[].class);
+		GameSummary[] gameSummary = gson.fromJson(jsonString, GameSummary[].class);
 		return gameSummary;
 	}
 
@@ -103,17 +104,19 @@ public class Serializer {
 		}
 		return gson.toJson(clientModel);
 	}
-	
+
 	public static String serializeServerModel(ServerModel serverModel) {
 		Gson gson = new Gson();
-		for (Road road : serverModel.getMap().getRoads()) {
-			road.getLocation().convertToPrimitives();
-		}
-		for (VertexObject settlement : serverModel.getMap().getSettlements()) {
-			settlement.getLocation().convertToPrimitives();
-		}
-		for (VertexObject city : serverModel.getMap().getCities()) {
-			city.getLocation().convertToPrimitives();
+		if (serverModel.getMap().getRoads() != null) {
+			for (Road road : serverModel.getMap().getRoads()) {
+				road.getLocation().convertToPrimitives();
+			}
+			for (VertexObject settlement : serverModel.getMap().getSettlements()) {
+				settlement.getLocation().convertToPrimitives();
+			}
+			for (VertexObject city : serverModel.getMap().getCities()) {
+				city.getLocation().convertToPrimitives();
+			}
 		}
 		return gson.toJson(serverModel);
 	}
@@ -133,8 +136,7 @@ public class Serializer {
 	}
 
 	public static String serializeWithExpose(Object o) {
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-				.create();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		return gson.toJson(o);
 	}
 }

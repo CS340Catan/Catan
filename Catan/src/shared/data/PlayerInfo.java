@@ -27,10 +27,6 @@ public class PlayerInfo {
 		setName("");
 		setColor(CatanColor.WHITE);
 	}
-	public PlayerInfo(String emptyPlayer){
-		id = null;
-		playerIndex = null;
-	}
 
 	public int getId() {
 		return id;

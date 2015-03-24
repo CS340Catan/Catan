@@ -1,12 +1,12 @@
 package server.commands;
 
+import java.util.ArrayList;
+
 import server.facade.ServerFacade;
 import server.model.GameList;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
-import shared.communication.GameSummary;
-import shared.communication.JoinGameParams;
-import shared.communication.PlayerSummary;
+import shared.communication.*;
 import shared.model.DevCardList;
 import shared.model.Player;
 import shared.model.ResourceList;
@@ -47,12 +47,27 @@ public class JoinGameCommand extends ICommand {
 		int playerIsInTheGame_Index = -1;
 
 		if (players == null) {
-			players = new Player[4];
+			players = new Player[1];
 			players[0] = new Player(0, playerID, 0, 0, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0), false,
 					new ResourceList(0, 0, 0, 0, 0), 0, 0, 0);
 			model.setPlayers(players);
+			ServerFacade.getSingleton().getModelMap().put(gameID, model);
+			for (GameSummary game : GameList.getSingleton().getGames()) {
+				if (game.getId() == gameID) {
+					PlayerSummary playerSummary = new PlayerSummary(color, playerName, playerID);
+					PlayerSummary[] playerSummaries = new PlayerSummary[4]; 
+					playerSummaries[0] = playerSummary; 
+					game.setPlayers(playerSummaries);
+					break;
+				}
+			}
 		} 
 		else {
+			if(players.length != 4){
+				Player firstPlayer = players[0];
+				players = new Player[4];
+				players[0] = firstPlayer;
+			}
 			for (int i = 0; i < players.length; i++) {
 				/*
 				 * If player_i's name matches the inputer player, then set the
@@ -70,6 +85,7 @@ public class JoinGameCommand extends ICommand {
 				else if (players[i] == null && playerIsInTheGame_Index == -1) {
 					players[i] = new Player(i, playerID, 0, 0, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0),
 							false, new ResourceList(0, 0, 0, 0, 0), 0, 0, 0);
+					model.setPlayers(players);
 					for (GameSummary game : GameList.getSingleton().getGames()) {
 						if (game.getId() == gameID) {
 							game.getPlayers()[i] = new PlayerSummary(color, playerName, playerID);

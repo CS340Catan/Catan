@@ -58,6 +58,17 @@ public class Poller {
 	public void updateModel(ClientModel newModel) {
 		ClientModel.getSingleton().setClientModel(newModel);
 	}
+	public void unconditionallyUpdateModel(){
+		ClientModel updatedClientModel;
+		try {
+			updatedClientModel = ServerProxy.getSingleton().updateModelNoVersionCheck();
+			if (updatedClientModel != null) {
+				ClientModel.getSingleton().setClientModel(updatedClientModel);
+			}
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * @pre an actual game has started

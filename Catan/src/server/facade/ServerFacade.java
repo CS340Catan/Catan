@@ -168,7 +168,7 @@ public class ServerFacade implements IServer {
 	@Override
 	public ClientModel getCurrentGame(int version)
 			throws ServerResponseException {
-		if (this.getServerModel().getVersion() != version) {
+		if (this.getServerModel().getVersion() != version || version == -1) {
 			return this.getServerModel().toClientModel();
 		} else {
 			return null;

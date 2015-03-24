@@ -57,17 +57,15 @@ public class GameSummary {
 		gameInfo.setId(this.id);
 		gameInfo.setTitle(this.title);
 		if(players == null){
-			gameInfo.addPlayer(new PlayerInfo("empty"));
-			gameInfo.addPlayer(new PlayerInfo("empty"));
-			gameInfo.addPlayer(new PlayerInfo("empty"));
-			gameInfo.addPlayer(new PlayerInfo("empty"));			
+			return gameInfo;		
 		}
-		else{
 		for (PlayerSummary player : players) {
+			if(player == null){
+				break;
+			}
 			if (player.getName() != "") {
 				gameInfo.addPlayer(player.toPlayerInfo());
 			}
-		}
 		}
 
 		return gameInfo;

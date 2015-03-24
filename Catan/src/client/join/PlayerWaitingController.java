@@ -45,8 +45,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	public void start() {
 
 		poller = new Poller(ServerProxy.getSingleton());
-		poller.updateModel();
+		poller.unconditionallyUpdateModel();
 		poller.setPlayerWaitingTimer();
+		ClientModel thing = ClientModel.getSingleton();
 		if (ClientModel.getSingleton().getPlayers() != null) {
 			ArrayList<PlayerInfo> playerInfoList = new ArrayList<PlayerInfo>();
 			for (Player player : ClientModel.getSingleton().getPlayers()) {
@@ -80,7 +81,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			int gameId = UserPlayerInfo.getSingleton().getGameId();
 			int numberOfPlayers = 0;
 			for (int i = 0; i < 4; i++) {
-				if (!gameList[gameId].getPlayers()[i].getName().equals("")) {
+				if (gameList[gameId].getPlayers()[i] != null && !gameList[gameId].getPlayers()[i].getName().equals("")) {
 					numberOfPlayers++;
 				}
 			}

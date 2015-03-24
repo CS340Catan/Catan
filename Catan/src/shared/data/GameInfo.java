@@ -60,4 +60,8 @@ public class GameInfo {
 
 		return true;
 	}
+
+	public void setPlayers(ArrayList<PlayerInfo> players) {
+		this.players = players;
+	}
 }

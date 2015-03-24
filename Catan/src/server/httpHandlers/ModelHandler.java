@@ -27,7 +27,6 @@ public class ModelHandler implements IHttpHandler {
 			String[] queryArray = query.split("=");
 			gameVersion = Integer.valueOf(queryArray[1]);
 		}
-			
 		try {
 			ClientModel clientModel = ServerFacade.getSingleton().getCurrentGame(gameVersion);
 			HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
