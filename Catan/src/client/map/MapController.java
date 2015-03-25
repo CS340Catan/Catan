@@ -190,8 +190,8 @@ public class MapController extends Controller implements IMapController, Observe
 				this.update(null, null);
 				this.startMove(PieceType.ROAD, true, false);
 			} else {
-				sendRoadToServer(firstEdge);
-				sendRoadToServer(edgeLoc);
+//				sendRoadToServer(firstEdge);
+//				sendRoadToServer(edgeLoc);
 				try {
 					UserPlayerInfo upi = UserPlayerInfo.getSingleton();
 					int playerIndex = upi.getPlayerIndex();
