@@ -8,7 +8,6 @@ import javax.swing.*;
 
 import shared.data.PlayerInfo;
 import client.base.*;
-import client.data.*;
 import client.utils.*;
 
 /**

@@ -8,7 +8,6 @@ import javax.swing.*;
 import shared.data.GameInfo;
 import shared.data.PlayerInfo;
 import client.base.*;
-import client.data.*;
 
 /**
  * Implementation for the join game view, which lets the user select a game to
