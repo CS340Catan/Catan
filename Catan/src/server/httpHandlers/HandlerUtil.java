@@ -132,11 +132,11 @@ public class HandlerUtil {
 		int playerId = RegisteredPlayers.getSingleton().getPlayerId(username);
 		/*values.add("catan.user={\"name\":\"" + username + "\",\"password\":\""
 				+ password + "\",\"playerID\":" + playerId + "};Path=/;");*/
-		String cookieString = "catan.user={\"name\":\"" + username + "\",\"password\":\""
+		String cookieString = "{\"name\":\"" + username + "\",\"password\":\""
 				+ password + "\",\"playerID\":" + playerId + "}";
 		try {
 			cookieString = URLEncoder.encode(cookieString,"UTF-8");
-			cookieString += ";Path=/;";
+			cookieString = "catan.user=" + cookieString + ";Path=/;";
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

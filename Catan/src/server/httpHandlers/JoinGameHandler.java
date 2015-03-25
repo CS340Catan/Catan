@@ -33,8 +33,8 @@ public class JoinGameHandler implements IHttpHandler {
 			ServerFacade.getSingleton().joinGame(joinParams);
 			
 			ArrayList<String> values=new ArrayList<String>();
-			String gameCookie = URLEncoder.encode("catan.game=" + joinParams.getId(),"utf-8");
-			gameCookie += ";Path=/;";
+			String gameCookie = URLEncoder.encode(joinParams.getId()+"","UTF-8");
+			gameCookie = "catan.game=" + gameCookie + ";Path=/;";
 			values.add(gameCookie);
 			exchange.getResponseHeaders().put("Set-Cookie",values);
 			
