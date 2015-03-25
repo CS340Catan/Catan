@@ -41,9 +41,12 @@ public class PlaySoldierCommand extends ICommand {
 	public void execute() throws ServerResponseException {
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController modelController = new ServerModelController(model);
+		String oldStatus = model.getTurnTracker().getStatus();
 		model.getTurnTracker().setStatus("Robbing");
+		int i = 0;
 		if (modelController.canPlaySoldierCard(this.location, playerIndex,
 				this.victimIndex)) {
+			model.getTurnTracker().setStatus(oldStatus);
 			Player player = model.getPlayers()[playerIndex];
 
 			/*

@@ -1432,8 +1432,7 @@ public class ServerModelController {
 						.getSoldier() > 0
 				&& !model.getPlayers()[robbingPlayer].hasPlayedDevCard()
 				&& canRobPlayer(hexLocation, robbingPlayer, robbedPlayer)
-				&& !model.getMap().getRobber().equals(hexLocation)
-				&& model.getTurnTracker().getStatus().equals("Playing")) {
+				&& !model.getMap().getRobber().equals(hexLocation)) {
 
 			return true;
 		}
