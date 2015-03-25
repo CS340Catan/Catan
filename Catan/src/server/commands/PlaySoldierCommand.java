@@ -50,10 +50,14 @@ public class PlaySoldierCommand extends ICommand {
 			 * If the user can play a soldier card, then get the current number
 			 * of soldiers in his or her hand. From this value, subtract one and
 			 * reset the current player's soldier count.
+			 * 
+			 * Also, add a soldier to the player's soldier count.
 			 */
 			int preSoldier = player.getOldDevCards().getSoldier();
 			int postSoldier = preSoldier - 1;
 			player.getOldDevCards().setSoldier(postSoldier);
+
+			player.setSoldiers(player.getSoldiers() + 1);
 
 			/*
 			 * Move the robber to the appropriate position, appropriately steal
@@ -85,6 +89,11 @@ public class PlaySoldierCommand extends ICommand {
 				break;
 			}
 
+			/*
+			 * Re-allocate the largest army card/points.
+			 */
+			model.reallocateLargestArmy();
+			
 			/*
 			 * Set the player's has played development card boolean equal to
 			 * true.
