@@ -71,12 +71,18 @@ public class HandlerUtil {
 		int playerID = -1;
 		for (String cookie : cookies) {
 			JsonParser parser = new JsonParser();
+			
+			boolean foundPassword = false;
 			String[] splitArray = cookie.split(";",-1);
 			for(String subCook : splitArray){
 				if(subCook.contains("password")){
 					cookie = subCook;
+					foundPassword = true;
 					break;
 				}
+			}
+			if(!foundPassword) {
+				return playerID;
 			}
 			
 			try {
