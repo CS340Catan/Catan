@@ -128,8 +128,10 @@ public class ServerModel extends AbstractModel {
 	}
 
 	public void reallocateLongestRoad() {
-		// see who has most roads, must be >=5 if there's a tie keep the old
-		// player, else switch to new player
+		/*
+		 * see who has most roads, must be >=5 if there's a tie keep the old
+		 * player, else switch to new player
+		 */
 
 		Player[] players = this.getPlayers();
 
@@ -151,19 +153,17 @@ public class ServerModel extends AbstractModel {
 				player.setVictoryPoints(player.getVictoryPoints() + 2);
 
 			}
-			// special case: 2 people tie and surpass 5 at the same time
-			// This case is impossible. Two players cannot simultaneously
-			// surpass 5
+			/*
+			 * special case: 2 people tie and surpass 5 at the same time This
+			 * case is impossible. Two players cannot simultaneously surpass 5
+			 */
 			else if (hasTiedLongestRoad(player.getPlayerIndex())
-					&& (this.getTurnTracker().getLongestRoad() == -1)) { // initialized
-																			// to
-																			// -1
-																			// right?
+					&& (this.getTurnTracker().getLongestRoad() == -1)) {
+				// initialized to -1 right?
 				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
 				player.setVictoryPoints(player.getVictoryPoints() + 2);
 			}
 		}
-
 	}
 
 	private boolean hasLongestRoad(int playerIndex) {
@@ -176,7 +176,6 @@ public class ServerModel extends AbstractModel {
 				return false;
 			}
 		}
-
 		if (players[playerIndex].getNumberRoadsBuilt() >= 5) {
 			return true;
 		} else {
@@ -198,6 +197,62 @@ public class ServerModel extends AbstractModel {
 		}
 
 		return false;
+	}
+
+	public void reallocateLargestArmy() {
+		/*
+		 * See who has most roads, must be >=5 if there's a tie keep the old
+		 * player, else switch to new player
+		 */
+		Player[] players = this.getPlayers();
+
+		for (Player player : players) {
+			if (hasLargestArmy(player.getPlayerIndex())) {
+				/*
+				 * Decrement old largest road player victory points.
+				 */
+				if (this.getTurnTracker().getLongestRoad() != -1) {
+					Player loser = players[this.getTurnTracker()
+							.getLargestArmy()];
+					loser.setVictoryPoints(loser.getVictoryPoints() - 2);
+				}
+
+				/*
+				 * Change largest army player and add player's victory points by
+				 * two.
+				 */
+				this.getTurnTracker().setLargestArmy(player.getPlayerIndex());
+				player.setVictoryPoints(player.getVictoryPoints() + 2);
+
+			}
+			/*
+			 * special case: 2 people tie and surpass 5 at the same time This
+			 * case is impossible. Two players cannot simultaneously surpass 5
+			 */
+			else if (hasTiedLongestRoad(player.getPlayerIndex())
+					&& (this.getTurnTracker().getLongestRoad() == -1)) {
+				// initialized to -1 right?
+				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
+				player.setVictoryPoints(player.getVictoryPoints() + 2);
+			}
+		}
+
+	}
+
+	private boolean hasLargestArmy(int playerIndex) {
+		Player[] players = this.getPlayers();
+		for (Player player : players) {
+			if (player.getPlayerIndex() != playerIndex
+					&& player.getSoldiers() >= players[playerIndex]
+							.getSoldiers()) {
+				return false;
+			}
+		}
+		if (players[playerIndex].getNumberRoadsBuilt() >= 5) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void addSettlement(VertexObject settlement) {
