@@ -148,6 +148,7 @@ public class ServerModel extends AbstractModel {
 
 			}
 			// special case: 2 people tie and surpass 5 at the same time
+			//This case is impossible. Two players cannot simultaneously surpass 5
 			else if (hasTiedLongestRoad(player.getPlayerIndex())
 					&& (this.getTurnTracker().getLongestRoad() == -1)) { // initialized
 																			// to
@@ -163,7 +164,7 @@ public class ServerModel extends AbstractModel {
 	private boolean hasLongestRoad(int playerIndex) {
 
 		Player[] players = this.getPlayers();
-
+		int i = 0;
 		for (Player player : players) {
 			if (player.getPlayerIndex() != playerIndex
 					&& player.getNumberRoadsBuilt() >= players[playerIndex]

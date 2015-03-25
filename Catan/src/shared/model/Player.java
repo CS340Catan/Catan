@@ -300,6 +300,6 @@ public class Player {
 	}
 	
 	public int getNumberRoadsBuilt() {
-		return (13 - getRoads());
+		return (15 - getRoads());
 	}
 }

@@ -65,8 +65,10 @@ public class BuildRoadCommand extends ICommand {
 			 * to the bank. Remove one road piece from the player's hand.
 			 */
 			Player player = model.getPlayers()[playerIndex];
-			model.addResourceFromBank(playerIndex, ResourceType.BRICK, -1);
-			model.addResourceFromBank(playerIndex, ResourceType.WOOD, -1);
+			if(!free){
+				model.addResourceFromBank(playerIndex, ResourceType.BRICK, -1);
+				model.addResourceFromBank(playerIndex, ResourceType.WOOD, -1);
+			}
 			player.setRoads(player.getRoads() - 1);
 
 			/*
