@@ -64,6 +64,7 @@ public class ClientModel extends AbstractModel{
 	public void setClientModel(ClientModel clientModel) {
 		ClientModel.clientModel = clientModel;
 		setUserPlayerInfoIndex(clientModel);
+		if (notifier != null)
 		notifier.modelUpdated();
 	}
 
