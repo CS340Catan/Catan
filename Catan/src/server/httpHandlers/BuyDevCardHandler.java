@@ -18,7 +18,7 @@ public class BuyDevCardHandler implements IHttpHandler {
 		/*
 		 * Grab the information from the request sent over.
 		 */
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		int gameID = HandlerUtil.getGameID(exchange);
 
 		/*
@@ -30,9 +30,13 @@ public class BuyDevCardHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie",
 					String.class);
 		} else {
-			UserActionParams buyDevelopmentCard = (UserActionParams) Serializer
-					.deserialize(inputStreamString, UserActionParams.class);
+
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				
+				UserActionParams buyDevelopmentCard = (UserActionParams) Serializer
+						.deserialize(inputStreamString, UserActionParams.class);
+				
 				ClientModel model = ServerFacade.getSingleton().buyDevCard(
 						buyDevelopmentCard);
 				HandlerUtil.sendResponse(exchange, 200, model,

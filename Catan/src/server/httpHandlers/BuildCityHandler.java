@@ -14,8 +14,9 @@ public class BuildCityHandler implements IHttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
+		
 		System.out.println("endpoint activated");
-		String inputString = HandlerUtil.requestBodyToString(exchange);
+		
 		int gameID = HandlerUtil.getGameID(exchange);
 		int playerID = HandlerUtil.getPlayerID(exchange);
 		
@@ -26,8 +27,12 @@ public class BuildCityHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Player Cookie", String.class);
 		}
 		else{
-			BuildCityParams params = (BuildCityParams) Serializer.deserialize(inputString, BuildCityParams.class);
+			
 			try {
+
+				String inputString = HandlerUtil.requestBodyToString(exchange);
+				BuildCityParams params = (BuildCityParams) Serializer.deserialize(inputString, BuildCityParams.class);
+				
 				ServerFacade.getSingleton().setGameID(gameID);
 				ServerFacade.getSingleton().setPlayerID(playerID);
 				ClientModel clientModel = ServerFacade.getSingleton().buildCity(params);

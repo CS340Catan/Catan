@@ -21,7 +21,7 @@ public class RollNumberHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		logger.info("***server/httpHandlers/RollNumberHandler - entering handle");
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		
 		int gameID = HandlerUtil.getGameID(exchange);
 		int playerID = HandlerUtil.getPlayerID(exchange);
@@ -31,10 +31,13 @@ public class RollNumberHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
 		} 
 		else {
-			//otherwise send params to server model
-			RollParams params = (RollParams) Serializer.deserialize(inputStreamString, RollParams.class);	
+
 		
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				//otherwise send params to server model
+				RollParams params = (RollParams) Serializer.deserialize(inputStreamString, RollParams.class);	
+				
 				ServerFacade.getSingleton().setGameID(gameID);
 				ServerFacade.getSingleton().setPlayerID(playerID);
 				ClientModel clientModel = ServerFacade.getSingleton().rollNumber(params.getNumber());

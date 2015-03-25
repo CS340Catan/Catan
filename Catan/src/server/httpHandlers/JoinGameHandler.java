@@ -21,19 +21,23 @@ public class JoinGameHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		logger.info("server/httpHandlers/JoinGameHandler - entering Handle");
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-		
+
 		try {
+			
+			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 			JoinGameParams joinParams = (JoinGameParams) Serializer.deserialize(inputStreamString, JoinGameParams.class);
+			
 			ServerFacade.getSingleton().setGameID(joinParams.getId());
 			int playerId = HandlerUtil.getPlayerID(exchange);
 			ServerFacade.getSingleton().setPlayerID(playerId);
 			ServerFacade.getSingleton().joinGame(joinParams);
+			
 			ArrayList<String> values=new ArrayList<String>();
 			String gameCookie = URLEncoder.encode("catan.game=" + joinParams.getId(),"utf-8");
 			gameCookie += ";Path=/;";
 			values.add(gameCookie);
 			exchange.getResponseHeaders().put("Set-Cookie",values);
+			
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);

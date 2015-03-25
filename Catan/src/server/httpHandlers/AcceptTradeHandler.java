@@ -15,7 +15,7 @@ public class AcceptTradeHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+		
 
 		int gameID = HandlerUtil.getGameID(exchange);
 
@@ -26,18 +26,21 @@ public class AcceptTradeHandler implements IHttpHandler {
 		}
 
 		else {
-			// otherwise send acceptTrade params to server model
-			AcceptTradeParams acceptTradeParams = (AcceptTradeParams) Serializer
-					.deserialize(inputStreamString, AcceptTradeParams.class);
 
 			try {
+				
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				// otherwise send acceptTrade params to server model
+				AcceptTradeParams acceptTradeParams = (AcceptTradeParams) Serializer
+						.deserialize(inputStreamString, AcceptTradeParams.class);
+				
 				ServerFacade.getSingleton().setGameID(gameID);
 				ClientModel model = ServerFacade.getSingleton()
 						.acceptTrade(acceptTradeParams);
 				HandlerUtil.sendResponse(exchange, 200, model, ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400,
-						"Failed to accept trade.", String.class);
+						"Failed to accept trade." + e.getMessage(), String.class);
 				e.printStackTrace();
 			}
 

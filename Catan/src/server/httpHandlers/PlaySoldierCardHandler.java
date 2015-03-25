@@ -17,7 +17,7 @@ public class PlaySoldierCardHandler implements IHttpHandler {
 		/*
 		 * Grab the information from the request sent over.
 		 */
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		int gameID = HandlerUtil.getGameID(exchange);
 
 		/*
@@ -29,9 +29,12 @@ public class PlaySoldierCardHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie",
 					String.class);
 		} else {
-			MoveSoldierParams moveSoldierParam = (MoveSoldierParams) Serializer
-					.deserialize(inputStreamString, MoveSoldierParams.class);
+
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				MoveSoldierParams moveSoldierParam = (MoveSoldierParams) Serializer
+						.deserialize(inputStreamString, MoveSoldierParams.class);
+				
 				ClientModel model = ServerFacade.getSingleton()
 						.playSoldierCard(moveSoldierParam);
 				HandlerUtil.sendResponse(exchange, 200, model,

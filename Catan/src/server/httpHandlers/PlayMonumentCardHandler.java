@@ -17,7 +17,7 @@ public class PlayMonumentCardHandler implements IHttpHandler {
 		/*
 		 * Grab the information from the request sent over.
 		 */
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		int gameID = HandlerUtil.getGameID(exchange);
 
 		/*
@@ -29,9 +29,12 @@ public class PlayMonumentCardHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie",
 					String.class);
 		} else {
-			PlayMonumentParams playMonumentParam = (PlayMonumentParams) Serializer
-					.deserialize(inputStreamString, PlayMonumentParams.class);
+
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				PlayMonumentParams playMonumentParam = (PlayMonumentParams) Serializer
+						.deserialize(inputStreamString, PlayMonumentParams.class);
+				
 				ClientModel model = ServerFacade.getSingleton().playMonument(
 						playMonumentParam);
 				HandlerUtil.sendResponse(exchange, 200, model,

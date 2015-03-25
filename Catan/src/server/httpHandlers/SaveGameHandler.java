@@ -14,9 +14,11 @@ public class SaveGameHandler implements IHttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-		SaveParams saveParams = (SaveParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
+
 		try {
+			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+			SaveParams saveParams = (SaveParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
+			
 			ServerFacade.getSingleton().setGameID(saveParams.getId());
 			ServerFacade.getSingleton().saveGame(saveParams);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
