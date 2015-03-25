@@ -43,7 +43,7 @@ public class PlayMonumentCommand extends ICommand {
 			int postMonumentCount = preMonumentCount - 1;
 			model.getPlayers()[playerIndex].getOldDevCards().setMonument(
 					postMonumentCount);
-
+			
 			/*
 			 * Update the player's points, by adding one for the monument just
 			 * played.
@@ -52,12 +52,13 @@ public class PlayMonumentCommand extends ICommand {
 					.getVictoryPoints();
 			int postVictoryPoints = preVictoryPoints + 1;
 			model.getPlayers()[playerIndex].setVictoryPoints(postVictoryPoints);
-			
+
 			/*
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " played a monument card.",name));
+			model.getLog().addLine(
+					new MessageLine(name + " played a monument card.", name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

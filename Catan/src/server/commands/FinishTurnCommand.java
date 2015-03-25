@@ -60,6 +60,11 @@ public class FinishTurnCommand extends ICommand {
 
 			oldCards.addDevCards(newCards);
 			newCards.resetDevCards();
+			
+			/*
+			 * Reset the hasPlayedDevelopmentCard boolean.
+			 */
+			player.setPlayedDevCard(false);
 
 			/*
 			 * Change the current turn player index, such that the next player

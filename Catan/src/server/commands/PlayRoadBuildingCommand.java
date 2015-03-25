@@ -66,16 +66,27 @@ public class PlayRoadBuildingCommand extends ICommand {
 			// decrement player roads, and remove card
 			Player player = model.getPlayers()[playerIndex];
 			player.setRoads(player.getRoads() - 2);
-			player.getOldDevCards().setRoadBuilding(player.getOldDevCards().getRoadBuilding() - 1);
+			player.getOldDevCards().setRoadBuilding(
+					player.getOldDevCards().getRoadBuilding() - 1);
 
-			// re-allocate longest road, and victory points
+			/*
+			 * Re-allocate longest road, and victory points
+			 */
 			model.reallocateLongestRoad();
-			
+
+			/*
+			 * Set the player's has played development card boolean equal to
+			 * true.
+			 */
+			player.setPlayedDevCard(true);
+
 			/*
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " played a road building card.",name));
+			model.getLog().addLine(
+					new MessageLine(name + " played a road building card.",
+							name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

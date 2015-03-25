@@ -26,8 +26,10 @@ public class PlayYearOfPlentyCommand extends ICommand {
 
 	public PlayYearOfPlentyCommand(YearOfPlentyParams params) {
 		this.playerIndex = params.getPlayerIndex();
-		this.resource_1 = ResourceType.valueOf(params.getResource1().toUpperCase());
-		this.resource_2 = ResourceType.valueOf(params.getResource2().toUpperCase());
+		this.resource_1 = ResourceType.valueOf(params.getResource1()
+				.toUpperCase());
+		this.resource_2 = ResourceType.valueOf(params.getResource2()
+				.toUpperCase());
 		this.setType("PlayYearOfPlenty");
 	}
 
@@ -62,12 +64,20 @@ public class PlayYearOfPlentyCommand extends ICommand {
 			 */
 			model.addResourceFromBank(playerIndex, resource_1, 1);
 			model.addResourceFromBank(playerIndex, resource_2, 1);
-			
+
+			/*
+			 * Set the player's has played development card boolean equal to
+			 * true.
+			 */
+			player.setPlayedDevCard(true);
+
 			/*
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " played a year of plenty card.",name));
+			model.getLog().addLine(
+					new MessageLine(name + " played a year of plenty card.",
+							name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside
@@ -77,7 +87,8 @@ public class PlayYearOfPlentyCommand extends ICommand {
 			model.incrementVersion();
 
 		} else {
-			throw new ServerResponseException("Unable to play year of plenty card.");
+			throw new ServerResponseException(
+					"Unable to play year of plenty card.");
 		}
 	}
 

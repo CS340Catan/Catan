@@ -128,7 +128,7 @@ public class ResourceList {
 	 * 
 	 * @return
 	 */
-	public int count() {
+	public int totalResourceCount() {
 		return brick + wood + ore + sheep + wheat;
 	}
 

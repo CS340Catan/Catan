@@ -102,6 +102,12 @@ public class PlayMonopolyCommand extends ICommand {
 			String name = model.getPlayers()[playerIndex].getName();
 			model.getLog().addLine(new MessageLine(name + " played a monopoly card.",name));
 			
+			
+			/*
+			 * Set the player's has played development card boolean equal to true.
+			 */
+			player.setPlayedDevCard(true);
+			
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.

@@ -84,12 +84,19 @@ public class PlaySoldierCommand extends ICommand {
 			default:
 				break;
 			}
-			
+
+			/*
+			 * Set the player's has played development card boolean equal to
+			 * true.
+			 */
+			player.setPlayedDevCard(true);
+
 			/*
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " played a soldier card.",name));
+			model.getLog().addLine(
+					new MessageLine(name + " played a soldier card.", name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

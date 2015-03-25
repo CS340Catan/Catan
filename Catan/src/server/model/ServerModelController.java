@@ -1092,7 +1092,7 @@ public class ServerModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canDiscardCards(int playerIndex) {
-		if (model.getPlayers()[playerIndex].getResources().count() > 7
+		if (model.getPlayers()[playerIndex].getResources().totalResourceCount() > 7
 				&& !model.getPlayers()[playerIndex].alreadyDiscarded()
 				&& model.getTurnTracker().getStatus().equals("Discarding")) {
 			return true;
@@ -1390,7 +1390,7 @@ public class ServerModelController {
 		if (isPlayerTurn(robbingPlayer)
 				&& model.getTurnTracker().getStatus().equals("Robbing")
 				&& playerTouchingRobber(robbedPlayer, robberLocation)
-				&& model.getPlayers()[robbedPlayer].getResources().count() > 0) {
+				&& model.getPlayers()[robbedPlayer].getResources().totalResourceCount() > 0) {
 			return true;
 		}
 		return false;
