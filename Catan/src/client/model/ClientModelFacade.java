@@ -1081,7 +1081,7 @@ public class ClientModelFacade {
 	 */
 	public boolean canDiscardCards(int playerIndex) {
 		if (ClientModel.getSingleton().getPlayers()[playerIndex].getResources()
-				.count() > 7
+				.totalResourceCount() > 7
 				&& !ClientModel.getSingleton().getPlayers()[playerIndex]
 						.alreadyDiscarded()
 				&& ClientModel.getSingleton().getTurnTracker().getStatus()
@@ -1392,7 +1392,7 @@ public class ClientModelFacade {
 						.equals("Playing")
 				&& playerTouchingRobber(robbedPlayer, robberLocation)
 				&& ClientModel.getSingleton().getPlayers()[robbedPlayer]
-						.getResources().count() > 0) {
+						.getResources().totalResourceCount() > 0) {
 			return true;
 		}
 		return false;

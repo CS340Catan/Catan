@@ -46,7 +46,6 @@ public class RollNumberCommand extends ICommand {
 			 * turn tracker to discarding. Else, set the status to robbing.
 			 */
 			if (this.number == 7) {
-				model.initializeNeedToDiscard();
 				if (model.needToDiscard()) {
 					model.getTurnTracker().setStatus("Discarding");
 				} else {
@@ -132,19 +131,6 @@ public class RollNumberCommand extends ICommand {
 	private void addResourcesIfObjectExists(VertexObject testLocation,
 			ResourceType type, ServerModel model) {
 		ServerModelController controller = new ServerModelController(model);
-
-		/*
-		 * Check if there exists a settlement at the testLocation. If there
-		 * exists a settlement (returns a value other than -1), add 1 of the
-		 * given resource type to the player's hand and remove 1 of the given
-		 * resource type from the bank.
-		 */
-		int i = 0;
-		int settlementOwner = controller.settlementOwner(testLocation);
-		if (settlementOwner != -1) {
-			model.addResourceFromBank(settlementOwner, type, 1);
-		}
-
 		/*
 		 * Check if there exists a city at the testLocation. If there exists a
 		 * city (returns a value other than -1), add 2 of the given resource
@@ -155,7 +141,21 @@ public class RollNumberCommand extends ICommand {
 		if (cityOwner != -1) {
 			// add 2 to the map
 			model.addResourceFromBank(cityOwner, type, 2);
+			return;
 		}
+
+		/*
+		 * Check if there exists a settlement at the testLocation. If there
+		 * exists a settlement (returns a value other than -1), add 1 of the
+		 * given resource type to the player's hand and remove 1 of the given
+		 * resource type from the bank.
+		 */
+		int settlementOwner = controller.settlementOwner(testLocation);
+		if (settlementOwner != -1) {
+			model.addResourceFromBank(settlementOwner, type, 1);
+		}
+
+		
 	}
 
 }

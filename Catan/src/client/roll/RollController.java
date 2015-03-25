@@ -60,7 +60,11 @@ public class RollController extends Controller implements IRollController,
 		timer.cancel();
 		timer.purge();
 		Random rand = new Random(System.currentTimeMillis());
-		rollVal = rand.nextInt((12 - 2) + 1) + 2;
+		/*
+		 * Calculating a random number: rand.nextInt((max - min) + 1) + min;
+		 */
+		rollVal = (rand.nextInt((6 - 1) + 1) + 1)
+				+ (rand.nextInt((6 - 1) + 1) + 1);
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (modelController.canRollNumber(playerIndex)) {
 			getRollView().closeModal();

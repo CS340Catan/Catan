@@ -31,7 +31,6 @@ import shared.utils.Serializer;
 public class ServerModel extends AbstractModel {
 	private int gameID;
 	private List<ICommand> commands = new ArrayList<>();
-	private boolean[] needToDiscard = new boolean[4];
 
 	public ServerModel() {
 		this.setMap(new Map(new Hex[0], new Port[0], new Road[0],
@@ -54,31 +53,36 @@ public class ServerModel extends AbstractModel {
 		ClientModel cm = Serializer.deserializeClientModel(jsonString);
 		return cm;
 	}
-	public void validateResources(ResourceList resourceList){
-		if(resourceList.getBrick() < 0){
+
+	public void validateResources(ResourceList resourceList) {
+		if (resourceList.getBrick() < 0) {
 			resourceList.setBrick(0);
 		}
-		if(resourceList.getWheat() < 0){
+		if (resourceList.getWheat() < 0) {
 			resourceList.setWheat(0);
 		}
-		if(resourceList.getOre() < 0){
+		if (resourceList.getOre() < 0) {
 			resourceList.setOre(0);
 		}
-		if(resourceList.getWood() < 0){
+		if (resourceList.getWood() < 0) {
 			resourceList.setWood(0);
 		}
-		if(resourceList.getSheep() < 0){
+		if (resourceList.getSheep() < 0) {
 			resourceList.setSheep(0);
 		}
 	}
+
 	public void addResourceFromBank(int playerIndex, ResourceType type,
 			int amount) {
-		if(this.getTurnTracker().getStatus().toUpperCase().equals("FIRSTROUND") || this.getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")){
+		if (this.getTurnTracker().getStatus().toUpperCase()
+				.equals("FIRSTROUND")
+				|| this.getTurnTracker().getStatus().toUpperCase()
+						.equals("SECONDROUND")) {
 			return;
 		}
 		ResourceList playerResources = this.getPlayers()[playerIndex]
 				.getResources();
-		this.validateResources(playerResources);		
+		this.validateResources(playerResources);
 		ResourceList bankResources = this.getBank();
 
 		switch (type) {
@@ -124,8 +128,10 @@ public class ServerModel extends AbstractModel {
 	}
 
 	public void reallocateLongestRoad() {
-		// see who has most roads, must be >=5 if there's a tie keep the old
-		// player, else switch to new player
+		/*
+		 * see who has most roads, must be >=5 if there's a tie keep the old
+		 * player, else switch to new player
+		 */
 
 		Player[] players = this.getPlayers();
 
@@ -147,24 +153,12 @@ public class ServerModel extends AbstractModel {
 				player.setVictoryPoints(player.getVictoryPoints() + 2);
 
 			}
-			// special case: 2 people tie and surpass 5 at the same time
-			//This case is impossible. Two players cannot simultaneously surpass 5
-			else if (hasTiedLongestRoad(player.getPlayerIndex())
-					&& (this.getTurnTracker().getLongestRoad() == -1)) { // initialized
-																			// to
-																			// -1
-																			// right?
-				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
-				player.setVictoryPoints(player.getVictoryPoints() + 2);
-			}
 		}
-
 	}
 
 	private boolean hasLongestRoad(int playerIndex) {
 
 		Player[] players = this.getPlayers();
-		int i = 0;
 		for (Player player : players) {
 			if (player.getPlayerIndex() != playerIndex
 					&& player.getNumberRoadsBuilt() >= players[playerIndex]
@@ -172,7 +166,6 @@ public class ServerModel extends AbstractModel {
 				return false;
 			}
 		}
-
 		if (players[playerIndex].getNumberRoadsBuilt() >= 5) {
 			return true;
 		} else {
@@ -180,19 +173,56 @@ public class ServerModel extends AbstractModel {
 		}
 	}
 
-	private boolean hasTiedLongestRoad(int playerIndex) {
-
+	public void reallocateLargestArmy() {
+		/*
+		 * See who has most roads, must be >=5 if there's a tie keep the old
+		 * player, else switch to new player
+		 */
 		Player[] players = this.getPlayers();
 
 		for (Player player : players) {
-			if (player.getPlayerIndex() != playerIndex
-					&& players[playerIndex].getNumberRoadsBuilt() >= 5
-					&& player.getNumberRoadsBuilt() == players[playerIndex]
-							.getNumberRoadsBuilt()) {
-				return true;
+			if (hasLargestArmy(player.getPlayerIndex())) {
+				/*
+				 * Decrement old largest road player victory points.
+				 */
+				if (this.getTurnTracker().getLongestRoad() != -1) {
+					Player loser = players[this.getTurnTracker()
+							.getLargestArmy()];
+					loser.setVictoryPoints(loser.getVictoryPoints() - 2);
+				}
+
+				/*
+				 * Change largest army player and add player's victory points by
+				 * two.
+				 */
+				this.getTurnTracker().setLargestArmy(player.getPlayerIndex());
+				player.setVictoryPoints(player.getVictoryPoints() + 2);
+
 			}
 		}
 
+	}
+
+	private boolean hasLargestArmy(int playerIndex) {
+		Player[] players = this.getPlayers();
+		for (Player player : players) {
+			/*
+			 * If the player being compared has more soldiers, then return
+			 * false.
+			 */
+			if (player.getPlayerIndex() != playerIndex
+					&& player.getSoldiers() >= players[playerIndex]
+							.getSoldiers()) {
+				return false;
+			}
+		}
+		/*
+		 * If you as a player had more soldier cards than everyone AND you had
+		 * at least 3 soldier cards, then return true.
+		 */
+		if (players[playerIndex].getSoldiers() >= 3) {
+			return true;
+		}
 		return false;
 	}
 
@@ -226,29 +256,20 @@ public class ServerModel extends AbstractModel {
 	}
 
 	public boolean needToDiscard() {
-		for (boolean discard : this.needToDiscard) {
-			if (discard == true) {
+		for (Player player : this.getPlayers()) {
+			/*
+			 * If a player has not already discarded half of his cards and he
+			 * needs to discard cards (i.e. he has more than 7 cards), then
+			 * return true. Else, if no player needs to discard still, then
+			 * return false.
+			 */
+			if (player.alreadyDiscarded() == false
+					&& player.getResources().totalResourceCount() > 7) {
 				return true;
 			}
 		}
 
 		return false;
-	}
-
-	public void initializeNeedToDiscard() {
-		Player[] players = this.getPlayers();
-
-		for (int i = 0; i < players.length; i++) {
-			if (players[i].getResources().count() >= 7) {
-				this.needToDiscard[i] = true;
-			} else {
-				this.needToDiscard[i] = false;
-			}
-		}
-	}
-
-	public void setNeedToDiscard(boolean discard, int playerIndex) {
-		this.needToDiscard[playerIndex] = discard;
 	}
 
 	private void removeSettlementForCity(VertexObject city) {

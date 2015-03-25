@@ -5,6 +5,7 @@ import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.DiscardCardsParams;
 import shared.definitions.ResourceType;
+import shared.model.Player;
 import shared.model.ResourceList;
 import shared.utils.ServerResponseException;
 
@@ -68,13 +69,22 @@ public class DiscardCardsCommand extends ICommand {
 			model.addResourceFromBank(playerIndex, ResourceType.WOOD,
 					-discardWood);
 
-			model.setNeedToDiscard(false, playerIndex);
+			/*
+			 * Set player's discard boolean equal to true, such that the player
+			 * has discarded.
+			 */
+			model.getPlayers()[playerIndex].setDiscarded(true);
 
 			/*
 			 * If no other players need to discard, then change the status of
-			 * the game to playing within the model's turn tracker.
+			 * the game to playing within the model's turn tracker. Also, reset
+			 * all player's discard boolean equal to false for next discard
+			 * phase.
 			 */
 			if (!model.needToDiscard()) {
+				for (Player player : model.getPlayers()) {
+					player.setDiscarded(false);
+				}
 				model.getTurnTracker().setStatus("Robbing");
 			}
 

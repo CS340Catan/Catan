@@ -248,7 +248,7 @@ public class MapController extends Controller implements IMapController, Observe
 					robPlayerInfo.setPlayerIndex(i);
 					robPlayerInfo.setColor(clientModelController.getPlayerColor(i));
 					robPlayerInfo.setName(ClientModel.getSingleton().getPlayers()[i].getName());
-					robPlayerInfo.setNumCards(ClientModel.getSingleton().getPlayers()[i].getResources().count());
+					robPlayerInfo.setNumCards(ClientModel.getSingleton().getPlayers()[i].getResources().totalResourceCount());
 					robPlayerInfo.setId(ClientModel.getSingleton().getPlayers()[i].getPlayerid());
 					candidateVictims.add(robPlayerInfo);
 				}
