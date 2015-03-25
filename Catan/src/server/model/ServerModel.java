@@ -51,12 +51,31 @@ public class ServerModel extends AbstractModel {
 		ClientModel cm = Serializer.deserializeClientModel(jsonString);
 		return cm;
 	}
-
+	public void validateResources(ResourceList resourceList){
+		if(resourceList.getBrick() < 0){
+			resourceList.setBrick(0);
+		}
+		if(resourceList.getWheat() < 0){
+			resourceList.setWheat(0);
+		}
+		if(resourceList.getOre() < 0){
+			resourceList.setOre(0);
+		}
+		if(resourceList.getWood() < 0){
+			resourceList.setWood(0);
+		}
+		if(resourceList.getSheep() < 0){
+			resourceList.setSheep(0);
+		}
+	}
 	public void addResourceFromBank(int playerIndex, ResourceType type,
 			int amount) {
-
+		if(this.getTurnTracker().getStatus().toUpperCase().equals("FIRSTROUND") || this.getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")){
+			return;
+		}
 		ResourceList playerResources = this.getPlayers()[playerIndex]
 				.getResources();
+		this.validateResources(playerResources);		
 		ResourceList bankResources = this.getBank();
 
 		switch (type) {
