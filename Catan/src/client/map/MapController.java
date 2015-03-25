@@ -113,6 +113,7 @@ public class MapController extends Controller implements IMapController,
 	public void populatePorts() {
 		for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
 			if (port != null) {
+				port.convertFromPrimitives();
 				PortType portType = clientModelController.stringToPortType(port
 						.getResource());
 				EdgeLocation edgeLocation = new EdgeLocation(
@@ -456,34 +457,40 @@ public class MapController extends Controller implements IMapController,
 			break;
 		default:
 			System.out
-					.println("Somthing has gone terribly, horribly wrong in Update() in mapController.java");
+					.println("no status set");
 			break;
 		}
 	}
 
 	private void updateCities() {
-		for (VertexObject city : ClientModel.getSingleton().getMap()
-				.getCities()) {
-			int ownerIndex = city.getOwner();
-			getView().placeCity(city.getLocation(),
-					clientModelController.getPlayerColor(ownerIndex));
+		if(ClientModel.getSingleton().getMap().getCities() != null){
+			for (VertexObject city : ClientModel.getSingleton().getMap()
+					.getCities()) {
+				int ownerIndex = city.getOwner();
+				getView().placeCity(city.getLocation(),
+						clientModelController.getPlayerColor(ownerIndex));
+			}
 		}
 	}
 
 	private void updateSettlements() {
-		for (VertexObject settlement : ClientModel.getSingleton().getMap()
-				.getSettlements()) {
-			int ownerIndex = settlement.getOwner();
-			getView().placeSettlement(settlement.getLocation(),
-					clientModelController.getPlayerColor(ownerIndex));
+		if(ClientModel.getSingleton().getMap().getSettlements() != null){		
+			for (VertexObject settlement : ClientModel.getSingleton().getMap()
+					.getSettlements()) {
+				int ownerIndex = settlement.getOwner();
+				getView().placeSettlement(settlement.getLocation(),
+						clientModelController.getPlayerColor(ownerIndex));
+			}
 		}
 	}
 
 	private void updateRoads() {
-		for (Road road : ClientModel.getSingleton().getMap().getRoads()) {
-			int ownerIndex = road.getOwner();
-			getView().placeRoad(road.getLocation(),
-					clientModelController.getPlayerColor(ownerIndex));
+		if(ClientModel.getSingleton().getMap().getRoads() != null){		
+			for (Road road : ClientModel.getSingleton().getMap().getRoads()) {
+				int ownerIndex = road.getOwner();
+				getView().placeRoad(road.getLocation(),
+						clientModelController.getPlayerColor(ownerIndex));
+			}
 		}
 
 	}

@@ -47,7 +47,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		poller = new Poller(ServerProxy.getSingleton());
 		poller.unconditionallyUpdateModel();
 		poller.setPlayerWaitingTimer();
-		ClientModel thing = ClientModel.getSingleton();
 		if (ClientModel.getSingleton().getPlayers() != null) {
 			ArrayList<PlayerInfo> playerInfoList = new ArrayList<PlayerInfo>();
 			for (Player player : ClientModel.getSingleton().getPlayers()) {
