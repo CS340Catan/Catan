@@ -46,7 +46,6 @@ public class FinishTurnCommand extends ICommand {
 
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
-
 		if (controller.canFinishTurn(this.playerIndex)) {
 			Player player = model.getPlayers()[playerIndex];
 
@@ -72,7 +71,15 @@ public class FinishTurnCommand extends ICommand {
 				nextPlayer = 0;
 			}
 			model.getTurnTracker().setCurrentTurn(nextPlayer);
-			model.getTurnTracker().setStatus("Rolling");
+			if(nextPlayer == 0 && model.getTurnTracker().getStatus().toUpperCase().equals("FIRSTROUND")){
+				model.getTurnTracker().setStatus("SecondRound");				
+			}
+			else if(nextPlayer == 0 && model.getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")){
+				model.getTurnTracker().setStatus("Rolling");				
+			}
+			else if(!model.getTurnTracker().getStatus().toUpperCase().equals("FIRSTROUND") && !model.getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")){
+				model.getTurnTracker().setStatus("Rolling");
+			}
 			
 			/*
 			 * Update game history

@@ -131,7 +131,7 @@ public class CreateGameCommand extends ICommand {
 		numbers[16] = 12;
 		numbers[17] = 6;
 		if(params.isRandomNumbers()){
-			Object[] objectArray = (Integer[]) this.randomize(numbers);
+			Object[] objectArray = this.randomize(numbers);
 			numbers = Arrays.copyOf(objectArray, objectArray.length, Integer[].class);			
 		}
 		HexLocation[] locations = new HexLocation[19];
