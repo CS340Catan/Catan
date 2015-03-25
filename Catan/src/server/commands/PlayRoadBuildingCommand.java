@@ -63,9 +63,10 @@ public class PlayRoadBuildingCommand extends ICommand {
 			model.addRoad(road1);
 			model.addRoad(road2);
 
-			// decrement player roads
+			// decrement player roads, and remove card
 			Player player = model.getPlayers()[playerIndex];
 			player.setRoads(player.getRoads() - 2);
+			player.getOldDevCards().setRoadBuilding(player.getOldDevCards().getRoadBuilding() - 1);
 
 			// re-allocate longest road, and victory points
 			model.reallocateLongestRoad();

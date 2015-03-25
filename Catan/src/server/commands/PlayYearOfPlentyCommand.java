@@ -54,7 +54,7 @@ public class PlayYearOfPlentyCommand extends ICommand {
 			 */
 			int preYearOfPlenty = player.getOldDevCards().getYearOfPlenty();
 			int postYearOfPlenty = preYearOfPlenty - 1;
-			player.getOldDevCards().setMonopoly(postYearOfPlenty);
+			player.getOldDevCards().setYearOfPlenty(postYearOfPlenty);
 
 			/*
 			 * Given the resource types inputed into the command, remove 1 of

@@ -87,7 +87,9 @@ public class Deck {
 			oldList.setMonument(oldList.getMonument() + 1);
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier <= 0) {
 			DevCardList oldList = drawingPlayer.getNewDevCards();
+			System.out.println("player soldier cards before bought card: " + drawingPlayer.getSoldiers());
 			oldList.setSoldier(oldList.getSoldier() + 1);
+			System.out.println("player soldier cards after: " + drawingPlayer.getSoldiers());
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier
 				- this.roadBuilding <= 0) {
 			DevCardList oldList = drawingPlayer.getNewDevCards();
