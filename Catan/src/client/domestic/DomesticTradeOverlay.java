@@ -15,7 +15,6 @@ import javax.swing.*;
 import shared.data.PlayerInfo;
 import shared.definitions.*;
 import client.base.*;
-import client.data.*;
 import client.utils.FontUtils;
 
 /**

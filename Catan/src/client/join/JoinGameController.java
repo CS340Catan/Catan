@@ -8,7 +8,6 @@ import shared.communication.*;
 import shared.data.GameInfo;
 import shared.data.PlayerInfo;
 import shared.definitions.CatanColor;
-import shared.model.Player;
 import shared.utils.IServer;
 import shared.utils.ServerResponseException;
 import client.base.*;
