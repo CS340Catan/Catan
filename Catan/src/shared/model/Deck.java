@@ -82,22 +82,27 @@ public class Deck {
 		if (randomCardIndex - this.yearOfPlenty <= 0) {
 			DevCardList newList = drawingPlayer.getNewDevCards();
 			newList.setYearOfPlenty(newList.getYearOfPlenty() + 1);
+			this.yearOfPlenty--;
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument <= 0) {
 			DevCardList oldList = drawingPlayer.getOldDevCards();
 			oldList.setMonument(oldList.getMonument() + 1);
+			this.monument--;
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier <= 0) {
 			DevCardList newList = drawingPlayer.getNewDevCards();
 			System.out.println("player soldier cards before bought card: " + drawingPlayer.getSoldiers());
 			newList.setSoldier(newList.getSoldier() + 1);
 			System.out.println("player soldier cards after: " + drawingPlayer.getSoldiers());
+			this.soldier--;
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier
 				- this.roadBuilding <= 0) {
 			DevCardList newList = drawingPlayer.getNewDevCards();
 			newList.setRoadBuilding(newList.getRoadBuilding() + 1);
+			this.roadBuilding--;
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier
 				- this.roadBuilding - this.monopoly <= 0) {
 			DevCardList newList = drawingPlayer.getNewDevCards();
 			newList.setMonopoly(newList.getMonopoly() + 1);
+			this.monopoly--;
 		}
 	}
 
