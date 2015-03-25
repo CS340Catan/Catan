@@ -31,18 +31,25 @@ public class HandlerUtil {
 		int gameID = -1;
 		for (String cookie : cookies) {
 			
+			boolean foundGame = false;
 			String[] splitArray = cookie.split(";",-1);
-			if(splitArray[0].contains("game")){
-				cookie = splitArray[0];
+			for(String subCook : splitArray){
+				if(subCook.contains("game")){
+					cookie = subCook;
+					foundGame = true;
+					break;
+				}
 			}
-			else{
-				cookie = splitArray[1];
+			if(!foundGame) {
+				return gameID;
 			}
 			
 			
 			try {
 				cookie = URLDecoder.decode(cookie, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch(Exception e) {
 				e.printStackTrace();
 			}
 			

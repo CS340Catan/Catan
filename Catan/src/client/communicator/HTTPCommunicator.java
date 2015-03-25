@@ -99,14 +99,14 @@ public class HTTPCommunicator {
 			}
 			System.out.print(urlString + " response code: ");
 			System.out.println(connection.getResponseCode());	//testing
-			System.out.println("After");
+
 			
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				// Look for cookies
 				String cookie = connection.getHeaderField("Set-Cookie");
 				if (cookie != null)
 					parseSetCookie(cookie, connection);
-				System.out.println("Aftdsder");
+
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						connection.getInputStream()));
 				StringBuilder sb = new StringBuilder();
@@ -114,7 +114,7 @@ public class HTTPCommunicator {
 				while ((line = br.readLine()) != null) {
 					sb.append(line);
 				}
-				System.out.println("aaaAfter");
+
 				br.close();
 				String body = sb.toString();
 				if (body == null)

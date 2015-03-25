@@ -14,6 +14,7 @@ public class SendChatHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 	
+
 		int gameID = HandlerUtil.getGameID(exchange);
 		// if gameID is -1, there is no cookie so send back an error message
 		
@@ -37,7 +38,7 @@ public class SendChatHandler implements IHttpHandler {
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);
 			} catch (ServerResponseException e) {
-				HandlerUtil.sendResponse(exchange, 400, "Failed to send chat.",
+				HandlerUtil.sendResponse(exchange, 400, "Failed to send chat." + e.getMessage(),
 						String.class);
 				e.printStackTrace();
 			}
