@@ -68,6 +68,8 @@ public class DiscardCardsCommand extends ICommand {
 			model.addResourceFromBank(playerIndex, ResourceType.WOOD,
 					-discardWood);
 
+			model.setNeedToDiscard(false, playerIndex);
+
 			/*
 			 * If no other players need to discard, then change the status of
 			 * the game to playing within the model's turn tracker.

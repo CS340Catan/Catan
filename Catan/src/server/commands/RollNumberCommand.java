@@ -46,6 +46,7 @@ public class RollNumberCommand extends ICommand {
 			 * turn tracker to discarding. Else, set the status to robbing.
 			 */
 			if (this.number == 7) {
+				model.initializeNeedToDiscard();
 				if (model.needToDiscard()) {
 					model.getTurnTracker().setStatus("Discarding");
 				} else {
