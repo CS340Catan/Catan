@@ -60,7 +60,7 @@ public class CreateGameCommand extends ICommand {
 	}
 
 	private void addPorts() {
-		//PortType portType = PortType.BRICK;
+		// PortType portType = PortType.BRICK;
 		String[] resources = new String[9];
 		resources[0] = "three";
 		resources[1] = "wheat";
@@ -71,10 +71,11 @@ public class CreateGameCommand extends ICommand {
 		resources[6] = "brick";
 		resources[7] = "wood";
 		resources[8] = "three";
-		
-		if(params.isRandomPorts()){
+
+		if (params.isRandomPorts()) {
 			Object[] objectArray = this.randomize(resources);
-			resources = Arrays.copyOf(objectArray, objectArray.length, String[].class);			
+			resources = Arrays.copyOf(objectArray, objectArray.length,
+					String[].class);
 		}
 		Port[] ports = new Port[9];
 		ports[0] = new Port(resources[0], new HexLocation(0, 3), "N", 3);
@@ -93,10 +94,10 @@ public class CreateGameCommand extends ICommand {
 	public Object[] randomize(Object[] resources) {
 		Random rand = new Random();
 		Object[] tempArray = new Object[resources.length];
-		//int j = 0;
-		for(int i = resources.length-1; i >= 0; i--){
+		// int j = 0;
+		for (int i = resources.length - 1; i >= 0; i--) {
 			int randomNum = rand.nextInt((resources.length));
-			while(tempArray[randomNum] != null){
+			while (tempArray[randomNum] != null) {
 				randomNum = rand.nextInt((resources.length));
 			}
 			tempArray[randomNum] = resources[i];
@@ -124,9 +125,10 @@ public class CreateGameCommand extends ICommand {
 		numbers[15] = 11;
 		numbers[16] = 12;
 		numbers[17] = 6;
-		if(params.isRandomNumbers()){
+		if (params.isRandomNumbers()) {
 			Object[] objectArray = this.randomize(numbers);
-			numbers = Arrays.copyOf(objectArray, objectArray.length, Integer[].class);			
+			numbers = Arrays.copyOf(objectArray, objectArray.length,
+					Integer[].class);
 		}
 		HexLocation[] locations = new HexLocation[19];
 		locations[0] = new HexLocation(-2, 0);
@@ -169,10 +171,11 @@ public class CreateGameCommand extends ICommand {
 		resources[16] = "wood";
 		resources[17] = "sheep";
 		resources[18] = "wheat";
-		
-		if(params.isRandomTiles()){
+
+		if (params.isRandomTiles()) {
 			Object[] objectArray = this.randomize(resources);
-			resources = Arrays.copyOf(objectArray, objectArray.length, String[].class);	
+			resources = Arrays.copyOf(objectArray, objectArray.length,
+					String[].class);
 		}
 
 		Hex[] hexes = new Hex[19];
@@ -196,15 +199,14 @@ public class CreateGameCommand extends ICommand {
 		hexes[17] = new Hex(locations[17], resources[17], -1);
 		hexes[18] = new Hex(locations[18], resources[18], -1);
 		int i = 0;
-			for(Hex hex : hexes){
-				if(hex.getResource().equals("desert")){
-					serverModel.getMap().setRobber(hex.getLocation());
-				}
-				else {
-					hex.setNumber(numbers[i]);
-					i++;
-				}
+		for (Hex hex : hexes) {
+			if (hex.getResource().equals("desert")) {
+				serverModel.getMap().setRobber(hex.getLocation());
+			} else {
+				hex.setNumber(numbers[i]);
+				i++;
 			}
+		}
 		serverModel.getMap().setHexes(hexes);
 	}
 }

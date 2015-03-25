@@ -1052,9 +1052,10 @@ public class ServerModelController {
 		return false;
 
 	}
-	
+
 	/**
 	 * checks the owner of a settlement at a location, returns -1 if no one
+	 * 
 	 * @param location
 	 * @return
 	 */
@@ -1068,9 +1069,10 @@ public class ServerModelController {
 
 		return -1;
 	}
-	
+
 	/**
 	 * checks the owner of a city at a location, returns -1 if no one
+	 * 
 	 * @param location
 	 * @return
 	 */
@@ -1390,7 +1392,8 @@ public class ServerModelController {
 		if (isPlayerTurn(robbingPlayer)
 				&& model.getTurnTracker().getStatus().equals("Robbing")
 				&& playerTouchingRobber(robbedPlayer, robberLocation)
-				&& model.getPlayers()[robbedPlayer].getResources().totalResourceCount() > 0) {
+				&& model.getPlayers()[robbedPlayer].getResources()
+						.totalResourceCount() > 0) {
 			return true;
 		}
 		return false;
@@ -1519,6 +1522,13 @@ public class ServerModelController {
 		return false;
 	}
 
+	/**
+	 * Tests if the player can finish their turn.
+	 * 
+	 * @param playerIndex
+	 *            Player ending turn.
+	 * @return True if player can end turn.
+	 */
 	public boolean canFinishTurn(int playerIndex) {
 		if (isPlayerTurn(playerIndex)) {
 			return true;

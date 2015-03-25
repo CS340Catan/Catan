@@ -80,24 +80,24 @@ public class Deck {
 		 * cards list.
 		 */
 		if (randomCardIndex - this.yearOfPlenty <= 0) {
-			DevCardList oldList = drawingPlayer.getNewDevCards();
-			oldList.setYearOfPlenty(oldList.getYearOfPlenty() + 1);
+			DevCardList newList = drawingPlayer.getNewDevCards();
+			newList.setYearOfPlenty(newList.getYearOfPlenty() + 1);
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument <= 0) {
 			DevCardList oldList = drawingPlayer.getOldDevCards();
 			oldList.setMonument(oldList.getMonument() + 1);
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier <= 0) {
-			DevCardList oldList = drawingPlayer.getNewDevCards();
+			DevCardList newList = drawingPlayer.getNewDevCards();
 			System.out.println("player soldier cards before bought card: " + drawingPlayer.getSoldiers());
-			oldList.setSoldier(oldList.getSoldier() + 1);
+			newList.setSoldier(newList.getSoldier() + 1);
 			System.out.println("player soldier cards after: " + drawingPlayer.getSoldiers());
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier
 				- this.roadBuilding <= 0) {
-			DevCardList oldList = drawingPlayer.getNewDevCards();
-			oldList.setRoadBuilding(oldList.getRoadBuilding() + 1);
+			DevCardList newList = drawingPlayer.getNewDevCards();
+			newList.setRoadBuilding(newList.getRoadBuilding() + 1);
 		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier
 				- this.roadBuilding - this.monopoly <= 0) {
-			DevCardList oldList = drawingPlayer.getNewDevCards();
-			oldList.setMonopoly(oldList.getMonopoly() + 1);
+			DevCardList newList = drawingPlayer.getNewDevCards();
+			newList.setMonopoly(newList.getMonopoly() + 1);
 		}
 	}
 
