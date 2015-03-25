@@ -7,6 +7,7 @@ import shared.communication.UserActionParams;
 import shared.model.DevCardList;
 import shared.model.MessageLine;
 import shared.model.Player;
+import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
 /**
@@ -43,9 +44,9 @@ public class FinishTurnCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
+		
 		if (controller.canFinishTurn(this.playerIndex)) {
 			Player player = model.getPlayers()[playerIndex];
 
@@ -60,7 +61,7 @@ public class FinishTurnCommand extends ICommand {
 
 			oldCards.addDevCards(newCards);
 			newCards.resetDevCards();
-			
+
 			/*
 			 * Reset the hasPlayedDevelopmentCard boolean.
 			 */
@@ -75,6 +76,7 @@ public class FinishTurnCommand extends ICommand {
 			if (nextPlayer > 3) {
 				nextPlayer = 0;
 			}
+
 			model.getTurnTracker().setCurrentTurn(nextPlayer);
 			if (nextPlayer == 0
 					&& model.getTurnTracker().getStatus().toUpperCase()
