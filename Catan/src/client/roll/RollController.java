@@ -59,7 +59,7 @@ public class RollController extends Controller implements IRollController,
 	public void rollDice() {
 		timer.cancel();
 		timer.purge();
-		Random rand = new Random();
+		Random rand = new Random(System.currentTimeMillis());
 		rollVal = rand.nextInt((12 - 2) + 1) + 2;
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		if (modelController.canRollNumber(playerIndex)) {
