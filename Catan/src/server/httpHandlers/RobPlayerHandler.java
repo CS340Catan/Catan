@@ -17,8 +17,7 @@ public class RobPlayerHandler implements IHttpHandler {
 		/*
 		 * Grab the information from the request sent over.
 		 */
-		
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		int gameID = HandlerUtil.getGameID(exchange);
 
 		/*
@@ -30,9 +29,13 @@ public class RobPlayerHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie",
 					String.class);
 		} else {
-			MoveRobberParams moveRobberParam = (MoveRobberParams) Serializer
-					.deserialize(inputStreamString, MoveRobberParams.class);
+
 			try {
+				
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				MoveRobberParams moveRobberParam = (MoveRobberParams) Serializer
+						.deserialize(inputStreamString, MoveRobberParams.class);
+				
 				ClientModel model = ServerFacade.getSingleton().robPlayer(
 						moveRobberParam);
 				HandlerUtil.sendResponse(exchange, 200, model,

@@ -15,7 +15,7 @@ public class BuildSettlementHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		
 		int gameID = HandlerUtil.getGameID(exchange);
 		int playerID = HandlerUtil.getPlayerID(exchange);
@@ -28,16 +28,20 @@ public class BuildSettlementHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Player Cookie", String.class);
 		}
 		else {
-			//otherwise send params to server model
-			BuildSettlementParams params = (BuildSettlementParams) Serializer.deserialize(inputStreamString, BuildSettlementParams.class);	
+	
 		
 			try {
+				
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				//otherwise send params to server model
+				BuildSettlementParams params = (BuildSettlementParams) Serializer.deserialize(inputStreamString, BuildSettlementParams.class);
+				
 				ServerFacade.getSingleton().setGameID(gameID);
 				ServerFacade.getSingleton().setPlayerID(playerID);
 				ClientModel clientModel = ServerFacade.getSingleton().buildSettlement(params);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
-				HandlerUtil.sendResponse(exchange, 400, "Failed to build settlement", String.class);
+				HandlerUtil.sendResponse(exchange, 400, "Failed to build settlement" + e.getMessage(), String.class);
 				e.printStackTrace();
 			}
 			

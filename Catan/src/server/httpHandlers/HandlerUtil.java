@@ -2,6 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 
 import server.model.RegisteredPlayers;
 import shared.communication.UserCredentials;
+import shared.utils.ServerResponseException;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -22,13 +24,28 @@ public class HandlerUtil {
 	
 	public static int getGameID(HttpExchange exchange) {
 		Headers reqHeaders = exchange.getRequestHeaders();
-		List<String> cookies = reqHeaders.get("Cookie");
+		List<String> cookies = new ArrayList<>();
+		if(reqHeaders.containsKey("Cookie")) {
+			cookies = reqHeaders.get("Cookie");
+		}
 		int gameID = -1;
 		for (String cookie : cookies) {
-			JsonParser parser = new JsonParser();
-			/*JsonObject jsonObject = (JsonObject) parser.parse(cookie);
-			JsonElement gameIDElement = jsonObject.get("gameID");
-			gameID = gameIDElement.getAsInt();*/
+			
+			String[] splitArray = cookie.split(";",-1);
+			if(splitArray[0].contains("game")){
+				cookie = splitArray[0];
+			}
+			else{
+				cookie = splitArray[1];
+			}
+			
+			
+			try {
+				cookie = URLDecoder.decode(cookie, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			
 			String[] cookieParts = cookie.split("=");
 			gameID = Integer.valueOf(cookieParts[2]);
 			return gameID;
@@ -40,13 +57,29 @@ public class HandlerUtil {
 
 	public static int getPlayerID(HttpExchange exchange) {
 		Headers reqHeaders = exchange.getRequestHeaders();
-		List<String> cookies = reqHeaders.get("Cookie");
+		List<String> cookies = new ArrayList<>();
+		if(reqHeaders.containsKey("Cookie")) {
+			cookies = reqHeaders.get("Cookie");
+		}
 		int playerID = -1;
 		for (String cookie : cookies) {
 			JsonParser parser = new JsonParser();
-			cookie = cookie.replace("catan.user=", "");
 			String[] splitArray = cookie.split(";",-1);
-			JsonObject jsonObject = (JsonObject) parser.parse(splitArray[0]);
+			if(splitArray[0].contains("password")){
+				cookie = splitArray[0];
+			}
+			else{
+				cookie = splitArray[1];
+			}
+			
+			try {
+				cookie = URLDecoder.decode(cookie, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			cookie = cookie.replace("catan.user=", "");
+			
+			JsonObject jsonObject = (JsonObject) parser.parse(cookie);
 			JsonElement gameIDElement = jsonObject.get("playerID");
 			playerID = gameIDElement.getAsInt();
 		}
@@ -55,9 +88,17 @@ public class HandlerUtil {
 		return playerID;
 	}
 
-	public static String requestBodyToString(HttpExchange exchange) {
+	@SuppressWarnings("resource")
+	public static String requestBodyToString(HttpExchange exchange) throws ServerResponseException {
+		String jsonString = null;
 		Scanner scanner = new Scanner(exchange.getRequestBody(), "UTF-8");
-		String jsonString = scanner.useDelimiter("\\A").next();
+		scanner.useDelimiter("\\A");
+		if(scanner.hasNext()) {
+			jsonString = scanner.next();
+		}
+		else {
+			throw new ServerResponseException("JSON incorrect.");
+		}
 		scanner.close();
 		return jsonString;
 	}

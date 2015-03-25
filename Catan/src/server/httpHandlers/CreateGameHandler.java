@@ -14,10 +14,11 @@ public class CreateGameHandler implements IHttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-		
+
 		try {
+			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 			CreateGameParams params = (CreateGameParams) Serializer.deserialize(inputStreamString, CreateGameParams.class);
+			
 			GameInfo gameInfo = ServerFacade.getSingleton().createGame(params);
 			HandlerUtil.sendResponse(exchange, 200, gameInfo, GameInfo.class);			
 		} catch (ServerResponseException e) {

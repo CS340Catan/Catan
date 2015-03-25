@@ -15,7 +15,7 @@ public class BuildRoadHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+		
 		
 		int gameID = HandlerUtil.getGameID(exchange);
 		int playerID = HandlerUtil.getPlayerID(exchange);
@@ -25,16 +25,20 @@ public class BuildRoadHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
 		} 
 		else {
-			//otherwise send params to server model
-			BuildRoadParams params = (BuildRoadParams) Serializer.deserialize(inputStreamString, BuildRoadParams.class);	
+				
 		
 			try {
+				
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				//otherwise send params to server model
+				BuildRoadParams params = (BuildRoadParams) Serializer.deserialize(inputStreamString, BuildRoadParams.class);
+				
 				ServerFacade.getSingleton().setGameID(gameID);
 				ServerFacade.getSingleton().setPlayerID(playerID);
 				ClientModel clientModel = ServerFacade.getSingleton().buildRoad(params);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
-				HandlerUtil.sendResponse(exchange, 400, "Failed to build road", String.class);
+				HandlerUtil.sendResponse(exchange, 400, "Failed to build road" + e.getMessage(), String.class);
 				e.printStackTrace();
 			}
 			

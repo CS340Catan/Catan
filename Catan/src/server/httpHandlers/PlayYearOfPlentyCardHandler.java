@@ -17,7 +17,7 @@ public class PlayYearOfPlentyCardHandler implements IHttpHandler {
 		/*
 		 * Grab the information from the request sent over.
 		 */
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		int gameID = HandlerUtil.getGameID(exchange);
 
 		/*
@@ -29,9 +29,12 @@ public class PlayYearOfPlentyCardHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie",
 					String.class);
 		} else {
-			YearOfPlentyParams yearOfPlentyParam = (YearOfPlentyParams) Serializer
-					.deserialize(inputStreamString, YearOfPlentyParams.class);
+
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				YearOfPlentyParams yearOfPlentyParam = (YearOfPlentyParams) Serializer
+						.deserialize(inputStreamString, YearOfPlentyParams.class);
+				
 				ClientModel model = ServerFacade.getSingleton()
 						.playYearOfPlentyCard(yearOfPlentyParam);
 				HandlerUtil.sendResponse(exchange, 200, model,

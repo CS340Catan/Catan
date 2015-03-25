@@ -15,7 +15,7 @@ public class FinishTurnHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		
 		int gameID = HandlerUtil.getGameID(exchange);
 		int playerID = HandlerUtil.getPlayerID(exchange);
@@ -25,10 +25,13 @@ public class FinishTurnHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
 		} 
 		else {
-			//otherwise send params to server model
-			UserActionParams params = (UserActionParams) Serializer.deserialize(inputStreamString, UserActionParams.class);	
+
 		
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				//otherwise send params to server model
+				UserActionParams params = (UserActionParams) Serializer.deserialize(inputStreamString, UserActionParams.class);	
+				
 				ServerFacade.getSingleton().setGameID(gameID);
 				ServerFacade.getSingleton().setPlayerID(playerID);
 				ClientModel clientModel = ServerFacade.getSingleton().finishTurn(params);

@@ -15,7 +15,7 @@ public class DiscardCardsHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+		
 		
 		int gameID = HandlerUtil.getGameID(exchange);
 		
@@ -24,10 +24,13 @@ public class DiscardCardsHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
 		} 
 		else {
-			//otherwise send params to server model
-			DiscardCardsParams params = (DiscardCardsParams) Serializer.deserialize(inputStreamString, DiscardCardsParams.class);	
+		
 		
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				//otherwise send params to server model
+				DiscardCardsParams params = (DiscardCardsParams) Serializer.deserialize(inputStreamString, DiscardCardsParams.class);
+				
 				ServerFacade.getSingleton().setGameID(gameID);
 				ClientModel clientModel = ServerFacade.getSingleton().discardCards(params);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
