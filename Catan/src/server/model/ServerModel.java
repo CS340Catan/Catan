@@ -153,16 +153,6 @@ public class ServerModel extends AbstractModel {
 				player.setVictoryPoints(player.getVictoryPoints() + 2);
 
 			}
-			/*
-			 * special case: 2 people tie and surpass 5 at the same time This
-			 * case is impossible. Two players cannot simultaneously surpass 5
-			 */
-			else if (hasTiedLongestRoad(player.getPlayerIndex())
-					&& (this.getTurnTracker().getLongestRoad() == -1)) {
-				// initialized to -1 right?
-				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
-				player.setVictoryPoints(player.getVictoryPoints() + 2);
-			}
 		}
 	}
 
@@ -181,22 +171,6 @@ public class ServerModel extends AbstractModel {
 		} else {
 			return false;
 		}
-	}
-
-	private boolean hasTiedLongestRoad(int playerIndex) {
-
-		Player[] players = this.getPlayers();
-
-		for (Player player : players) {
-			if (player.getPlayerIndex() != playerIndex
-					&& players[playerIndex].getNumberRoadsBuilt() >= 5
-					&& player.getNumberRoadsBuilt() == players[playerIndex]
-							.getNumberRoadsBuilt()) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	public void reallocateLargestArmy() {
@@ -225,16 +199,6 @@ public class ServerModel extends AbstractModel {
 				player.setVictoryPoints(player.getVictoryPoints() + 2);
 
 			}
-			/*
-			 * special case: 2 people tie and surpass 5 at the same time This
-			 * case is impossible. Two players cannot simultaneously surpass 5
-			 */
-			else if (hasTiedLongestRoad(player.getPlayerIndex())
-					&& (this.getTurnTracker().getLongestRoad() == -1)) {
-				// initialized to -1 right?
-				this.getTurnTracker().setLongestRoad(player.getPlayerIndex());
-				player.setVictoryPoints(player.getVictoryPoints() + 2);
-			}
 		}
 
 	}
@@ -242,17 +206,24 @@ public class ServerModel extends AbstractModel {
 	private boolean hasLargestArmy(int playerIndex) {
 		Player[] players = this.getPlayers();
 		for (Player player : players) {
+			/*
+			 * If the player being compared has more soldiers, then return
+			 * false.
+			 */
 			if (player.getPlayerIndex() != playerIndex
 					&& player.getSoldiers() >= players[playerIndex]
 							.getSoldiers()) {
 				return false;
 			}
 		}
-		if (players[playerIndex].getNumberRoadsBuilt() >= 5) {
+		/*
+		 * If you as a player had more soldier cards than everyone AND you had
+		 * at least 3 soldier cards, then return true.
+		 */
+		if (players[playerIndex].getSoldiers() >= 3) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public void addSettlement(VertexObject settlement) {
