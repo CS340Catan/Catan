@@ -1521,8 +1521,7 @@ public class ServerModelController {
 	}
 
 	public boolean canFinishTurn(int playerIndex) {
-		if (isPlayerTurn(playerIndex)
-				&& model.getTurnTracker().getStatus() == "Playing") {
+		if (isPlayerTurn(playerIndex)) {
 			return true;
 		}
 		return false;
