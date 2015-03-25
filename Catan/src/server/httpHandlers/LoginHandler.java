@@ -1,7 +1,6 @@
 package server.httpHandlers;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 
 import server.facade.ServerFacade;
 import shared.communication.UserCredentials;
@@ -18,13 +17,15 @@ public class LoginHandler implements IHttpHandler {
 		try {
 			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 			UserCredentials userCredentials = (UserCredentials) Serializer.deserialize(inputStreamString, UserCredentials.class);
-
 			ServerFacade.getSingleton().login(userCredentials);
 			HandlerUtil.setUserCookie(exchange, userCredentials);
-			//HandlerUtil.sendResponse(exchange, HttpURLConnection.HTTP_OK, "Success", String.class);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, "Failed to login - bad username or password. " + e.getMessage(), String.class);
+			e.printStackTrace();
+		}
+		catch (Exception e){
+			HandlerUtil.sendResponse(exchange, 400, "Failed to login - bad json.", String.class);
 			e.printStackTrace();
 		}
 	}

@@ -1,10 +1,11 @@
 package server.httpHandlers;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 import server.model.RegisteredPlayers;
 import shared.communication.UserCredentials;
@@ -105,8 +106,15 @@ public class HandlerUtil {
 		int playerId = RegisteredPlayers.getSingleton().getPlayerId(username);
 		/*values.add("catan.user={\"name\":\"" + username + "\",\"password\":\""
 				+ password + "\",\"playerID\":" + playerId + "};Path=/;");*/
-		values.add("catan.user={\"name\":\"" + username + "\",\"password\":\""
-				+ password + "\",\"playerID\":" + playerId + "}");
+		String cookieString = "catan.user={\"name\":\"" + username + "\",\"password\":\""
+				+ password + "\",\"playerID\":" + playerId + "}";
+		try {
+			cookieString = URLEncoder.encode(cookieString,"UTF-8");
+			cookieString += ";Path=/;";
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		values.add(cookieString);
 		respHeaders.put("Set-Cookie", values);
 	}
 }

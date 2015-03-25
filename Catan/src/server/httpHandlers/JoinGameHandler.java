@@ -40,6 +40,12 @@ public class JoinGameHandler implements IHttpHandler {
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
 			e.printStackTrace();
+		} catch (NullPointerException e){
+			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - Bad cookies", String.class);
+			e.printStackTrace();
+		} catch (Exception e){
+			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - Bad json", String.class);
+			e.printStackTrace();
 		}
 		logger.info("***server/httpHandlers/JoinGameHandler - exiting Handle");
 	}

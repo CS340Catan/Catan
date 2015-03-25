@@ -31,6 +31,7 @@ import shared.utils.Serializer;
 public class ServerModel extends AbstractModel {
 	private int gameID;
 	private List<ICommand> commands = new ArrayList<>();
+	private String initialGameStateJSON = null;
 
 	public ServerModel() {
 		this.setMap(new Map(new Hex[0], new Port[0], new Road[0],
@@ -318,5 +319,13 @@ public class ServerModel extends AbstractModel {
 
 	public void setGameID(int ID) {
 		this.gameID = ID;
+	}
+
+	public String getInitialGameStateJSON() {
+		return initialGameStateJSON;
+	}
+
+	public void setInitialGameStateJSON(String initialGameStateJSON) {
+		this.initialGameStateJSON = initialGameStateJSON;
 	}
 }

@@ -44,6 +44,7 @@ public class PlaySoldierCommand extends ICommand {
 		String oldStatus = model.getTurnTracker().getStatus();
 		model.getTurnTracker().setStatus("Robbing");
 		int i = 0;
+		
 		if (modelController.canPlaySoldierCard(this.location, playerIndex,
 				this.victimIndex)) {
 			model.getTurnTracker().setStatus(oldStatus);
@@ -68,28 +69,30 @@ public class PlaySoldierCommand extends ICommand {
 			 * player.
 			 */
 			model.getMap().setRobber(this.location);
-
-			ResourceType stolenResource = stealResource(model.getPlayers()[this.victimIndex]);
-
-			ResourceList playerResources = player.getResources();
-			switch (stolenResource) {
-			case BRICK:
-				playerResources.setBrick(playerResources.getBrick() + 1);
-				break;
-			case ORE:
-				playerResources.setOre(playerResources.getOre() + 1);
-				break;
-			case SHEEP:
-				playerResources.setSheep(playerResources.getSheep() + 1);
-				break;
-			case WHEAT:
-				playerResources.setWheat(playerResources.getWheat() + 1);
-				break;
-			case WOOD:
-				playerResources.setWood(playerResources.getWood() + 1);
-				break;
-			default:
-				break;
+			if (victimIndex != -1)
+			{
+				ResourceType stolenResource = stealResource(model.getPlayers()[this.victimIndex]);
+	
+				ResourceList playerResources = player.getResources();
+				switch (stolenResource) {
+				case BRICK:
+					playerResources.setBrick(playerResources.getBrick() + 1);
+					break;
+				case ORE:
+					playerResources.setOre(playerResources.getOre() + 1);
+					break;
+				case SHEEP:
+					playerResources.setSheep(playerResources.getSheep() + 1);
+					break;
+				case WHEAT:
+					playerResources.setWheat(playerResources.getWheat() + 1);
+					break;
+				case WOOD:
+					playerResources.setWood(playerResources.getWood() + 1);
+					break;
+				default:
+					break;
+				}
 			}
 
 			/*

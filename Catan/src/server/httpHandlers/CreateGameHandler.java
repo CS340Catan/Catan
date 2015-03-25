@@ -3,10 +3,8 @@ package server.httpHandlers;
 import java.io.IOException;
 
 import server.facade.ServerFacade;
-import server.model.RegisteredPlayers;
 import shared.communication.CreateGameParams;
 import shared.data.GameInfo;
-import shared.model.Player;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
@@ -24,7 +22,10 @@ public class CreateGameHandler implements IHttpHandler {
 			GameInfo gameInfo = ServerFacade.getSingleton().createGame(params);
 			HandlerUtil.sendResponse(exchange, 200, gameInfo, GameInfo.class);			
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, "Failed to register - someone already has that username.", String.class);
+			HandlerUtil.sendResponse(exchange, 400, "Failed to create game - A game by that name already exists.", String.class);
+			e.printStackTrace();
+		} catch (Exception e){
+			HandlerUtil.sendResponse(exchange, 400, "Failed to create game - Invliad json.", String.class);
 			e.printStackTrace();
 		}
 		
