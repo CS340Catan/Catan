@@ -150,7 +150,6 @@ public class RollNumberCommand extends ICommand {
 		 * given resource type to the player's hand and remove 1 of the given
 		 * resource type from the bank.
 		 */
-		int i = 0;
 		int settlementOwner = controller.settlementOwner(testLocation);
 		if (settlementOwner != -1) {
 			model.addResourceFromBank(settlementOwner, type, 1);
