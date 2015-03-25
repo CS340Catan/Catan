@@ -79,19 +79,6 @@ public class CreateGameCommand extends ICommand {
 		ports[8] = new Port(resources[8], new HexLocation(-3, 0), "SE", 3);
 		serverModel.getMap().setPorts(ports);
 
-		// getView().placeRobber(new HexLocation(0, 0));
-		//
-		// getView().addNumber(new HexLocation(-2, 0), 2);
-		// getView().addNumber(new HexLocation(-2, 1), 3);
-		// getView().addNumber(new HexLocation(-2, 2), 4);
-		// getView().addNumber(new HexLocation(-1, 0), 5);
-		// getView().addNumber(new HexLocation(-1, 1), 6);
-		// getView().addNumber(new HexLocation(1, -1), 8);
-		// getView().addNumber(new HexLocation(1, 0), 9);
-		// getView().addNumber(new HexLocation(2, -2), 10);
-		// getView().addNumber(new HexLocation(2, -1), 11);
-		// getView().addNumber(new HexLocation(2, 0), 12);
-
 	}
 
 	public Object[] randomize(Object[] resources) {
@@ -109,8 +96,6 @@ public class CreateGameCommand extends ICommand {
 	}
 
 	public void addHexes() {
-		// getView().placeRobber(new HexLocation(0, 0));
-		//
 		Integer[] numbers = new Integer[18];
 		numbers[0] = 5;
 		numbers[1] = 2;
@@ -182,28 +167,33 @@ public class CreateGameCommand extends ICommand {
 		}
 
 		Hex[] hexes = new Hex[19];
-		hexes[0] = new Hex(locations[0], resources[0], numbers[0]);
-		hexes[1] = new Hex(locations[1], resources[1], numbers[1]);
-		hexes[2] = new Hex(locations[2], resources[2], numbers[2]);
-		hexes[3] = new Hex(locations[3], resources[3], numbers[3]);
-		hexes[4] = new Hex(locations[4], resources[4], numbers[4]);
-		hexes[5] = new Hex(locations[5], resources[5], numbers[5]);
-		hexes[6] = new Hex(locations[6], resources[6], numbers[6]);
+		hexes[0] = new Hex(locations[0], resources[0], -1);
+		hexes[1] = new Hex(locations[1], resources[1], -1);
+		hexes[2] = new Hex(locations[2], resources[2], -1);
+		hexes[3] = new Hex(locations[3], resources[3], -1);
+		hexes[4] = new Hex(locations[4], resources[4], -1);
+		hexes[5] = new Hex(locations[5], resources[5], -1);
+		hexes[6] = new Hex(locations[6], resources[6], -1);
 		hexes[7] = new Hex(locations[7], resources[7], -1);// default robber
-		hexes[8] = new Hex(locations[8], resources[8], numbers[7]);
-		hexes[9] = new Hex(locations[9], resources[9], numbers[8]);
-		hexes[10] = new Hex(locations[10], resources[10], numbers[9]);
-		hexes[11] = new Hex(locations[11], resources[11], numbers[10]);
-		hexes[12] = new Hex(locations[12], resources[12], numbers[11]);
-		hexes[13] = new Hex(locations[13], resources[13], numbers[12]);
-		hexes[14] = new Hex(locations[14], resources[14], numbers[13]);
-		hexes[15] = new Hex(locations[15], resources[15], numbers[14]);
-		hexes[16] = new Hex(locations[16], resources[16], numbers[15]);
-		hexes[17] = new Hex(locations[17], resources[17], numbers[16]);
-		hexes[18] = new Hex(locations[18], resources[18], numbers[17]);
+		hexes[8] = new Hex(locations[8], resources[8], -1);
+		hexes[9] = new Hex(locations[9], resources[9], -1);
+		hexes[10] = new Hex(locations[10], resources[10], -1);
+		hexes[11] = new Hex(locations[11], resources[11], -1);
+		hexes[12] = new Hex(locations[12], resources[12], -1);
+		hexes[13] = new Hex(locations[13], resources[13], -1);
+		hexes[14] = new Hex(locations[14], resources[14], -1);
+		hexes[15] = new Hex(locations[15], resources[15], -1);
+		hexes[16] = new Hex(locations[16], resources[16], -1);
+		hexes[17] = new Hex(locations[17], resources[17], -1);
+		hexes[18] = new Hex(locations[18], resources[18], -1);
+		int i = 0;
 			for(Hex hex : hexes){
 				if(hex.getResource().equals("desert")){
 					serverModel.getMap().setRobber(hex.getLocation());
+				}
+				else {
+					hex.setNumber(numbers[i]);
+					i++;
 				}
 			}
 		serverModel.getMap().setHexes(hexes);
