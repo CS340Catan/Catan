@@ -47,7 +47,7 @@ public class HandlerUtil {
 			}
 			
 			String[] cookieParts = cookie.split("=");
-			gameID = Integer.valueOf(cookieParts[2]);
+			gameID = Integer.valueOf(cookieParts[1]);
 			return gameID;
 		}
 		// if there is no game cookie return -1
