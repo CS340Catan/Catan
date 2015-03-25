@@ -44,8 +44,56 @@ public class PlaySoldierCommand extends ICommand {
 		String oldStatus = model.getTurnTracker().getStatus();
 		model.getTurnTracker().setStatus("Robbing");
 		int i = 0;
-		
-		if (modelController.canPlaySoldierCard(this.location, playerIndex,
+		if (victimIndex == -1){
+			model.getTurnTracker().setStatus(oldStatus);
+			Player player = model.getPlayers()[playerIndex];
+
+			/*
+			 * If the user can play a soldier card, then get the current number
+			 * of soldiers in his or her hand. From this value, subtract one and
+			 * reset the current player's soldier count.
+			 * 
+			 * Also, add a soldier to the player's soldier count.
+			 */
+			int preSoldier = player.getOldDevCards().getSoldier();
+			int postSoldier = preSoldier - 1;
+			player.getOldDevCards().setSoldier(postSoldier);
+
+			player.setSoldiers(player.getSoldiers() + 1);
+
+			/*
+			 * Move the robber to the appropriate position, appropriately steal
+			 * a card from the victim and add appropriate resource to the
+			 * player.
+			 */
+			model.getMap().setRobber(this.location);
+			
+			/*
+			 * Re-allocate the largest army card/points.
+			 */
+			model.reallocateLargestArmy();
+			
+			/*
+			 * Set the player's has played development card boolean equal to
+			 * true.
+			 */
+			player.setPlayedDevCard(true);
+
+			/*
+			 * Update game history
+			 */
+			String name = model.getPlayers()[playerIndex].getName();
+			model.getLog().addLine(
+					new MessageLine(name + " played a soldier card.", name));
+
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
+		}
+		else if (modelController.canPlaySoldierCard(this.location, playerIndex,
 				this.victimIndex)) {
 			model.getTurnTracker().setStatus(oldStatus);
 			Player player = model.getPlayers()[playerIndex];
@@ -69,30 +117,28 @@ public class PlaySoldierCommand extends ICommand {
 			 * player.
 			 */
 			model.getMap().setRobber(this.location);
-			if (victimIndex != -1)
-			{
-				ResourceType stolenResource = stealResource(model.getPlayers()[this.victimIndex]);
-	
-				ResourceList playerResources = player.getResources();
-				switch (stolenResource) {
-				case BRICK:
-					playerResources.setBrick(playerResources.getBrick() + 1);
-					break;
-				case ORE:
-					playerResources.setOre(playerResources.getOre() + 1);
-					break;
-				case SHEEP:
-					playerResources.setSheep(playerResources.getSheep() + 1);
-					break;
-				case WHEAT:
-					playerResources.setWheat(playerResources.getWheat() + 1);
-					break;
-				case WOOD:
-					playerResources.setWood(playerResources.getWood() + 1);
-					break;
-				default:
-					break;
-				}
+
+			ResourceType stolenResource = stealResource(model.getPlayers()[this.victimIndex]);
+
+			ResourceList playerResources = player.getResources();
+			switch (stolenResource) {
+			case BRICK:
+				playerResources.setBrick(playerResources.getBrick() + 1);
+				break;
+			case ORE:
+				playerResources.setOre(playerResources.getOre() + 1);
+				break;
+			case SHEEP:
+				playerResources.setSheep(playerResources.getSheep() + 1);
+				break;
+			case WHEAT:
+				playerResources.setWheat(playerResources.getWheat() + 1);
+				break;
+			case WOOD:
+				playerResources.setWood(playerResources.getWood() + 1);
+				break;
+			default:
+				break;
 			}
 
 			/*
