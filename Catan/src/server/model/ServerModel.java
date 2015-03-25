@@ -29,15 +29,18 @@ import shared.utils.Serializer;
  * 
  */
 public class ServerModel extends AbstractModel {
-	int gameID;
-	List<ICommand> commands = new ArrayList<>();
+	private int gameID;
+	private List<ICommand> commands = new ArrayList<>();
+	private boolean[] needToDiscard = new boolean[4];
 
 	public ServerModel() {
-		this.setMap(new Map(new Hex[0], new Port[0], new Road[0], new VertexObject[0], new VertexObject[0], gameID, null));
+		this.setMap(new Map(new Hex[0], new Port[0], new Road[0],
+				new VertexObject[0], new VertexObject[0], gameID, null));
 		this.setBank(new ResourceList(19, 19, 19, 19, 19));
 		this.setDeck(new Deck(2, 5, 14, 2, 2));
 		this.setTurnTracker(new TurnTracker(0, "FirstRound", -1, -1));
-		this.setTradeOffer(new TradeOffer(-1, -1, new ResourceList(0, 0, 0, 0, 0)));
+		this.setTradeOffer(new TradeOffer(-1, -1, new ResourceList(0, 0, 0, 0,
+				0)));
 		this.setChat(new MessageList(new MessageLine[0]));
 		this.setCommands(new ArrayList<ICommand>());
 		this.setLog(new MessageList(new MessageLine[0]));
@@ -216,22 +219,35 @@ public class ServerModel extends AbstractModel {
 		}
 		newCityList[currentCount] = city;
 		this.getMap().setCities(newCityList);
-		
-		//remove old settlement
+
+		// remove old settlement
 		this.removeSettlementForCity(city);
 	}
 
 	public boolean needToDiscard() {
-
-		Player[] players = this.getPlayers();
-
-		for (Player player : players) {
-			if (player.getResources().count() > 7) {
+		for (boolean discard : this.needToDiscard) {
+			if (discard == true) {
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	public void initializeNeedToDiscard() {
+		Player[] players = this.getPlayers();
+
+		for (int i = 0; i < players.length; i++) {
+			if (players[i].getResources().count() >= 7) {
+				this.needToDiscard[i] = true;
+			} else {
+				this.needToDiscard[i] = false;
+			}
+		}
+	}
+
+	public void setNeedToDiscard(boolean discard, int playerIndex) {
+		this.needToDiscard[playerIndex] = discard;
 	}
 
 	private void removeSettlementForCity(VertexObject city) {
