@@ -1194,7 +1194,7 @@ public class ClientModelFacade {
 		 * connected to the building.
 		 */
 		for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
-			if (port.getResource() == null) {
+			if (port.getResource() == null || port.getResource().toLowerCase().equals("three")) {
 
 				/*
 				 * Create a road that matches the edgeLocation and direction of
