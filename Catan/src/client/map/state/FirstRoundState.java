@@ -40,6 +40,7 @@ public class FirstRoundState implements IMapState {
 		int currentPlayerTurn = ClientModel.getSingleton().getTurnTracker()
 				.getCurrentTurn();
 		int clientPlayerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
+		String name = UserPlayerInfo.getSingleton().getName();
 		if (!hasBegunRound && currentPlayerTurn == clientPlayerIndex) {
 			hasBegunRound = true;
 			if (ClientModel.getSingleton().getPlayers()[clientPlayerIndex]

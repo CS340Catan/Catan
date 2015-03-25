@@ -84,7 +84,7 @@ public class DevCardList {
 	}
 	
 	public void addDevCards(DevCardList newCards){
-		this.setMonopoly(this.getMonopoly() + newCards.getMonopoly());
+		this.setSoldier(this.getSoldier() + newCards.getSoldier());
 		this.setMonument(this.getMonument() + newCards.getMonument());
 		this.setRoadBuilding(this.getRoadBuilding() + newCards.getRoadBuilding());
 		this.setMonopoly(this.getMonopoly() + newCards.getMonopoly());

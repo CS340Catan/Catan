@@ -32,6 +32,7 @@ public class FinishTurnHandler implements IHttpHandler {
 				ServerFacade.getSingleton().setGameID(gameID);
 				ServerFacade.getSingleton().setPlayerID(playerID);
 				ClientModel clientModel = ServerFacade.getSingleton().finishTurn(params);
+				int i = 0;
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400, "Failed to finish turn.", String.class);

@@ -48,8 +48,8 @@ public class JoinGameCommand extends ICommand {
 
 		if (players == null) {
 			players = new Player[1];
-			players[0] = new Player(0, playerID, 0, 0, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0), false,
-					new ResourceList(0, 0, 0, 0, 0), 0, 0, 0);
+			players[0] = new Player(0, playerID, 4, 5, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0), false,
+					new ResourceList(0, 0, 0, 0, 0), 15, 0, 0);
 			model.setPlayers(players);
 			ServerFacade.getSingleton().getModelMap().put(gameID, model);
 			for (GameSummary game : GameList.getSingleton().getGames()) {
@@ -73,7 +73,7 @@ public class JoinGameCommand extends ICommand {
 				 * If player_i's name matches the inputer player, then set the
 				 * temporary index value equal to i and continue the loop.
 				 */
-				if (players[i].getName().equals(playerName)) {
+				if (players[i] != null && players[i].getName().equals(playerName)) {
 					playerIsInTheGame_Index = i;
 				}
 
@@ -83,8 +83,8 @@ public class JoinGameCommand extends ICommand {
 				 * with the inputed player and return.
 				 */
 				else if (players[i] == null && playerIsInTheGame_Index == -1) {
-					players[i] = new Player(i, playerID, 0, 0, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0),
-							false, new ResourceList(0, 0, 0, 0, 0), 0, 0, 0);
+					players[i] = new Player(i, playerID, 4, 5, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0),
+							false, new ResourceList(0, 0, 0, 0, 0), 15, 0, 0);
 					model.setPlayers(players);
 					for (GameSummary game : GameList.getSingleton().getGames()) {
 						if (game.getId() == gameID) {

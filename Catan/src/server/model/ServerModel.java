@@ -33,9 +33,15 @@ public class ServerModel extends AbstractModel {
 	List<ICommand> commands = new ArrayList<>();
 
 	public ServerModel() {
-		this.setMap(new Map(null, null, null, null, null, gameID, null));
+		this.setMap(new Map(new Hex[0], new Port[0], new Road[0], new VertexObject[0], new VertexObject[0], gameID, null));
 		this.setBank(new ResourceList(19, 19, 19, 19, 19));
 		this.setDeck(new Deck(2, 5, 14, 2, 2));
+		this.setTurnTracker(new TurnTracker(0, "FirstRound", -1, -1));
+		this.setTradeOffer(new TradeOffer(-1, -1, new ResourceList(0, 0, 0, 0, 0)));
+		this.setChat(new MessageList(new MessageLine[0]));
+		this.setCommands(new ArrayList<ICommand>());
+		this.setLog(new MessageList(new MessageLine[0]));
+		this.setVersion(0);
 	}
 
 	public ClientModel toClientModel() {
