@@ -47,6 +47,7 @@ public class OfferTradeCommand extends ICommand {
 			 * offer such that the receiver can see the new trade offer and can
 			 * respond appropriately.
 			 */
+			model.setTradeOffer(null);
 			model.setTradeOffer(new TradeOffer(playerIndex, receiver, offer));
 
 			/*

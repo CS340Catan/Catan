@@ -4,7 +4,6 @@ import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.AcceptTradeParams;
-import shared.definitions.CatanColor;
 import shared.model.MessageLine;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
@@ -49,7 +48,8 @@ public class AcceptTradeCommand extends ICommand {
 		ResourceList tradeResources = model.getTradeOffer().getResourceList();
 
 		if (willAccept) {
-			if (controller.canAcceptTrade(receiverIndex, tradeResources.invertList())) {
+			if (controller.canAcceptTrade(receiverIndex,
+					tradeResources.invertList())) {
 				/*
 				 * Grab the trade offer currently stored within the tradeOffer
 				 * object within the server model. Grab the sender index from
@@ -104,13 +104,16 @@ public class AcceptTradeCommand extends ICommand {
 				 * offer to null.
 				 */
 				model.setTradeOffer(null);
-				
+
 				/*
 				 * Add this command to the game history
 				 */
 				String senderName = model.getPlayers()[senderIndex].getName();
-				String receiverName = model.getPlayers()[receiverIndex].getName();
-				model.getLog().addLine(new MessageLine(senderName + " traded with " + receiverName, senderName));
+				String receiverName = model.getPlayers()[receiverIndex]
+						.getName();
+				model.getLog().addLine(
+						new MessageLine(senderName + " traded with "
+								+ receiverName, senderName));
 				/*
 				 * Add this command to the list of commands currently stored
 				 * inside the model.
@@ -121,6 +124,18 @@ public class AcceptTradeCommand extends ICommand {
 				throw new ServerResponseException(
 						"Unable to accept trade offer, insufficient resources or invalid trade offer.");
 			}
+		} else {
+			/*
+			 * Eliminate the trade offer from the model by setting the trade
+			 * offer to null.
+			 */
+			model.setTradeOffer(null);
+			/*
+			 * Add this command to the list of commands currently stored inside
+			 * the model.
+			 */
+			model.getCommands().add(this);
+			model.incrementVersion();
 		}
 	}
 }
