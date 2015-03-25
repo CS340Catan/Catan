@@ -8,11 +8,11 @@ import server.model.GameList;
 import server.model.ServerModel;
 import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
-import shared.communication.PlayerSummary;
 import shared.locations.HexLocation;
 import shared.model.Hex;
 import shared.model.Port;
 import shared.utils.IDGenerator;
+import shared.utils.ServerResponseException;
 
 /**
  * This command creates a new game and adds it to the list of games.
@@ -38,11 +38,20 @@ public class CreateGameCommand extends ICommand {
 	/**
 	 * Generates a new game id Adds new game to the game list. Adds a new key =>
 	 * pair to the game map (id=>this new game)
+	 * @throws ServerResponseException 
 	 */
 	@Override
-	public void execute() {
+	public void execute() throws ServerResponseException {
 		int gameID = IDGenerator.generateGameID();
 		GameSummary gameSummary = new GameSummary(params.getname(), gameID, null);
+		
+		/*
+		 * Check if that name already exists
+		 */
+		if(GameList.getSingleton().getGame(params.getname()) != null){
+			throw new ServerResponseException("A game by that name already exists!");
+		}
+		
 		GameList.getSingleton().addGame(gameSummary);
 		serverModel = new ServerModel();
 		this.addPorts();

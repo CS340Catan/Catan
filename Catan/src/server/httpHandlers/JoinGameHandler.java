@@ -22,8 +22,9 @@ public class JoinGameHandler implements IHttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 		logger.info("server/httpHandlers/JoinGameHandler - entering Handle");
 		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-		JoinGameParams joinParams = (JoinGameParams) Serializer.deserialize(inputStreamString, JoinGameParams.class);
+		
 		try {
+			JoinGameParams joinParams = (JoinGameParams) Serializer.deserialize(inputStreamString, JoinGameParams.class);
 			ServerFacade.getSingleton().setGameID(joinParams.getId());
 			int playerId = HandlerUtil.getPlayerID(exchange);
 			ServerFacade.getSingleton().setPlayerID(playerId);
@@ -34,6 +35,12 @@ public class JoinGameHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - Bad cookies", String.class);
+			e.printStackTrace();
+		} catch (Exception e){
+			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - Bad json", String.class);
 			e.printStackTrace();
 		}
 		logger.info("***server/httpHandlers/JoinGameHandler - exiting Handle");
