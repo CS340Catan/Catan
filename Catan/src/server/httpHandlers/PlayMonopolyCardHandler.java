@@ -17,7 +17,7 @@ public class PlayMonopolyCardHandler implements IHttpHandler {
 		/*
 		 * Grab the information from the request sent over.
 		 */
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		int gameID = HandlerUtil.getGameID(exchange);
 
 		/*
@@ -29,9 +29,12 @@ public class PlayMonopolyCardHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie",
 					String.class);
 		} else {
-			PlayMonopolyParams playMonopolyParams = (PlayMonopolyParams) Serializer
-					.deserialize(inputStreamString, PlayMonopolyParams.class);
+
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				PlayMonopolyParams playMonopolyParams = (PlayMonopolyParams) Serializer
+						.deserialize(inputStreamString, PlayMonopolyParams.class);
+				
 				ClientModel model = ServerFacade.getSingleton()
 						.playMonopolyCard(playMonopolyParams);
 				HandlerUtil.sendResponse(exchange, 200, model,

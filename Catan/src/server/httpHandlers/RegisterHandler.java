@@ -24,10 +24,12 @@ public class RegisterHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		logger.info("server/httpHandlers/RegisterHandler - entering handle");
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-		UserCredentials userCredentials = (UserCredentials) Serializer.deserialize(inputStreamString, UserCredentials.class);
+
 		  
 		try {
+			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+			UserCredentials userCredentials = (UserCredentials) Serializer.deserialize(inputStreamString, UserCredentials.class);
+			
 			ServerFacade.getSingleton().Register(userCredentials);
 			HandlerUtil.setUserCookie(exchange, userCredentials);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);		

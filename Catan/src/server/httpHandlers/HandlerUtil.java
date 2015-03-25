@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import server.model.RegisteredPlayers;
 import shared.communication.UserCredentials;
+import shared.utils.ServerResponseException;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -21,7 +22,10 @@ public class HandlerUtil {
 	
 	public static int getGameID(HttpExchange exchange) {
 		Headers reqHeaders = exchange.getRequestHeaders();
-		List<String> cookies = reqHeaders.get("Cookie");
+		List<String> cookies = new ArrayList<>();
+		if(reqHeaders.containsKey("Cookie")) {
+			cookies = reqHeaders.get("Cookie");
+		}
 		int gameID = -1;
 		for (String cookie : cookies) {
 			JsonParser parser = new JsonParser();
@@ -39,7 +43,10 @@ public class HandlerUtil {
 
 	public static int getPlayerID(HttpExchange exchange) {
 		Headers reqHeaders = exchange.getRequestHeaders();
-		List<String> cookies = reqHeaders.get("Cookie");
+		List<String> cookies = new ArrayList<>();
+		if(reqHeaders.containsKey("Cookie")) {
+			cookies = reqHeaders.get("Cookie");
+		}
 		int playerID = -1;
 		for (String cookie : cookies) {
 			JsonParser parser = new JsonParser();
@@ -54,9 +61,17 @@ public class HandlerUtil {
 		return playerID;
 	}
 
-	public static String requestBodyToString(HttpExchange exchange) {
+	@SuppressWarnings("resource")
+	public static String requestBodyToString(HttpExchange exchange) throws ServerResponseException {
+		String jsonString = null;
 		Scanner scanner = new Scanner(exchange.getRequestBody(), "UTF-8");
-		String jsonString = scanner.useDelimiter("\\A").next();
+		scanner.useDelimiter("\\A");
+		if(scanner.hasNext()) {
+			jsonString = scanner.next();
+		}
+		else {
+			throw new ServerResponseException("JSON incorrect.");
+		}
 		scanner.close();
 		return jsonString;
 	}

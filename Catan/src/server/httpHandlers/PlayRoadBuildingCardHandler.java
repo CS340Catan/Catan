@@ -18,7 +18,7 @@ public class PlayRoadBuildingCardHandler implements IHttpHandler {
 		/*
 		 * Grab the information from the request sent over.
 		 */
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		int gameID = HandlerUtil.getGameID(exchange);
 
 		/*
@@ -30,9 +30,12 @@ public class PlayRoadBuildingCardHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie",
 					String.class);
 		} else {
-			BuildRoadCardParams playMonumentParam = (BuildRoadCardParams) Serializer
-					.deserialize(inputStreamString, BuildRoadCardParams.class);
+
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				BuildRoadCardParams playMonumentParam = (BuildRoadCardParams) Serializer
+						.deserialize(inputStreamString, BuildRoadCardParams.class);
+				
 				ClientModel model = ServerFacade.getSingleton().playRoadBuildingCard(
 						playMonumentParam);
 				HandlerUtil.sendResponse(exchange, 200, model,

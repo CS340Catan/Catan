@@ -14,9 +14,11 @@ public class LoadGameHandler implements IHttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-		LoadGameParams loadParams = (LoadGameParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
+
 		try {
+			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+			LoadGameParams loadParams = (LoadGameParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
+			
 			ServerFacade.getSingleton().loadGame(loadParams);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {

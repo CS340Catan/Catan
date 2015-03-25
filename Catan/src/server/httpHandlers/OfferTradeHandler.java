@@ -14,7 +14,7 @@ public class OfferTradeHandler implements IHttpHandler {
 
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-		String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
 		
 		int gameID = HandlerUtil.getGameID(exchange);
 		int playerID = HandlerUtil.getPlayerID(exchange);
@@ -27,9 +27,11 @@ public class OfferTradeHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, "Game Cookie is not set", String.class);
 		}
 		else{
-			TradeOfferParams params = (TradeOfferParams) Serializer.deserialize(inputStreamString, TradeOfferParams.class);
 			
 			try {
+				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				TradeOfferParams params = (TradeOfferParams) Serializer.deserialize(inputStreamString, TradeOfferParams.class);
+				
 				ServerFacade.getSingleton().setGameID(gameID);
 				ServerFacade.getSingleton().setPlayerID(playerID);
 				ClientModel model = ServerFacade.getSingleton().offerTrade(params);
