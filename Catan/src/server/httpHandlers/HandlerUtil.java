@@ -65,11 +65,11 @@ public class HandlerUtil {
 		for (String cookie : cookies) {
 			JsonParser parser = new JsonParser();
 			String[] splitArray = cookie.split(";",-1);
-			if(splitArray[0].contains("password")){
-				cookie = splitArray[0];
-			}
-			else{
-				cookie = splitArray[1];
+			for(String subCook : splitArray){
+				if(subCook.contains("password")){
+					cookie = subCook;
+					break;
+				}
 			}
 			
 			try {
