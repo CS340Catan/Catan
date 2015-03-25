@@ -97,7 +97,7 @@ public class HandlerUtil {
 			jsonString = scanner.next();
 		}
 		else {
-			throw new ServerResponseException("JSON incorrect.");
+			throw new ServerResponseException(" JSON incorrect.");
 		}
 		scanner.close();
 		return jsonString;
