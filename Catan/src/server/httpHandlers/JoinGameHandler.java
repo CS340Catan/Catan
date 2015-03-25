@@ -1,12 +1,12 @@
 package server.httpHandlers;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import server.facade.ServerFacade;
 import shared.communication.JoinGameParams;
-import shared.communication.UserCredentials;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
@@ -33,7 +33,9 @@ public class JoinGameHandler implements IHttpHandler {
 			ServerFacade.getSingleton().joinGame(joinParams);
 			
 			ArrayList<String> values=new ArrayList<String>();
-			values.add("catan.game=" + joinParams.getId());
+			String gameCookie = URLEncoder.encode(joinParams.getId()+"","UTF-8");
+			gameCookie = "catan.game=" + gameCookie + ";Path=/;";
+			values.add(gameCookie);
 			exchange.getResponseHeaders().put("Set-Cookie",values);
 			
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
@@ -41,10 +43,10 @@ public class JoinGameHandler implements IHttpHandler {
 			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
 			e.printStackTrace();
 		} catch (NullPointerException e){
-			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - Bad cookies", String.class);
+			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - No cookie", String.class);
 			e.printStackTrace();
 		} catch (Exception e){
-			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - Bad json", String.class);
+			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - Bad json or cookie", String.class);
 			e.printStackTrace();
 		}
 		logger.info("***server/httpHandlers/JoinGameHandler - exiting Handle");
