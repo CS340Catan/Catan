@@ -2,6 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,22 @@ public class HandlerUtil {
 		List<String> cookies = reqHeaders.get("Cookie");
 		int gameID = -1;
 		for (String cookie : cookies) {
-			JsonParser parser = new JsonParser();
-			/*JsonObject jsonObject = (JsonObject) parser.parse(cookie);
-			JsonElement gameIDElement = jsonObject.get("gameID");
-			gameID = gameIDElement.getAsInt();*/
+			
+			String[] splitArray = cookie.split(";",-1);
+			if(splitArray[0].contains("game")){
+				cookie = splitArray[0];
+			}
+			else{
+				cookie = splitArray[1];
+			}
+			
+			
+			try {
+				cookie = URLDecoder.decode(cookie, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			
 			String[] cookieParts = cookie.split("=");
 			gameID = Integer.valueOf(cookieParts[2]);
 			return gameID;
@@ -44,9 +57,22 @@ public class HandlerUtil {
 		int playerID = -1;
 		for (String cookie : cookies) {
 			JsonParser parser = new JsonParser();
-			cookie = cookie.replace("catan.user=", "");
 			String[] splitArray = cookie.split(";",-1);
-			JsonObject jsonObject = (JsonObject) parser.parse(splitArray[0]);
+			if(splitArray[0].contains("password")){
+				cookie = splitArray[0];
+			}
+			else{
+				cookie = splitArray[1];
+			}
+			
+			try {
+				cookie = URLDecoder.decode(cookie, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			cookie = cookie.replace("catan.user=", "");
+			
+			JsonObject jsonObject = (JsonObject) parser.parse(cookie);
 			JsonElement gameIDElement = jsonObject.get("playerID");
 			playerID = gameIDElement.getAsInt();
 		}
