@@ -68,7 +68,7 @@ public class BuyDevCardCommand extends ICommand {
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine( name + " bought a dev card",name));
+			model.getLog().addLine(new MessageLine(name + " bought a development card.",name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

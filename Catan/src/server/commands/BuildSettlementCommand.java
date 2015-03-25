@@ -95,7 +95,7 @@ public class BuildSettlementCommand extends ICommand {
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine( name + " built a settlement", name));
+			model.getLog().addLine(new MessageLine(name + " built a settlement.", name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

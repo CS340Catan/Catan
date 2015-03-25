@@ -75,7 +75,7 @@ public class PlayRoadBuildingCommand extends ICommand {
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " played a road building card",name));
+			model.getLog().addLine(new MessageLine(name + " played a road building card.",name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

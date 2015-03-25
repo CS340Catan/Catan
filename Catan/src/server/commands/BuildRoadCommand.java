@@ -79,7 +79,7 @@ public class BuildRoadCommand extends ICommand {
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine( name + " built a road",name));
+			model.getLog().addLine(new MessageLine(name + " built a road.", name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

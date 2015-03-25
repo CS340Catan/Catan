@@ -71,21 +71,27 @@ public class FinishTurnCommand extends ICommand {
 				nextPlayer = 0;
 			}
 			model.getTurnTracker().setCurrentTurn(nextPlayer);
-			if(nextPlayer == 0 && model.getTurnTracker().getStatus().toUpperCase().equals("FIRSTROUND")){
-				model.getTurnTracker().setStatus("SecondRound");				
-			}
-			else if(nextPlayer == 0 && model.getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")){
-				model.getTurnTracker().setStatus("Rolling");				
-			}
-			else if(!model.getTurnTracker().getStatus().toUpperCase().equals("FIRSTROUND") && !model.getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")){
+			if (nextPlayer == 0
+					&& model.getTurnTracker().getStatus().toUpperCase()
+							.equals("FIRSTROUND")) {
+				model.getTurnTracker().setStatus("SecondRound");
+			} else if (nextPlayer == 0
+					&& model.getTurnTracker().getStatus().toUpperCase()
+							.equals("SECONDROUND")) {
+				model.getTurnTracker().setStatus("Rolling");
+			} else if (!model.getTurnTracker().getStatus().toUpperCase()
+					.equals("FIRSTROUND")
+					&& !model.getTurnTracker().getStatus().toUpperCase()
+							.equals("SECONDROUND")) {
 				model.getTurnTracker().setStatus("Rolling");
 			}
-			
+
 			/*
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + "'s turn ended",name));
+			model.getLog().addLine(
+					new MessageLine(name + "'s turn ended.", name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside
