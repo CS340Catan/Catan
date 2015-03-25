@@ -341,9 +341,11 @@ public class MapController extends Controller implements IMapController,
 	}
 
 	public void startRob() {
-		robStarted = true;
+		
 		if (clientModelController.isPlayerTurn(UserPlayerInfo.getSingleton()
 				.getPlayerIndex())) {
+			robStarted = true;
+			System.out.println("Could rob");
 			usingSoldierCard = false;
 			this.getView().startDrop(
 					PieceType.ROBBER,
@@ -442,6 +444,7 @@ public class MapController extends Controller implements IMapController,
 		case "ROBBING":
 			System.out.println("In Robbing");
 			if (!robStarted) {
+				System.out.println("About to start rob");
 				startRob();
 			}
 			mapState = new RobbingState();
