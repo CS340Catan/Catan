@@ -16,7 +16,10 @@ public class VertexLocation {
 		setDir(dir);
 	}
 	
-	public VertexLocation(){};
+	public VertexLocation() {
+		hexLoc = new HexLocation(0, 0);
+		dir = VertexDirection.East;
+	};
 
 	public void convertToPrimitives() {
 		x = hexLoc.getX();

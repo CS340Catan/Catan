@@ -449,14 +449,20 @@ public class ServerProxy implements IServer {
 	 */
 	@Override
 	public ClientModel rollNumber(int number) throws ServerResponseException {
+		logger.info("Entering rollNumber");
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		String jsonString = Serializer.serialize(new RollParams(playerIndex,
 				number));
+		System.out.println("Roll Number params: " + jsonString);
 		String response = httpCommunicator.doPost("/moves/rollNumber",
 				jsonString);
+		logger.info("made it here");
 		if (response != null) {
+			logger.info("about to show response");
+			logger.info(Serializer.deserializeClientModel(response).toString());
 			return Serializer.deserializeClientModel(response);
 		} else {
+			logger.info("NULL");
 			return null;
 		}
 	}

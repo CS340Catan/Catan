@@ -27,7 +27,7 @@ public class RollNumberHandler implements IHttpHandler {
 		int playerID = HandlerUtil.getPlayerID(exchange);
 		
 		//if gameID is -1, there is no cookie so send back an error message
-		if (gameID == -1) {
+		if (gameID == -1 || playerID == -1) {
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
 		} 
 		else {
