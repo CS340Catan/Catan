@@ -132,6 +132,18 @@ public class RollNumberCommand extends ICommand {
 	private void addResourcesIfObjectExists(VertexObject testLocation,
 			ResourceType type, ServerModel model) {
 		ServerModelController controller = new ServerModelController(model);
+		/*
+		 * Check if there exists a city at the testLocation. If there exists a
+		 * city (returns a value other than -1), add 2 of the given resource
+		 * type to the player's hand and remove 2 of the given resource type
+		 * from the bank.
+		 */
+		int cityOwner = controller.cityOwner(testLocation);
+		if (cityOwner != -1) {
+			// add 2 to the map
+			model.addResourceFromBank(cityOwner, type, 2);
+			return;
+		}
 
 		/*
 		 * Check if there exists a settlement at the testLocation. If there
@@ -145,17 +157,7 @@ public class RollNumberCommand extends ICommand {
 			model.addResourceFromBank(settlementOwner, type, 1);
 		}
 
-		/*
-		 * Check if there exists a city at the testLocation. If there exists a
-		 * city (returns a value other than -1), add 2 of the given resource
-		 * type to the player's hand and remove 2 of the given resource type
-		 * from the bank.
-		 */
-		int cityOwner = controller.cityOwner(testLocation);
-		if (cityOwner != -1) {
-			// add 2 to the map
-			model.addResourceFromBank(cityOwner, type, 2);
-		}
+		
 	}
 
 }
