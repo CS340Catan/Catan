@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.AcceptTradeParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -34,8 +34,8 @@ public class AcceptTradeHandler implements IHttpHandler {
 				AcceptTradeParams acceptTradeParams = (AcceptTradeParams) Serializer
 						.deserialize(inputStreamString, AcceptTradeParams.class);
 				
-				ServerFacade.getSingleton().setGameID(gameID);
-				ClientModel model = ServerFacade.getSingleton()
+				FacadeSwitch.getSingleton().setGameID(gameID);
+				ClientModel model = FacadeSwitch.getSingleton()
 						.acceptTrade(acceptTradeParams);
 				HandlerUtil.sendResponse(exchange, 200, model, ClientModel.class);
 			} catch (ServerResponseException e) {

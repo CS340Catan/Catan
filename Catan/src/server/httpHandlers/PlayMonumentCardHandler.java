@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.PlayMonumentParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -35,7 +35,7 @@ public class PlayMonumentCardHandler implements IHttpHandler {
 				PlayMonumentParams playMonumentParam = (PlayMonumentParams) Serializer
 						.deserialize(inputStreamString, PlayMonumentParams.class);
 				
-				ClientModel model = ServerFacade.getSingleton().playMonument(
+				ClientModel model = FacadeSwitch.getSingleton().playMonument(
 						playMonumentParam);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);

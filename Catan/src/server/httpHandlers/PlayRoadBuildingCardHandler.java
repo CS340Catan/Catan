@@ -2,9 +2,8 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.BuildRoadCardParams;
-import shared.communication.PlayMonumentParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 import client.model.ClientModel;
@@ -36,7 +35,7 @@ public class PlayRoadBuildingCardHandler implements IHttpHandler {
 				BuildRoadCardParams playMonumentParam = (BuildRoadCardParams) Serializer
 						.deserialize(inputStreamString, BuildRoadCardParams.class);
 				
-				ClientModel model = ServerFacade.getSingleton().playRoadBuildingCard(
+				ClientModel model = FacadeSwitch.getSingleton().playRoadBuildingCard(
 						playMonumentParam);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);

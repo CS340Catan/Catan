@@ -1,7 +1,5 @@
 package shared.utils;
 
-import java.util.logging.Logger;
-
 import server.model.ServerModel;
 import shared.communication.GameSummary;
 import shared.model.Port;

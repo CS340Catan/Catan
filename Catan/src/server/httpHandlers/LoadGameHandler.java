@@ -2,9 +2,8 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.LoadGameParams;
-import shared.communication.UserCredentials;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
@@ -19,7 +18,7 @@ public class LoadGameHandler implements IHttpHandler {
 			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 			LoadGameParams loadParams = (LoadGameParams) Serializer.deserialize(inputStreamString, LoadGameParams.class);
 			
-			ServerFacade.getSingleton().loadGame(loadParams);
+			FacadeSwitch.getSingleton().loadGame(loadParams);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);

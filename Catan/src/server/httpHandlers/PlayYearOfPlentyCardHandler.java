@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.YearOfPlentyParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -35,7 +35,7 @@ public class PlayYearOfPlentyCardHandler implements IHttpHandler {
 				YearOfPlentyParams yearOfPlentyParam = (YearOfPlentyParams) Serializer
 						.deserialize(inputStreamString, YearOfPlentyParams.class);
 				
-				ClientModel model = ServerFacade.getSingleton()
+				ClientModel model = FacadeSwitch.getSingleton()
 						.playYearOfPlentyCard(yearOfPlentyParam);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);

@@ -2,10 +2,9 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.ChangeLogLevelParams;
 import shared.communication.ChangeLogLevelResponse;
-import shared.communication.UserCredentials;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
@@ -19,7 +18,7 @@ public class LogLevelHandler implements IHttpHandler {
 			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 			ChangeLogLevelParams params = (ChangeLogLevelParams) Serializer.deserialize(inputStreamString, ChangeLogLevelParams.class);
 			
-			ChangeLogLevelResponse response = ServerFacade.getSingleton().changeLogLevel(params);
+			ChangeLogLevelResponse response = FacadeSwitch.getSingleton().changeLogLevel(params);
 			HandlerUtil.sendResponse(exchange, 200,  response, ChangeLogLevelResponse.class);
 			
 		} catch (ServerResponseException e) {

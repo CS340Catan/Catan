@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.UserCredentials;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -17,7 +17,7 @@ public class LoginHandler implements IHttpHandler {
 		try {
 			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 			UserCredentials userCredentials = (UserCredentials) Serializer.deserialize(inputStreamString, UserCredentials.class);
-			ServerFacade.getSingleton().login(userCredentials);
+			FacadeSwitch.getSingleton().login(userCredentials);
 			HandlerUtil.setUserCookie(exchange, userCredentials);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {

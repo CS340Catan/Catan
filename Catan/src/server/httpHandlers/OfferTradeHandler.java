@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.TradeOfferParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -32,9 +32,9 @@ public class OfferTradeHandler implements IHttpHandler {
 				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 				TradeOfferParams params = (TradeOfferParams) Serializer.deserialize(inputStreamString, TradeOfferParams.class);
 				
-				ServerFacade.getSingleton().setGameID(gameID);
-				ServerFacade.getSingleton().setPlayerID(playerID);
-				ClientModel model = ServerFacade.getSingleton().offerTrade(params);
+				FacadeSwitch.getSingleton().setGameID(gameID);
+				FacadeSwitch.getSingleton().setPlayerID(playerID);
+				ClientModel model = FacadeSwitch.getSingleton().offerTrade(params);
 				HandlerUtil.sendResponse(exchange, 200, model, ClientModel.class);
 				
 			} catch (ServerResponseException e) {

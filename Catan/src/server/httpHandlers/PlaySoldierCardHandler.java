@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.MoveSoldierParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -35,7 +35,7 @@ public class PlaySoldierCardHandler implements IHttpHandler {
 				MoveSoldierParams moveSoldierParam = (MoveSoldierParams) Serializer
 						.deserialize(inputStreamString, MoveSoldierParams.class);
 				
-				ClientModel model = ServerFacade.getSingleton()
+				ClientModel model = FacadeSwitch.getSingleton()
 						.playSoldierCard(moveSoldierParam);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);
