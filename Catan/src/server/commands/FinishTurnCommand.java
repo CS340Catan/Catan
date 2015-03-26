@@ -72,9 +72,14 @@ public class FinishTurnCommand extends ICommand {
 			 * is able to roll the dice. Set this within the model TurnTracker,
 			 * as well set the status to 'Rolling'.
 			 */
+			
 			int nextPlayer = playerIndex + 1;
 			if (nextPlayer > 3) {
 				nextPlayer = 0;
+			}
+			
+			if (model.getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")){
+				nextPlayer = playerIndex - 1;
 			}
 
 			model.getTurnTracker().setCurrentTurn(nextPlayer);
@@ -82,10 +87,14 @@ public class FinishTurnCommand extends ICommand {
 					&& model.getTurnTracker().getStatus().toUpperCase()
 							.equals("FIRSTROUND")) {
 				model.getTurnTracker().setStatus("SecondRound");
-			} else if (nextPlayer == 0
+				nextPlayer = 3;
+				model.getTurnTracker().setCurrentTurn(nextPlayer);
+			} else if (nextPlayer == -1
 					&& model.getTurnTracker().getStatus().toUpperCase()
 							.equals("SECONDROUND")) {
 				model.getTurnTracker().setStatus("Rolling");
+				nextPlayer = 0;
+				model.getTurnTracker().setCurrentTurn(nextPlayer);
 			} else if (!model.getTurnTracker().getStatus().toUpperCase()
 					.equals("FIRSTROUND")
 					&& !model.getTurnTracker().getStatus().toUpperCase()

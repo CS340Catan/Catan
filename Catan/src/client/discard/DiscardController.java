@@ -110,7 +110,7 @@ public class DiscardController extends Controller implements
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do",
+			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do - discardctrl",
 					JOptionPane.ERROR_MESSAGE);
 		}
 

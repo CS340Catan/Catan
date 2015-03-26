@@ -78,7 +78,7 @@ public class ServerProxy implements IServer {
 		//logger.info("client/communicator/ServerProxy - entering updateModel");
 		String jsonResponseString = httpCommunicator.doGet(
 				"/game/model?version=" + version, null);
-		//System.out.println(jsonResponseString);
+		//
 		ClientModel model = null; // Returns null if current model is already
 									// correct or there was an error
 		if (jsonResponseString != null) {
@@ -139,7 +139,7 @@ public class ServerProxy implements IServer {
 		logger.info("client/communicator/ServerProxy - entering Register");
 		String jsonString = Serializer.serialize(credentials);
 		String response = httpCommunicator.doPost("/user/register", jsonString);
-		System.out.println(response);
+		
 		logger.info("client/communicator/ServerProxy - exiting Register");
 		if (response == null) {
 			return false;
@@ -453,7 +453,7 @@ public class ServerProxy implements IServer {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		String jsonString = Serializer.serialize(new RollParams(playerIndex,
 				number));
-		System.out.println("Roll Number params: " + jsonString);
+		
 		String response = httpCommunicator.doPost("/moves/rollNumber",
 				jsonString);
 		logger.info("made it here");

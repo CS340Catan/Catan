@@ -9,6 +9,7 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
+import shared.model.Player;
 import shared.model.Port;
 import shared.model.ResourceList;
 import shared.model.Road;
@@ -1597,5 +1598,13 @@ public class ClientModelFacade {
 				.getTurnTracker().getLongestRoad();
 		return (longestRoadPlayerIndex == playerIndex);
 
+	}
+	
+	public boolean playerHasResources(int playerIndex) {
+		Player player = ClientModel.getSingleton().getPlayers()[playerIndex];
+		if(player.getResources().totalResourceCount() > 0) {
+			return true;
+		}
+		return false;
 	}
 }

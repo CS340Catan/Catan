@@ -161,7 +161,6 @@ public class MapController extends Controller implements IMapController, Observe
 			}
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
-			System.out.println("Something broke in sendRoadToServer in MapController");
 		}
 
 	}
@@ -199,7 +198,6 @@ public class MapController extends Controller implements IMapController, Observe
 					server.playRoadBuildingCard(buildRoadCardParams);
 				} catch (ServerResponseException e) {
 					firstRoadPlaced = false;
-					System.out.println("bad things broke while playing road building card");
 					// e.printStackTrace();
 				}
 				getView().placeRoad(edgeLoc, UserPlayerInfo.getSingleton().getColor());
@@ -219,7 +217,6 @@ public class MapController extends Controller implements IMapController, Observe
 				server.buildSettlement(buildSettlementParams);
 			} catch (ServerResponseException e) {
 				e.printStackTrace();
-				System.out.println("Something broke in placeSettlement in MapController");
 			}
 			getView().placeSettlement(vertLoc, UserPlayerInfo.getSingleton().getColor());
 		}
@@ -232,7 +229,6 @@ public class MapController extends Controller implements IMapController, Observe
 				server.buildCity(buildCityParams);
 			} catch (ServerResponseException e) {
 				e.printStackTrace();
-				System.out.println("Something broke in placeSettlement in MapController");
 			}
 			getView().placeCity(vertLoc, UserPlayerInfo.getSingleton().getColor());
 
@@ -243,7 +239,8 @@ public class MapController extends Controller implements IMapController, Observe
 		if (canPlaceRobber(hexLoc)) {
 			ArrayList<RobPlayerInfo> candidateVictims = new ArrayList<RobPlayerInfo>();
 			for (int i = 0; i < 4; i++) {
-				if (i != UserPlayerInfo.getSingleton().getPlayerIndex() && clientModelController.playerTouchingRobber(i, hexLoc)) {
+				if (i != UserPlayerInfo.getSingleton().getPlayerIndex() && clientModelController.playerTouchingRobber(i, hexLoc)
+						&& clientModelController.playerHasResources(i)) {
 					RobPlayerInfo robPlayerInfo = new RobPlayerInfo();
 					robPlayerInfo.setPlayerIndex(i);
 					robPlayerInfo.setColor(clientModelController.getPlayerColor(i));
@@ -337,7 +334,6 @@ public class MapController extends Controller implements IMapController, Observe
 				server.robPlayer(robPlayerParams);
 				robStarted = false;
 			} catch (ServerResponseException e) {
-				System.out.println("Something broke in robPlayer in mapController.java");
 				e.printStackTrace();
 			}
 		}
@@ -368,39 +364,31 @@ public class MapController extends Controller implements IMapController, Observe
 	private void updateState() {
 		switch (ClientModel.getSingleton().getTurnTracker().getStatus().toUpperCase()) {
 		case "FIRSTROUND":
-			System.out.println("In First Round");
 			if (ClientModel.getSingleton().hasFourPlayers() && !mapState.getClassName().equals("FirstRoundState")) {
 				mapState = new FirstRoundState();
 			}
 			break;
 		case "SECONDROUND":
-			System.out.println("In Second Round");
 			if (!mapState.getClassName().equals("SecondRoundState")) {
 				mapState = new SecondRoundState();
 			}
 			break;
 		case "ROLLING":
-			System.out.println("In Rolling");
 			mapState = new RollingState();
 			break;
 		case "ROBBING":
-			System.out.println("In Robbing");
 			if (!robStarted) {
-				System.out.println("About to start rob");
 				startRob();
 			}
 			mapState = new RobbingState();
 			break;
 		case "PLAYING":
-			System.out.println("In Playing");
 			mapState = new PlayingState();
 			break;
 		case "DISCARDING":
-			System.out.println("In Discarding");
 			mapState = new DiscardingState();
 			break;
 		default:
-			System.out.println("no status set");
 			break;
 		}
 	}

@@ -27,7 +27,8 @@ public class Server {
 	private static Logger ServerLogger;
 
 	static {
-		Level logLevel = Level.ALL;
+		//Level logLevel = Level.ALL;
+		Level logLevel = Level.OFF;
 		ServerLogger = Logger.getLogger("CatanServer");
 		ServerLogger.setLevel(logLevel);
 		ServerLogger.setUseParentHandlers(false);
@@ -72,12 +73,12 @@ public class Server {
 	 * starts the server
 	 */
 	private void run() {
-		System.out.println("SERVER on port: " + portNumber);
+		
 		try {
 			httpServer = HttpServer.create(new InetSocketAddress(portNumber),
 					MAX_WAITING_CONNECTIONS);
 		} catch (IOException e) {
-			System.out.println("Error starting HTTP server: " + e.getMessage());
+			
 			e.printStackTrace();
 		}
 

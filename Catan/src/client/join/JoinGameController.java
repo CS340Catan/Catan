@@ -120,12 +120,12 @@ public class JoinGameController extends Controller implements
 			}
 
 			/*
-			 * System.out.println("Title:" + this.newGameView.getTitle());
-			 * System.out.println("Random Hexes:" +
+			 * 
+			 * 
 			 * this.newGameView.getRandomlyPlaceHexes());
-			 * System.out.println("Random Numbers:" +
+			 * 
 			 * this.newGameView.getRandomlyPlaceNumbers());
-			 * System.out.println("Random Ports:" +
+			 * 
 			 * this.newGameView.getUseRandomPorts());
 			 */
 
@@ -225,7 +225,7 @@ public class JoinGameController extends Controller implements
 			 * Initiate poller to start polling once the player has joined the
 			 * game.
 			 */
-
+			
 			/*
 			 * Package the join game parameters to be sent over to the server.
 			 * These values can be grabbed from the storedGame id as well as the
@@ -269,7 +269,6 @@ public class JoinGameController extends Controller implements
 	}
 
 	public void updateGameList(GameInfo[] newGameList) {
-		// System.out.println("Entered JoinGameController:updateGameList() method");
 		for(GameInfo info : newGameList){
 			ArrayList<PlayerInfo> tempPlayers = new ArrayList<PlayerInfo>();
 			for(PlayerInfo player : info.getPlayers()){

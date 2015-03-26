@@ -98,7 +98,7 @@ public class DevCardController extends Controller implements
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do",
+			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do - devCardctrl buy card",
 					JOptionPane.ERROR_MESSAGE);
 		}
 		getBuyCardView().closeModal();
@@ -166,7 +166,7 @@ public class DevCardController extends Controller implements
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do",
+			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do - devCardctrl monopoly",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -184,7 +184,7 @@ public class DevCardController extends Controller implements
 			}
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"Totes sry. Ye' can't play that yet!", "No can do",
+					"Totes sry. Ye' can't play that yet!", "No can do - devCardctrl monument",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -196,7 +196,7 @@ public class DevCardController extends Controller implements
 			roadAction.execute();
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"Totes sry. Ye' can't play that yet!", "No can do",
+					"Totes sry. Ye' can't play that yet!", "No can do - devCardctrl road",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -230,7 +230,7 @@ public class DevCardController extends Controller implements
 						"Server Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do",
+			JOptionPane.showMessageDialog(null, NO_CAN_DO, "No can do - devCardctrl year",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}

@@ -39,7 +39,6 @@ public class GameListPoller {
 	 * @post has either left current ClientModel alone, or updated it
 	 */
 	public void updateGameList() {
-		// System.out.println("Entered GameListPoller:updateGameList() method");
 
 		try {
 			GameInfo[] newGameInfoList = null;							

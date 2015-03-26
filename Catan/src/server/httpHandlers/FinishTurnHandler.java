@@ -1,6 +1,7 @@
 package server.httpHandlers;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import server.facade.FacadeSwitch;
 import shared.communication.UserActionParams;
@@ -11,10 +12,13 @@ import client.model.ClientModel;
 import com.sun.net.httpserver.HttpExchange;
 
 public class FinishTurnHandler implements IHttpHandler {
-
+	private static Logger logger;
+	static {
+		logger = Logger.getLogger("CatanServer");
+	}
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
-		
+		logger.info("server/httpHandlers/FinishTurnHandler - entering Handle");
 
 		
 		int gameID = HandlerUtil.getGameID(exchange);
