@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import server.facade.ServerFacade;
 import server.model.GameList;
@@ -47,7 +48,13 @@ public class SaveGameCommand extends ICommand {
 		 * Grab the model object and save the model to disk for storage.
 		 */
 		try {
+			File dir = new File("./saves");
+			dir.mkdir();
 			File file = new File("./saves/" + fileName + ".txt");
+			if(file.exists()){
+				throw new ServerResponseException("File name already exists.");
+			}
+			PrintWriter fileMaker = new PrintWriter(fileName+".txt", "UTF-8");//wasn't working on my comp till I added this			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			
 			String jsonModel = Serializer.serialize(model);
