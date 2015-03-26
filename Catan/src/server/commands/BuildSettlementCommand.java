@@ -1,5 +1,7 @@
 package server.commands;
 
+import java.util.ArrayList;
+
 import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
@@ -59,13 +61,11 @@ public class BuildSettlementCommand extends ICommand {
 		 * currently stored within the command class members.
 		 */
 		VertexLocation settlementVertexLocation = new VertexLocation();
-		settlementVertexLocation
-				.setDirection(settlementLocation.getDirection());
+		settlementVertexLocation.setDirection(settlementLocation.getDirection());
 		settlementVertexLocation.setX(settlementLocation.getX());
 		settlementVertexLocation.setY(settlementLocation.getY());
 		settlementVertexLocation.convertFromPrimitives();
-		VertexObject settlement = new VertexObject(playerIndex,
-				settlementVertexLocation);
+		VertexObject settlement = new VertexObject(playerIndex, settlementVertexLocation);
 
 		if (controller.canBuildSettlement(settlement, free, free)) {
 			/*
@@ -78,11 +78,14 @@ public class BuildSettlementCommand extends ICommand {
 			 * resources. In addition, add the appropriate amount of resources
 			 * to the bank.
 			 */
+
 			Player player = model.getPlayers()[playerIndex];
-			model.addResourceFromBank(playerIndex, ResourceType.BRICK, -1);
-			model.addResourceFromBank(playerIndex, ResourceType.WOOD, -1);
-			model.addResourceFromBank(playerIndex, ResourceType.WHEAT, -1);
-			model.addResourceFromBank(playerIndex, ResourceType.SHEEP, -1);
+			if (!free) {
+				model.addResourceFromBank(playerIndex, ResourceType.BRICK, -1);
+				model.addResourceFromBank(playerIndex, ResourceType.WOOD, -1);
+				model.addResourceFromBank(playerIndex, ResourceType.WHEAT, -1);
+				model.addResourceFromBank(playerIndex, ResourceType.SHEEP, -1);
+			}
 
 			/*
 			 * Remove one settlement piece from the player's hand and add an
@@ -90,13 +93,19 @@ public class BuildSettlementCommand extends ICommand {
 			 */
 			player.setSettlements(player.getSettlements() - 1);
 			player.setVictoryPoints(player.getVictoryPoints() + 1);
-			
+
 			/*
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
 			model.getLog().addLine(new MessageLine(name + " built a settlement.", name));
-
+			int i = 0;
+			if (model.getTurnTracker().getStatus().toLowerCase().equals("secondround")) {
+				ArrayList<ResourceType> adjacentResources = (ArrayList<ResourceType>) controller.getAdjacentResources(settlement);
+				for (ResourceType resourcetype : controller.getAdjacentResources(settlement)) {
+					model.addResourceFromBank(playerIndex, resourcetype, 1);
+				}
+			}
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.

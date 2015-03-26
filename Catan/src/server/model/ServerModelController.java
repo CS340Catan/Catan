@@ -1,5 +1,8 @@
 package server.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
@@ -828,7 +831,7 @@ public class ServerModelController {
 		return false;
 	}
 
-	private ResourceList getAdjacentResources(VertexObject settlement) {
+	public ArrayList<ResourceType> getAdjacentResources(VertexObject settlement) {
 		HexLocation location1 = null;
 		HexLocation location2 = null;
 		HexLocation location3 = null;
@@ -864,27 +867,11 @@ public class ServerModelController {
 			location2 = settlement.getLocation().getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
 			location3 = settlement.getLocation().getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
 		}
-		ResourceList resourceList = new ResourceList(0, 0, 0, 0, 0);
+		ArrayList<ResourceType> resourceList = new ArrayList<ResourceType>();
 		for (Hex hex : model.getMap().getHexes()) {
 			if (hex.getLocation().equals(location1) || hex.getLocation().equals(location2) || hex.getLocation().equals(location3)) {
-				switch(ResourceType.valueOf(hex.getResource())){
-				case BRICK:
-					resourceList.setBrick(resourceList.getBrick() + 1);
-					break;
-				case ORE:
-					resourceList.setOre(resourceList.getOre() + 1);					
-					break;
-				case SHEEP:
-					resourceList.setSheep(resourceList.getSheep() + 1);					
-					break;
-				case WHEAT:
-					resourceList.setWheat(resourceList.getWheat() + 1);					
-					break;
-				case WOOD:
-					resourceList.setWood(resourceList.getWood() + 1);					
-					break;
-				default:
-					break;
+				if(!hex.getResource().toLowerCase().equals("desert")){
+					resourceList.add(ResourceType.valueOf(hex.getResource().toUpperCase()));
 				}
 			}
 		}
