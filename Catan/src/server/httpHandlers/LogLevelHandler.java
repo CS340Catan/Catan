@@ -20,7 +20,7 @@ public class LogLevelHandler implements IHttpHandler {
 			ChangeLogLevelParams params = (ChangeLogLevelParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
 			
 			ChangeLogLevelResponse response = ServerFacade.getSingleton().changeLogLevel(params);
-			HandlerUtil.sendResponse(exchange, 200, response.getResponse(), String.class);
+			HandlerUtil.sendResponse(exchange, 200,  response, ChangeLogLevelResponse.class);
 			
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, "Failed to login - bad username or password. " + e.getMessage(), String.class);

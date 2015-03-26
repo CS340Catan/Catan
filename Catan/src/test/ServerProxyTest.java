@@ -302,12 +302,15 @@ public class ServerProxyTest {
 	@Test
 	public void testChangeLogLevel() {
 		ChangeLogLevelParams level = new ChangeLogLevelParams();
+		level.setLogLevel("SEVERE");
 		ChangeLogLevelResponse response;
 		try {
 			response = serverProxy.changeLogLevel(level);
 			assertNotEquals(response, null);
+			assertEquals(response, "Success");
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
+			System.out.println(e.getMessage());
 		}
 
 	}
