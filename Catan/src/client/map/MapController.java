@@ -239,7 +239,8 @@ public class MapController extends Controller implements IMapController, Observe
 		if (canPlaceRobber(hexLoc)) {
 			ArrayList<RobPlayerInfo> candidateVictims = new ArrayList<RobPlayerInfo>();
 			for (int i = 0; i < 4; i++) {
-				if (i != UserPlayerInfo.getSingleton().getPlayerIndex() && clientModelController.playerTouchingRobber(i, hexLoc)) {
+				if (i != UserPlayerInfo.getSingleton().getPlayerIndex() && clientModelController.playerTouchingRobber(i, hexLoc)
+						&& clientModelController.playerHasResources(i)) {
 					RobPlayerInfo robPlayerInfo = new RobPlayerInfo();
 					robPlayerInfo.setPlayerIndex(i);
 					robPlayerInfo.setColor(clientModelController.getPlayerColor(i));
