@@ -17,7 +17,7 @@ public class LogLevelHandler implements IHttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 		try {
 			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-			ChangeLogLevelParams params = (ChangeLogLevelParams) Serializer.deserialize(inputStreamString, UserCredentials.class);
+			ChangeLogLevelParams params = (ChangeLogLevelParams) Serializer.deserialize(inputStreamString, ChangeLogLevelParams.class);
 			
 			ChangeLogLevelResponse response = ServerFacade.getSingleton().changeLogLevel(params);
 			HandlerUtil.sendResponse(exchange, 200,  response, ChangeLogLevelResponse.class);
