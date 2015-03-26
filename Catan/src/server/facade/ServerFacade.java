@@ -177,12 +177,13 @@ public class ServerFacade implements IServer {
 
 	/**
 	 * Clears the command history of the current game
+	 * @param gameID 
 	 * 
 	 * @return a full, reset ClientModel of the current game
 	 */
 	@Override
 	public ClientModel resetGame() throws ServerResponseException {
-		// TODO Auto-generated method stub
+		new ResetGameCommand().execute();
 		return this.getServerModel().toClientModel();
 	}
 
@@ -615,7 +616,7 @@ public class ServerFacade implements IServer {
 		summaries[2] = pete;
 		summaries[3] = mark;
 
-		GameSummary gameSummary = new GameSummary("Default Game", 0, summaries);
+		GameSummary gameSummary = new GameSummary("Test Game", 0, summaries);
 		GameList.getSingleton().addGame(gameSummary);
 		logger.info("server/facade/ServerFacade - exiting setFirstGame");
 	}

@@ -17,10 +17,8 @@ import shared.model.ResourceList;
 
 public class ResetGameCommand extends ICommand {
 
-	int gameID;
 
-	ResetGameCommand(int gameID) {
-		this.gameID = gameID;
+	public ResetGameCommand() {
 		this.setType("ResetGame");
 
 	}
@@ -62,12 +60,13 @@ public class ResetGameCommand extends ICommand {
 							0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0), false,
 					new ResourceList(0, 0, 0, 0, 0), 15, 0, 0);
 		}
+		newModel.setPlayers(newModelPlayers);
 
 		/*
 		 * Overwrite the oldModel with the newModel, such that the model stored
 		 * within the serverFacade is the reset game.
 		 */
-		oldModel = newModel;
+		ServerFacade.getSingleton().getModelMap().put(newModel.getGameID(), newModel);
 	}
 
 }
