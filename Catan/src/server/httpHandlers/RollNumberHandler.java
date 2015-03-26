@@ -44,7 +44,7 @@ public class RollNumberHandler implements IHttpHandler {
 				HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
 				e.printStackTrace();
 			} catch (Exception e){
-				HandlerUtil.sendResponse(exchange, 400, "Failed to discard cards", String.class);
+				HandlerUtil.sendResponse(exchange, 400, "Failed to roll number." + e.getMessage(), String.class);
 				e.printStackTrace();
 			}
 			

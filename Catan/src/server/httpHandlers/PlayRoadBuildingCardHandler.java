@@ -42,7 +42,7 @@ public class PlayRoadBuildingCardHandler implements IHttpHandler {
 						ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400,
-						"Failed to play monument card.", String.class);
+						"Failed to play road building card." + e.getMessage(), String.class);
 				e.printStackTrace();
 			}
 		}		

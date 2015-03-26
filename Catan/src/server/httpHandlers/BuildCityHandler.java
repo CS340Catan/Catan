@@ -40,7 +40,7 @@ public class BuildCityHandler implements IHttpHandler {
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 				
 			} catch (ServerResponseException e) {
-				HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
+				HandlerUtil.sendResponse(exchange, 400, "Failed to build city" + e.getMessage(), String.class);
 				e.printStackTrace();
 			}
 		}
