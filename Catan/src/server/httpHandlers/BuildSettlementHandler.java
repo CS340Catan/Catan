@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.BuildSettlementParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -36,9 +36,9 @@ public class BuildSettlementHandler implements IHttpHandler {
 				//otherwise send params to server model
 				BuildSettlementParams params = (BuildSettlementParams) Serializer.deserialize(inputStreamString, BuildSettlementParams.class);
 				
-				ServerFacade.getSingleton().setGameID(gameID);
-				ServerFacade.getSingleton().setPlayerID(playerID);
-				ClientModel clientModel = ServerFacade.getSingleton().buildSettlement(params);
+				FacadeSwitch.getSingleton().setGameID(gameID);
+				FacadeSwitch.getSingleton().setPlayerID(playerID);
+				ClientModel clientModel = FacadeSwitch.getSingleton().buildSettlement(params);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400, "Failed to build settlement" + e.getMessage(), String.class);

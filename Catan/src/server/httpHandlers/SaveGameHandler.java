@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.SaveParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -18,8 +18,8 @@ public class SaveGameHandler implements IHttpHandler {
 			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 			SaveParams saveParams = (SaveParams) Serializer.deserialize(inputStreamString, SaveParams.class);
 			
-			ServerFacade.getSingleton().setGameID(saveParams.getId());
-			ServerFacade.getSingleton().saveGame(saveParams);
+			FacadeSwitch.getSingleton().setGameID(saveParams.getId());
+			FacadeSwitch.getSingleton().saveGame(saveParams);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, e.getMessage() + " Be sure you have given a valid file name.", String.class);

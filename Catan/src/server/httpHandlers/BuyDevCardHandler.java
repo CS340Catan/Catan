@@ -2,8 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
-import shared.communication.BuildRoadCardParams;
+import server.facade.FacadeSwitch;
 import shared.communication.UserActionParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -37,7 +36,7 @@ public class BuyDevCardHandler implements IHttpHandler {
 				UserActionParams buyDevelopmentCard = (UserActionParams) Serializer
 						.deserialize(inputStreamString, UserActionParams.class);
 				
-				ClientModel model = ServerFacade.getSingleton().buyDevCard(
+				ClientModel model = FacadeSwitch.getSingleton().buyDevCard(
 						buyDevelopmentCard);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);

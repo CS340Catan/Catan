@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.JoinGameParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -27,10 +27,10 @@ public class JoinGameHandler implements IHttpHandler {
 			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 			JoinGameParams joinParams = (JoinGameParams) Serializer.deserialize(inputStreamString, JoinGameParams.class);
 			
-			ServerFacade.getSingleton().setGameID(joinParams.getId());
+			FacadeSwitch.getSingleton().setGameID(joinParams.getId());
 			int playerId = HandlerUtil.getPlayerID(exchange);
-			ServerFacade.getSingleton().setPlayerID(playerId);
-			ServerFacade.getSingleton().joinGame(joinParams);
+			FacadeSwitch.getSingleton().setPlayerID(playerId);
+			FacadeSwitch.getSingleton().joinGame(joinParams);
 			
 			ArrayList<String> values=new ArrayList<String>();
 			String gameCookie = URLEncoder.encode(joinParams.getId()+"","UTF-8");

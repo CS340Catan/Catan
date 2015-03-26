@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.PlayMonopolyParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -35,7 +35,7 @@ public class PlayMonopolyCardHandler implements IHttpHandler {
 				PlayMonopolyParams playMonopolyParams = (PlayMonopolyParams) Serializer
 						.deserialize(inputStreamString, PlayMonopolyParams.class);
 				
-				ClientModel model = ServerFacade.getSingleton()
+				ClientModel model = FacadeSwitch.getSingleton()
 						.playMonopolyCard(playMonopolyParams);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);

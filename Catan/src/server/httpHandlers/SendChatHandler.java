@@ -1,7 +1,8 @@
 package server.httpHandlers;
 
 import java.io.IOException;
-import server.facade.ServerFacade;
+
+import server.facade.FacadeSwitch;
 import shared.communication.ChatMessage;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -32,8 +33,8 @@ public class SendChatHandler implements IHttpHandler {
 				ChatMessage chatMessage = (ChatMessage) Serializer.deserialize(
 						inputStreamString, ChatMessage.class);
 				
-				ServerFacade.getSingleton().setGameID(gameID);
-				ClientModel model = ServerFacade.getSingleton().sendChat(
+				FacadeSwitch.getSingleton().setGameID(gameID);
+				ClientModel model = FacadeSwitch.getSingleton().sendChat(
 						chatMessage);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);

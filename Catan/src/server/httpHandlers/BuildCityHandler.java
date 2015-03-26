@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.BuildCityParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -34,9 +34,9 @@ public class BuildCityHandler implements IHttpHandler {
 				String inputString = HandlerUtil.requestBodyToString(exchange);
 				BuildCityParams params = (BuildCityParams) Serializer.deserialize(inputString, BuildCityParams.class);
 				
-				ServerFacade.getSingleton().setGameID(gameID);
-				ServerFacade.getSingleton().setPlayerID(playerID);
-				ClientModel clientModel = ServerFacade.getSingleton().buildCity(params);
+				FacadeSwitch.getSingleton().setGameID(gameID);
+				FacadeSwitch.getSingleton().setPlayerID(playerID);
+				ClientModel clientModel = FacadeSwitch.getSingleton().buildCity(params);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 				
 			} catch (ServerResponseException e) {

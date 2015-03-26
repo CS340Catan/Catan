@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.BuildRoadParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -33,9 +33,9 @@ public class BuildRoadHandler implements IHttpHandler {
 				//otherwise send params to server model
 				BuildRoadParams params = (BuildRoadParams) Serializer.deserialize(inputStreamString, BuildRoadParams.class);
 				
-				ServerFacade.getSingleton().setGameID(gameID);
-				ServerFacade.getSingleton().setPlayerID(playerID);
-				ClientModel clientModel = ServerFacade.getSingleton().buildRoad(params);
+				FacadeSwitch.getSingleton().setGameID(gameID);
+				FacadeSwitch.getSingleton().setPlayerID(playerID);
+				ClientModel clientModel = FacadeSwitch.getSingleton().buildRoad(params);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400, "Failed to build road" + e.getMessage(), String.class);

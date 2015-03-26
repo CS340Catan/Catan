@@ -3,7 +3,7 @@ package server.httpHandlers;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.utils.ServerResponseException;
 import client.model.ClientModel;
 
@@ -20,7 +20,7 @@ public class ModelHandler implements IHttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 		//logger.info("server/httpHandlers/ModelHandler - entering ModelHandler");
 		int gameID = HandlerUtil.getGameID(exchange);
-		ServerFacade.getSingleton().setGameID(gameID);
+		FacadeSwitch.getSingleton().setGameID(gameID);
 		String query = exchange.getRequestURI().getQuery();
 		int gameVersion = -1;
 		if (query!=null){
@@ -28,7 +28,7 @@ public class ModelHandler implements IHttpHandler {
 			gameVersion = Integer.valueOf(queryArray[1]);
 		}
 		try {
-			ClientModel clientModel = ServerFacade.getSingleton().getCurrentGame(gameVersion);
+			ClientModel clientModel = FacadeSwitch.getSingleton().getCurrentGame(gameVersion);
 			HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 		} catch(ServerResponseException e) {
 			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);

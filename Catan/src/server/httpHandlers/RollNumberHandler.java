@@ -3,7 +3,7 @@ package server.httpHandlers;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.RollParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -34,9 +34,9 @@ public class RollNumberHandler implements IHttpHandler {
 					//otherwise send params to server model
 					RollParams params = (RollParams) Serializer.deserialize(inputStreamString, RollParams.class);	
 					
-					ServerFacade.getSingleton().setGameID(gameID);
-					ServerFacade.getSingleton().setPlayerID(playerID);
-					ClientModel clientModel = ServerFacade.getSingleton().rollNumber(params.getNumber());
+					FacadeSwitch.getSingleton().setGameID(gameID);
+					FacadeSwitch.getSingleton().setPlayerID(playerID);
+					ClientModel clientModel = FacadeSwitch.getSingleton().rollNumber(params.getNumber());
 					HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 				}
 			}

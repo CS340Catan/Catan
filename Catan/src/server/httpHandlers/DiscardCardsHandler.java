@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.DiscardCardsParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -31,8 +31,8 @@ public class DiscardCardsHandler implements IHttpHandler {
 				//otherwise send params to server model
 				DiscardCardsParams params = (DiscardCardsParams) Serializer.deserialize(inputStreamString, DiscardCardsParams.class);
 				
-				ServerFacade.getSingleton().setGameID(gameID);
-				ClientModel clientModel = ServerFacade.getSingleton().discardCards(params);
+				FacadeSwitch.getSingleton().setGameID(gameID);
+				ClientModel clientModel = FacadeSwitch.getSingleton().discardCards(params);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400, "Failed to discard cards", String.class);

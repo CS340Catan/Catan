@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.MaritimeTradeParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -31,9 +31,9 @@ public class MaritimeTradeHandler implements IHttpHandler {
 				//otherwise send params to server model
 				MaritimeTradeParams params = (MaritimeTradeParams) Serializer.deserialize(inputStreamString, MaritimeTradeParams.class);
 				
-				ServerFacade.getSingleton().setGameID(gameID);
-				ServerFacade.getSingleton().setPlayerID(playerID);
-				ClientModel clientModel = ServerFacade.getSingleton().maritimeTrade(params);
+				FacadeSwitch.getSingleton().setGameID(gameID);
+				FacadeSwitch.getSingleton().setPlayerID(playerID);
+				ClientModel clientModel = FacadeSwitch.getSingleton().maritimeTrade(params);
 				HandlerUtil.sendResponse(exchange, 200, clientModel, ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400, "Failed to maritime trade", String.class);

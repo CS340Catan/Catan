@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.CommandList;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -28,21 +28,21 @@ public class CommandsHandler implements IHttpHandler {
 				/*
 				 * Grab the request method and set the game id for the server
 				 * facade. If the request method is a GET, then operate a
-				 * getCommands operation on the ServerFacade. If the request
+				 * getCommands operation on the FacadeSwitch. If the request
 				 * method is a POST, then operate a setCommands operation on the
-				 * ServerFacade.
+				 * FacadeSwitch.
 				 */
 				String requestMethod = exchange.getRequestMethod();
-				ServerFacade.getSingleton().setGameID(gameID);
+				FacadeSwitch.getSingleton().setGameID(gameID);
 
 				if (requestMethod.equals("GET")) {
-					CommandList commandList = ServerFacade.getSingleton().getCommands();
+					CommandList commandList = FacadeSwitch.getSingleton().getCommands();
 					HandlerUtil.sendResponse(exchange, 200, commandList, CommandList.class);
 				} else if (requestMethod.equals("POST")) {
 					String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 					CommandList commandListParam = (CommandList) Serializer.deserialize(inputStreamString, CommandList.class);
 
-					ClientModel model = ServerFacade.getSingleton().setCommands(commandListParam);
+					ClientModel model = FacadeSwitch.getSingleton().setCommands(commandListParam);
 					HandlerUtil.sendResponse(exchange, 200, model, ClientModel.class);
 				} else {
 					String errorMessage = "Invalid post/get request method.";

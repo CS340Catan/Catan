@@ -2,7 +2,7 @@ package server.httpHandlers;
 
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import shared.communication.MoveRobberParams;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
@@ -36,7 +36,7 @@ public class RobPlayerHandler implements IHttpHandler {
 				MoveRobberParams moveRobberParam = (MoveRobberParams) Serializer
 						.deserialize(inputStreamString, MoveRobberParams.class);
 				
-				ClientModel model = ServerFacade.getSingleton().robPlayer(
+				ClientModel model = FacadeSwitch.getSingleton().robPlayer(
 						moveRobberParam);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);
