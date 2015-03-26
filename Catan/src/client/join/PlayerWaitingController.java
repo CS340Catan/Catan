@@ -124,7 +124,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void update(Observable o, Object arg) {
 		playerWaitingState.action(this);
-
+		if (isFourPlayers()) {
+			poller.stopPlayerWaitingTimer();
+			poller.setTimer();
+		}
 	}
 
 	public IPlayerWaitingState getPlayerWaitingState() {
