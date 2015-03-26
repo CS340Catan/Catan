@@ -124,8 +124,8 @@ public class Server {
 				new MaritimeTradeHandler());
 		httpServer.createContext("/moves/discardCards",
 				new DiscardCardsHandler());
-		httpServer.createContext("/util/buildSettlement",
-				new BuildSettlementHandler());
+		httpServer.createContext("/util/changeLogLevel",
+				new LogLevelHandler());
 
 		httpServer.start();
 	}
