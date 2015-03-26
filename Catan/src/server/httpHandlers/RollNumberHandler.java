@@ -24,14 +24,12 @@ public class RollNumberHandler implements IHttpHandler {
 		try{
 			int gameID = HandlerUtil.getGameID(exchange);
 			int playerID = HandlerUtil.getPlayerID(exchange);
-			
+			//System.out.println("roll: " + gameID + "  " + playerID);
 			//if gameID is -1, there is no cookie so send back an error message
 			if (gameID == -1) {
 				HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
 			} 
 			else {
-
-		
 					String inputStreamString = HandlerUtil.requestBodyToString(exchange);
 					//otherwise send params to server model
 					RollParams params = (RollParams) Serializer.deserialize(inputStreamString, RollParams.class);	

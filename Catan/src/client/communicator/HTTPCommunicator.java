@@ -72,6 +72,7 @@ public class HTTPCommunicator {
 
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();
+
 			// set Cookie
 			String cookieValue = "";
 			if (userCookie != null)
@@ -80,6 +81,7 @@ public class HTTPCommunicator {
 				cookieValue += "; ";
 				cookieValue += gameCookie;
 			}
+
 			if (cookieValue != "")
 				connection.setRequestProperty("Cookie", cookieValue);
 
@@ -87,17 +89,18 @@ public class HTTPCommunicator {
 				connection.setRequestMethod(HTTP_POST);
 			else if (requestType == GET)
 				connection.setRequestMethod(HTTP_GET);
-
 			connection.setDoOutput(true);
 			connection.connect();
-
 			if (gsonString != null) {
 				DataOutputStream out = new DataOutputStream(
 						connection.getOutputStream());
 				out.writeBytes(gsonString);
 				connection.getOutputStream().close();
 			}
+			System.out.print(urlString + " response code: ");
+			System.out.println(connection.getResponseCode());	//testing
 
+			
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				// Look for cookies
 				String cookie = connection.getHeaderField("Set-Cookie");
@@ -111,6 +114,7 @@ public class HTTPCommunicator {
 				while ((line = br.readLine()) != null) {
 					sb.append(line);
 				}
+
 				br.close();
 				String body = sb.toString();
 				if (body == null)
