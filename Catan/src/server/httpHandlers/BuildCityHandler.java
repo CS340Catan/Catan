@@ -15,12 +15,9 @@ public class BuildCityHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		
-		System.out.println("Build City endpoint activated");
-		
 		int gameID = HandlerUtil.getGameID(exchange);
-		System.out.println("pastgame");
 		int playerID = HandlerUtil.getPlayerID(exchange);
-		System.out.println("gameID: " + gameID + " playerID: " + playerID);
+		
 		if(gameID == -1){
 			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
 		}

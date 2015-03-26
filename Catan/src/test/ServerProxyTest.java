@@ -310,7 +310,7 @@ public class ServerProxyTest {
 			assertEquals(response, "Success");
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
-			System.out.println(e.getMessage());
+			
 		}
 
 	}

@@ -97,8 +97,8 @@ public class HTTPCommunicator {
 				out.writeBytes(gsonString);
 				connection.getOutputStream().close();
 			}
-			System.out.print(urlString + " response code: ");
-			System.out.println(connection.getResponseCode());	//testing
+			
+			
 
 			
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
