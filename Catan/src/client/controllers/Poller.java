@@ -111,6 +111,10 @@ public class Poller {
 					System.out
 							.println("Something terrible happened in the hacky poller task");
 				}
+				if (ClientModel.getSingleton().getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")) {
+					setTimer();
+					stopPlayerWaitingTimer();
+				}
 			}
 		};
 		hackyTimer = new Timer(true);
