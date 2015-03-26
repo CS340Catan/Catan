@@ -225,7 +225,7 @@ public class JoinGameController extends Controller implements
 			 * Initiate poller to start polling once the player has joined the
 			 * game.
 			 */
-
+			
 			/*
 			 * Package the join game parameters to be sent over to the server.
 			 * These values can be grabbed from the storedGame id as well as the

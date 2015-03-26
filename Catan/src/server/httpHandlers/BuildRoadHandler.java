@@ -1,6 +1,7 @@
 package server.httpHandlers;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import server.facade.ServerFacade;
 import shared.communication.BuildRoadParams;
@@ -11,11 +12,14 @@ import client.model.ClientModel;
 import com.sun.net.httpserver.HttpExchange;
 
 public class BuildRoadHandler implements IHttpHandler {
-
+	private static Logger logger;
+	static {
+		logger = Logger.getLogger("CatanServer");
+	}
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		
-		
+		logger.info("server/httpHandlers/BuildRoadHandler - entering Handle");
 		
 		int gameID = HandlerUtil.getGameID(exchange);
 		int playerID = HandlerUtil.getPlayerID(exchange);

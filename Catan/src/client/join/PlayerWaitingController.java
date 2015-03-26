@@ -124,7 +124,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void update(Observable o, Object arg) {
 		playerWaitingState.action(this);
-
 	}
 
 	public IPlayerWaitingState getPlayerWaitingState() {
