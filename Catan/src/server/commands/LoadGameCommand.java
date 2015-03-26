@@ -1,15 +1,15 @@
 package server.commands;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
 
 import server.facade.ServerFacade;
+import server.model.GameList;
 import server.model.ServerModel;
+import shared.communication.GameSummary;
 import shared.communication.LoadGameParams;
+import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
 /**
@@ -42,21 +42,27 @@ public class LoadGameCommand extends ICommand {
 		 * not be found or the ServerModel class does not work with the object,
 		 * throw an exception.
 		 */
-		String fullName = "path/" + fileName;
+		String fullName = "./saves/" + fileName + ".txt";
 		try {
-			InputStream file = new FileInputStream(fullName);
-			InputStream buffer = new BufferedInputStream(file);
-			ObjectInput input = new ObjectInputStream(buffer);
-			ServerModel model = (ServerModel) input.readObject();
-			ServerFacade.getSingleton().getModelMap()
-					.put(model.getGameID(), model);
-			input.close();
-		} catch (ClassNotFoundException ex) {
-			throw new ServerResponseException(
-					"Could not find class ServerModel");
+			FileReader reader = new FileReader(fullName);
+			BufferedReader br = new BufferedReader(reader);
+			String jsonModel = br.readLine();
+			String jsonSummary = br.readLine();
+			if(jsonModel == null){
+				br.close();
+				throw new ServerResponseException("Tried to load empty file!");
+			}
+			ServerModel model = (ServerModel)  Serializer.deserialize(jsonModel,ServerModel.class);
+			int id = model.getGameID();
+			ServerFacade.getSingleton().getModelMap().put(id, model);
+			GameSummary summary = (GameSummary) Serializer.deserialize(jsonSummary, GameSummary.class);
+			GameList.getSingleton().addGame(summary);
+			br.close();
+			
 		} catch (IOException ex) {
+			ex.printStackTrace();
 			throw new ServerResponseException("Could not access the file "
-					+ fullName);
+					+ fileName);
 		}
 	}
 

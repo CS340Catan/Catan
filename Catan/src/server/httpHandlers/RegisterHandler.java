@@ -30,7 +30,7 @@ public class RegisterHandler implements IHttpHandler {
 			HandlerUtil.setUserCookie(exchange, userCredentials);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);		
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, "Failed to register - someone already has that username.", String.class);
+			HandlerUtil.sendResponse(exchange, 400, "Failed to register - " + e.getMessage(), String.class);
 			e.printStackTrace();
 		}
 		catch (Exception e){

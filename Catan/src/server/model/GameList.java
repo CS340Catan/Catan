@@ -32,5 +32,13 @@ public class GameList {
 		}
 		return null;
 	}
+	public GameSummary getGameByID(int id){
+		for(GameSummary summary : gameList){
+			if(id == (summary.getId())){
+				return summary;
+			}
+		}
+		return null;
+	}
 	
 }

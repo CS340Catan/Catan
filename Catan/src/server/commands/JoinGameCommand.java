@@ -36,6 +36,9 @@ public class JoinGameCommand extends ICommand {
 	@Override
 	public void execute() throws ServerResponseException {
 		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		if(model==null){
+			throw new ServerResponseException("Cannot join game - Invalid game id.");
+		}
 		String playerName = RegisteredPlayers.getSingleton().getPlayerName(playerID);
 		Player[] players = model.getPlayers();
 		int gameID = ServerFacade.getSingleton().getGameID();

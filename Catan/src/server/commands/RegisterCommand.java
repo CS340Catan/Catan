@@ -48,7 +48,20 @@ public class RegisterCommand extends ICommand {
 		RegisteredPlayers registeredPlayers = RegisteredPlayers.getSingleton();
 		if (registeredPlayers.containsKey(username)) {
 			throw new ServerResponseException("Invalid Username or password");
-		} else {
+		}/*
+		 * User name must be between 3 and 7 characters
+		 */
+		else if(username.length()>7 || username.length()<3 ){
+			throw new ServerResponseException("Username too long or short");
+		}
+		
+		/*
+		 * Make sure password is long enough
+		 */
+		else if(password.length()<5){
+			throw new ServerResponseException("Password too short");
+		}
+		else {
 			registeredPlayers.addNewPlayer(username, password);
 		}
 

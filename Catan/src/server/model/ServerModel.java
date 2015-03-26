@@ -30,7 +30,10 @@ import shared.utils.Serializer;
  */
 public class ServerModel extends AbstractModel {
 	private int gameID;
-	private List<ICommand> commands = new ArrayList<>();
+	/*
+	 * transient to avoid serialization
+	 */
+	private transient List<ICommand> commands = new ArrayList<>();
 	private String initialGameStateJSON = null;
 
 	public ServerModel() {

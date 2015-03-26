@@ -1,7 +1,6 @@
 package shared.communication;
 
 import shared.data.GameInfo;
-import shared.data.PlayerInfo;
 
 /**
  * This class is for sending a list of games currently on the server per the
