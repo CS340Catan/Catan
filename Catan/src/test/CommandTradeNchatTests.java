@@ -48,7 +48,7 @@ public class CommandTradeNchatTests {
 	public void tearDown() throws Exception {
 	}
 	@Test
-	public void AcceptTradeTest() {
+	public void RandomTest() {
 		fail("Not yet implemented");
 	}
 }
