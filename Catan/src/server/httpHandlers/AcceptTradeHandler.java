@@ -15,8 +15,6 @@ public class AcceptTradeHandler implements IHttpHandler {
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 
-		
-
 		int gameID = HandlerUtil.getGameID(exchange);
 
 		// if gameID is -1, there is no cookie so send back an error message
