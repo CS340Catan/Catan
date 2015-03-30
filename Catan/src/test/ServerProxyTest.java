@@ -9,9 +9,14 @@ import org.junit.Test;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.model.ClientModel;
+import server.facade.FacadeSwitch;
 import shared.communication.*;
 import shared.data.GameInfo;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import shared.model.ResourceList;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
@@ -161,7 +166,7 @@ public class ServerProxyTest {
 		 */
 
 		// join game
-		JoinGameParams params = new JoinGameParams("blue", 0);
+		JoinGameParams params = new JoinGameParams("blue", 2);
 		String response;
 		try {
 			response = serverProxy.joinGame(params);
@@ -180,7 +185,7 @@ public class ServerProxyTest {
 		String response;
 		try {
 			response = serverProxy.saveGame(params);
-			assertEquals(response, "Success");
+			assertEquals(response, "\"Success\"");
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
 		}
@@ -196,7 +201,7 @@ public class ServerProxyTest {
 		String saveResponse;
 		try {
 			saveResponse = serverProxy.saveGame(saveParams);
-			assertEquals(saveResponse, "Success");
+			assertEquals(saveResponse, "\"Success\"");
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
 		}
@@ -206,7 +211,7 @@ public class ServerProxyTest {
 		String response;
 		try {
 			response = serverProxy.loadGame(params);
-			assertEquals(response, "Success");
+			assertEquals(response, "\"Success\"");
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
 		}
@@ -307,7 +312,7 @@ public class ServerProxyTest {
 		try {
 			response = serverProxy.changeLogLevel(level);
 			assertNotEquals(response, null);
-			assertEquals(response, "Success");
+			assertEquals(response.getResponse(), "Success");
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
 			
@@ -377,7 +382,8 @@ public class ServerProxyTest {
 	@Test
 	public void testBuildRoad() {
 
-		BuildRoadParams params = new BuildRoadParams(0, null, false);
+		EdgeLocation location = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.North);
+		BuildRoadParams params = new BuildRoadParams(0, location, false);
 		ClientModel model;
 		try {
 			model = serverProxy.buildRoad(params);
@@ -391,7 +397,8 @@ public class ServerProxyTest {
 	@Test
 	public void testBuildSettlement() {
 
-		BuildSettlementParams params = new BuildSettlementParams(0, null, false);
+		VertexLocation location = new VertexLocation();
+		BuildSettlementParams params = new BuildSettlementParams(0, location, false);
 		ClientModel model;
 		try {
 			model = serverProxy.buildSettlement(params);
@@ -420,7 +427,8 @@ public class ServerProxyTest {
 	@Test
 	public void testOfferTrade() {
 
-		TradeOfferParams params = new TradeOfferParams(0, null, 0);
+		ResourceList offer = new ResourceList(-1, 1, 1, 1, 1);
+		TradeOfferParams params = new TradeOfferParams(0, offer, 1);
 		ClientModel model;
 		try {
 			model = serverProxy.offerTrade(params);
@@ -520,8 +528,10 @@ public class ServerProxyTest {
 
 	@Test
 	public void testPlayRoadBuildingCard() {
-
-		BuildRoadCardParams params = new BuildRoadCardParams(0, null, null);
+		
+		EdgeLocation location = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.North);
+		
+		BuildRoadCardParams params = new BuildRoadCardParams(0, location, location);
 		ClientModel model;
 		try {
 			model = serverProxy.playRoadBuildingCard(params);

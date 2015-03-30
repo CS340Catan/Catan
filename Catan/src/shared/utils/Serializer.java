@@ -42,18 +42,18 @@ public class Serializer {
 		Gson gson = new Gson();
 		ClientModel clientModel = gson.fromJson(jsonString, ClientModel.class);
 		if(clientModel.getMap().getRoads() != null){
-		for (Road road : clientModel.getMap().getRoads()) {
-			road.getLocation().convertFromPrimitives();
-		}
-		for (VertexObject settlement : clientModel.getMap().getSettlements()) {
-			settlement.getLocation().convertFromPrimitives();
-		}
-		for (VertexObject city : clientModel.getMap().getCities()) {
-			city.getLocation().convertFromPrimitives();
-		}
-		for (Port port : clientModel.getMap().getPorts()) {
-			port.convertFromPrimitives();
-		}
+			for (Road road : clientModel.getMap().getRoads()) {
+				road.getLocation().convertFromPrimitives();
+			}
+			for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+				settlement.getLocation().convertFromPrimitives();
+			}
+			for (VertexObject city : clientModel.getMap().getCities()) {
+				city.getLocation().convertFromPrimitives();
+			}
+			for (Port port : clientModel.getMap().getPorts()) {
+				port.convertFromPrimitives();
+			}
 		}
 		return clientModel;
 	}
