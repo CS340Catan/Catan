@@ -28,11 +28,12 @@ public class DevCardTest {
 	@Test
 	public void canBuyDevCardPass() {
 		clientModel.getTurnTracker().setCurrentTurn(0);
-		clientModel.getTurnTracker().setStatus("playing");
+		clientModel.getTurnTracker().setStatus("Playing");
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 1, 1, 0));
 		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
 		ClientModelFacade clientModelController = new ClientModelFacade();
+		ClientModel.getSingleton().setClientModel(clientModel);
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertTrue(pass);
 	}
@@ -40,11 +41,12 @@ public class DevCardTest {
 	@Test
 	public void canBuyDevCardFail() { // player doesn't have cards
 		clientModel.getTurnTracker().setCurrentTurn(0);
-		clientModel.getTurnTracker().setStatus("playing");
+		clientModel.getTurnTracker().setStatus("Playing");
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 0, 1, 0));
 		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
 		ClientModelFacade clientModelController = new ClientModelFacade();
+		ClientModel.getSingleton().setClientModel(clientModel);
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
@@ -52,11 +54,12 @@ public class DevCardTest {
 	@Test
 	public void canBuyDevCardFailTwo() { // bank doesn't have cards
 		clientModel.getTurnTracker().setCurrentTurn(0);
-		clientModel.getTurnTracker().setStatus("playing");
+		clientModel.getTurnTracker().setStatus("Playing");
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 1, 1, 0));
 		clientModel.setDeck(new Deck(0, 0, 0, 0, 0));
 		ClientModelFacade clientModelController = new ClientModelFacade();
+		ClientModel.getSingleton().setClientModel(clientModel);
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
@@ -64,11 +67,12 @@ public class DevCardTest {
 	@Test
 	public void canBuyDevCardFailThree() { // not turn
 		clientModel.getTurnTracker().setCurrentTurn(1);
-		clientModel.getTurnTracker().setStatus("playing");
+		clientModel.getTurnTracker().setStatus("Playing");
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 1, 1, 0));
 		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
 		ClientModelFacade clientModelController = new ClientModelFacade();
+		ClientModel.getSingleton().setClientModel(clientModel);
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
@@ -76,11 +80,12 @@ public class DevCardTest {
 	@Test
 	public void canBuyDevCardFailFour() { // not "Playing"
 		clientModel.getTurnTracker().setCurrentTurn(0);
-		clientModel.getTurnTracker().setStatus("rolling");
+		clientModel.getTurnTracker().setStatus("Rolling");
 		clientModel.getPlayers()[0]
 				.setResources(new ResourceList(0, 1, 1, 1, 0));
 		clientModel.setDeck(new Deck(1, 0, 0, 0, 0));
 		ClientModelFacade clientModelController = new ClientModelFacade();
+		ClientModel.getSingleton().setClientModel(clientModel);
 		boolean pass = clientModelController.canBuyDevCard(0);
 		assertFalse(pass);
 	}
@@ -88,8 +93,9 @@ public class DevCardTest {
 	@Test
 	public void canFinishTurnPass() {
 		clientModel.getTurnTracker().setCurrentTurn(0);
-		clientModel.getTurnTracker().setStatus("playing");
+		clientModel.getTurnTracker().setStatus("Playing");
 		ClientModelFacade clientModelController = new ClientModelFacade();
+		ClientModel.getSingleton().setClientModel(clientModel);
 		boolean pass = clientModelController.canFinishTurn(0);
 		assertTrue(pass);
 	}
@@ -97,8 +103,9 @@ public class DevCardTest {
 	@Test
 	public void canFinishTurnFail() { // not his turn
 		clientModel.getTurnTracker().setCurrentTurn(1);
-		clientModel.getTurnTracker().setStatus("playing");
+		clientModel.getTurnTracker().setStatus("Playing");
 		ClientModelFacade clientModelController = new ClientModelFacade();
+		ClientModel.getSingleton().setClientModel(clientModel);
 		boolean pass = clientModelController.canFinishTurn(0);
 		assertFalse(pass);
 	}
@@ -106,8 +113,9 @@ public class DevCardTest {
 	@Test
 	public void canFinishTurnFailTwo() { // not his turn
 		clientModel.getTurnTracker().setCurrentTurn(0);
-		clientModel.getTurnTracker().setStatus("rolling");
+		clientModel.getTurnTracker().setStatus("Rolling");
 		ClientModelFacade clientModelController = new ClientModelFacade();
+		ClientModel.getSingleton().setClientModel(clientModel);
 		boolean pass = clientModelController.canFinishTurn(0);
 		assertFalse(pass);
 	}
