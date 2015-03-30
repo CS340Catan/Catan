@@ -18,7 +18,7 @@ import shared.communication.CreateGameParams;
 import shared.communication.GameSummary;
 import shared.communication.UserCredentials;
 
-public class CommandNonMoveTest {
+public class CommandNonMoveTests {
 	IServerFacade serverFacade;
 	ICommand command;
 	@Before
