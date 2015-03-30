@@ -43,7 +43,6 @@ public class PlaySoldierCommand extends ICommand {
 		ServerModelController modelController = new ServerModelController(model);
 		String oldStatus = model.getTurnTracker().getStatus();
 		model.getTurnTracker().setStatus("Robbing");
-		int i = 0;
 		if (victimIndex == -1){
 			model.getTurnTracker().setStatus(oldStatus);
 			Player player = model.getPlayers()[playerIndex];
