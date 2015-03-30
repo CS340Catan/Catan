@@ -83,7 +83,7 @@ public class CanPlayCardTest {
 	}
 
 	@Test
-	public void canPlayMonumentFailFive() {// have already played dev card
+	public void canPlayMonumentPass() {// have already played dev card, should work
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 2, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -92,12 +92,12 @@ public class CanPlayCardTest {
 		clientModel.getPlayers()[0].setPlayedDevCard(true);
 		ClientModelFacade clientModelController = new ClientModelFacade();
 		ClientModel.getSingleton().setClientModel(clientModel);
-		boolean fail = clientModelController.canPlayMonumentCard(0);
-		assertFalse(fail);
+		boolean pass = clientModelController.canPlayMonumentCard(0);
+		assertTrue(pass);
 	}
 
 	@Test
-	public void canPlayMonumentPass() { // if they have one card
+	public void canPlayMonumentPassTwo() { // if they have one card
 		clientModel.getPlayers()[0].setVictoryPoints(9);
 		DevCardList cardList = new DevCardList(0, 1, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -111,7 +111,7 @@ public class CanPlayCardTest {
 	}
 
 	@Test
-	public void canPlayMonumentPassTwo() { // if they have multiple cards
+	public void canPlayMonumentPassThree() { // if they have multiple cards
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 2, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -125,7 +125,7 @@ public class CanPlayCardTest {
 	}
 
 	@Test
-	public void canPlayMonumentPassThree() { // if it will give them >10 points
+	public void canPlayMonumentPassFour() { // if it will give them >10 points
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 3, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
