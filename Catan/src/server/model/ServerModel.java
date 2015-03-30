@@ -37,11 +37,13 @@ public class ServerModel extends AbstractModel {
 	private String initialGameStateJSON = null;
 
 	public ServerModel() {
-		this.setMap(new Map(new Hex[0], new Port[0], new Road[0], new VertexObject[0], new VertexObject[0], gameID, null));
+		this.setMap(new Map(new Hex[0], new Port[0], new Road[0],
+				new VertexObject[0], new VertexObject[0], gameID, null));
 		this.setBank(new ResourceList(19, 19, 19, 19, 19));
 		this.setDeck(new Deck(2, 5, 14, 2, 2));
 		this.setTurnTracker(new TurnTracker(0, "FirstRound", -1, -1));
-		this.setTradeOffer(new TradeOffer(-1, -1, new ResourceList(0, 0, 0, 0, 0)));
+		this.setTradeOffer(new TradeOffer(-1, -1, new ResourceList(0, 0, 0, 0,
+				0)));
 		this.setChat(new MessageList(new MessageLine[0]));
 		this.setCommands(new ArrayList<ICommand>());
 		this.setLog(new MessageList(new MessageLine[0]));
@@ -74,8 +76,10 @@ public class ServerModel extends AbstractModel {
 		}
 	}
 
-	public void addResourceFromBank(int playerIndex, ResourceType type, int amount) {
-		ResourceList playerResources = this.getPlayers()[playerIndex].getResources();
+	public void addResourceFromBank(int playerIndex, ResourceType type,
+			int amount) {
+		ResourceList playerResources = this.getPlayers()[playerIndex]
+				.getResources();
 		this.validateResources(playerResources);
 		ResourceList bankResources = this.getBank();
 
@@ -135,7 +139,8 @@ public class ServerModel extends AbstractModel {
 
 				// decrement old longest road player victory points
 				if (this.getTurnTracker().getLongestRoad() != -1) {
-					Player loser = players[this.getTurnTracker().getLongestRoad()];
+					Player loser = players[this.getTurnTracker()
+							.getLongestRoad()];
 					loser.setVictoryPoints(loser.getVictoryPoints() - 2);
 				}
 
@@ -153,7 +158,9 @@ public class ServerModel extends AbstractModel {
 
 		Player[] players = this.getPlayers();
 		for (Player player : players) {
-			if (player.getPlayerIndex() != playerIndex && player.getNumberRoadsBuilt() >= players[playerIndex].getNumberRoadsBuilt()) {
+			if (player.getPlayerIndex() != playerIndex
+					&& player.getNumberRoadsBuilt() >= players[playerIndex]
+							.getNumberRoadsBuilt()) {
 				return false;
 			}
 		}
@@ -172,12 +179,15 @@ public class ServerModel extends AbstractModel {
 		Player[] players = this.getPlayers();
 
 		for (Player player : players) {
-			if (hasLargestArmy(player.getPlayerIndex())) {
+			if (hasLargestArmy(player.getPlayerIndex())
+					&& player.getPlayerIndex() != getTurnTracker()
+							.getLargestArmy()) {
 				/*
 				 * Decrement old largest road player victory points.
 				 */
-				if (this.getTurnTracker().getLongestRoad() != -1) {
-					Player loser = players[this.getTurnTracker().getLargestArmy()];
+				if (this.getTurnTracker().getLargestArmy() != -1) {
+					Player loser = players[this.getTurnTracker()
+							.getLargestArmy()];
 					loser.setVictoryPoints(loser.getVictoryPoints() - 2);
 				}
 
@@ -187,10 +197,9 @@ public class ServerModel extends AbstractModel {
 				 */
 				this.getTurnTracker().setLargestArmy(player.getPlayerIndex());
 				player.setVictoryPoints(player.getVictoryPoints() + 2);
-
+				return;
 			}
 		}
-
 	}
 
 	private boolean hasLargestArmy(int playerIndex) {
@@ -200,7 +209,9 @@ public class ServerModel extends AbstractModel {
 			 * If the player being compared has more soldiers, then return
 			 * false.
 			 */
-			if (player.getPlayerIndex() != playerIndex && player.getSoldiers() >= players[playerIndex].getSoldiers()) {
+			if (player.getPlayerIndex() != playerIndex
+					&& player.getSoldiers() >= players[playerIndex]
+							.getSoldiers()) {
 				return false;
 			}
 		}
@@ -251,7 +262,8 @@ public class ServerModel extends AbstractModel {
 			 * return true. Else, if no player needs to discard still, then
 			 * return false.
 			 */
-			if (player.alreadyDiscarded() == false && player.getResources().totalResourceCount() > 7) {
+			if (player.alreadyDiscarded() == false
+					&& player.getResources().totalResourceCount() > 7) {
 				return true;
 			}
 		}
