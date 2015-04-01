@@ -1,5 +1,6 @@
 package server.commands;
 
+import server.facade.FacadeSwitch;
 import server.facade.ServerFacade;
 import server.model.ServerModel;
 import shared.communication.ChatMessage;
@@ -28,7 +29,7 @@ public class SendChatCommand extends ICommand {
 	 */
 	@Override
 	public void execute() {
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 
 		/*
 		 * Given the input parameters for the command, create a messageLine
