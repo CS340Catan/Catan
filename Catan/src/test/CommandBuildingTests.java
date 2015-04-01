@@ -48,6 +48,7 @@ public class CommandBuildingTests {
 	@After
 	public void tearDown() throws Exception {
 	}
+	
 	@Test
 	public void buildSettlementTest(){
 		int playerID = 2;
