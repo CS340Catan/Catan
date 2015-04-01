@@ -9,7 +9,6 @@ import org.junit.Test;
 import client.communicator.HTTPCommunicator;
 import client.communicator.ServerProxy;
 import client.model.ClientModel;
-import server.facade.FacadeSwitch;
 import shared.communication.*;
 import shared.data.GameInfo;
 import shared.locations.EdgeDirection;
