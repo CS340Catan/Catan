@@ -34,14 +34,15 @@ import shared.communication.Username;
 import shared.communication.YearOfPlentyParams;
 import shared.data.GameInfo;
 import shared.data.PlayerInfo;
+import shared.model.AbstractModel;
 import shared.model.MessageLine;
 import shared.model.MessageList;
 import shared.model.Player;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
+import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 import client.model.ClientModel;
-import shared.utils.*;
 
 public class MockServerFacade implements IServerFacade {
 	
@@ -49,10 +50,10 @@ public class MockServerFacade implements IServerFacade {
 	private String clientModelJson = "{\"deck\":{\"yearOfPlenty\":2,\"monopoly\":2,\"soldier\":14,\"roadBuilding\":2,\"monument\":5},\"map\":{\"hexes\":[{\"location\":{\"x\":0,\"y\":-2}},{\"resource\":\"ore\",\"location\":{\"x\":1,\"y\":-2},\"number\":3},{\"resource\":\"wood\",\"location\":{\"x\":2,\"y\":-2},\"number\":3},{\"resource\":\"wheat\",\"location\":{\"x\":-1,\"y\":-1},\"number\":8},{\"resource\":\"brick\",\"location\":{\"x\":0,\"y\":-1},\"number\":8},{\"resource\":\"sheep\",\"location\":{\"x\":1,\"y\":-1},\"number\":9},{\"resource\":\"wood\",\"location\":{\"x\":2,\"y\":-1},\"number\":11},{\"resource\":\"sheep\",\"location\":{\"x\":-2,\"y\":0},\"number\":10},{\"resource\":\"sheep\",\"location\":{\"x\":-1,\"y\":0},\"number\":12},{\"resource\":\"sheep\",\"location\":{\"x\":0,\"y\":0},\"number\":10},{\"resource\":\"wheat\",\"location\":{\"x\":1,\"y\":0},\"number\":11},{\"resource\":\"brick\",\"location\":{\"x\":2,\"y\":0},\"number\":5},{\"resource\":\"wood\",\"location\":{\"x\":-2,\"y\":1},\"number\":6},{\"resource\":\"brick\",\"location\":{\"x\":-1,\"y\":1},\"number\":4},{\"resource\":\"ore\",\"location\":{\"x\":0,\"y\":1},\"number\":5},{\"resource\":\"wood\",\"location\":{\"x\":1,\"y\":1},\"number\":4},{\"resource\":\"ore\",\"location\":{\"x\":-2,\"y\":2},\"number\":9},{\"resource\":\"wheat\",\"location\":{\"x\":-1,\"y\":2},\"number\":6},{\"resource\":\"wheat\",\"location\":{\"x\":0,\"y\":2},\"number\":2}],\"roads\":[{\"owner\":3,\"location\":{\"direction\":\"S\",\"x\":1,\"y\":0}},{\"owner\":3,\"location\":{\"direction\":\"SE\",\"x\":0,\"y\":1}},{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":2,\"y\":0}}],\"cities\":[],\"settlements\":[{\"owner\":3,\"location\":{\"direction\":\"SW\",\"x\":1,\"y\":0}}],\"radius\":3,\"ports\":[{\"ratio\":3,\"direction\":\"S\",\"location\":{\"x\":1,\"y\":-3}},{\"ratio\":3,\"direction\":\"NE\",\"location\":{\"x\":-2,\"y\":3}},{\"ratio\":2,\"resource\":\"sheep\",\"direction\":\"SW\",\"location\":{\"x\":3,\"y\":-3}},{\"ratio\":3,\"direction\":\"NW\",\"location\":{\"x\":2,\"y\":1}},{\"ratio\":3,\"direction\":\"SE\",\"location\":{\"x\":-3,\"y\":0}},{\"ratio\":2,\"resource\":\"wood\",\"direction\":\"S\",\"location\":{\"x\":-1,\"y\":-2}},{\"ratio\":2,\"resource\":\"ore\",\"direction\":\"N\",\"location\":{\"x\":0,\"y\":3}},{\"ratio\":2,\"resource\":\"wheat\",\"direction\":\"NW\",\"location\":{\"x\":3,\"y\":-1}},{\"ratio\":2,\"resource\":\"brick\",\"direction\":\"NE\",\"location\":{\"x\":-3,\"y\":2}}],\"robber\":{\"x\":0,\"y\":-2}},\"players\":[{\"resources\":{\"brick\":0,\"wood\":0,\"sheep\":0,\"wheat\":0,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":15,\"cities\":4,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":12,\"playerIndex\":0,\"name\":\"string\",\"color\":\"purple\"},{\"resources\":{\"brick\":0,\"wood\":0,\"sheep\":0,\"wheat\":0,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":15,\"cities\":4,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":13,\"playerIndex\":1,\"name\":\"test1\",\"color\":\"puce\"},{\"resources\":{\"brick\":0,\"wood\":0,\"sheep\":0,\"wheat\":0,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":15,\"cities\":4,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":14,\"playerIndex\":2,\"name\":\"test2\",\"color\":\"blue\"},{\"resources\":{\"brick\":0,\"wood\":0,\"sheep\":0,\"wheat\":0,\"ore\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"roads\":12,\"cities\":4,\"settlements\":4,\"soldiers\":0,\"victoryPoints\":1,\"monuments\":0,\"playedDevCard\":false,\"discarded\":false,\"playerID\":15,\"playerIndex\":3,\"name\":\"test3\",\"color\":\"orange\"}],\"log\":{\"lines\":[{\"source\":\"string\",\"message\":\"string built a settlement\"},{\"source\":\"test3\",\"message\":\"test3 built a road\"},{\"source\":\"test3\",\"message\":\"test3 built a road\"},{\"source\":\"test3\",\"message\":\"test3 built a road\"}]},\"chat\":{\"lines\":[]},\"bank\":{\"brick\":24,\"wood\":24,\"sheep\":24,\"wheat\":24,\"ore\":24},\"turnTracker\":{\"status\":\"FirstRound\",\"currentTurn\":0,\"longestRoad\":-1,\"largestArmy\":-1},\"winner\":-1,\"version\":4}";
 
 	//add some data?
-	ClientModel clientMockModel = Serializer.deserializeClientModel(clientModelJson);
+	ServerModel serverMockModel = (ServerModel) Serializer.deserialize(clientModelJson, ServerModel.class);
 	
-	public MockServerFacade(ClientModel model){
-		this.clientMockModel = model;
+	public MockServerFacade(ServerModel model){
+		this.serverMockModel = model;
 	}
 	/**
 	 * Prepares credentials to be sent over network, then sends them to server
@@ -201,7 +202,7 @@ public class MockServerFacade implements IServerFacade {
 			throws ServerResponseException {
 		if (version < 0)
 			return null;
-		return clientMockModel;
+		return serverMockModel.toClientModel();
 	}
 
 	/**
@@ -218,8 +219,8 @@ public class MockServerFacade implements IServerFacade {
 	 */
 	@Override
 	public ClientModel resetGame() throws ServerResponseException {
-		clientMockModel.setLog(new MessageList(new MessageLine[1]));
-		return clientMockModel;
+		serverMockModel.setLog(new MessageList(new MessageLine[1]));
+		return serverMockModel.toClientModel();
 	}
 
 	/**
@@ -259,9 +260,9 @@ public class MockServerFacade implements IServerFacade {
 			throws ServerResponseException {
 		// COORDINATE THIS WITH WHO EVER IS RUNNING THE TEST SO WE CAN DECIDE
 		// WHAT COMMAND TO MANUALLY EXECUTE HERE"
-		int current = (clientMockModel.getTurnTracker().getCurrentTurn() + 1) % 4;
-		clientMockModel.getTurnTracker().setCurrentTurn(current);
-		return clientMockModel;
+		int current = (serverMockModel.getTurnTracker().getCurrentTurn() + 1) % 4;
+		serverMockModel.getTurnTracker().setCurrentTurn(current);
+		return serverMockModel.toClientModel();
 	}
 
 	/**
@@ -331,15 +332,15 @@ public class MockServerFacade implements IServerFacade {
 	@Override
 	public ClientModel sendChat(ChatMessage chatMessage) throws ServerResponseException {
 		MessageLine newMessage = new MessageLine(chatMessage.getContent(), "billy");
-		MessageLine[] oldMessages = clientMockModel.getChat().getLines();
+		MessageLine[] oldMessages = serverMockModel.getChat().getLines();
 		int size = oldMessages.length + 1;
 		MessageLine[] newMessages = new MessageLine[size];
 		System.arraycopy(oldMessages, 0, newMessages, 0, size - 1);
 		newMessages[size - 1] = newMessage;
 		MessageList newList = new MessageList(newMessages);
-		clientMockModel.setChat(newList);
+		serverMockModel.setChat(newList);
 
-		return clientMockModel;
+		return serverMockModel.toClientModel();
 	}
 
 	/**
@@ -358,9 +359,9 @@ public class MockServerFacade implements IServerFacade {
 	public ClientModel acceptTrade(AcceptTradeParams param)
 			throws ServerResponseException {
 		if (param.isWillAccept() == false)
-			return clientMockModel;
-		Player player0 = clientMockModel.getPlayers()[0];
-		Player player1 = clientMockModel.getPlayers()[1];
+			return serverMockModel.toClientModel();
+		Player player0 = serverMockModel.getPlayers()[0];
+		Player player1 = serverMockModel.getPlayers()[1];
 		// Our canned trade will be 1 sheep for 2 grain
 		ResourceList p0Res = player0.getResources();
 		ResourceList p1Res = player1.getResources();
@@ -372,12 +373,12 @@ public class MockServerFacade implements IServerFacade {
 		p1Res.setWheat(newWheat1);
 		int newSheep1 = p1Res.getSheep() + 1;
 		p1Res.setSheep(newSheep1);
-		clientMockModel.setTradeOffer(new TradeOffer(-1, -1, null));// what does
+		serverMockModel.setTradeOffer(new TradeOffer(-1, -1, null));// what does
 																	// an empty
 																	// Trade
 																	// offer
 																	// look like
-		return clientMockModel;
+		return serverMockModel.toClientModel();
 	}
 
 	/**
@@ -395,7 +396,7 @@ public class MockServerFacade implements IServerFacade {
 	@Override
 	public ClientModel discardCards(DiscardCardsParams params)
 			throws ServerResponseException {
-		return clientMockModel;
+		return serverMockModel.toClientModel();
 	}
 
 	/**
@@ -410,7 +411,7 @@ public class MockServerFacade implements IServerFacade {
 	 */
 	@Override
 	public ClientModel rollNumber(int number) throws ServerResponseException {
-		return clientMockModel;
+		return serverMockModel.toClientModel();
 	}
 
 	/**
@@ -429,7 +430,7 @@ public class MockServerFacade implements IServerFacade {
 	public ClientModel buildRoad(BuildRoadParams params)
 			throws ServerResponseException {
 		if (!params.isFree())
-			return clientMockModel;
+			return serverMockModel.toClientModel();
 		return null;
 	}
 
@@ -453,7 +454,7 @@ public class MockServerFacade implements IServerFacade {
 	public ClientModel buildSettlement(BuildSettlementParams param)
 			throws ServerResponseException {
 		if (param.isFree())
-			return clientMockModel;
+			return serverMockModel.toClientModel();
 		
 		return null;
 	}
@@ -663,9 +664,9 @@ public class MockServerFacade implements IServerFacade {
 	@Override
 	public ClientModel updateModel(int versionNumber)
 			throws ServerResponseException {
-		int currentVersion = clientMockModel.getVersion();
+		int currentVersion = serverMockModel.getVersion();
 		if (currentVersion != versionNumber)
-			return clientMockModel;
+			return serverMockModel.toClientModel();
 		return null;
 	}
 
@@ -685,7 +686,7 @@ public class MockServerFacade implements IServerFacade {
 	@Override
 	public ServerModel getServerModel() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.serverMockModel;
 	}
 
 	@Override

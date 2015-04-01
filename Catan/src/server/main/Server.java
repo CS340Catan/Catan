@@ -8,14 +8,41 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import client.model.ClientModel;
-
-import com.sun.net.httpserver.HttpServer;
-
 import server.facade.FacadeSwitch;
 import server.facade.ServerFacade;
-import server.httpHandlers.*;
+import server.httpHandlers.AcceptTradeHandler;
+import server.httpHandlers.BuildCityHandler;
+import server.httpHandlers.BuildRoadHandler;
+import server.httpHandlers.BuildSettlementHandler;
+import server.httpHandlers.BuyDevCardHandler;
+import server.httpHandlers.CommandsHandler;
+import server.httpHandlers.CreateGameHandler;
+import server.httpHandlers.DiscardCardsHandler;
+import server.httpHandlers.FinishTurnHandler;
+import server.httpHandlers.Handlers;
+import server.httpHandlers.JoinGameHandler;
+import server.httpHandlers.ListGameHandler;
+import server.httpHandlers.LoadGameHandler;
+import server.httpHandlers.LogLevelHandler;
+import server.httpHandlers.LoginHandler;
+import server.httpHandlers.MaritimeTradeHandler;
+import server.httpHandlers.ModelHandler;
+import server.httpHandlers.OfferTradeHandler;
+import server.httpHandlers.PlayMonopolyCardHandler;
+import server.httpHandlers.PlayMonumentCardHandler;
+import server.httpHandlers.PlayRoadBuildingCardHandler;
+import server.httpHandlers.PlaySoldierCardHandler;
+import server.httpHandlers.PlayYearOfPlentyCardHandler;
+import server.httpHandlers.RegisterHandler;
+import server.httpHandlers.ResetGameHandler;
+import server.httpHandlers.RobPlayerHandler;
+import server.httpHandlers.RollNumberHandler;
+import server.httpHandlers.SaveGameHandler;
+import server.httpHandlers.SendChatHandler;
+import server.model.ServerModel;
 import shared.utils.Serializer;
+
+import com.sun.net.httpserver.HttpServer;
 
 public class Server {
 
@@ -57,7 +84,7 @@ public class Server {
 		}
 		if(args.length > 1) {
 			if(args[1].equals("-mock")) {
-				ClientModel model = Serializer.deserializeClientModel(clientModelJson);
+				ServerModel model = (ServerModel) Serializer.deserialize(clientModelJson, ServerModel.class);
 				FacadeSwitch.setMockServer(model);
 				System.out.println("Mock Server Running");
 			}

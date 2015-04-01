@@ -1,6 +1,6 @@
 package server.commands;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.YearOfPlentyParams;
@@ -40,7 +40,7 @@ public class PlayYearOfPlentyCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController modelController = new ServerModelController(model);
 
 		ResourceList requestedResources = this.getRequestedResourceList();

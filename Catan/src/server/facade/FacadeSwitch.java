@@ -1,11 +1,11 @@
 package server.facade;
 
-import client.model.ClientModel;
+import server.model.ServerModel;
 
 public class FacadeSwitch {
 	private static IServerFacade facade;
 	
-	public static void setMockServer(ClientModel model){
+	public static void setMockServer(ServerModel model){
 		facade = new MockServerFacade(model);
 	}
 	

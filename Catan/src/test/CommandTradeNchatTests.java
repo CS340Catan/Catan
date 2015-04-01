@@ -25,7 +25,7 @@ public class CommandTradeNchatTests {
 	@Before
 	public void setUp() throws Exception {
 		ServerModel serverModel = new ServerModel();
-		FacadeSwitch.setMockServer(serverModel.toClientModel());
+		FacadeSwitch.setMockServer(serverModel);
 		serverFacade = FacadeSwitch.getSingleton();
 		UserCredentials userCredentials = new UserCredentials("testies", "testies");
 		command = new RegisterCommand(userCredentials);
