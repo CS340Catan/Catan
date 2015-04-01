@@ -17,7 +17,6 @@ public class GetCommandsCommand extends ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Need to implement GetCommands command
 
 	}
 

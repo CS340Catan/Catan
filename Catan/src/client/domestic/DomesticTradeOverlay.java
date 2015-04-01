@@ -121,7 +121,6 @@ public class DomesticTradeOverlay extends OverlayView implements
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getController().cancelTrade();
-				// reset();// TODO, this may not be needed here
 			}
 		});
 

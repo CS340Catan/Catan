@@ -24,7 +24,6 @@ public class PostCommandsCommand extends ICommand {
 	 */
 	@Override
 	public void execute() {
-		// TODO Implement the PostCommands command
 
 	}
 

@@ -15,8 +15,6 @@ public class CommandList {
 	/** a list of game commands */
 	private List<String> commands;
 
-	// TODO does this need to be a string array instead of a list
-
 	public CommandList(List<String> commands) {
 		super();
 		this.commands = commands;

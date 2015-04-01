@@ -33,7 +33,6 @@ public class RollingState implements IMapState {
 
 	@Override
 	public void beginRound(MapController mapController) {
-		// TODO Auto-generated method stub
 
 	}
 
