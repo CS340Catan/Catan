@@ -112,26 +112,19 @@ public class CommandTradeNchatTests {
 		 * "Sam\",\"color\":\"orange\"},{\"resources\":{\"brick\":1,\"wood\":2,\"sheep\":2,\"wheat\":1,\"ore\":0
 		 * "Brooke\",\"color\":\"blue\"},{\"resources\":{\"brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":0,\"ore\":2
 		 */
-		ResourceList offer = new ResourceList(0, 2, 0, 0, -2); // Sam gives Brooke 2 wood for
-													// 2 ore
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
+		ResourceList offer = new ResourceList(0,0,0,1,-1); //Sam gives Brooke 1 wood for 2 ore
 		TradeOfferParams params = new TradeOfferParams(0, offer, 1);
 		command = new OfferTradeCommand(params);
 		try {
 			command.execute();
-			assertTrue(FacadeSwitch.getSingleton().getServerModel()
-					.getTradeOffer().getReceiver() == 1);
-			assertTrue(FacadeSwitch.getSingleton().getServerModel()
-					.getTradeOffer().getSender() == 0);
-			assertTrue(FacadeSwitch.getSingleton().getServerModel()
-					.getTradeOffer().getResourceList().getBrick() == 0);
-			assertTrue(FacadeSwitch.getSingleton().getServerModel()
-					.getTradeOffer().getResourceList().getWood() == -2);
-			assertTrue(FacadeSwitch.getSingleton().getServerModel()
-					.getTradeOffer().getResourceList().getOre() == 2);
-			assertTrue(FacadeSwitch.getSingleton().getServerModel()
-					.getTradeOffer().getResourceList().getWheat() == 0);
-			assertTrue(FacadeSwitch.getSingleton().getServerModel()
-					.getTradeOffer().getResourceList().getSheep() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getReceiver() == 1);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getSender() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getBrick() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getWood() == -1);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getOre() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getWheat() == 1);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getSheep() == 0);
 		} catch (ServerResponseException e) {
 			fail("this should work");
 		}
