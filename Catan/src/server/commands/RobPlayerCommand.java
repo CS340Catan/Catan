@@ -1,6 +1,6 @@
 package server.commands;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.MoveRobberParams;
@@ -40,7 +40,7 @@ public class RobPlayerCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController modelController = new ServerModelController(model);
 
 		if (this.victimIndex != -1
