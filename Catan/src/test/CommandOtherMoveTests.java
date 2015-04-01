@@ -1,11 +1,14 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import server.commands.DiscardCardsCommand;
 import server.commands.FinishTurnCommand;
 import server.commands.ICommand;
 import server.commands.RobPlayerCommand;
@@ -13,6 +16,7 @@ import server.commands.RollNumberCommand;
 import server.facade.FacadeSwitch;
 import server.model.GameList;
 import server.model.ServerModel;
+import shared.communication.DiscardCardsParams;
 import shared.communication.GameSummary;
 import shared.communication.MoveRobberParams;
 import shared.communication.PlayerSummary;
@@ -144,5 +148,83 @@ public class CommandOtherMoveTests {
 			e.printStackTrace();
 			fail("This should work");
 		}
+	}
+	
+	@Test
+	public void discardCardsTest(){
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
+		int playerID = 1;
+		ResourceList resourcesToDiscard = new ResourceList(0,0,2,2,3);
+		DiscardCardsParams params = new DiscardCardsParams(playerID,resourcesToDiscard);
+		Player player = model.getPlayers()[playerID];
+		
+		//Test when can do should fail. Nothing should change
+		player.setResources(new ResourceList(1,1,1,1,1));
+		command = new DiscardCardsCommand(params);
+		try {
+			command.execute();
+			fail("Should fail");
+		} catch (ServerResponseException e) {
+			assertEquals(1,player.getResources().getBrick());
+			assertEquals(1,player.getResources().getWood());
+			assertEquals(1,player.getResources().getSheep());
+			assertEquals(1,player.getResources().getWheat());
+			assertEquals(1,player.getResources().getOre());
+			e.printStackTrace();
+		}
+		
+		//Test when it should work and game to new status
+		model.getTurnTracker().setStatus("Discarding");
+		model.getBank().setWood(0);
+		model.getBank().setOre(0);
+		model.getBank().setSheep(0);
+		model.getBank().setBrick(0);
+		model.getBank().setWheat(0);
+		player.setResources(new ResourceList(1,4,2,3,4));
+		try {
+			command.execute();
+			assertEquals(1,player.getResources().getBrick());
+			assertEquals(4,player.getResources().getOre());
+			assertEquals(0,player.getResources().getSheep());
+			assertEquals(1,player.getResources().getWheat());
+			assertEquals(1,player.getResources().getWood());
+			
+			assertTrue(model.getBank().contains(resourcesToDiscard));
+			assertTrue(model.getTurnTracker().getStatus().equals("Robbing"));
+			
+			
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("Should be able to dsicard");
+		}
+		
+		//test when should work but others still need to discard
+		model.getTurnTracker().setStatus("Discarding");
+		player.setDiscarded(false);
+		model.getPlayers()[0].setResources(new ResourceList(2,2,2,2,2));
+		model.getBank().setWood(0);
+		model.getBank().setOre(0);
+		model.getBank().setSheep(0);
+		model.getBank().setBrick(0);
+		model.getBank().setWheat(0);
+		player.setResources(new ResourceList(1,4,2,3,4));
+		try {
+			command.execute();
+			assertEquals(1,player.getResources().getBrick());
+			assertEquals(4,player.getResources().getOre());
+			assertEquals(0,player.getResources().getSheep());
+			assertEquals(1,player.getResources().getWheat());
+			assertEquals(1,player.getResources().getWood());
+			
+			assertTrue(model.getBank().contains(resourcesToDiscard));
+			assertTrue(model.getTurnTracker().getStatus().equals("Discarding"));
+			
+			
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("Should be able to dsicard");
+		}
+		
+		
 	}
 }
