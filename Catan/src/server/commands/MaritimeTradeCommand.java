@@ -1,6 +1,6 @@
 package server.commands;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.MaritimeTradeParams;
@@ -41,7 +41,7 @@ public class MaritimeTradeCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 
 		if (controller.canMaritimeTrade(playerIndex, input, ratio)) {

@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import server.model.GameList;
 import server.model.ServerModel;
 import shared.communication.GameSummary;
@@ -54,7 +54,7 @@ public class LoadGameCommand extends ICommand {
 			}
 			ServerModel model = (ServerModel)  Serializer.deserialize(jsonModel,ServerModel.class);
 			int id = model.getGameID();
-			ServerFacade.getSingleton().getModelMap().put(id, model);
+			FacadeSwitch.getSingleton().getModelMap().put(id, model);
 			GameSummary summary = (GameSummary) Serializer.deserialize(jsonSummary, GameSummary.class);
 			GameList.getSingleton().addGame(summary);
 			br.close();

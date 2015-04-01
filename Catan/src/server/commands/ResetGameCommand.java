@@ -1,6 +1,6 @@
 package server.commands;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.definitions.CatanColor;
@@ -33,7 +33,7 @@ public class ResetGameCommand extends ICommand {
 		 * initialization. Create a newModel using the default serverModel
 		 * constructor.
 		 */
-		ServerModel oldModel = ServerFacade.getSingleton().getServerModel();
+		ServerModel oldModel = FacadeSwitch.getSingleton().getServerModel();
 		ServerModel newModel = new ServerModel();
 
 		/*
@@ -66,7 +66,7 @@ public class ResetGameCommand extends ICommand {
 		 * Overwrite the oldModel with the newModel, such that the model stored
 		 * within the serverFacade is the reset game.
 		 */
-		ServerFacade.getSingleton().getModelMap().put(newModel.getGameID(), newModel);
+		FacadeSwitch.getSingleton().getModelMap().put(newModel.getGameID(), newModel);
 	}
 
 }

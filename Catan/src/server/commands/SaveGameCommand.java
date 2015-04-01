@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import server.model.GameList;
 import server.model.ServerModel;
 import shared.communication.GameSummary;
@@ -40,8 +40,8 @@ public class SaveGameCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
-		model.setGameID(ServerFacade.getSingleton().getGameID());
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
+		model.setGameID(FacadeSwitch.getSingleton().getGameID());
 		int id  = model.getGameID();
 		GameSummary summary = GameList.getSingleton().getGameByID(id);
 		/*
