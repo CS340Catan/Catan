@@ -1,7 +1,6 @@
 package server.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
