@@ -9,7 +9,8 @@ public class TestRunner {
 				"test.PollerTest", "test.CanPlayCardTest",
 				"test.MiscClientModelTest", "test.DevCardTest",
 				"test.CommandDevCardTests", "test.CommandNonMoveTests",
-				"test.CommandOtherMoveTests"};
+				"test.CommandOtherMoveTests", "test.CommandBuildingTests",
+				"test.CommandTradeNchatTests"};
 		org.junit.runner.JUnitCore.main(testClasses);
 	}
 }

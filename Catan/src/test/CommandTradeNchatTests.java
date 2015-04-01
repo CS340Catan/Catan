@@ -111,6 +111,33 @@ public class CommandTradeNchatTests {
 	@Test
 	public void testMaritimeTrade() {
 		
-		
+		System.out.println("Testing Maritime Trade");
+		ChatMessage params = new ChatMessage(0, "Hi there");
+		command = new SendChatCommand(params);
+		try {
+			command.execute();
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[0].getMessage().equals(
+					"Hi there"));
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[0].getSource().equals(
+					"Sam"));
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("this should work");
+		}
+
+		System.out.println("Testing send chat pass2");
+		params = new ChatMessage(1, "Hey man");
+		command = new SendChatCommand(params);
+		try {
+			command.execute();
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[1].getMessage().equals(
+					"Hey man"));
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[1].getSource().equals(
+					"Brooke"));
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("this should work");
+		}
 	}
+	
 }
