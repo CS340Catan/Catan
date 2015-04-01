@@ -25,10 +25,17 @@ public class ServerModelNewFeaturesTest {
 		model.reallocateLargestArmy();
 		assertEquals(2,model.getTurnTracker().getLargestArmy());
 		
+		//test that road is trasnfered properly
 		model.getPlayers()[3].setSoldiers(6);
 		model.reallocateLargestArmy();
 		assertEquals(3,model.getTurnTracker().getLargestArmy());
+		
+		//test that player has to have more, not just equal to current holder of longest army
+		model.getPlayers()[0].setSoldiers(6);
+		model.reallocateLargestArmy();
+		assertEquals(3,model.getTurnTracker().getLargestArmy());
 	}
+	
 	@Test
 	public void longestRoadTest(){
 		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
@@ -36,7 +43,13 @@ public class ServerModelNewFeaturesTest {
 		model.reallocateLongestRoad();
 		assertEquals(2,model.getTurnTracker().getLongestRoad());
 		
+		//test that road is set appropriately
 		model.getPlayers()[3].setRoads(5);
+		model.reallocateLongestRoad();
+		assertEquals(3,model.getTurnTracker().getLongestRoad());
+		
+		//test that road doesn's change if some equals current holder's length
+		model.getPlayers()[0].setRoads(5);
 		model.reallocateLongestRoad();
 		assertEquals(3,model.getTurnTracker().getLongestRoad());
 	}
