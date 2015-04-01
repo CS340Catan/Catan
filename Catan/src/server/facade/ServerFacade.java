@@ -465,7 +465,7 @@ public class ServerFacade implements IServerFacade {
 	public ClientModel offerTrade(TradeOfferParams params)
 			throws ServerResponseException {
 
-		ICommand command = new OfferTradeCommand(params, getGameID());
+		ICommand command = new OfferTradeCommand(params);
 		command.execute();
 
 		return this.getServerModel().toClientModel();

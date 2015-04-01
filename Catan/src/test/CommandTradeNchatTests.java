@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -8,10 +9,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import server.commands.ICommand;
+import server.commands.OfferTradeCommand;
 import server.commands.SendChatCommand;
 import server.facade.FacadeSwitch;
 import server.model.ServerModel;
 import shared.communication.ChatMessage;
+import shared.communication.TradeOfferParams;
+import shared.model.ResourceList;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
@@ -32,6 +36,7 @@ public class CommandTradeNchatTests {
 
 	@Test
 	public void testSendChat() {
+		System.out.println("Testing send chat pass1");
 		ChatMessage params = new ChatMessage(0, "Hi there");
 		command = new SendChatCommand(params);
 		try {
@@ -45,6 +50,7 @@ public class CommandTradeNchatTests {
 			fail("this should work");
 		}
 
+		System.out.println("Testing send chat pass2");
 		params = new ChatMessage(1, "Hey man");
 		command = new SendChatCommand(params);
 		try {
@@ -58,5 +64,26 @@ public class CommandTradeNchatTests {
 			fail("this should work");
 		}
 
+	}
+	
+	@Test
+	public void testOfferTrade() {
+		//Sam\",\"color\":\"orange\"},{\"resources\":{\"brick\":1,\"wood\":2,\"sheep\":2,\"wheat\":1,\"ore\":0
+		//"Brooke\",\"color\":\"blue\"},{\"resources\":{\"brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":0,\"ore\":2
+		System.out.println("Testing offer trade fail");
+		ResourceList offer = new ResourceList(-2,0,0,1,0);
+		//public ResourceList(int brick, int ore, int sheep, int wheat, int wood)
+		TradeOfferParams params = new TradeOfferParams(0, offer, 1);
+		//What you get (+) and what you give (-),
+		command = new OfferTradeCommand(params);
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
+		try {
+			command.execute();
+			fail("this should fail. Not playing");
+		} catch (ServerResponseException e) {
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getReceiver() == -1);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getSender() == -1);
+		}
+		
 	}
 }
