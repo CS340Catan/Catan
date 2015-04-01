@@ -1,5 +1,6 @@
 package server.commands;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import server.model.RegisteredPlayers;
@@ -21,6 +22,7 @@ public class RegisterCommand extends ICommand {
 
 	static {
 		logger = Logger.getLogger("CatanServer");
+		logger.setLevel(Level.OFF);
 	}
 
 	public RegisterCommand(UserCredentials params) {

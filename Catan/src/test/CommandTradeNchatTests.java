@@ -72,6 +72,7 @@ public class CommandTradeNchatTests {
 	
 	@Test
 	public void testOfferTrade() {
+		System.out.println("Testing Offer Trade 1");
 		//Sam\","brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":1,\"ore\"
 		//"Brooke\",{\"brick\":0,\"wood\":1,\"sheep\":0,\"wheat\":1,\"ore\":0}
 		System.out.println("Testing offer trade fail");
@@ -89,6 +90,7 @@ public class CommandTradeNchatTests {
 			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getSender() == -1);
 		}
 		
+		System.out.println("Testing Offer Trade 2");
 		offer = new ResourceList(0,0,0,1,-1); //Sam gives Brooke 1 wood for 2 ore
 		params = new TradeOfferParams(0, offer, 1);
 		command = new OfferTradeCommand(params);
@@ -168,6 +170,7 @@ public class CommandTradeNchatTests {
 		resources.setBrick(4);
 		resources.setOre(0);
 		int oldBankBricks = FacadeSwitch.getSingleton().getServerModel().getBank().getBrick();
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
 		
 		MaritimeTradeParams params = new MaritimeTradeParams(0, 4, "BRICK", "ORE");
 		command = new MaritimeTradeCommand(params, 0);

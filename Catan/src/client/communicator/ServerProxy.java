@@ -1,5 +1,6 @@
 package client.communicator;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import shared.communication.*;
@@ -24,6 +25,7 @@ public class ServerProxy implements IServer {
 	
 	static {
 		logger = Logger.getLogger("CatanClient");
+		logger.setLevel(Level.OFF);
 	}
 
 	/**
