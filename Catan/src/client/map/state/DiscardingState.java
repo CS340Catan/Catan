@@ -35,8 +35,6 @@ public class DiscardingState implements IMapState {
 
 	@Override
 	public void beginRound(MapController mapController) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

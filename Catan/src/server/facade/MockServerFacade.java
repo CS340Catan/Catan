@@ -674,31 +674,26 @@ public class MockServerFacade implements IServerFacade {
 
 	@Override
 	public int getGameID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void setGameID(int gameID) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public ServerModel getServerModel() {
-		// TODO Auto-generated method stub
 		return this.serverMockModel;
 	}
 
 	@Override
 	public int getPlayerID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void setPlayerID(int playerId) {
-		// TODO Auto-generated method stub
 
 	}
 	@Override
@@ -708,7 +703,6 @@ public class MockServerFacade implements IServerFacade {
 	}
 	@Override
 	public void setFirstGame() {
-		// TODO Auto-generated method stub
 		
 	}
 
