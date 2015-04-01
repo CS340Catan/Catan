@@ -1023,7 +1023,7 @@ public class ServerModelController {
 	 * @Post result: a boolean reporting success/fail
 	 */
 	public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
-		if (isPlayerTurn(playerIndex) && model.getPlayers()[playerIndex].getResources().contains(resourceList)
+		if (isPlayerTurn(playerIndex) && model.getPlayers()[playerIndex].getResources().contains(resourceList.invertList())
 				&& model.getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}

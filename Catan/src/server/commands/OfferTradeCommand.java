@@ -1,5 +1,6 @@
 package server.commands;
 
+import server.facade.FacadeSwitch;
 import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
@@ -20,13 +21,11 @@ public class OfferTradeCommand extends ICommand {
 	int playerIndex;
 	ResourceList offer;
 	int receiver;
-	int gameID;
 
-	public OfferTradeCommand(TradeOfferParams params, int gameID) {
+	public OfferTradeCommand(TradeOfferParams params) {
 		this.playerIndex = params.getPlayerIndex();
 		this.offer = params.getOffer();
 		this.receiver = params.getReceiver();
-		this.gameID = gameID;
 		this.setType("OfferTrade");
 	}
 
@@ -38,7 +37,7 @@ public class OfferTradeCommand extends ICommand {
 	@Override
 	public void execute() throws ServerResponseException {
 
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 
 		if (controller.canOfferTrade(playerIndex, offer)) {
