@@ -86,4 +86,16 @@ public class CommandTradeNchatTests {
 		}
 		
 	}
+	
+	@Test
+	public void testAcceptTrade() {
+		
+		
+	}
+	
+	@Test
+	public void testMaritimeTrade() {
+		
+		
+	}
 }
