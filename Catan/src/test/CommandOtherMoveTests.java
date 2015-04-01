@@ -46,6 +46,7 @@ public class CommandOtherMoveTests {
 	}
 	@Test
 	public void rollNumberTest(){
+		System.out.println("Testing Roll Number 1");
 		int playerID = 2;
 		RollParams params = new RollParams(playerID, 6);
 		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
@@ -60,6 +61,7 @@ public class CommandOtherMoveTests {
 		}
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Rolling");
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
+		System.out.println("Testing Roll Number 2");
 		try {//tests player not by the number
 			command.execute();
 			assertTrue(player.getResources().totalResourceCount() == 0);
@@ -76,7 +78,7 @@ public class CommandOtherMoveTests {
 			}
 		}
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Rolling");
-		
+		System.out.println("Testing Roll Number 3");
 		try {
 			command.execute();
 			assertTrue(player.getResources().totalResourceCount() > 0);	//should get some resource		
@@ -87,6 +89,7 @@ public class CommandOtherMoveTests {
 	}
 	@Test
 	public void robPlayerTest(){
+		System.out.println("Testing Rob Player 1");
 		int playerID = 2;
 		VertexObject[] settlements = new VertexObject[1];
 		settlements[0] = new VertexObject(3, new VertexLocation());
@@ -105,6 +108,7 @@ public class CommandOtherMoveTests {
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Robbing");
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
 		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setResources(new ResourceList(1, 1, 1, 1, 1));
+		System.out.println("Testing Rob Player 2");
 		try {
 			command.execute();
 			Player victim = FacadeSwitch.getSingleton().getServerModel().getPlayers()[3];
@@ -117,6 +121,7 @@ public class CommandOtherMoveTests {
 	}
 	@Test
 	public void finishTurnTest(){
+		System.out.println("Testing Finish Turn 1");
 		int playerID = 2;
 		UserActionParams params = new UserActionParams(playerID);
 		params.setType("FinishTurn");
@@ -140,7 +145,7 @@ public class CommandOtherMoveTests {
 		
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
-		
+		System.out.println("Testing Finish Turn 2");
 		try {
 			command.execute();
 			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTurnTracker().getCurrentTurn() == 3);
@@ -152,6 +157,7 @@ public class CommandOtherMoveTests {
 	
 	@Test
 	public void discardCardsTest(){
+		System.out.println("Testing Discard Cards 1");
 		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		int playerID = 1;
 		ResourceList resourcesToDiscard = new ResourceList(0,0,2,2,3);
@@ -181,6 +187,7 @@ public class CommandOtherMoveTests {
 		model.getBank().setBrick(0);
 		model.getBank().setWheat(0);
 		player.setResources(new ResourceList(1,4,2,3,4));
+		System.out.println("Testing Discard Cards 2");
 		try {
 			command.execute();
 			assertEquals(1,player.getResources().getBrick());
@@ -208,6 +215,7 @@ public class CommandOtherMoveTests {
 		model.getBank().setBrick(0);
 		model.getBank().setWheat(0);
 		player.setResources(new ResourceList(1,4,2,3,4));
+		System.out.println("Testing Discard Cards 3");
 		try {
 			command.execute();
 			assertEquals(1,player.getResources().getBrick());
