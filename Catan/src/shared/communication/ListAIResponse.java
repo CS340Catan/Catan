@@ -13,8 +13,6 @@ public class ListAIResponse {
 
 	List<String> AITypes;
 
-	// TODO change AITypes to a array
-
 	public ListAIResponse(ArrayList<String> types) {
 		this.AITypes = types;
 	}

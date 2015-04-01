@@ -95,7 +95,7 @@ public class JoinGameCommand extends ICommand {
 							break;
 						}
 					}
-					model.incrementVersion(); // TODO Is this increment needed?
+					model.incrementVersion();
 					return;
 				}
 

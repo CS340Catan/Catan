@@ -8,7 +8,6 @@ public class ListAIHandler implements IHttpHandler {
 
 	@Override
 	public void handle(HttpExchange arg0) throws IOException {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -27,6 +27,7 @@ public class DevCardTest {
 
 	@Test
 	public void canBuyDevCardPass() {
+		System.out.println("Testing CanBuyDevCard 1");
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("Playing");
 		clientModel.getPlayers()[0]
@@ -40,6 +41,7 @@ public class DevCardTest {
 
 	@Test
 	public void canBuyDevCardFail() { // player doesn't have cards
+		System.out.println("Testing CanBuyDevCard 2");
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("Playing");
 		clientModel.getPlayers()[0]
@@ -53,6 +55,7 @@ public class DevCardTest {
 
 	@Test
 	public void canBuyDevCardFailTwo() { // bank doesn't have cards
+		System.out.println("Testing CanBuyDevCard 3");
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("Playing");
 		clientModel.getPlayers()[0]
@@ -66,6 +69,7 @@ public class DevCardTest {
 
 	@Test
 	public void canBuyDevCardFailThree() { // not turn
+		System.out.println("Testing CanBuyDevCard 4");
 		clientModel.getTurnTracker().setCurrentTurn(1);
 		clientModel.getTurnTracker().setStatus("Playing");
 		clientModel.getPlayers()[0]
@@ -79,6 +83,7 @@ public class DevCardTest {
 
 	@Test
 	public void canBuyDevCardFailFour() { // not "Playing"
+		System.out.println("Testing CanBuyDevCard 5");
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("Rolling");
 		clientModel.getPlayers()[0]
@@ -92,6 +97,7 @@ public class DevCardTest {
 
 	@Test
 	public void canFinishTurnPass() {
+		System.out.println("Testing CanFinishTurn 1");
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("Playing");
 		ClientModelFacade clientModelController = new ClientModelFacade();
@@ -102,6 +108,7 @@ public class DevCardTest {
 
 	@Test
 	public void canFinishTurnFail() { // not his turn
+		System.out.println("Testing CanFinishTurn 2");
 		clientModel.getTurnTracker().setCurrentTurn(1);
 		clientModel.getTurnTracker().setStatus("Playing");
 		ClientModelFacade clientModelController = new ClientModelFacade();
@@ -112,6 +119,7 @@ public class DevCardTest {
 
 	@Test
 	public void canFinishTurnFailTwo() { // not his turn
+		System.out.println("Testing CanFinishTurn 3");
 		clientModel.getTurnTracker().setCurrentTurn(0);
 		clientModel.getTurnTracker().setStatus("Rolling");
 		ClientModelFacade clientModelController = new ClientModelFacade();

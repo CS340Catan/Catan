@@ -59,10 +59,6 @@ public class PointsController extends Controller implements IPointsController,
 
 	@Override
 	public void update(Observable o, Object arg) {
-		/*
-		 * TODO Check if this is how update would work for points controller.
-		 * Need a way to find user's playerID.
-		 */
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		int victoryPoints = ClientModel.getSingleton().getPlayers()[playerIndex]
 				.getVictoryPoints();
