@@ -1,6 +1,7 @@
 package server.model;
 
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import shared.utils.IDGenerator;
@@ -13,6 +14,7 @@ public class RegisteredPlayers {
 	private static Logger logger;
 	static {
 		logger = Logger.getLogger("CatanServer");
+		logger.setLevel(Level.OFF);
 	}
 
 	public static RegisteredPlayers getSingleton() {

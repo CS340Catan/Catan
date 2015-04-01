@@ -51,6 +51,7 @@ public class CommandBuildingTests {
 	
 	@Test
 	public void buildSettlementTest(){
+		System.out.println("Testing Build Settlement 1");
 		int playerID = 2;
 		VertexObject[] blankSettlements = new VertexObject[0];
 		FacadeSwitch.getSingleton().getServerModel().getMap().setSettlements(blankSettlements);
@@ -73,6 +74,7 @@ public class CommandBuildingTests {
 		}
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
+		System.out.println("Testing Build Settlement 2");
 		try {
 			command.execute();
 			fail("Can do should have failed");
@@ -80,6 +82,7 @@ public class CommandBuildingTests {
 			assertEquals(5,player.getSettlements());
 		}
 		FacadeSwitch.getSingleton().getServerModel().getPlayers()[2].setResources(new ResourceList(10,10,10,10,10));
+		System.out.println("Testing Build Settlement 3");
 		try {
 			command.execute();
 			assertTrue(player.getSettlements() == 4);
@@ -95,6 +98,7 @@ public class CommandBuildingTests {
 	}
 	@Test
 	public void buildCityTest(){
+		System.out.println("Testing Build City 1");
 		int playerID = 2;
 		VertexObject[] blankSettlements = new VertexObject[0];
 		FacadeSwitch.getSingleton().getServerModel().getMap().setSettlements(blankSettlements);
@@ -120,13 +124,15 @@ public class CommandBuildingTests {
 		}
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
+		System.out.println("Testing Build Settlement 2");
 		try {
 			command.execute();
 			fail("Can do should have failed");
 		} catch (ServerResponseException e) {
 			assertEquals(4,player.getCities());
 		}
-		FacadeSwitch.getSingleton().getServerModel().getPlayers()[2].setResources(new ResourceList(10,10,10,10,10));		
+		FacadeSwitch.getSingleton().getServerModel().getPlayers()[2].setResources(new ResourceList(10,10,10,10,10));	
+		System.out.println("Testing Build Settlement 3");
 		try {
 			command.execute();
 			assertEquals(3,player.getCities());
@@ -142,7 +148,7 @@ public class CommandBuildingTests {
 	@Test
 	public void buildRoadTest(){
 		int playerID = 2;
-		
+		System.out.println("Testing Build Road 1");
 		VertexObject[] settlements = new VertexObject[1];
 		settlements[0] = new VertexObject(playerID,  new VertexLocation(new HexLocation(0,0), VertexDirection.NorthEast));
 		FacadeSwitch.getSingleton().getServerModel().getMap().setSettlements(settlements);
@@ -167,13 +173,15 @@ public class CommandBuildingTests {
 		}
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
+		System.out.println("Testing Build Road 2");
 		try {
 			command.execute();
 			fail("Can do should have failed");
 		} catch (ServerResponseException e) {
 			assertEquals(15,player.getRoads());
 		}
-		FacadeSwitch.getSingleton().getServerModel().getPlayers()[2].setResources(new ResourceList(10,10,10,10,10));		
+		FacadeSwitch.getSingleton().getServerModel().getPlayers()[2].setResources(new ResourceList(10,10,10,10,10));	
+		System.out.println("Testing Build Road 3");
 		try {
 			command.execute();
 			assertEquals(14,player.getRoads());

@@ -25,7 +25,7 @@ public class ServerModelNewFeaturesTest {
 		model.reallocateLargestArmy();
 		assertEquals(2,model.getTurnTracker().getLargestArmy());
 		
-		//test that road is trasnfered properly
+		//test that road is transfered properly
 		model.getPlayers()[3].setSoldiers(6);
 		model.reallocateLargestArmy();
 		assertEquals(3,model.getTurnTracker().getLargestArmy());

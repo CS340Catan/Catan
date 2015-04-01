@@ -1,6 +1,5 @@
 package test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -72,6 +71,7 @@ public class CommandTradeNchatTests {
 
 	@Test
 	public void testOfferTrade() {
+		System.out.println("Testing Offer Trade 1");
 		// Sam\","brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":1,\"ore\"
 		// "Brooke\",{\"brick\":0,\"wood\":1,\"sheep\":0,\"wheat\":1,\"ore\":0}
 		System.out.println("Testing offer trade fail");
@@ -98,6 +98,9 @@ public class CommandTradeNchatTests {
 					.getTradeOffer().getSender() == -1);
 		}
 
+		offer = new ResourceList(0, 0, 0, 1, -1); // Sam gives Brooke 1 wood for
+													// 2 ore
+		System.out.println("Testing Offer Trade 2");
 		offer = new ResourceList(0, 0, 0, 1, -1); // Sam gives Brooke 1 wood for
 													// 2 ore
 		params = new TradeOfferParams(0, offer, 1);
