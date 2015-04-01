@@ -167,6 +167,17 @@
 			</assertions>
 		</java>
 	</target>
+	
+	<target name="our-mock-server" depends="package" description="compiles, packages, and runs the student mock server">
+		<java jar="${java.dist}/catan-server.jar" dir="${java.dist}" fork="yes">
+			<sysproperty key="com.sun.management.jmxremote" value=""/>
+			<assertions>
+				<enable/>
+			</assertions>
+			<arg value="8081" />
+			<arg value="-mock" />
+		</java>
+	</target>
     
     <target name="make-tester-zip" depends="package" description="makes a zip file for your testing team">
         <zip destfile="./tester.zip" basedir="${java.dist}" />
