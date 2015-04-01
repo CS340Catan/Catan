@@ -59,7 +59,7 @@ public class Server {
 	private static Logger ServerLogger;
 
 	static {
-		Level logLevel = Level.ALL;
+		Level logLevel = Level.OFF;
 		//Level logLevel = Level.OFF;
 		ServerLogger = Logger.getLogger("CatanServer");
 		ServerLogger.setLevel(logLevel);
