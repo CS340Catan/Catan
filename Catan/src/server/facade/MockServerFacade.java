@@ -1,6 +1,7 @@
 package server.facade;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import server.model.ServerModel;
 import shared.communication.AcceptTradeParams;
@@ -699,6 +700,16 @@ public class MockServerFacade implements IServerFacade {
 	public void setPlayerID(int playerId) {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	public HashMap<Integer, ServerModel> getModelMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setFirstGame() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

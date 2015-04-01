@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import server.facade.FacadeSwitch;
-import server.facade.ServerFacade;
 import server.httpHandlers.AcceptTradeHandler;
 import server.httpHandlers.BuildCityHandler;
 import server.httpHandlers.BuildRoadHandler;
@@ -90,7 +89,7 @@ public class Server {
 			}
 		}
 		else {
-			ServerFacade.getSingleton().setFirstGame();
+			FacadeSwitch.getSingleton().setFirstGame();
 		}
 	}
 

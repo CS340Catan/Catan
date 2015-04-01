@@ -100,27 +100,27 @@ public class ServerProxyTest {
 
 	}
 
-//	@Test
-//	public void testUpdateModel() {
-//		// same version
-//		ClientModel newModel;
-//		try {
-//			newModel = serverProxy.updateModel(0);
-//			assertNotEquals(newModel, null);
-//		} catch (ServerResponseException e) {
-//			assertTrue(e.getMessage().startsWith("ERROR"));
-//		}
-//
-//		// new version
-//		try {
-//			newModel = serverProxy.updateModel(1);
-//			assertNotEquals(model, null);
-//			assertNotEquals(model, newModel);
-//		} catch (ServerResponseException e) {
-//			assertTrue(e.getMessage().startsWith("ERROR"));
-//		}
-//
-//	}
+	// @Test
+	// public void testUpdateModel() {
+	// // same version
+	// ClientModel newModel;
+	// try {
+	// newModel = serverProxy.updateModel(0);
+	// assertNotEquals(newModel, null);
+	// } catch (ServerResponseException e) {
+	// assertTrue(e.getMessage().startsWith("ERROR"));
+	// }
+	//
+	// // new version
+	// try {
+	// newModel = serverProxy.updateModel(1);
+	// assertNotEquals(model, null);
+	// assertNotEquals(model, newModel);
+	// } catch (ServerResponseException e) {
+	// assertTrue(e.getMessage().startsWith("ERROR"));
+	// }
+	//
+	// }
 
 	@Test
 	public void testGetGameList() {
@@ -152,27 +152,22 @@ public class ServerProxyTest {
 
 	@Test
 	public void testJoinGame() throws InvalidInputException {
-
-		/*
-		 * //login so game can be joined UserCredentials credentials; boolean
-		 * loginResponse; credentials = new UserCredentials("Sam", "sam");
-		 * loginResponse = serverProxy.Login(credentials);
-		 * assertTrue(loginResponse);
-		 * 
-		 * //create new game with space to join String title = "New Game B";
-		 * CreateGameParams gameParams = new CreateGameParams(false, false,
-		 * false, title); GameSummary game = serverProxy.createGame(gameParams);
-		 * assertNotEquals(game, null);
-		 */
-
-		// join game
-		JoinGameParams params = new JoinGameParams("blue", 2);
-		String response;
 		try {
-			response = serverProxy.joinGame(params);
+			// login so game can be joined
+			UserCredentials credentials = new UserCredentials("Sam", "sam");
+			boolean loginResponse = serverProxy.login(credentials);
+			assertTrue(loginResponse);
+
+			// join game
+			JoinGameParams params = new JoinGameParams("blue", 2);
+
+			String response = serverProxy.joinGame(params);
+			System.out.println("Test");
 			assertEquals(response, "Success");
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
+		} catch (NullPointerException e) {
+			System.out.println(e.getMessage());
 		}
 
 	}
@@ -219,34 +214,33 @@ public class ServerProxyTest {
 	}
 
 	@Test
-	public void testResetGame() throws InvalidInputException{
+	public void testResetGame() throws InvalidInputException {
 
-		
-//		 //login and join game so it can be reset 
-//		UserCredentials credentials;
-//		 boolean response; credentials = new UserCredentials("Sam", "sam");
-//		 response = serverProxy.login(credentials); assertTrue(response);
-//		 
-//		 //create game 
-//		 String title = "New Game C"; 
-//		 CreateGameParams gameParams = new CreateGameParams(false, false, false, title);
-//		 GameInfo game = serverProxy.createGame(gameParams);
-//		  assertNotEquals(game, null);
-//		  
-//		 //join game 
-//		 JoinGameParams params = new JoinGameParams("yellow",
-//		 game.getId()); String joinResponse = serverProxy.joinGame(params);
-//		 assertEquals(joinResponse, "Success");
-		 
+		// //login and join game so it can be reset
+		// UserCredentials credentials;
+		// boolean response; credentials = new UserCredentials("Sam", "sam");
+		// response = serverProxy.login(credentials); assertTrue(response);
+		//
+		// //create game
+		// String title = "New Game C";
+		// CreateGameParams gameParams = new CreateGameParams(false, false,
+		// false, title);
+		// GameInfo game = serverProxy.createGame(gameParams);
+		// assertNotEquals(game, null);
+		//
+		// //join game
+		// JoinGameParams params = new JoinGameParams("yellow",
+		// game.getId()); String joinResponse = serverProxy.joinGame(params);
+		// assertEquals(joinResponse, "Success");
 
 		// reset game
-//		ClientModel resetModel;
-//		try {
-//			resetModel = serverProxy.resetGame();
-//			assertNotEquals(resetModel, null);
-//		} catch (ServerResponseException e) {
-//			assertTrue(e.getMessage().startsWith("ERROR"));
-//		}
+		// ClientModel resetModel;
+		// try {
+		// resetModel = serverProxy.resetGame();
+		// assertNotEquals(resetModel, null);
+		// } catch (ServerResponseException e) {
+		// assertTrue(e.getMessage().startsWith("ERROR"));
+		// }
 
 	}
 
@@ -315,7 +309,7 @@ public class ServerProxyTest {
 			assertEquals(response.getResponse(), "Success");
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
-			
+
 		}
 
 	}
@@ -326,7 +320,7 @@ public class ServerProxyTest {
 	public void testSendChat() {
 
 		String content = "My Message";
-		ChatMessage chatMessage = new ChatMessage(1,content);
+		ChatMessage chatMessage = new ChatMessage(1, content);
 		ClientModel model;
 		try {
 			model = serverProxy.sendChat(chatMessage);
@@ -372,7 +366,7 @@ public class ServerProxyTest {
 		try {
 			model = serverProxy.rollNumber(4);
 			assertNotEquals(model, null);
-			
+
 		} catch (ServerResponseException e) {
 			assertTrue(e.getMessage().startsWith("ERROR"));
 		}
@@ -382,7 +376,8 @@ public class ServerProxyTest {
 	@Test
 	public void testBuildRoad() {
 
-		EdgeLocation location = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.North);
+		EdgeLocation location = new EdgeLocation(new HexLocation(0, 1),
+				EdgeDirection.North);
 		BuildRoadParams params = new BuildRoadParams(0, location, false);
 		ClientModel model;
 		try {
@@ -398,7 +393,8 @@ public class ServerProxyTest {
 	public void testBuildSettlement() {
 
 		VertexLocation location = new VertexLocation();
-		BuildSettlementParams params = new BuildSettlementParams(0, location, false);
+		BuildSettlementParams params = new BuildSettlementParams(0, location,
+				false);
 		ClientModel model;
 		try {
 			model = serverProxy.buildSettlement(params);
@@ -528,10 +524,12 @@ public class ServerProxyTest {
 
 	@Test
 	public void testPlayRoadBuildingCard() {
-		
-		EdgeLocation location = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.North);
-		
-		BuildRoadCardParams params = new BuildRoadCardParams(0, location, location);
+
+		EdgeLocation location = new EdgeLocation(new HexLocation(0, 1),
+				EdgeDirection.North);
+
+		BuildRoadCardParams params = new BuildRoadCardParams(0, location,
+				location);
 		ClientModel model;
 		try {
 			model = serverProxy.playRoadBuildingCard(params);
