@@ -186,7 +186,7 @@ public class CommandDevCardTests {
 	@Test
 	public void playMonumentTest(){
 		int playerID = 2;
-		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setOldDevCards(new DevCardList(0, 1, 0, 0, 0));
+		FacadeSwitch.getSingleton().getServerModel().getPlayers()[2].setOldDevCards(new DevCardList(0, 1, 0, 0, 0));
 		 PlayMonumentParams params = new PlayMonumentParams(playerID);
 		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
 		//should fail and nothing should happen
@@ -212,7 +212,7 @@ public class CommandDevCardTests {
 	@Test
 	public void playRoadBuildingTest(){
 		int playerID = 2;
-		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setOldDevCards(new DevCardList(0, 0, 1, 0, 0));
+		FacadeSwitch.getSingleton().getServerModel().getPlayers()[2].setOldDevCards(new DevCardList(0, 0, 1, 0, 0));
 		Road[] roads = new Road[4];
 		roads[0] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.North));
 		roads[1] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.NorthWest));
@@ -228,7 +228,6 @@ public class CommandDevCardTests {
 			command.execute();
 			fail("Can do should have failed");
 		} catch (ServerResponseException e) {
-			assertEquals(player.getVictoryPoints(),0);
 		}
 		player.getOldDevCards().setRoadBuilding(1);
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");

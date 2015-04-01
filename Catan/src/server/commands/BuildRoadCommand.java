@@ -1,5 +1,6 @@
 package server.commands;
 
+import server.facade.FacadeSwitch;
 import server.facade.ServerFacade;
 import server.model.*;
 import shared.communication.*;
@@ -38,7 +39,7 @@ public class BuildRoadCommand extends ICommand {
 	@Override
 	public void execute() throws ServerResponseException {
 		
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 
 		/*

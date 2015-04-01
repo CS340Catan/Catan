@@ -2,6 +2,7 @@ package server.commands;
 
 import java.util.ArrayList;
 
+import server.facade.FacadeSwitch;
 import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
@@ -53,7 +54,7 @@ public class BuildSettlementCommand extends ICommand {
 	@Override
 	public void execute() throws ServerResponseException {
 
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 
 		/*
