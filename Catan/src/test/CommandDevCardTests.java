@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
@@ -10,14 +11,29 @@ import org.junit.Test;
 
 import server.commands.BuyDevCardCommand;
 import server.commands.ICommand;
+import server.commands.PlayMonopolyCommand;
+import server.commands.PlayMonumentCommand;
+import server.commands.PlayRoadBuildingCommand;
+import server.commands.PlaySoldierCommand;
 import server.commands.PlayYearOfPlentyCommand;
 import server.facade.FacadeSwitch;
 import server.facade.IServerFacade;
 import server.model.ServerModel;
+import shared.communication.BuildRoadCardParams;
+import shared.communication.MoveSoldierParams;
+import shared.communication.PlayMonopolyParams;
+import shared.communication.PlayMonumentParams;
 import shared.communication.UserActionParams;
 import shared.communication.YearOfPlentyParams;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
+import shared.model.DevCardList;
 import shared.model.Player;
 import shared.model.ResourceList;
+import shared.model.Road;
+import shared.model.VertexObject;
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
@@ -39,7 +55,7 @@ public class CommandDevCardTests {
 	 * Test BUY DEV CARD
 	 */
 	@Test
-	public void buDevCardTest() {
+	public void buyDevCardTest() {
 		int playerID = 0;
 		UserActionParams params = new UserActionParams(playerID);
 		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
@@ -111,5 +127,123 @@ public class CommandDevCardTests {
 		}
 	}
 	
+	@Test
+	public void playMonopolyCardTest(){
+		int playerID = 2;
+		PlayMonopolyParams params = new PlayMonopolyParams("ore", playerID);
+		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
+		//should fail and nothing should happen
+		command = new PlayMonopolyCommand(params);
+		try {
+			command.execute();
+			fail("Can do should have failed");
+		} catch (ServerResponseException e) {
+			assertEquals(player.getResources().getOre(),0);
+		}
+		player.getOldDevCards().setMonopoly(1);
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
+		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setResources(new ResourceList(1, 77, 1, 1, 1));
+		try {
+			command.execute();
+			assertEquals(player.getResources().getOre(),77);
+			assertEquals(player.getOldDevCards().getMonopoly(),0);
+			
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("This should work");
+		}
+	}
+	@Test
+	public void playSoldierCardTest(){
+		int playerID = 2;
+		VertexObject[] settlements = new VertexObject[1];
+		settlements[0] = new VertexObject(3, new VertexLocation());
+		FacadeSwitch.getSingleton().getServerModel().getMap().setSettlements(settlements);
+		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setResources(new ResourceList(1, 1, 1, 1, 1));
+		MoveSoldierParams params = new MoveSoldierParams(playerID, 3, new HexLocation(0,0));
+		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
+		//should fail and nothing should happen
+		command = new PlaySoldierCommand(params);
+		try {
+			command.execute();
+			fail("Can do should have failed");
+		} catch (ServerResponseException e) {
+			assertEquals(player.getResources().totalResourceCount(),0);
+		}
+		player.getOldDevCards().setSoldier(1);
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
+		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setResources(new ResourceList(1, 1, 1, 1, 1));
+		try {
+			command.execute();
+			assertEquals(player.getResources().totalResourceCount(),1);
+			assertEquals(player.getOldDevCards().getSoldier(),0);
+			
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("This should work");
+		}
+	}
+	@Test
+	public void playMonumentTest(){
+		int playerID = 2;
+		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setOldDevCards(new DevCardList(0, 1, 0, 0, 0));
+		 PlayMonumentParams params = new PlayMonumentParams(playerID);
+		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
+		//should fail and nothing should happen
+		command = new PlayMonumentCommand(params);
+		try {
+			command.execute();
+			fail("Can do should have failed");
+		} catch (ServerResponseException e) {
+			assertEquals(player.getVictoryPoints(),0);
+		}
+		player.getOldDevCards().setMonument(1);
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
+		player.setVictoryPoints(9);		
+		try {
+			command.execute();
+			assertTrue(player.getVictoryPoints() >= 1);
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("This should work");
+		}
+	}
+	@Test
+	public void playRoadBuildingTest(){
+		int playerID = 2;
+		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setOldDevCards(new DevCardList(0, 0, 1, 0, 0));
+		Road[] roads = new Road[4];
+		roads[0] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.North));
+		roads[1] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.NorthWest));
+		roads[2] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.SouthWest));
+		roads[3] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.South));
+		
+		FacadeSwitch.getSingleton().getServerModel().getMap().setRoads(roads);
+		BuildRoadCardParams params = new BuildRoadCardParams(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.NorthEast), new EdgeLocation(new HexLocation(0,0),EdgeDirection.SouthEast));
+		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
+		//should fail and nothing should happen
+		command = new PlayRoadBuildingCommand(params);
+		try {
+			command.execute();
+			fail("Can do should have failed");
+		} catch (ServerResponseException e) {
+			assertEquals(player.getVictoryPoints(),0);
+		}
+		player.getOldDevCards().setRoadBuilding(1);
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
+		try {
+			command.execute();
+			assertTrue(model.getMap().getRoads().length > 4);	
+			assertTrue(player.getOldDevCards().getRoadBuilding() == 0);
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("This should work");
+		}
+	}
 
 }

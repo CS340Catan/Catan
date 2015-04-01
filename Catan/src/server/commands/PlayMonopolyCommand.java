@@ -1,5 +1,6 @@
 package server.commands;
 
+import server.facade.FacadeSwitch;
 import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
@@ -35,7 +36,7 @@ public class PlayMonopolyCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController modelController = new ServerModelController(model);
 
 		if (modelController.canPlayMonopolyCard(playerIndex)) {

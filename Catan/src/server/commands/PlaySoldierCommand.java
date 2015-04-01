@@ -1,6 +1,6 @@
 package server.commands;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.MoveSoldierParams;
@@ -39,7 +39,7 @@ public class PlaySoldierCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController modelController = new ServerModelController(model);
 		String oldStatus = model.getTurnTracker().getStatus();
 		model.getTurnTracker().setStatus("Robbing");
