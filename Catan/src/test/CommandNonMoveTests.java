@@ -23,6 +23,7 @@ public class CommandNonMoveTests {
 	ICommand command;
 	@Before
 	public void setUp() throws Exception {
+		/*System.out.println("Testing Create Game 1");
 		ServerModel serverModel = new ServerModel();
 		FacadeSwitch.setMockServer(serverModel);
 		serverFacade = FacadeSwitch.getSingleton();
@@ -36,11 +37,12 @@ public class CommandNonMoveTests {
 		CreateGameParams params = new CreateGameParams(true,true,true,"Testy Game");
 		command = new CreateGameCommand(params);
 		command.execute();
+		System.out.println("Testing Create Game 2");
 		GameSummary game = GameList.getSingleton().getGame("Testy Game");
 		assertNotNull(game);
 		int gameID = game.getId();
 		serverFacade.setGameID(gameID);
-		serverModel = serverFacade.getServerModel();
+		serverModel = serverFacade.getServerModel();*/
 	}
 
 	@After

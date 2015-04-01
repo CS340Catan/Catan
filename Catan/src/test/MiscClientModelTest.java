@@ -33,6 +33,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanAcceptTradeBadResourceList() {
+		System.out.println("Testing CanAcceptTrade 1");
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		ClientModelFacade clientModelController = new ClientModelFacade();
 		ClientModel.getSingleton().setClientModel(clientModel);
@@ -44,6 +45,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanAcceptTradeGood() {
+		System.out.println("Testing CanAcceptTrade 2");
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		ClientModelFacade clientModelController = new ClientModelFacade();
 		ResourceList resourceList = clientModel.getPlayers()[currentPlayer]
@@ -56,6 +58,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanOfferTradeBadPlayerId() {
+		System.out.println("Testing CanOfferTrade 1");
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		int testPlayer = (currentPlayer + 1) % 4;
 		ClientModelFacade clientModelController = new ClientModelFacade();
@@ -69,6 +72,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanOfferTradeBadResource() {
+		System.out.println("Testing CanOfferTrade 2");
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		ClientModelFacade clientModelController = new ClientModelFacade();
 		ClientModel.getSingleton().setClientModel(clientModel);
@@ -80,6 +84,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanOfferTradeBadIdAndResourceList() {
+		System.out.println("Testing CanOfferTrade 3");
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		int testPlayer = (currentPlayer + 1) % 4;
 		ClientModelFacade clientModelController = new ClientModelFacade();
@@ -92,6 +97,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanOfferTradeBadStatus() {
+		System.out.println("Testing CanOfferTrade 4");
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		clientModel.getTurnTracker().setStatus("Rolling");
 		ClientModelFacade clientModelController = new ClientModelFacade();
@@ -105,6 +111,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanOfferTradeGood() {
+		System.out.println("Testing CanOfferTrade 5");
 		int currentPlayer = clientModel.getTurnTracker().getCurrentTurn();
 		clientModel.getTurnTracker().setStatus("Playing");
 		ClientModelFacade clientModelController = new ClientModelFacade();
@@ -118,6 +125,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanDiscardCardsBadStatus() {
+		System.out.println("Testing CanDiscardCards 1");
 		clientModel.getTurnTracker().setStatus("Rolling");
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(8);
@@ -129,6 +137,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanDiscardCardsTooFewCards() {
+		System.out.println("Testing CanDiscardCards 2");
 		clientModel.getTurnTracker().setStatus("Discarding");
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(7);
@@ -140,6 +149,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanDiscardCardsAlreadyDiscarded() {
+		System.out.println("Testing CanDiscardCards 3");
 		int playerIndex = 1;
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(10);
 		clientModel.getPlayers()[playerIndex].setDiscarded(true);
@@ -151,6 +161,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void testCanDsicardCardsGood() {
+		System.out.println("Testing CanDiscardCards 4");
 		int playerIndex = 1;
 		clientModel.getTurnTracker().setStatus("Discarding");
 		clientModel.getPlayers()[playerIndex].getResources().setBrick(10);
@@ -180,6 +191,7 @@ public class MiscClientModelTest {
 	 */
 	@Test
 	public void canRobPlayerNotRobbersTurn() {
+		System.out.println("Testing CanRobPlayer 1");
 		clientModel.getTurnTracker().setCurrentTurn(3);
 		int robberIndex = 1;
 		int victimIndex = 0;
@@ -196,6 +208,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void canRobPlayerBadStatus() {
+		System.out.println("Testing CanRobPlayer 2");
 		clientModel.getTurnTracker().setCurrentTurn(3);
 		int robberIndex = 3;
 		int victimIndex = 0;
@@ -211,6 +224,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void canRobPlayerBadLocation() {
+		System.out.println("Testing CanRobPlayer 3");
 		clientModel.getTurnTracker().setCurrentTurn(3);
 		int robberIndex = 3;
 		int victimIndex = 0;
@@ -226,6 +240,7 @@ public class MiscClientModelTest {
 
 	@Test
 	public void canRobPlayerSuccess() {
+		System.out.println("Testing CanRobPlayer 4");
 		clientModel.getTurnTracker().setCurrentTurn(3);
 		int robberIndex = 3;
 		int victimIndex = 0;

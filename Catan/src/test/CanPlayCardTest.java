@@ -28,6 +28,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonumentFail() { // no monument card
+		System.out.println("Testing CanPlayMonument 1");
 		clientModel.getPlayers()[0].setVictoryPoints(9);
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -42,6 +43,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonumentFailTwo() { // won't give them 10 points
+		System.out.println("Testing CanPlayMonument 2");
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 1, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -56,6 +58,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonumentFailThree() {// not their turn
+		System.out.println("Testing CanPlayMonument 3");
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 2, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -70,6 +73,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonumentFailFour() {// status isn't "Playing"
+		System.out.println("Testing CanPlayMonument 4");
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 2, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -84,6 +88,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonumentPass() {// have already played dev card, should work
+		System.out.println("Testing CanPlayMonument 5");
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 2, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -98,6 +103,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonumentPassTwo() { // if they have one card
+		System.out.println("Testing CanPlayMonument 6");
 		clientModel.getPlayers()[0].setVictoryPoints(9);
 		DevCardList cardList = new DevCardList(0, 1, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -112,6 +118,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonumentPassThree() { // if they have multiple cards
+		System.out.println("Testing CanPlayMonument 7");
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 2, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -126,6 +133,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonumentPassFour() { // if it will give them >10 points
+		System.out.println("Testing CanPlayMonument 8");
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 3, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
@@ -140,6 +148,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonopolyPass() { // has 1 card
+		System.out.println("Testing CanPlayMonopoly 1");
 		DevCardList cardList = new DevCardList(1, 0, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -153,6 +162,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonopolyPassTwo() { // has 2 cards
+		System.out.println("Testing CanPlayMonopoly 2");
 		DevCardList cardList = new DevCardList(2, 0, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -166,6 +176,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonopolyFail() { // not turn
+		System.out.println("Testing CanPlayMonopoly 3");
 		DevCardList cardList = new DevCardList(1, 0, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);
@@ -179,6 +190,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonopolyFailTwo() { // doesn't have card
+		System.out.println("Testing CanPlayMonopoly 4");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -192,6 +204,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonopolyFailThree() { // not "Playing"
+		System.out.println("Testing CanPlayMonopoly 5");
 		DevCardList cardList = new DevCardList(1, 0, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -205,6 +218,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayMonopolyFailFour() { // has already played devcard
+		System.out.println("Testing CanPlayMonopoly 6");
 		DevCardList cardList = new DevCardList(1, 0, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -218,6 +232,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayRoadBuildingCardPass() { // has 1 card, 3 roads
+		System.out.println("Testing CanPlayMonopoly 7");
 		DevCardList cardList = new DevCardList(0, 0, 1, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -232,6 +247,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayRoadBuildingCardPassTwo() { // has 2 cards, 2 roads
+		System.out.println("Testing CanPlayMonopoly 8");
 		DevCardList cardList = new DevCardList(0, 0, 2, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -246,6 +262,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayRoadBuildingCardFail() { // 0 cards
+		System.out.println("Testing CanPlayRoadBuilding 1");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -260,6 +277,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayRoadBuildingCardFailTwo() { // 1 road
+		System.out.println("Testing CanPlayRoadBuilding 2");
 		DevCardList cardList = new DevCardList(0, 0, 1, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -274,6 +292,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayRoadBuildingCardFailThree() { // not turn
+		System.out.println("Testing CanPlayRoadBuilding 3");
 		DevCardList cardList = new DevCardList(0, 0, 1, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);
@@ -288,6 +307,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayRoadBuildingCardFailFour() { // not "Playing"
+		System.out.println("Testing CanPlayRoadBuilding 4");
 		DevCardList cardList = new DevCardList(0, 0, 1, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -302,6 +322,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayRoadBuildingCardFailFive() { // has played dev card
+		System.out.println("Testing CanPlayRoadBuilding 5");
 		DevCardList cardList = new DevCardList(0, 0, 1, 0, 0);
 		clientModel.getPlayers()[0].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(0);
@@ -316,6 +337,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayYearOfPlentyPass() { // has 1 card, bank has 1 of each
+		System.out.println("Testing CanPlayYearOfPlenty 1");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 1);
 		ResourceList wantedResources = new ResourceList(0, 1, 1, 0, 0);
 		clientModel.setBank(new ResourceList(0, 1, 1, 0, 0));
@@ -332,6 +354,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayYearOfPlentyPassTwo() { // has 1 card, bank has 2 of each
+		System.out.println("Testing CanPlayYearOfPlenty 2");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 1);
 		ResourceList wantedResources = new ResourceList(0, 2, 0, 0, 0);
 		clientModel.setBank(new ResourceList(0, 2, 0, 0, 0));
@@ -348,6 +371,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayYearOfPlentyFail() { // doesn't have year of plenty card
+		System.out.println("Testing CanPlayYearOfPlenty 3");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 0);
 		ResourceList wantedResources = new ResourceList(0, 2, 0, 0, 0);
 		clientModel.setBank(new ResourceList(0, 2, 0, 0, 0));
@@ -365,6 +389,7 @@ public class CanPlayCardTest {
 	@Test
 	public void canPlayYearOfPlentyFailTwo() { // bank doesn't have 1 of the
 												// cards
+		System.out.println("Testing CanPlayYearOfPlenty 3");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 1);
 		ResourceList wantedResources = new ResourceList(0, 2, 0, 0, 0);
 		clientModel.setBank(new ResourceList(0, 1, 0, 0, 0));
@@ -381,6 +406,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayYearOfPlentyFailThree() { // not players turn
+		System.out.println("Testing CanPlayYearOfPlenty 4");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 1);
 		ResourceList wantedResources = new ResourceList(0, 2, 0, 0, 0);
 		clientModel.setBank(new ResourceList(0, 2, 0, 0, 0));
@@ -397,6 +423,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayYearOfPlentyFailFour() { // status not playing
+		System.out.println("Testing CanPlayYearOfPlenty 5");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 1);
 		ResourceList wantedResources = new ResourceList(0, 2, 0, 0, 0);
 		clientModel.setBank(new ResourceList(0, 2, 0, 0, 0));
@@ -413,6 +440,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlayYearOfPlentyFailFive() { // already played dev card
+		System.out.println("Testing CanPlayYearOfPlenty 6");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 1);
 		ResourceList wantedResources = new ResourceList(0, 2, 0, 0, 0);
 		clientModel.setBank(new ResourceList(0, 2, 0, 0, 0));
@@ -429,6 +457,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlaySoldierCardPass() { // has 1 card
+		System.out.println("Testing CanPlaySoldierCard 1");
 		DevCardList cardList = new DevCardList(0, 0, 0, 1, 0);
 		clientModel.getPlayers()[1].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);
@@ -448,6 +477,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlaySoldierCardPassTwo() { // has 2 card
+		System.out.println("Testing CanPlaySoldierCard 2");
 		DevCardList cardList = new DevCardList(0, 0, 0, 2, 0);
 		clientModel.getPlayers()[1].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);
@@ -467,6 +497,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlaySoldierCardFail() { // doesn't have card
+		System.out.println("Testing CanPlaySoldierCard 3");
 		DevCardList cardList = new DevCardList(0, 0, 0, 0, 0);
 		clientModel.getPlayers()[1].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);
@@ -486,6 +517,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlaySoldierCardFailTwo() { // not their turn
+		System.out.println("Testing CanPlaySoldierCard 4");
 		DevCardList cardList = new DevCardList(0, 0, 0, 1, 0);
 		clientModel.getPlayers()[1].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(2);
@@ -505,6 +537,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlaySoldierCardFailThree() { // not "Playing"
+		System.out.println("Testing CanPlaySoldierCard 5");
 		DevCardList cardList = new DevCardList(0, 0, 0, 1, 0);
 		clientModel.getPlayers()[1].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);
@@ -524,6 +557,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlaySoldierCardFailFour() { // already played dev card
+		System.out.println("Testing CanPlaySoldierCard 6");
 		DevCardList cardList = new DevCardList(0, 0, 0, 1, 0);
 		clientModel.getPlayers()[1].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);
@@ -543,6 +577,7 @@ public class CanPlayCardTest {
 
 	@Test
 	public void canPlaySoldierCardFailFive() { // robber not moving
+		System.out.println("Testing CanPlaySoldierCard 7");
 		DevCardList cardList = new DevCardList(0, 0, 0, 1, 0);
 		clientModel.getPlayers()[1].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);
@@ -563,6 +598,7 @@ public class CanPlayCardTest {
 	@Test
 	public void canPlaySoldierCardFailSix() { // robbed player is not touching
 												// new robber location
+		System.out.println("Testing CanPlaySoldierCard 8");
 		DevCardList cardList = new DevCardList(0, 0, 0, 1, 0);
 		clientModel.getPlayers()[1].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);
@@ -583,6 +619,7 @@ public class CanPlayCardTest {
 	@Test
 	public void canPlaySoldierCardFailSeven() { // robbed player does not have
 												// cards
+		System.out.println("Testing CanPlaySoldierCard 9");
 		DevCardList cardList = new DevCardList(0, 0, 0, 1, 0);
 		clientModel.getPlayers()[1].setOldDevCards(cardList);
 		clientModel.getTurnTracker().setCurrentTurn(1);

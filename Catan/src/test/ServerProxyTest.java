@@ -40,7 +40,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testLogin() {
-
+		System.out.println("Testing Login 1");
 		UserCredentials credentials;
 		boolean response;
 
@@ -55,6 +55,7 @@ public class ServerProxyTest {
 
 		// wrong test
 		credentials = new UserCredentials("Sam", "notsam");
+		System.out.println("Testing Login 2");
 		try {
 			response = serverProxy.login(credentials);
 			assertFalse(response);
@@ -66,7 +67,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testRegister() {
-
+		System.out.println("Testing Register 1");
 		UserCredentials credentials;
 		boolean response;
 
@@ -80,6 +81,7 @@ public class ServerProxyTest {
 		}
 
 		// null test
+		System.out.println("Testing Register 2");
 		credentials = new UserCredentials("Johnny", null);
 		try {
 			response = serverProxy.Register(credentials);
@@ -89,6 +91,7 @@ public class ServerProxyTest {
 		}
 
 		// user already exists test
+		System.out.println("Testing Register 3");
 		credentials = new UserCredentials("Sam", "sam");
 		try {
 			response = serverProxy.Register(credentials);
@@ -134,7 +137,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testCreateGame() throws InvalidInputException {
-
+		System.out.println("Testing CreateGame 1");
 		String title = "New Game A";
 		CreateGameParams params = new CreateGameParams(false, false, false,
 				title);
@@ -151,6 +154,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testJoinGame() throws InvalidInputException {
+		System.out.println("Testing JoinGame 1");
 		try {
 			// login so game can be joined
 			UserCredentials credentials = new UserCredentials("Sam", "sam");
@@ -173,7 +177,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testSaveGame() throws InvalidInputException {
-
+		System.out.println("Testing SaveGame 1");
 		String filename = "My Saved Game";
 		SaveParams params = new SaveParams(0, filename);
 		String response;
@@ -188,7 +192,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testLoadGame() throws InvalidInputException {
-
+		System.out.println("Testing LoadGame 1");
 		// save a game to load
 		String filename = "Test Saved Game";
 		SaveParams saveParams = new SaveParams(0, filename);
@@ -200,6 +204,7 @@ public class ServerProxyTest {
 			assertTrue(e.getMessage().startsWith("ERROR"));
 		}
 
+		System.out.println("Testing LoadGame 2");
 		// load game
 		LoadGameParams params = new LoadGameParams(filename);
 		String response;
@@ -245,7 +250,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testGetCommands() {
-
+		System.out.println("Testing Get Commands 1");
 		CommandList commands;
 		try {
 			commands = serverProxy.getCommands();
@@ -258,7 +263,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testSetCommands() {
-
+		System.out.println("Testing SetCommands 1");
 		CommandList commands = new CommandList(null);
 		ClientModel model;
 		try {
@@ -272,7 +277,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testGetAITypes() {
-
+		System.out.println("Testing GetAITypes 1");
 		String[] response;
 		try {
 			response = serverProxy.getAITypes();
@@ -285,7 +290,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testAddAI() {
-
+		System.out.println("Testing AddAI 1");
 		AddAIParams params = new AddAIParams();
 		AddAIResponse response;
 		try {
@@ -299,6 +304,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testChangeLogLevel() {
+		System.out.println("Testing ChangeLogLevel 1");
 		ChangeLogLevelParams level = new ChangeLogLevelParams();
 		level.setLogLevel("SEVERE");
 		ChangeLogLevelResponse response;
@@ -317,7 +323,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testSendChat() {
-
+		System.out.println("Testing SendChat 1");
 		String content = "My Message";
 		ChatMessage chatMessage = new ChatMessage(1, content);
 		ClientModel model;
@@ -333,6 +339,7 @@ public class ServerProxyTest {
 	@Test
 	public void testAcceptTrade() {
 
+		System.out.println("Testing AcceptTrade 1");
 		AcceptTradeParams params = new AcceptTradeParams(0, false);
 		ClientModel model;
 		try {
@@ -347,6 +354,7 @@ public class ServerProxyTest {
 	@Test
 	public void testDiscardCards() {
 
+		System.out.println("Testing DiscardCards 1");
 		DiscardCardsParams params = new DiscardCardsParams(0, null);
 		ClientModel model;
 		try {
@@ -361,6 +369,7 @@ public class ServerProxyTest {
 	@Test
 	public void testRollNumber() {
 
+		System.out.println("Testing RollNumber 1");
 		ClientModel model;
 		try {
 			model = serverProxy.rollNumber(4);
@@ -374,7 +383,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testBuildRoad() {
-
+		System.out.println("Testing BuildRoad 1");
 		EdgeLocation location = new EdgeLocation(new HexLocation(0, 1),
 				EdgeDirection.North);
 		BuildRoadParams params = new BuildRoadParams(0, location, false);
@@ -390,7 +399,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testBuildSettlement() {
-
+		System.out.println("Testing BuildSettlement 1");
 		VertexLocation location = new VertexLocation();
 		BuildSettlementParams params = new BuildSettlementParams(0, location,
 				false);
@@ -406,7 +415,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testBuildCity() {
-
+		System.out.println("Testing BuildCity 1");
 		VertexLocation location = new VertexLocation();
 		BuildCityParams params = new BuildCityParams(0, location);
 		ClientModel model;
@@ -421,7 +430,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testOfferTrade() {
-
+		System.out.println("Testing OfferTrade 1");
 		ResourceList offer = new ResourceList(-1, 1, 1, 1, 1);
 		TradeOfferParams params = new TradeOfferParams(0, offer, 1);
 		ClientModel model;
@@ -436,7 +445,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testMaritimeTrade() {
-
+		System.out.println("Testing MaritimeTrade 1");
 		MaritimeTradeParams params = new MaritimeTradeParams(0, 0, "Wheat",
 				"Sheep");
 		ClientModel model;
@@ -451,7 +460,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testRobPlayer() {
-
+		System.out.println("Testing RobPlayer 1");
 		MoveRobberParams params = new MoveRobberParams(0, 0, null);
 		ClientModel model;
 		try {
@@ -465,7 +474,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testFinishTurn() {
-
+		System.out.println("Testing FinishTurn 1");
 		ClientModel model;
 		UserActionParams params = new UserActionParams(0);
 		params.setType("finishTurn");
@@ -480,7 +489,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testBuyDevCard() {
-
+		System.out.println("Testing BuyDevCard 1");
 		ClientModel model;
 		UserActionParams params = new UserActionParams(0);
 		params.setType("buyDevCard");
@@ -495,7 +504,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testPlaySoldierCard() {
-
+		System.out.println("Testing PlaySoldierCard 1");
 		MoveSoldierParams params = new MoveSoldierParams(0, 0, null);
 		ClientModel model;
 		try {
@@ -509,7 +518,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testPlayYearOfPlentyCard() {
-
+		System.out.println("Testing YearofPlentyCard 1");
 		YearOfPlentyParams params = new YearOfPlentyParams(0, null, null);
 		ClientModel model;
 		try {
@@ -523,7 +532,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testPlayRoadBuildingCard() {
-
+		System.out.println("Testing PlayRoadBuildingCard 1");
 		EdgeLocation location = new EdgeLocation(new HexLocation(0, 1),
 				EdgeDirection.North);
 
@@ -541,7 +550,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testPlayMonopolyCard() {
-
+		System.out.println("Testing PlayMonopolyCard 1");
 		PlayMonopolyParams params = new PlayMonopolyParams(clientModelJson, 0);
 		ClientModel model;
 		try {
@@ -555,7 +564,7 @@ public class ServerProxyTest {
 
 	@Test
 	public void testMonumentCard() {
-
+		System.out.println("Testing MonumentCard 1");
 		PlayMonumentParams params = new PlayMonumentParams(0);
 		ClientModel model;
 		try {
