@@ -9,11 +9,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import server.commands.ICommand;
+import server.commands.MaritimeTradeCommand;
 import server.commands.OfferTradeCommand;
 import server.commands.SendChatCommand;
 import server.facade.FacadeSwitch;
 import server.model.ServerModel;
 import shared.communication.ChatMessage;
+import shared.communication.MaritimeTradeParams;
 import shared.communication.TradeOfferParams;
 import shared.model.ResourceList;
 import shared.utils.Serializer;
@@ -111,6 +113,34 @@ public class CommandTradeNchatTests {
 	@Test
 	public void testMaritimeTrade() {
 		
-		
+		System.out.println("Testing Maritime Trade");
+		FacadeSwitch.getSingleton().getServerModel().
+		MaritimeTradeParams params = new MaritimeTradeParams(0, 4, "WOOD", "WHEAT");
+		command = new MaritimeTradeCommand(params, 0);
+		try {
+			command.execute();
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[0].getMessage().equals(
+					"Hi there"));
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[0].getSource().equals(
+					"Sam"));
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("this should work");
+		}
+
+		System.out.println("Testing send chat pass2");
+		params = new ChatMessage(1, "Hey man");
+		command = new SendChatCommand(params);
+		try {
+			command.execute();
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[1].getMessage().equals(
+					"Hey man"));
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[1].getSource().equals(
+					"Brooke"));
+		} catch (ServerResponseException e) {
+			e.printStackTrace();
+			fail("this should work");
+		}
 	}
+	
 }
