@@ -54,11 +54,12 @@ public class CommandDevCardTests {
 	 */
 	@Test
 	public void buyDevCardTest() {
+		System.out.println("Testing BuyDevCardCommand");
 		int playerID = 0;
 		UserActionParams params = new UserActionParams(playerID);
 		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
 		player.setResources(new ResourceList(1,1,1,1,1));
-		
+		//Testing that game state doesn't change when command throws exception
 		command = new BuyDevCardCommand(params);
 		try {
 			command.execute();
@@ -76,7 +77,7 @@ public class CommandDevCardTests {
 		
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
 		
-		
+		//Test that game data updates correctly when command execution is successful
 		try {
 			command.execute();
 			//should now have 1 Dev card (new or old)
@@ -97,9 +98,11 @@ public class CommandDevCardTests {
 	
 	@Test
 	public void playYearOfPlentyTest(){
+		System.out.println("Testing PlayYearOfPlentyCommand");
+		ServerModel  model  = FacadeSwitch.getSingleton().getServerModel();
 		int playerID = 2;
 		YearOfPlentyParams params = new YearOfPlentyParams(playerID,"Brick","Wood");
-		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
+		Player player = model.getPlayers()[playerID];
 		//should fail and nothing should happen
 		command = new PlayYearOfPlentyCommand(params);
 		try {
@@ -110,14 +113,23 @@ public class CommandDevCardTests {
 			assertEquals(player.getResources().getWood(),0);
 		}
 		player.getOldDevCards().setYearOfPlenty(1);
-		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
-		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
+		model.getTurnTracker().setStatus("Playing");
+		model.getTurnTracker().setCurrentTurn(playerID);
 		
+		model.getBank().setBrick(1);
+		model.getBank().setWood(1);
+		
+		//player should receive 1 brick and 1 wood.
+		//Player should no longer have year of plenty
+		//bank should have lost 1 wood and 1 brick
 		try {
 			command.execute();
 			assertEquals(player.getResources().getBrick(),1);
 			assertEquals(player.getResources().getWood(),1);
 			assertEquals(player.getOldDevCards().getYearOfPlenty(),0);
+			
+			assertEquals(0,model.getBank().getBrick());
+			assertEquals(0,model.getBank().getWood());
 			
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
@@ -127,9 +139,11 @@ public class CommandDevCardTests {
 	
 	@Test
 	public void playMonopolyCardTest(){
+		System.out.println("Testing PlayMonopolyCardCommand");
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		int playerID = 2;
 		PlayMonopolyParams params = new PlayMonopolyParams("ore", playerID);
-		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
+		Player player = model.getPlayers()[playerID];
 		//should fail and nothing should happen
 		command = new PlayMonopolyCommand(params);
 		try {
@@ -139,12 +153,15 @@ public class CommandDevCardTests {
 			assertEquals(player.getResources().getOre(),0);
 		}
 		player.getOldDevCards().setMonopoly(1);
-		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
-		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
-		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setResources(new ResourceList(1, 77, 1, 1, 1));
+		model.getTurnTracker().setStatus("Playing");
+		model.getTurnTracker().setCurrentTurn(playerID);
+		model.getPlayers()[3].setResources(new ResourceList(1, 77, 1, 1, 1));
+		//Testing that model updates corretly
+		//Should have grabbed everyone's ore (only player 3 had ore)
 		try {
 			command.execute();
 			assertEquals(player.getResources().getOre(),77);
+			assertEquals(model.getPlayers()[3].getResources().getOre(),0);
 			assertEquals(player.getOldDevCards().getMonopoly(),0);
 			
 		} catch (ServerResponseException e) {
@@ -154,13 +171,15 @@ public class CommandDevCardTests {
 	}
 	@Test
 	public void playSoldierCardTest(){
+		System.out.println("Testing PlaySoldierCardCommand");
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		int playerID = 2;
 		VertexObject[] settlements = new VertexObject[1];
 		settlements[0] = new VertexObject(3, new VertexLocation());
-		FacadeSwitch.getSingleton().getServerModel().getMap().setSettlements(settlements);
-		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setResources(new ResourceList(1, 1, 1, 1, 1));
+		model.getMap().setSettlements(settlements);
+		model.getPlayers()[3].setResources(new ResourceList(1, 1, 1, 1, 1));
 		MoveSoldierParams params = new MoveSoldierParams(playerID, 3, new HexLocation(0,0));
-		Player player = FacadeSwitch.getSingleton().getServerModel().getPlayers()[playerID];
+		Player player = model.getPlayers()[playerID];
 		//should fail and nothing should happen
 		command = new PlaySoldierCommand(params);
 		try {
@@ -170,14 +189,19 @@ public class CommandDevCardTests {
 			assertEquals(player.getResources().totalResourceCount(),0);
 		}
 		player.getOldDevCards().setSoldier(1);
-		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
-		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
-		FacadeSwitch.getSingleton().getServerModel().getPlayers()[3].setResources(new ResourceList(1, 1, 1, 1, 1));
+		model.getTurnTracker().setStatus("Playing");
+		model.getTurnTracker().setCurrentTurn(playerID);
+		model.getPlayers()[3].setResources(new ResourceList(1, 1, 1, 1, 1));
+		//Test the model updated correctly.
+		//Robber gains 1 resource, loses soldier card, gains soldier
+		//visctim loses 1 resource card
 		try {
 			command.execute();
 			assertEquals(player.getResources().totalResourceCount(),1);
 			assertEquals(player.getOldDevCards().getSoldier(),0);
+			assertEquals(player.getSoldiers(),1);
 			
+			assertEquals(model.getPlayers()[3].getResources().totalResourceCount(),4);
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
 			fail("This should work");
@@ -185,6 +209,7 @@ public class CommandDevCardTests {
 	}
 	@Test
 	public void playMonumentTest(){
+		System.out.println("Testing PlayMonumentCommand");
 		int playerID = 2;
 		FacadeSwitch.getSingleton().getServerModel().getPlayers()[2].setOldDevCards(new DevCardList(0, 1, 0, 0, 0));
 		 PlayMonumentParams params = new PlayMonumentParams(playerID);
@@ -200,7 +225,10 @@ public class CommandDevCardTests {
 		player.getOldDevCards().setMonument(1);
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
-		player.setVictoryPoints(9);		
+		player.setVictoryPoints(9);
+		
+		//Test that the model updates correctly
+		//player gets his or her point
 		try {
 			command.execute();
 			assertTrue(player.getVictoryPoints() >= 1);
@@ -211,13 +239,14 @@ public class CommandDevCardTests {
 	}
 	@Test
 	public void playRoadBuildingTest(){
+		System.out.println("Testing PlayRoadBuildingTestCommand");
 		int playerID = 2;
 		FacadeSwitch.getSingleton().getServerModel().getPlayers()[2].setOldDevCards(new DevCardList(0, 0, 1, 0, 0));
 		Road[] roads = new Road[4];
-		roads[0] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.North));
-		roads[1] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.NorthWest));
-		roads[2] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.SouthWest));
-		roads[3] = new Road(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.South));
+		roads[0] = new Road(1, new EdgeLocation(new HexLocation(0,0),EdgeDirection.North));
+		roads[1] = new Road(1, new EdgeLocation(new HexLocation(0,0),EdgeDirection.NorthWest));
+		roads[2] = new Road(3, new EdgeLocation(new HexLocation(0,0),EdgeDirection.SouthWest));
+		roads[3] = new Road(3, new EdgeLocation(new HexLocation(0,0),EdgeDirection.South));
 		
 		FacadeSwitch.getSingleton().getServerModel().getMap().setRoads(roads);
 		BuildRoadCardParams params = new BuildRoadCardParams(playerID, new EdgeLocation(new HexLocation(0,0),EdgeDirection.NorthEast), new EdgeLocation(new HexLocation(0,0),EdgeDirection.SouthEast));
@@ -233,10 +262,17 @@ public class CommandDevCardTests {
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
 		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setCurrentTurn(playerID);
 		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
+		
+		//Test that model updates correctly
+		//player loses road building card
+		//player loses two roads it can build
+		//two more roads on map
 		try {
 			command.execute();
-			assertTrue(model.getMap().getRoads().length > 4);	
+			assertEquals(player.getRoads(),13);
 			assertTrue(player.getOldDevCards().getRoadBuilding() == 0);
+			
+			assertTrue(model.getMap().getRoads().length == 6);
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
 			fail("This should work");
