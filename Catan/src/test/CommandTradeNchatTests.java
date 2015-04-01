@@ -170,6 +170,7 @@ public class CommandTradeNchatTests {
 		resources.setBrick(4);
 		resources.setOre(0);
 		int oldBankBricks = FacadeSwitch.getSingleton().getServerModel().getBank().getBrick();
+		FacadeSwitch.getSingleton().getServerModel().getTurnTracker().setStatus("Playing");
 		
 		MaritimeTradeParams params = new MaritimeTradeParams(0, 4, "BRICK", "ORE");
 		command = new MaritimeTradeCommand(params, 0);
