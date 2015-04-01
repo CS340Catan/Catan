@@ -3,7 +3,7 @@ package server.commands;
 import java.util.Arrays;
 import java.util.Random;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import server.model.GameList;
 import server.model.ServerModel;
 import shared.communication.CreateGameParams;
@@ -56,7 +56,7 @@ public class CreateGameCommand extends ICommand {
 		serverModel = new ServerModel();
 		this.addPorts();
 		this.addHexes();
-		ServerFacade.getSingleton().getModelMap().put(gameID, serverModel);
+		FacadeSwitch.getSingleton().getModelMap().put(gameID, serverModel);
 	}
 
 	private void addPorts() {

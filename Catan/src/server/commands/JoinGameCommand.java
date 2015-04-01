@@ -2,7 +2,7 @@ package server.commands;
 
 import java.util.ArrayList;
 
-import server.facade.ServerFacade;
+import server.facade.FacadeSwitch;
 import server.model.GameList;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
@@ -35,13 +35,13 @@ public class JoinGameCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		ServerModel model = ServerFacade.getSingleton().getServerModel();
+		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		if(model==null){
 			throw new ServerResponseException("Cannot join game - Invalid game id.");
 		}
 		String playerName = RegisteredPlayers.getSingleton().getPlayerName(playerID);
 		Player[] players = model.getPlayers();
-		int gameID = ServerFacade.getSingleton().getGameID();
+		int gameID = FacadeSwitch.getSingleton().getGameID();
 
 		/*
 		 * Iterate through each player currently saved within the model. This
@@ -54,7 +54,7 @@ public class JoinGameCommand extends ICommand {
 			players[0] = new Player(0, playerID, 4, 5, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0), false,
 					new ResourceList(0, 0, 0, 0, 0), 15, 0, 0);
 			model.setPlayers(players);
-			ServerFacade.getSingleton().getModelMap().put(gameID, model);
+			FacadeSwitch.getSingleton().getModelMap().put(gameID, model);
 			for (GameSummary game : GameList.getSingleton().getGames()) {
 				if (game.getId() == gameID) {
 					PlayerSummary playerSummary = new PlayerSummary(color, playerName, playerID);
