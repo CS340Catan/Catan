@@ -32,6 +32,7 @@ public class PollerTest {
 
 	@Test
 	public void pollerUpdating() {
+		System.out.println("Testing PollerUpdating 1");
 		mockServerModel.setVersion(clientModel.getVersion()); // start off with
 																// the versions
 																// the same
@@ -45,7 +46,7 @@ public class PollerTest {
 				originalVersion);
 		// the model should be the same as before(the poller shouldn't have
 		// updated it)
-
+		System.out.println("Testing Poller Updating 2");
 		mockServerModel.setVersion(originalVersion + 1);
 		// change the version number of the model on the server manually
 		poller.updateModel();

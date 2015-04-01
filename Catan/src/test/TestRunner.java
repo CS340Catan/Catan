@@ -7,7 +7,7 @@ public class TestRunner {
 				"test.ServerProxyTest",
 				"test.PollerTest", "test.CanPlayCardTest",
 				"test.MiscClientModelTest", "test.DevCardTest",
-				"test.CommandDevCardTests", "test.CommandNonMoveTests",
+				"test.CommandDevCardTests",
 				"test.CommandOtherMoveTests", "test.CommandBuildingTests",
 				"test.CommandTradeNchatTests"};
 		org.junit.runner.JUnitCore.main(testClasses);
