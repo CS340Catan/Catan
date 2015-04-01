@@ -8,12 +8,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import server.commands.AcceptTradeCommand;
 import server.commands.ICommand;
 import server.commands.MaritimeTradeCommand;
 import server.commands.OfferTradeCommand;
 import server.commands.SendChatCommand;
 import server.facade.FacadeSwitch;
 import server.model.ServerModel;
+import shared.communication.AcceptTradeParams;
 import shared.communication.ChatMessage;
 import shared.communication.MaritimeTradeParams;
 import shared.communication.TradeOfferParams;
@@ -106,8 +108,56 @@ public class CommandTradeNchatTests {
 	
 	@Test
 	public void testAcceptTrade() {
-		
-		
+		/*
+		 * "Sam\",\"color\":\"orange\"},{\"resources\":{\"brick\":1,\"wood\":2,\"sheep\":2,\"wheat\":1,\"ore\":0
+		 * "Brooke\",\"color\":\"blue\"},{\"resources\":{\"brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":0,\"ore\":2
+		 */
+		ResourceList offer = new ResourceList(0, 2, 0, 0, -2); // Sam gives Brooke 2 wood for
+													// 2 ore
+		TradeOfferParams params = new TradeOfferParams(0, offer, 1);
+		command = new OfferTradeCommand(params);
+		try {
+			command.execute();
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getReceiver() == 1);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getSender() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getBrick() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getWood() == -2);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getOre() == 2);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getWheat() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getSheep() == 0);
+		} catch (ServerResponseException e) {
+			fail("this should work");
+		}
+
+		System.out.println("Testing Invalid Accept Trade");
+		AcceptTradeParams invalidUserParams = new AcceptTradeParams(2, true);
+		command = new AcceptTradeCommand(invalidUserParams);
+		try {
+			command.execute();
+			fail("Executed Invalid Accept Trade Command");
+		} catch (ServerResponseException e) {
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getReceiver() == 1);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getSender() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getBrick() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getWood() == -2);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getOre() == 2);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getWheat() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel()
+					.getTradeOffer().getResourceList().getSheep() == 0);
+		}
 	}
 	
 	@Test
