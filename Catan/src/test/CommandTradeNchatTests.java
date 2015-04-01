@@ -87,7 +87,7 @@ public class CommandTradeNchatTests {
 			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getSender() == -1);
 		}
 		
-		offer = new ResourceList(0,2,0,0,-2); //Sam gives Brooke 2 wood for 2 ore
+		offer = new ResourceList(0,0,0,1,-1); //Sam gives Brooke 1 wood for 2 ore
 		params = new TradeOfferParams(0, offer, 1);
 		command = new OfferTradeCommand(params);
 		try {
@@ -95,9 +95,9 @@ public class CommandTradeNchatTests {
 			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getReceiver() == 1);
 			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getSender() == 0);
 			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getBrick() == 0);
-			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getWood() == -2);
-			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getOre() == 2);
-			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getWheat() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getWood() == -1);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getOre() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getWheat() == 1);
 			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getSheep() == 0);
 		} catch (ServerResponseException e) {
 			fail("this should work");
