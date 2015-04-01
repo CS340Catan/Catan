@@ -704,7 +704,7 @@ public class MockServerFacade implements IServerFacade {
 	@Override
 	public HashMap<Integer, ServerModel> getModelMap() {
 		// TODO Auto-generated method stub
-		return null;
+		return new HashMap<Integer, ServerModel>();
 	}
 	@Override
 	public void setFirstGame() {

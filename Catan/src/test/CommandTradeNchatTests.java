@@ -40,7 +40,7 @@ public class CommandTradeNchatTests {
 
 	@Test
 	public void testSendChat() {
-		System.out.println("Testing send chat pass1");
+		//System.out.println("Testing send chat pass1");
 		ChatMessage params = new ChatMessage(0, "Hi there");
 		command = new SendChatCommand(params);
 		try {
@@ -54,7 +54,7 @@ public class CommandTradeNchatTests {
 			fail("this should work");
 		}
 
-		System.out.println("Testing send chat pass2");
+		//System.out.println("Testing send chat pass2");
 		params = new ChatMessage(1, "Hey man");
 		command = new SendChatCommand(params);
 		try {
@@ -72,10 +72,10 @@ public class CommandTradeNchatTests {
 	
 	@Test
 	public void testOfferTrade() {
-		System.out.println("Testing Offer Trade 1");
+		//System.out.println("Testing Offer Trade 1");
 		//Sam\","brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":1,\"ore\"
 		//"Brooke\",{\"brick\":0,\"wood\":1,\"sheep\":0,\"wheat\":1,\"ore\":0}
-		System.out.println("Testing offer trade fail");
+		//System.out.println("Testing offer trade fail");
 		ResourceList offer = new ResourceList(-2,0,0,1,0); //Sam gives Brooke 2 brick for 1 wheat (he only has 1 brick)
 		//public ResourceList(int brick, int ore, int sheep, int wheat, int wood)
 		TradeOfferParams params = new TradeOfferParams(0, offer, 1);
@@ -90,7 +90,7 @@ public class CommandTradeNchatTests {
 			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getSender() == -1);
 		}
 		
-		System.out.println("Testing Offer Trade 2");
+		//System.out.println("Testing Offer Trade 2");
 		offer = new ResourceList(0,0,0,1,-1); //Sam gives Brooke 1 wood for 2 ore
 		params = new TradeOfferParams(0, offer, 1);
 		command = new OfferTradeCommand(params);
@@ -138,7 +138,7 @@ public class CommandTradeNchatTests {
 			fail("this should work");
 		}
 
-		System.out.println("Testing Invalid Accept Trade");
+		//System.out.println("Testing Invalid Accept Trade");
 		AcceptTradeParams invalidUserParams = new AcceptTradeParams(2, true);
 		command = new AcceptTradeCommand(invalidUserParams);
 		try {
@@ -165,7 +165,7 @@ public class CommandTradeNchatTests {
 	@Test
 	public void testMaritimeTrade() {
 		
-		System.out.println("Testing Maritime Trade");
+		//System.out.println("Testing Maritime Trade");
 		ResourceList resources = FacadeSwitch.getSingleton().getServerModel().getPlayers()[0].getResources();
 		resources.setBrick(4);
 		resources.setOre(0);

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import server.facade.FacadeSwitch;
+import server.facade.IServerFacade;
 import server.model.GameList;
 import server.model.ServerModel;
 import shared.communication.CreateGameParams;
