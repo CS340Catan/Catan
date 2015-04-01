@@ -71,7 +71,7 @@ public class CommandTradeNchatTests {
 		//Sam\",\"color\":\"orange\"},{\"resources\":{\"brick\":1,\"wood\":2,\"sheep\":2,\"wheat\":1,\"ore\":0
 		//"Brooke\",\"color\":\"blue\"},{\"resources\":{\"brick\":0,\"wood\":1,\"sheep\":1,\"wheat\":0,\"ore\":2
 		System.out.println("Testing offer trade fail");
-		ResourceList offer = new ResourceList(-2,0,0,1,0);
+		ResourceList offer = new ResourceList(-2,0,0,1,0); //Sam gives Brooke 2 brick for 1 wheat (he only has 1 brick)
 		//public ResourceList(int brick, int ore, int sheep, int wheat, int wood)
 		TradeOfferParams params = new TradeOfferParams(0, offer, 1);
 		//What you get (+) and what you give (-),
@@ -85,6 +85,21 @@ public class CommandTradeNchatTests {
 			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getSender() == -1);
 		}
 		
+		offer = new ResourceList(0,2,0,0,-2); //Sam gives Brooke 2 wood for 2 ore
+		params = new TradeOfferParams(0, offer, 1);
+		command = new OfferTradeCommand(params);
+		try {
+			command.execute();
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getReceiver() == 1);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getSender() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getBrick() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getWood() == -2);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getOre() == 2);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getWheat() == 0);
+			assertTrue(FacadeSwitch.getSingleton().getServerModel().getTradeOffer().getResourceList().getSheep() == 0);
+		} catch (ServerResponseException e) {
+			fail("this should work");
+		}
 	}
 	
 	@Test
