@@ -118,33 +118,27 @@ public class CommandTradeNchatTests {
 	public void testMaritimeTrade() {
 		
 		System.out.println("Testing Maritime Trade");
-		FacadeSwitch.getSingleton().getServerModel().
-		MaritimeTradeParams params = new MaritimeTradeParams(0, 4, "WOOD", "WHEAT");
+		ResourceList resources = FacadeSwitch.getSingleton().getServerModel().getPlayers()[0].getResources();
+		resources.setBrick(4);
+		resources.setOre(0);
+		int oldBankBricks = FacadeSwitch.getSingleton().getServerModel().getBank().getBrick();
+		
+		MaritimeTradeParams params = new MaritimeTradeParams(0, 4, "BRICK", "ORE");
 		command = new MaritimeTradeCommand(params, 0);
+		
 		try {
 			command.execute();
-			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[0].getMessage().equals(
-					"Hi there"));
-			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[0].getSource().equals(
-					"Sam"));
+			ResourceList newResources = FacadeSwitch.getSingleton().getServerModel().getPlayers()[0].getResources();
+			assertTrue(newResources.getBrick() == 0);
+			assertTrue(newResources.getOre() == 1);
+			int newBankBricks = FacadeSwitch.getSingleton().getServerModel().getBank().getBrick();
+			assertTrue(newBankBricks == (oldBankBricks + 4));
+			
 		} catch (ServerResponseException e) {
 			e.printStackTrace();
 			fail("this should work");
 		}
 
-		System.out.println("Testing send chat pass2");
-		params = new ChatMessage(1, "Hey man");
-		command = new SendChatCommand(params);
-		try {
-			command.execute();
-			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[1].getMessage().equals(
-					"Hey man"));
-			assertTrue(FacadeSwitch.getSingleton().getServerModel().getChat().getLines()[1].getSource().equals(
-					"Brooke"));
-		} catch (ServerResponseException e) {
-			e.printStackTrace();
-			fail("this should work");
-		}
 	}
 	
 }
