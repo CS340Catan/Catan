@@ -176,7 +176,6 @@ public class CommandOtherMoveTests {
 			assertEquals(1,player.getResources().getSheep());
 			assertEquals(1,player.getResources().getWheat());
 			assertEquals(1,player.getResources().getOre());
-			e.printStackTrace();
 		}
 		
 		//Test when it should work and game to new status
