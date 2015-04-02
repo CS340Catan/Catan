@@ -33,13 +33,13 @@ public class HTTPCommunicator {
 	private static String gameCookie;
 	@SuppressWarnings("unused")
 	private static Logger logger;
-	
+
 	static {
 		logger = Logger.getLogger("CatanClient");
 	}
 
 	public static void setServer(String host, int port) {
-		
+
 		SERVER_HOST = host;
 		SERVER_PORT = port;
 		URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
@@ -97,10 +97,7 @@ public class HTTPCommunicator {
 				out.writeBytes(gsonString);
 				connection.getOutputStream().close();
 			}
-			
-			
 
-			
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				// Look for cookies
 				String cookie = connection.getHeaderField("Set-Cookie");
@@ -128,7 +125,7 @@ public class HTTPCommunicator {
 		} catch (IOException e) {
 			return null;
 		}
-		
+
 	}
 
 	/**

@@ -31,11 +31,12 @@ public class BuyDevCardHandler implements IHttpHandler {
 		} else {
 
 			try {
-				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-				
+				String inputStreamString = HandlerUtil
+						.requestBodyToString(exchange);
+
 				UserActionParams buyDevelopmentCard = (UserActionParams) Serializer
 						.deserialize(inputStreamString, UserActionParams.class);
-				
+
 				ClientModel model = FacadeSwitch.getSingleton().buyDevCard(
 						buyDevelopmentCard);
 				HandlerUtil.sendResponse(exchange, 200, model,

@@ -15,17 +15,22 @@ public class SaveGameHandler implements IHttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 
 		try {
-			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-			SaveParams saveParams = (SaveParams) Serializer.deserialize(inputStreamString, SaveParams.class);
-			
+			String inputStreamString = HandlerUtil
+					.requestBodyToString(exchange);
+			SaveParams saveParams = (SaveParams) Serializer.deserialize(
+					inputStreamString, SaveParams.class);
+
 			FacadeSwitch.getSingleton().setGameID(saveParams.getId());
 			FacadeSwitch.getSingleton().saveGame(saveParams);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, e.getMessage() + " Be sure you have given a valid file name.", String.class);
+			HandlerUtil.sendResponse(exchange, 400, e.getMessage()
+					+ " Be sure you have given a valid file name.",
+					String.class);
 			e.printStackTrace();
-		} catch (Exception e){
-			HandlerUtil.sendResponse(exchange, 400, "Could not save - JSON error likely", String.class);
+		} catch (Exception e) {
+			HandlerUtil.sendResponse(exchange, 400,
+					"Could not save - JSON error likely", String.class);
 			e.printStackTrace();
 		}
 	}

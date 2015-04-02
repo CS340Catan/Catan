@@ -41,19 +41,18 @@ public class GameListPoller {
 	public void updateGameList() {
 
 		try {
-			GameInfo[] newGameInfoList = null;							
+			GameInfo[] newGameInfoList = null;
 			GameSummary[] newGameSummaryList = server.getGameList();
-			if(newGameSummaryList != null){
+			if (newGameSummaryList != null) {
 				newGameInfoList = new GameInfo[newGameSummaryList.length];
 
 				for (int i = 0; i < newGameSummaryList.length; i++) {
 					newGameInfoList[i] = newGameSummaryList[i].toGameInfo();
 				}
+			} else {
+				newGameInfoList = new GameInfo[0];
 			}
-			else{
-				newGameInfoList = new GameInfo[0];				
-			}
-			
+
 			this.joinGameController.updateGameList(newGameInfoList);
 		} catch (ServerResponseException e) {
 			e.printStackTrace();

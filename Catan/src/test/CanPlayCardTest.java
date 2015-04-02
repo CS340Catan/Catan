@@ -87,7 +87,8 @@ public class CanPlayCardTest {
 	}
 
 	@Test
-	public void canPlayMonumentPass() {// have already played dev card, should work
+	public void canPlayMonumentPass() {// have already played dev card, should
+										// work
 		System.out.println("Testing CanPlayMonument 5");
 		clientModel.getPlayers()[0].setVictoryPoints(8);
 		DevCardList cardList = new DevCardList(0, 2, 0, 0, 0);

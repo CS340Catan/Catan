@@ -20,5 +20,5 @@ public interface IServerFacade extends IServer {
 	public HashMap<Integer, ServerModel> getModelMap();
 
 	public void setFirstGame();
-	
+
 }

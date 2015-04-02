@@ -1,7 +1,6 @@
 package server.commands;
 
 import server.facade.FacadeSwitch;
-import server.facade.ServerFacade;
 import server.model.ServerModel;
 import shared.communication.ChatMessage;
 import shared.model.MessageLine;

@@ -22,7 +22,8 @@ public class CommandsHandler implements IHttpHandler {
 		 * Else, perform appropriate operations using the given gameID.
 		 */
 		if (gameID == -1) {
-			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie", String.class);
+			HandlerUtil.sendResponse(exchange, 400, "No Game Cookie",
+					String.class);
 		} else {
 			try {
 				/*
@@ -36,20 +37,28 @@ public class CommandsHandler implements IHttpHandler {
 				FacadeSwitch.getSingleton().setGameID(gameID);
 
 				if (requestMethod.equals("GET")) {
-					CommandList commandList = FacadeSwitch.getSingleton().getCommands();
-					HandlerUtil.sendResponse(exchange, 200, commandList, CommandList.class);
+					CommandList commandList = FacadeSwitch.getSingleton()
+							.getCommands();
+					HandlerUtil.sendResponse(exchange, 200, commandList,
+							CommandList.class);
 				} else if (requestMethod.equals("POST")) {
-					String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-					CommandList commandListParam = (CommandList) Serializer.deserialize(inputStreamString, CommandList.class);
+					String inputStreamString = HandlerUtil
+							.requestBodyToString(exchange);
+					CommandList commandListParam = (CommandList) Serializer
+							.deserialize(inputStreamString, CommandList.class);
 
-					ClientModel model = FacadeSwitch.getSingleton().setCommands(commandListParam);
-					HandlerUtil.sendResponse(exchange, 200, model, ClientModel.class);
+					ClientModel model = FacadeSwitch.getSingleton()
+							.setCommands(commandListParam);
+					HandlerUtil.sendResponse(exchange, 200, model,
+							ClientModel.class);
 				} else {
 					String errorMessage = "Invalid post/get request method.";
-					HandlerUtil.sendResponse(exchange, 400, errorMessage, String.class);
+					HandlerUtil.sendResponse(exchange, 400, errorMessage,
+							String.class);
 				}
 			} catch (ServerResponseException e) {
-				HandlerUtil.sendResponse(exchange, 400, "Failed to operate Commands Handler.", String.class);
+				HandlerUtil.sendResponse(exchange, 400,
+						"Failed to operate Commands Handler.", String.class);
 				e.printStackTrace();
 			}
 

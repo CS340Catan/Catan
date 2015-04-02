@@ -17,14 +17,16 @@ public class ResetGameHandler implements IHttpHandler {
 			FacadeSwitch.getSingleton().resetGame();
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, "Failed to Reset " + e.getMessage(), String.class);
+			HandlerUtil.sendResponse(exchange, 400,
+					"Failed to Reset " + e.getMessage(), String.class);
+			e.printStackTrace();
+		} catch (Exception e) {
+			HandlerUtil.sendResponse(exchange, 400,
+					"You did something bad and you should feel bad",
+					String.class);
 			e.printStackTrace();
 		}
-		catch (Exception e){
-			HandlerUtil.sendResponse(exchange, 400, "You did something bad and you should feel bad", String.class);
-			e.printStackTrace();
-		}
-		
+
 	}
 
 }

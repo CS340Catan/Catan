@@ -41,11 +41,12 @@ public class Serializer {
 	public static ClientModel deserializeClientModel(String jsonString) {
 		Gson gson = new Gson();
 		ClientModel clientModel = gson.fromJson(jsonString, ClientModel.class);
-		if(clientModel.getMap().getRoads() != null){
+		if (clientModel.getMap().getRoads() != null) {
 			for (Road road : clientModel.getMap().getRoads()) {
 				road.getLocation().convertFromPrimitives();
 			}
-			for (VertexObject settlement : clientModel.getMap().getSettlements()) {
+			for (VertexObject settlement : clientModel.getMap()
+					.getSettlements()) {
 				settlement.getLocation().convertFromPrimitives();
 			}
 			for (VertexObject city : clientModel.getMap().getCities()) {
@@ -85,7 +86,8 @@ public class Serializer {
 
 	public static GameSummary[] deserializeGameList(String jsonString) {
 		Gson gson = new Gson();
-		GameSummary[] gameSummary = gson.fromJson(jsonString, GameSummary[].class);
+		GameSummary[] gameSummary = gson.fromJson(jsonString,
+				GameSummary[].class);
 		return gameSummary;
 	}
 
@@ -109,7 +111,8 @@ public class Serializer {
 			for (Road road : serverModel.getMap().getRoads()) {
 				road.getLocation().convertToPrimitives();
 			}
-			for (VertexObject settlement : serverModel.getMap().getSettlements()) {
+			for (VertexObject settlement : serverModel.getMap()
+					.getSettlements()) {
 				settlement.getLocation().convertToPrimitives();
 			}
 			for (VertexObject city : serverModel.getMap().getCities()) {
@@ -134,7 +137,8 @@ public class Serializer {
 	}
 
 	public static String serializeWithExpose(Object o) {
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+				.create();
 		return gson.toJson(o);
 	}
 }

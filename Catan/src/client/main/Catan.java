@@ -21,7 +21,7 @@ public class Catan extends JFrame {
 	private static Logger ClientLogger;
 
 	static {
-		//Level logLevel = Level.ALL;
+		// Level logLevel = Level.ALL;
 		Level logLevel = Level.OFF;
 		ClientLogger = Logger.getLogger("CatanClient");
 		ClientLogger.setLevel(logLevel);

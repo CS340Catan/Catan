@@ -225,7 +225,8 @@ public interface IServer {
 	 * @param content
 	 * 
 	 */
-	public ClientModel sendChat(ChatMessage chatMessage) throws ServerResponseException;
+	public ClientModel sendChat(ChatMessage chatMessage)
+			throws ServerResponseException;
 
 	/**
 	 * This method will send a response to the server for a trade offer given to

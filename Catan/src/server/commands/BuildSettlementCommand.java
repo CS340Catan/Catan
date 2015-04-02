@@ -1,9 +1,6 @@
 package server.commands;
 
-import java.util.ArrayList;
-
 import server.facade.FacadeSwitch;
-import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.BuildSettlementParams;
@@ -62,11 +59,13 @@ public class BuildSettlementCommand extends ICommand {
 		 * currently stored within the command class members.
 		 */
 		VertexLocation settlementVertexLocation = new VertexLocation();
-		settlementVertexLocation.setDirection(settlementLocation.getDirection());
+		settlementVertexLocation
+				.setDirection(settlementLocation.getDirection());
 		settlementVertexLocation.setX(settlementLocation.getX());
 		settlementVertexLocation.setY(settlementLocation.getY());
 		settlementVertexLocation.convertFromPrimitives();
-		VertexObject settlement = new VertexObject(playerIndex, settlementVertexLocation);
+		VertexObject settlement = new VertexObject(playerIndex,
+				settlementVertexLocation);
 
 		if (controller.canBuildSettlement(settlement, free, free)) {
 			/*
@@ -99,11 +98,12 @@ public class BuildSettlementCommand extends ICommand {
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " built a settlement.", name));
-			int i = 0;
-			if (model.getTurnTracker().getStatus().toLowerCase().equals("secondround")) {
-				ArrayList<ResourceType> adjacentResources = (ArrayList<ResourceType>) controller.getAdjacentResources(settlement);
-				for (ResourceType resourcetype : controller.getAdjacentResources(settlement)) {
+			model.getLog().addLine(
+					new MessageLine(name + " built a settlement.", name));
+			if (model.getTurnTracker().getStatus().toLowerCase()
+					.equals("secondround")) {
+				for (ResourceType resourcetype : controller
+						.getAdjacentResources(settlement)) {
 					model.addResourceFromBank(playerIndex, resourcetype, 1);
 				}
 			}

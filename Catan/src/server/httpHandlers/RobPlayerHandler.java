@@ -31,11 +31,12 @@ public class RobPlayerHandler implements IHttpHandler {
 		} else {
 
 			try {
-				
-				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
+				String inputStreamString = HandlerUtil
+						.requestBodyToString(exchange);
 				MoveRobberParams moveRobberParam = (MoveRobberParams) Serializer
 						.deserialize(inputStreamString, MoveRobberParams.class);
-				
+
 				ClientModel model = FacadeSwitch.getSingleton().robPlayer(
 						moveRobberParam);
 				HandlerUtil.sendResponse(exchange, 200, model,

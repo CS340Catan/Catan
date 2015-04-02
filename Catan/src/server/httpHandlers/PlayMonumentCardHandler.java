@@ -31,17 +31,20 @@ public class PlayMonumentCardHandler implements IHttpHandler {
 		} else {
 
 			try {
-				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				String inputStreamString = HandlerUtil
+						.requestBodyToString(exchange);
 				PlayMonumentParams playMonumentParam = (PlayMonumentParams) Serializer
-						.deserialize(inputStreamString, PlayMonumentParams.class);
-				
+						.deserialize(inputStreamString,
+								PlayMonumentParams.class);
+
 				ClientModel model = FacadeSwitch.getSingleton().playMonument(
 						playMonumentParam);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400,
-						"Failed to play monument card." + e.getMessage(), String.class);
+						"Failed to play monument card." + e.getMessage(),
+						String.class);
 				e.printStackTrace();
 			}
 		}

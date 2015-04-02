@@ -58,10 +58,12 @@ public class Poller {
 	public void updateModel(ClientModel newModel) {
 		ClientModel.getSingleton().setClientModel(newModel);
 	}
-	public void unconditionallyUpdateModel(){
+
+	public void unconditionallyUpdateModel() {
 		ClientModel updatedClientModel;
 		try {
-			updatedClientModel = ServerProxy.getSingleton().updateModelNoVersionCheck();
+			updatedClientModel = ServerProxy.getSingleton()
+					.updateModelNoVersionCheck();
 			if (updatedClientModel != null) {
 				ClientModel.getSingleton().setClientModel(updatedClientModel);
 			}
@@ -111,7 +113,8 @@ public class Poller {
 					System.out
 							.println("Something terrible happened in the hacky poller task");
 				}
-				if (ClientModel.getSingleton().getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")) {
+				if (ClientModel.getSingleton().getTurnTracker().getStatus()
+						.toUpperCase().equals("SECONDROUND")) {
 					setTimer();
 					stopPlayerWaitingTimer();
 				}

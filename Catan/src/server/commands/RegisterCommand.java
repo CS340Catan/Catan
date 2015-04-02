@@ -53,17 +53,16 @@ public class RegisterCommand extends ICommand {
 		}/*
 		 * User name must be between 3 and 7 characters
 		 */
-		else if(username.length()>7 || username.length()<3 ){
+		else if (username.length() > 7 || username.length() < 3) {
 			throw new ServerResponseException("Username too long or short");
 		}
-		
+
 		/*
 		 * Make sure password is long enough
 		 */
-		else if(password.length()<5){
+		else if (password.length() < 5) {
 			throw new ServerResponseException("Password too short");
-		}
-		else {
+		} else {
 			registeredPlayers.addNewPlayer(username, password);
 		}
 

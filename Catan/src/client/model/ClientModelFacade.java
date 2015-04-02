@@ -1195,7 +1195,8 @@ public class ClientModelFacade {
 		 * connected to the building.
 		 */
 		for (Port port : ClientModel.getSingleton().getMap().getPorts()) {
-			if (port.getResource() == null || port.getResource().toLowerCase().equals("three")) {
+			if (port.getResource() == null
+					|| port.getResource().toLowerCase().equals("three")) {
 
 				/*
 				 * Create a road that matches the edgeLocation and direction of
@@ -1599,10 +1600,10 @@ public class ClientModelFacade {
 		return (longestRoadPlayerIndex == playerIndex);
 
 	}
-	
+
 	public boolean playerHasResources(int playerIndex) {
 		Player player = ClientModel.getSingleton().getPlayers()[playerIndex];
-		if(player.getResources().totalResourceCount() > 0) {
+		if (player.getResources().totalResourceCount() > 0) {
 			return true;
 		}
 		return false;

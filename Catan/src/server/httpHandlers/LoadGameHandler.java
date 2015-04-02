@@ -15,16 +15,20 @@ public class LoadGameHandler implements IHttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 
 		try {
-			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-			LoadGameParams loadParams = (LoadGameParams) Serializer.deserialize(inputStreamString, LoadGameParams.class);
-			
+			String inputStreamString = HandlerUtil
+					.requestBodyToString(exchange);
+			LoadGameParams loadParams = (LoadGameParams) Serializer
+					.deserialize(inputStreamString, LoadGameParams.class);
+
 			FacadeSwitch.getSingleton().loadGame(loadParams);
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
+			HandlerUtil.sendResponse(exchange, 400, e.getMessage(),
+					String.class);
 			e.printStackTrace();
-		} catch (Exception e){
-			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
+		} catch (Exception e) {
+			HandlerUtil.sendResponse(exchange, 400, e.getMessage(),
+					String.class);
 			e.printStackTrace();
 		}
 	}

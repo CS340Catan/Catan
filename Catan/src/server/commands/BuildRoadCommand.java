@@ -1,7 +1,6 @@
 package server.commands;
 
 import server.facade.FacadeSwitch;
-import server.facade.ServerFacade;
 import server.model.*;
 import shared.communication.*;
 import shared.definitions.ResourceType;
@@ -38,7 +37,7 @@ public class BuildRoadCommand extends ICommand {
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
-		
+
 		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
 
@@ -66,7 +65,7 @@ public class BuildRoadCommand extends ICommand {
 			 * to the bank. Remove one road piece from the player's hand.
 			 */
 			Player player = model.getPlayers()[playerIndex];
-			if(!free){
+			if (!free) {
 				model.addResourceFromBank(playerIndex, ResourceType.BRICK, -1);
 				model.addResourceFromBank(playerIndex, ResourceType.WOOD, -1);
 			}
@@ -77,12 +76,13 @@ public class BuildRoadCommand extends ICommand {
 			 * points.
 			 */
 			model.reallocateLongestRoad();
-			
+
 			/*
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " built a road.", name));
+			model.getLog().addLine(
+					new MessageLine(name + " built a road.", name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

@@ -2,8 +2,6 @@ package shared.model;
 
 import java.util.Random;
 
-import shared.definitions.ResourceType;
-
 public class Deck {
 
 	private int yearOfPlenty;
@@ -87,21 +85,20 @@ public class Deck {
 			DevCardList oldList = drawingPlayer.getOldDevCards();
 			oldList.setMonument(oldList.getMonument() + 1);
 			this.monument--;
-		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier <= 0) {
+		} else if (randomCardIndex - this.yearOfPlenty - this.monument
+				- this.soldier <= 0) {
 			DevCardList newList = drawingPlayer.getNewDevCards();
-			
-			
+
 			newList.setSoldier(newList.getSoldier() + 1);
-			
-			
+
 			this.soldier--;
-		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier
-				- this.roadBuilding <= 0) {
+		} else if (randomCardIndex - this.yearOfPlenty - this.monument
+				- this.soldier - this.roadBuilding <= 0) {
 			DevCardList newList = drawingPlayer.getNewDevCards();
 			newList.setRoadBuilding(newList.getRoadBuilding() + 1);
 			this.roadBuilding--;
-		} else if (randomCardIndex - this.yearOfPlenty - this.monument - this.soldier
-				- this.roadBuilding - this.monopoly <= 0) {
+		} else if (randomCardIndex - this.yearOfPlenty - this.monument
+				- this.soldier - this.roadBuilding - this.monopoly <= 0) {
 			DevCardList newList = drawingPlayer.getNewDevCards();
 			newList.setMonopoly(newList.getMonopoly() + 1);
 			this.monopoly--;

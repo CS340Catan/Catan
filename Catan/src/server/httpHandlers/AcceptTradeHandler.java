@@ -26,19 +26,22 @@ public class AcceptTradeHandler implements IHttpHandler {
 		else {
 
 			try {
-				
-				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+
+				String inputStreamString = HandlerUtil
+						.requestBodyToString(exchange);
 				// otherwise send acceptTrade params to server model
 				AcceptTradeParams acceptTradeParams = (AcceptTradeParams) Serializer
 						.deserialize(inputStreamString, AcceptTradeParams.class);
-				
+
 				FacadeSwitch.getSingleton().setGameID(gameID);
-				ClientModel model = FacadeSwitch.getSingleton()
-						.acceptTrade(acceptTradeParams);
-				HandlerUtil.sendResponse(exchange, 200, model, ClientModel.class);
+				ClientModel model = FacadeSwitch.getSingleton().acceptTrade(
+						acceptTradeParams);
+				HandlerUtil.sendResponse(exchange, 200, model,
+						ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400,
-						"Failed to accept trade." + e.getMessage(), String.class);
+						"Failed to accept trade." + e.getMessage(),
+						String.class);
 				e.printStackTrace();
 			}
 

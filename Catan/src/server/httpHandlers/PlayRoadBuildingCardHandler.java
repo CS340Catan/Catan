@@ -31,20 +31,23 @@ public class PlayRoadBuildingCardHandler implements IHttpHandler {
 		} else {
 
 			try {
-				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				String inputStreamString = HandlerUtil
+						.requestBodyToString(exchange);
 				BuildRoadCardParams playMonumentParam = (BuildRoadCardParams) Serializer
-						.deserialize(inputStreamString, BuildRoadCardParams.class);
-				
-				ClientModel model = FacadeSwitch.getSingleton().playRoadBuildingCard(
-						playMonumentParam);
+						.deserialize(inputStreamString,
+								BuildRoadCardParams.class);
+
+				ClientModel model = FacadeSwitch.getSingleton()
+						.playRoadBuildingCard(playMonumentParam);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400,
-						"Failed to play road building card." + e.getMessage(), String.class);
+						"Failed to play road building card." + e.getMessage(),
+						String.class);
 				e.printStackTrace();
 			}
-		}		
+		}
 	}
 
 }

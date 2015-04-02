@@ -15,20 +15,26 @@ import com.sun.net.httpserver.HttpHandler;
 public class Handlers {
 
 	public abstract static class BaseFile implements HttpHandler {
-		private static Logger LOGGER = Logger.getLogger(BaseFile.class.getName());
+		private static Logger LOGGER = Logger.getLogger(BaseFile.class
+				.getName());
+
 		public BaseFile(String rootPath) {
 			this.rootPath = rootPath;
 		}
+
 		protected String rootPath;
+
 		protected String getRequestPath(HttpExchange exchange) {
 			return exchange.getRequestURI().getPath().substring(1);
 		}
-		protected void sendFile(HttpExchange exchange, String filepath) throws IOException {
+
+		protected void sendFile(HttpExchange exchange, String filepath)
+				throws IOException {
 			try {
 				LOGGER.log(Level.FINE, "Requesting " + filepath);
 				byte[] response = FileUtils.readFile(filepath);
 
-				ArrayList < String > mimetypes = new ArrayList < String > ();
+				ArrayList<String> mimetypes = new ArrayList<String>();
 				mimetypes.add(FileUtils.getMimeType(filepath));
 				exchange.getResponseHeaders().put("Content­type", mimetypes);
 
@@ -41,15 +47,14 @@ public class Handlers {
 				exchange.sendResponseHeaders(404, -1);
 				OutputStream os = exchange.getResponseBody();
 				os.close();
-				System.out.println("Couldn't find the file " + new
-				File(filepath).getAbsolutePath());
+				System.out.println("Couldn't find the file "
+						+ new File(filepath).getAbsolutePath());
 			}
 
 		}
 	}
 
-
-	// get the file from the system 
+	// get the file from the system
 	public static class BasicFile extends BaseFile {
 		public BasicFile(String rootPath) {
 			super(rootPath);
@@ -61,10 +66,8 @@ public class Handlers {
 		}
 	}
 
-
-
-
-	// appends ".json" to the request before getting the proper file from the file system 
+	// appends ".json" to the request before getting the proper file from the
+	// file system
 	public static class JSONAppender extends BaseFile {
 		public JSONAppender(String rootPath) {
 			super(rootPath);
@@ -72,8 +75,10 @@ public class Handlers {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			System.out.println(this.rootPath + " ___ " + this.getRequestPath(exchange));
-			this.sendFile(exchange, this.rootPath + this.getRequestPath(exchange) + ".json");
+			System.out.println(this.rootPath + " ___ "
+					+ this.getRequestPath(exchange));
+			this.sendFile(exchange,
+					this.rootPath + this.getRequestPath(exchange) + ".json");
 		}
 	}
 }

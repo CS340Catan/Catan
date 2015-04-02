@@ -39,7 +39,8 @@ public class ChatController extends Controller implements IChatController,
 
 	@Override
 	public void sendMessage(String message) {
-		ChatMessage chatMessage = new ChatMessage(UserPlayerInfo.getSingleton().getPlayerIndex(), message);
+		ChatMessage chatMessage = new ChatMessage(UserPlayerInfo.getSingleton()
+				.getPlayerIndex(), message);
 		try {
 			server.sendChat(chatMessage);
 		} catch (ServerResponseException e) {

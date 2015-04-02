@@ -25,7 +25,7 @@ import shared.utils.Serializer;
  * @author Seth White
  *
  */
-public class ClientModel extends AbstractModel{
+public class ClientModel extends AbstractModel {
 	public static Notifier notifier = null;
 	private static ClientModel clientModel = null;// singleton instance of
 													// ClientModel
@@ -65,7 +65,7 @@ public class ClientModel extends AbstractModel{
 		ClientModel.clientModel = clientModel;
 		setUserPlayerInfoIndex(clientModel);
 		if (notifier != null)
-		notifier.modelUpdated();
+			notifier.modelUpdated();
 	}
 
 	public String toString() {

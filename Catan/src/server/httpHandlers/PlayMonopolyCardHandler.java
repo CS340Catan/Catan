@@ -31,10 +31,12 @@ public class PlayMonopolyCardHandler implements IHttpHandler {
 		} else {
 
 			try {
-				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				String inputStreamString = HandlerUtil
+						.requestBodyToString(exchange);
 				PlayMonopolyParams playMonopolyParams = (PlayMonopolyParams) Serializer
-						.deserialize(inputStreamString, PlayMonopolyParams.class);
-				
+						.deserialize(inputStreamString,
+								PlayMonopolyParams.class);
+
 				ClientModel model = FacadeSwitch.getSingleton()
 						.playMonopolyCard(playMonopolyParams);
 				HandlerUtil.sendResponse(exchange, 200, model,

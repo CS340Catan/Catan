@@ -1,7 +1,5 @@
 package server.commands;
 
-import java.util.ArrayList;
-
 import server.facade.FacadeSwitch;
 import server.model.GameList;
 import server.model.RegisteredPlayers;
@@ -36,10 +34,12 @@ public class JoinGameCommand extends ICommand {
 	@Override
 	public void execute() throws ServerResponseException {
 		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
-		if(model==null){
-			throw new ServerResponseException("Cannot join game - Invalid game id.");
+		if (model == null) {
+			throw new ServerResponseException(
+					"Cannot join game - Invalid game id.");
 		}
-		String playerName = RegisteredPlayers.getSingleton().getPlayerName(playerID);
+		String playerName = RegisteredPlayers.getSingleton().getPlayerName(
+				playerID);
 		Player[] players = model.getPlayers();
 		int gameID = FacadeSwitch.getSingleton().getGameID();
 
@@ -51,22 +51,24 @@ public class JoinGameCommand extends ICommand {
 
 		if (players == null) {
 			players = new Player[1];
-			players[0] = new Player(0, playerID, 4, 5, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0), false,
-					new ResourceList(0, 0, 0, 0, 0), 15, 0, 0);
+			players[0] = new Player(0, playerID, 4, 5, playerName, color,
+					false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(
+							0, 0, 0, 0, 0), false, new ResourceList(0, 0, 0, 0,
+							0), 15, 0, 0);
 			model.setPlayers(players);
 			FacadeSwitch.getSingleton().getModelMap().put(gameID, model);
 			for (GameSummary game : GameList.getSingleton().getGames()) {
 				if (game.getId() == gameID) {
-					PlayerSummary playerSummary = new PlayerSummary(color, playerName, playerID);
-					PlayerSummary[] playerSummaries = new PlayerSummary[4]; 
-					playerSummaries[0] = playerSummary; 
+					PlayerSummary playerSummary = new PlayerSummary(color,
+							playerName, playerID);
+					PlayerSummary[] playerSummaries = new PlayerSummary[4];
+					playerSummaries[0] = playerSummary;
 					game.setPlayers(playerSummaries);
 					break;
 				}
 			}
-		} 
-		else {
-			if(players.length != 4){
+		} else {
+			if (players.length != 4) {
 				Player firstPlayer = players[0];
 				players = new Player[4];
 				players[0] = firstPlayer;
@@ -76,7 +78,8 @@ public class JoinGameCommand extends ICommand {
 				 * If player_i's name matches the inputer player, then set the
 				 * temporary index value equal to i and continue the loop.
 				 */
-				if (players[i] != null && players[i].getName().equals(playerName)) {
+				if (players[i] != null
+						&& players[i].getName().equals(playerName)) {
 					playerIsInTheGame_Index = i;
 				}
 
@@ -86,12 +89,15 @@ public class JoinGameCommand extends ICommand {
 				 * with the inputed player and return.
 				 */
 				else if (players[i] == null && playerIsInTheGame_Index == -1) {
-					players[i] = new Player(i, playerID, 4, 5, playerName, color, false, 0, new DevCardList(0, 0, 0, 0, 0), new DevCardList(0, 0, 0, 0, 0),
-							false, new ResourceList(0, 0, 0, 0, 0), 15, 0, 0);
+					players[i] = new Player(i, playerID, 4, 5, playerName,
+							color, false, 0, new DevCardList(0, 0, 0, 0, 0),
+							new DevCardList(0, 0, 0, 0, 0), false,
+							new ResourceList(0, 0, 0, 0, 0), 15, 0, 0);
 					model.setPlayers(players);
 					for (GameSummary game : GameList.getSingleton().getGames()) {
 						if (game.getId() == gameID) {
-							game.getPlayers()[i] = new PlayerSummary(color, playerName, playerID);
+							game.getPlayers()[i] = new PlayerSummary(color,
+									playerName, playerID);
 							break;
 						}
 					}
@@ -104,8 +110,10 @@ public class JoinGameCommand extends ICommand {
 				 * matches 'color', then throw an exception stating that the
 				 * inputed color is invalid.
 				 */
-				else if (players[i] != null && players[i].getColorString().equals(color)) {
-					throw new ServerResponseException("A player with that color already exists.");
+				else if (players[i] != null
+						&& players[i].getColorString().equals(color)) {
+					throw new ServerResponseException(
+							"A player with that color already exists.");
 				}
 			}
 
@@ -118,7 +126,8 @@ public class JoinGameCommand extends ICommand {
 				players[playerIsInTheGame_Index].setColor(color);
 				for (GameSummary game : GameList.getSingleton().getGames()) {
 					if (game.getId() == gameID) {
-						game.getPlayers()[playerIsInTheGame_Index].setColor(color);
+						game.getPlayers()[playerIsInTheGame_Index]
+								.setColor(color);
 						break;
 					}
 				}

@@ -43,7 +43,7 @@ public class PlayMonumentCommand extends ICommand {
 			int postMonumentCount = preMonumentCount - 1;
 			model.getPlayers()[playerIndex].getOldDevCards().setMonument(
 					postMonumentCount);
-			
+
 			/*
 			 * Update the player's points, by adding one for the monument just
 			 * played.

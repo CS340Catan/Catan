@@ -31,20 +31,22 @@ public class PlaySoldierCardHandler implements IHttpHandler {
 		} else {
 
 			try {
-				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				String inputStreamString = HandlerUtil
+						.requestBodyToString(exchange);
 				MoveSoldierParams moveSoldierParam = (MoveSoldierParams) Serializer
 						.deserialize(inputStreamString, MoveSoldierParams.class);
-				
+
 				ClientModel model = FacadeSwitch.getSingleton()
 						.playSoldierCard(moveSoldierParam);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400,
-						"Failed to play soldier card." + e.getMessage(), String.class);
+						"Failed to play soldier card." + e.getMessage(),
+						String.class);
 				e.printStackTrace();
 			}
-		}		
+		}
 	}
 
 }

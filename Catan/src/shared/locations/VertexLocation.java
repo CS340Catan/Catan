@@ -15,7 +15,7 @@ public class VertexLocation {
 		setHexLoc(hexLoc);
 		setDir(dir);
 	}
-	
+
 	public VertexLocation() {
 		hexLoc = new HexLocation(0, 0);
 		dir = VertexDirection.East;

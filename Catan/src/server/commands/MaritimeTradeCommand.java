@@ -27,8 +27,10 @@ public class MaritimeTradeCommand extends ICommand {
 	public MaritimeTradeCommand(MaritimeTradeParams params, int gameID) {
 
 		this.playerIndex = params.getPlayerIndex();
-		this.input = ResourceType.valueOf(params.getInputResource().toUpperCase());
-		this.output = ResourceType.valueOf(params.getOutputResource().toUpperCase());
+		this.input = ResourceType.valueOf(params.getInputResource()
+				.toUpperCase());
+		this.output = ResourceType.valueOf(params.getOutputResource()
+				.toUpperCase());
 		this.ratio = params.getRatio();
 		this.gameID = gameID;
 		this.setType("MaritimeTrade");
@@ -53,12 +55,13 @@ public class MaritimeTradeCommand extends ICommand {
 			 */
 			model.addResourceFromBank(playerIndex, input, -ratio);
 			model.addResourceFromBank(playerIndex, output, 1);
-			
+
 			/*
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " traded by sea",name));
+			model.getLog().addLine(
+					new MessageLine(name + " traded by sea", name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

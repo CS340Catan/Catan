@@ -71,8 +71,8 @@ public class RollController extends Controller implements IRollController,
 			getResultView().showModal();
 			getResultView().setRollValue(rollVal);
 		} else {
-			JOptionPane.showMessageDialog(null, "No can do", "No can do - rollctrl",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "No can do",
+					"No can do - rollctrl", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

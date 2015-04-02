@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import server.facade.FacadeSwitch;
 import server.model.GameList;
@@ -42,7 +41,7 @@ public class SaveGameCommand extends ICommand {
 	public void execute() throws ServerResponseException {
 		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		model.setGameID(FacadeSwitch.getSingleton().getGameID());
-		int id  = model.getGameID();
+		int id = model.getGameID();
 		GameSummary summary = GameList.getSingleton().getGameByID(id);
 		/*
 		 * Grab the model object and save the model to disk for storage.
@@ -51,18 +50,17 @@ public class SaveGameCommand extends ICommand {
 			File dir = new File("./saves");
 			dir.mkdir();
 			File file = new File("./saves/" + fileName + ".txt");
-			if(file.exists()){
+			if (file.exists()) {
 				throw new ServerResponseException("File name already exists.");
 			}
-			PrintWriter fileMaker = new PrintWriter(fileName+".txt", "UTF-8");//wasn't working on my comp till I added this			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-			
+
 			String jsonModel = Serializer.serialize(model);
 			String jsonSummary = Serializer.serialize(summary);
-//			writer.write(jsonModel);
+			// writer.write(jsonModel);
 			writer.write(jsonModel + "\n" + jsonSummary);
 			writer.close();
-			
+
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			throw new ServerResponseException("Could not save to file saves/"

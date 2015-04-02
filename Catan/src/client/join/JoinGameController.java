@@ -62,14 +62,13 @@ public class JoinGameController extends Controller implements
 		try {
 			GameInfo[] gameInfoList = null;
 			GameSummary[] gameList = server.getGameList();
-			
-			if(gameList != null){
+
+			if (gameList != null) {
 				gameInfoList = new GameInfo[gameList.length];
 				for (int i = 0; i < gameList.length; i++) {
 					gameInfoList[i] = gameList[i].toGameInfo();
 				}
-			}
-			else {
+			} else {
 				gameInfoList = new GameInfo[0];
 			}
 
@@ -225,7 +224,7 @@ public class JoinGameController extends Controller implements
 			 * Initiate poller to start polling once the player has joined the
 			 * game.
 			 */
-			
+
 			/*
 			 * Package the join game parameters to be sent over to the server.
 			 * These values can be grabbed from the storedGame id as well as the
@@ -269,11 +268,11 @@ public class JoinGameController extends Controller implements
 	}
 
 	public void updateGameList(GameInfo[] newGameList) {
-		for(GameInfo info : newGameList){
+		for (GameInfo info : newGameList) {
 			ArrayList<PlayerInfo> tempPlayers = new ArrayList<PlayerInfo>();
-			for(PlayerInfo player : info.getPlayers()){
-				if(player.getName() != null){
-					tempPlayers.add(player);					
+			for (PlayerInfo player : info.getPlayers()) {
+				if (player.getName() != null) {
+					tempPlayers.add(player);
 				}
 			}
 			info.setPlayers(tempPlayers);

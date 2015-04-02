@@ -16,8 +16,9 @@ public class EdgeLocation {
 		setDir(dir);
 		direction = dir.toString();
 	}
-	
-	public EdgeLocation(){};
+
+	public EdgeLocation() {
+	};
 
 	public void convertToPrimitives() {
 		x = hexLoc.getX();

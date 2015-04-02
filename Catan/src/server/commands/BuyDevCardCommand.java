@@ -63,12 +63,15 @@ public class BuyDevCardCommand extends ICommand {
 			 */
 			ResourceList devCardCost = new ResourceList(0, 1, 1, 1, 0);
 			player.getResources().addResources(devCardCost.invertList());
-			
+
 			/*
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " bought a development card.",name));
+			model.getLog()
+					.addLine(
+							new MessageLine(name
+									+ " bought a development card.", name));
 
 			/*
 			 * Add this command to the list of commands currently stored inside

@@ -22,11 +22,11 @@ public class PollerTest {
 	@Before
 	public void setUp() throws Exception {
 		// create and populate model
-		
+
 		clientModel = Serializer.deserializeClientModel(clientModelJson);
 		mockServerModel = Serializer.deserializeClientModel(clientModelJson);
 		clientModelController = new ClientModelFacade();
-		
+
 		server = new MockServer(mockServerModel);
 	}
 
@@ -42,8 +42,7 @@ public class PollerTest {
 
 		poller.updateModel();
 		// update the model
-		assertEquals(clientModel.getVersion(),
-				originalVersion);
+		assertEquals(clientModel.getVersion(), originalVersion);
 		// the model should be the same as before(the poller shouldn't have
 		// updated it)
 		System.out.println("Testing Poller Updating 2");

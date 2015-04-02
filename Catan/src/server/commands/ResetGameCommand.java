@@ -2,8 +2,6 @@ package server.commands;
 
 import server.facade.FacadeSwitch;
 import server.model.ServerModel;
-import server.model.ServerModelController;
-import shared.definitions.CatanColor;
 import shared.model.DevCardList;
 import shared.model.Player;
 import shared.model.ResourceList;
@@ -16,7 +14,6 @@ import shared.model.ResourceList;
  */
 
 public class ResetGameCommand extends ICommand {
-
 
 	public ResetGameCommand() {
 		this.setType("ResetGame");
@@ -66,7 +63,8 @@ public class ResetGameCommand extends ICommand {
 		 * Overwrite the oldModel with the newModel, such that the model stored
 		 * within the serverFacade is the reset game.
 		 */
-		FacadeSwitch.getSingleton().getModelMap().put(newModel.getGameID(), newModel);
+		FacadeSwitch.getSingleton().getModelMap()
+				.put(newModel.getGameID(), newModel);
 	}
 
 }

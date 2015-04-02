@@ -5,7 +5,6 @@ import shared.model.Road;
 import shared.model.VertexObject;
 import client.data.UserPlayerInfo;
 import client.map.MapController;
-import client.map.MapView;
 import client.model.ClientModel;
 import client.model.ClientModelFacade;
 
@@ -15,7 +14,7 @@ public class FirstRoundState implements IMapState {
 
 	@Override
 	public void initialize(MapController mapController) {
-		
+
 	}
 
 	@Override

@@ -16,9 +16,10 @@ public class ListGameHandler implements IHttpHandler {
 			GameSummary[] list = FacadeSwitch.getSingleton().getGameList();
 			HandlerUtil.sendResponse(exchange, 200, list, GameSummary[].class);
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, "Failed to get game", String.class);
+			HandlerUtil.sendResponse(exchange, 400, "Failed to get game",
+					String.class);
 			e.printStackTrace();
-		}	
+		}
 	}
 
 }

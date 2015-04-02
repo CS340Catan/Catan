@@ -31,17 +31,20 @@ public class PlayYearOfPlentyCardHandler implements IHttpHandler {
 		} else {
 
 			try {
-				String inputStreamString = HandlerUtil.requestBodyToString(exchange);
+				String inputStreamString = HandlerUtil
+						.requestBodyToString(exchange);
 				YearOfPlentyParams yearOfPlentyParam = (YearOfPlentyParams) Serializer
-						.deserialize(inputStreamString, YearOfPlentyParams.class);
-				
+						.deserialize(inputStreamString,
+								YearOfPlentyParams.class);
+
 				ClientModel model = FacadeSwitch.getSingleton()
 						.playYearOfPlentyCard(yearOfPlentyParam);
 				HandlerUtil.sendResponse(exchange, 200, model,
 						ClientModel.class);
 			} catch (ServerResponseException e) {
 				HandlerUtil.sendResponse(exchange, 400,
-						"Failed to play year of plenty card." + e.getMessage(), String.class);
+						"Failed to play year of plenty card." + e.getMessage(),
+						String.class);
 				e.printStackTrace();
 			}
 		}

@@ -43,7 +43,7 @@ public class PlaySoldierCommand extends ICommand {
 		ServerModelController modelController = new ServerModelController(model);
 		String oldStatus = model.getTurnTracker().getStatus();
 		model.getTurnTracker().setStatus("Robbing");
-		if (victimIndex == -1){
+		if (victimIndex == -1) {
 			model.getTurnTracker().setStatus(oldStatus);
 			Player player = model.getPlayers()[playerIndex];
 
@@ -66,12 +66,12 @@ public class PlaySoldierCommand extends ICommand {
 			 * player.
 			 */
 			model.getMap().setRobber(this.location);
-			
+
 			/*
 			 * Re-allocate the largest army card/points.
 			 */
 			model.reallocateLargestArmy();
-			
+
 			/*
 			 * Set the player's has played development card boolean equal to
 			 * true.
@@ -91,9 +91,8 @@ public class PlaySoldierCommand extends ICommand {
 			 */
 			model.getCommands().add(this);
 			model.incrementVersion();
-		}
-		else if (modelController.canPlaySoldierCard(this.location, playerIndex,
-				this.victimIndex)) {
+		} else if (modelController.canPlaySoldierCard(this.location,
+				playerIndex, this.victimIndex)) {
 			model.getTurnTracker().setStatus(oldStatus);
 			Player player = model.getPlayers()[playerIndex];
 
@@ -144,7 +143,7 @@ public class PlaySoldierCommand extends ICommand {
 			 * Re-allocate the largest army card/points.
 			 */
 			model.reallocateLargestArmy();
-			
+
 			/*
 			 * Set the player's has played development card boolean equal to
 			 * true.

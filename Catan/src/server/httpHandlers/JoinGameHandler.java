@@ -23,30 +23,36 @@ public class JoinGameHandler implements IHttpHandler {
 		logger.info("server/httpHandlers/JoinGameHandler - entering Handle");
 
 		try {
-			
-			String inputStreamString = HandlerUtil.requestBodyToString(exchange);
-			JoinGameParams joinParams = (JoinGameParams) Serializer.deserialize(inputStreamString, JoinGameParams.class);
-			
+
+			String inputStreamString = HandlerUtil
+					.requestBodyToString(exchange);
+			JoinGameParams joinParams = (JoinGameParams) Serializer
+					.deserialize(inputStreamString, JoinGameParams.class);
+
 			FacadeSwitch.getSingleton().setGameID(joinParams.getId());
 			int playerId = HandlerUtil.getPlayerID(exchange);
 			FacadeSwitch.getSingleton().setPlayerID(playerId);
 			FacadeSwitch.getSingleton().joinGame(joinParams);
-			
-			ArrayList<String> values=new ArrayList<String>();
-			String gameCookie = URLEncoder.encode(joinParams.getId()+"","UTF-8");
+
+			ArrayList<String> values = new ArrayList<String>();
+			String gameCookie = URLEncoder.encode(joinParams.getId() + "",
+					"UTF-8");
 			gameCookie = "catan.game=" + gameCookie + ";Path=/;";
 			values.add(gameCookie);
-			exchange.getResponseHeaders().put("Set-Cookie",values);
-			
+			exchange.getResponseHeaders().put("Set-Cookie", values);
+
 			HandlerUtil.sendResponse(exchange, 200, "Success", String.class);
 		} catch (ServerResponseException e) {
-			HandlerUtil.sendResponse(exchange, 400, e.getMessage(), String.class);
+			HandlerUtil.sendResponse(exchange, 400, e.getMessage(),
+					String.class);
 			e.printStackTrace();
-		} catch (NullPointerException e){
-			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - Error with cookie", String.class);
+		} catch (NullPointerException e) {
+			HandlerUtil.sendResponse(exchange, 400,
+					"Cannot join game - Error with cookie", String.class);
 			e.printStackTrace();
-		} catch (Exception e){
-			HandlerUtil.sendResponse(exchange, 400, "Cannot join game - Bad json or cookie", String.class);
+		} catch (Exception e) {
+			HandlerUtil.sendResponse(exchange, 400,
+					"Cannot join game - Bad json or cookie", String.class);
 			e.printStackTrace();
 		}
 		logger.info("***server/httpHandlers/JoinGameHandler - exiting Handle");

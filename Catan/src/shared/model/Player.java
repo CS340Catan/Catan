@@ -171,8 +171,8 @@ public class Player {
 
 		return catanColor;
 	}
-	
-	public String getColorString(){
+
+	public String getColorString() {
 		return this.color;
 	}
 
@@ -298,7 +298,7 @@ public class Player {
 
 		return playerInfo;
 	}
-	
+
 	public int getNumberRoadsBuilt() {
 		return (15 - getRoads());
 	}

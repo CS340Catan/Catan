@@ -48,17 +48,19 @@ public class LoadGameCommand extends ICommand {
 			BufferedReader br = new BufferedReader(reader);
 			String jsonModel = br.readLine();
 			String jsonSummary = br.readLine();
-			if(jsonModel == null){
+			if (jsonModel == null) {
 				br.close();
 				throw new ServerResponseException("Tried to load empty file!");
 			}
-			ServerModel model = (ServerModel)  Serializer.deserialize(jsonModel,ServerModel.class);
+			ServerModel model = (ServerModel) Serializer.deserialize(jsonModel,
+					ServerModel.class);
 			int id = model.getGameID();
 			FacadeSwitch.getSingleton().getModelMap().put(id, model);
-			GameSummary summary = (GameSummary) Serializer.deserialize(jsonSummary, GameSummary.class);
+			GameSummary summary = (GameSummary) Serializer.deserialize(
+					jsonSummary, GameSummary.class);
 			GameList.getSingleton().addGame(summary);
 			br.close();
-			
+
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			throw new ServerResponseException("Could not access the file "

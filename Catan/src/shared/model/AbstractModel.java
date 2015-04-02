@@ -45,7 +45,7 @@ public abstract class AbstractModel {
 				hasFourPlayers = false;
 			}
 		}
-		if(this.getPlayers().length != 4){
+		if (this.getPlayers().length != 4) {
 			hasFourPlayers = false;
 		}
 		return hasFourPlayers;

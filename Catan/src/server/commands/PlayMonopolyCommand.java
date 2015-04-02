@@ -1,7 +1,6 @@
 package server.commands;
 
 import server.facade.FacadeSwitch;
-import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.PlayMonopolyParams;
@@ -23,7 +22,8 @@ public class PlayMonopolyCommand extends ICommand {
 	ResourceType resource;
 
 	public PlayMonopolyCommand(PlayMonopolyParams params) {
-		this.resource = ResourceType.valueOf(params.getResource().toUpperCase());
+		this.resource = ResourceType
+				.valueOf(params.getResource().toUpperCase());
 		this.playerIndex = params.getPlayerIndex();
 		this.setType("PlayMonopoly");
 	}
@@ -101,14 +101,15 @@ public class PlayMonopolyCommand extends ICommand {
 			 * Update game history
 			 */
 			String name = model.getPlayers()[playerIndex].getName();
-			model.getLog().addLine(new MessageLine(name + " played a monopoly card.",name));
-			
-			
+			model.getLog().addLine(
+					new MessageLine(name + " played a monopoly card.", name));
+
 			/*
-			 * Set the player's has played development card boolean equal to true.
+			 * Set the player's has played development card boolean equal to
+			 * true.
 			 */
 			player.setPlayedDevCard(true);
-			
+
 			/*
 			 * Add this command to the list of commands currently stored inside
 			 * the model.

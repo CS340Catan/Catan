@@ -1,7 +1,6 @@
 package server.commands;
 
 import server.facade.FacadeSwitch;
-import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.TradeOfferParams;

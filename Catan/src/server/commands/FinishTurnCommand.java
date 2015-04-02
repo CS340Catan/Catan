@@ -1,14 +1,12 @@
 package server.commands;
 
 import server.facade.FacadeSwitch;
-import server.facade.ServerFacade;
 import server.model.ServerModel;
 import server.model.ServerModelController;
 import shared.communication.UserActionParams;
 import shared.model.DevCardList;
 import shared.model.MessageLine;
 import shared.model.Player;
-import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 
 /**
@@ -47,7 +45,7 @@ public class FinishTurnCommand extends ICommand {
 	public void execute() throws ServerResponseException {
 		ServerModel model = FacadeSwitch.getSingleton().getServerModel();
 		ServerModelController controller = new ServerModelController(model);
-		
+
 		if (controller.canFinishTurn(this.playerIndex)) {
 			Player player = model.getPlayers()[playerIndex];
 
@@ -73,13 +71,14 @@ public class FinishTurnCommand extends ICommand {
 			 * is able to roll the dice. Set this within the model TurnTracker,
 			 * as well set the status to 'Rolling'.
 			 */
-			
+
 			int nextPlayer = playerIndex + 1;
 			if (nextPlayer > 3) {
 				nextPlayer = 0;
 			}
-			
-			if (model.getTurnTracker().getStatus().toUpperCase().equals("SECONDROUND")){
+
+			if (model.getTurnTracker().getStatus().toUpperCase()
+					.equals("SECONDROUND")) {
 				nextPlayer = playerIndex - 1;
 			}
 

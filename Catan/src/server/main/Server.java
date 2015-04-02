@@ -60,7 +60,7 @@ public class Server {
 
 	static {
 		Level logLevel = Level.OFF;
-		//Level logLevel = Level.OFF;
+		// Level logLevel = Level.OFF;
 		ServerLogger = Logger.getLogger("CatanServer");
 		ServerLogger.setLevel(logLevel);
 		ServerLogger.setUseParentHandlers(false);
@@ -81,14 +81,14 @@ public class Server {
 		} else {
 			new Server().run();
 		}
-		if(args.length > 1) {
-			if(args[1].equals("-mock")) {
-				ServerModel model = (ServerModel) Serializer.deserialize(clientModelJson, ServerModel.class);
+		if (args.length > 1) {
+			if (args[1].equals("-mock")) {
+				ServerModel model = (ServerModel) Serializer.deserialize(
+						clientModelJson, ServerModel.class);
 				FacadeSwitch.setMockServer(model);
 				System.out.println("Mock Server Running");
 			}
-		}
-		else {
+		} else {
 			FacadeSwitch.getSingleton().setFirstGame();
 		}
 	}
@@ -114,12 +114,12 @@ public class Server {
 	 * starts the server
 	 */
 	private void run() {
-		
+
 		try {
 			httpServer = HttpServer.create(new InetSocketAddress(portNumber),
 					MAX_WAITING_CONNECTIONS);
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 
@@ -166,10 +166,17 @@ public class Server {
 				new MaritimeTradeHandler());
 		httpServer.createContext("/moves/discardCards",
 				new DiscardCardsHandler());
-		httpServer.createContext("/util/changeLogLevel",
-				new LogLevelHandler());
+		httpServer.createContext("/util/changeLogLevel", new LogLevelHandler());
 
 		httpServer.start();
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
 	}
 
 }

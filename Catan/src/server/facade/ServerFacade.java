@@ -235,7 +235,8 @@ public class ServerFacade implements IServerFacade {
 
 	/**
 	 * Clears the command history of the current game
-	 * @param gameID 
+	 * 
+	 * @param gameID
 	 * 
 	 * @return a full, reset ClientModel of the current game
 	 */

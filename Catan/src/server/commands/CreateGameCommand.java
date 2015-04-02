@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 import server.facade.FacadeSwitch;
-import server.facade.IServerFacade;
 import server.model.GameList;
 import server.model.ServerModel;
 import shared.communication.CreateGameParams;
@@ -39,20 +38,23 @@ public class CreateGameCommand extends ICommand {
 	/**
 	 * Generates a new game id Adds new game to the game list. Adds a new key =>
 	 * pair to the game map (id=>this new game)
-	 * @throws ServerResponseException 
+	 * 
+	 * @throws ServerResponseException
 	 */
 	@Override
 	public void execute() throws ServerResponseException {
 		int gameID = IDGenerator.generateGameID();
-		GameSummary gameSummary = new GameSummary(params.getname(), gameID, null);
-		
+		GameSummary gameSummary = new GameSummary(params.getname(), gameID,
+				null);
+
 		/*
 		 * Check if that name already exists
 		 */
-		if(GameList.getSingleton().getGame(params.getname()) != null){
-			throw new ServerResponseException("A game by that name already exists!");
+		if (GameList.getSingleton().getGame(params.getname()) != null) {
+			throw new ServerResponseException(
+					"A game by that name already exists!");
 		}
-		
+
 		GameList.getSingleton().addGame(gameSummary);
 		serverModel = new ServerModel();
 		this.addPorts();

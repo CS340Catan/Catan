@@ -20,9 +20,9 @@ import client.model.ClientModel;
  * 
  */
 public class ServerProxy implements IServer {
-	
+
 	private static Logger logger;
-	
+
 	static {
 		logger = Logger.getLogger("CatanClient");
 		logger.setLevel(Level.OFF);
@@ -77,7 +77,7 @@ public class ServerProxy implements IServer {
 	 * @post ClientModel is updated
 	 */
 	public ClientModel updateModel(int version) throws ServerResponseException {
-		//logger.info("client/communicator/ServerProxy - entering updateModel");
+		// logger.info("client/communicator/ServerProxy - entering updateModel");
 		String jsonResponseString = httpCommunicator.doGet(
 				"/game/model?version=" + version, null);
 		//
@@ -86,17 +86,18 @@ public class ServerProxy implements IServer {
 		if (jsonResponseString != null) {
 			if (!jsonResponseString.equals("")) {
 				if (!jsonResponseString.equals("\"true\"")) {
-					model = Serializer.deserializeClientModel(jsonResponseString);
+					model = Serializer
+							.deserializeClientModel(jsonResponseString);
 				}
 			}
 		}
-		//logger.info("client/communicator/ServerProxy - entering updateModel");
+		// logger.info("client/communicator/ServerProxy - entering updateModel");
 		return model;
 	}
 
 	public ClientModel updateModelNoVersionCheck()
 			throws ServerResponseException {
-		//logger.info("client/communicator/ServerProxy - entering updateModelNoVersionCheck");
+		// logger.info("client/communicator/ServerProxy - entering updateModelNoVersionCheck");
 		String jsonResponseString = httpCommunicator.doGet("/game/model", null);
 		ClientModel model = null; // Returns null if current model is already
 									// correct or there was an error
@@ -105,7 +106,7 @@ public class ServerProxy implements IServer {
 				model = Serializer.deserializeClientModel(jsonResponseString);
 			}
 		}
-		//logger.info("client/communicator/ServerProxy - exiting updateModelNoVersionCheck");
+		// logger.info("client/communicator/ServerProxy - exiting updateModelNoVersionCheck");
 		return model;
 	}
 
@@ -141,7 +142,7 @@ public class ServerProxy implements IServer {
 		logger.info("client/communicator/ServerProxy - entering Register");
 		String jsonString = Serializer.serialize(credentials);
 		String response = httpCommunicator.doPost("/user/register", jsonString);
-		
+
 		logger.info("client/communicator/ServerProxy - exiting Register");
 		if (response == null) {
 			return false;
@@ -378,10 +379,11 @@ public class ServerProxy implements IServer {
 	 * @return
 	 */
 	@Override
-	public ClientModel sendChat(ChatMessage chatMessage) throws ServerResponseException {
-		//int playerId = UserPlayerInfo.getSingleton().getPlayerIndex();
-		//String jsonString = Serializer.serialize(new ChatMessage(playerId,
-				//content));
+	public ClientModel sendChat(ChatMessage chatMessage)
+			throws ServerResponseException {
+		// int playerId = UserPlayerInfo.getSingleton().getPlayerIndex();
+		// String jsonString = Serializer.serialize(new ChatMessage(playerId,
+		// content));
 		String jsonString = Serializer.serialize(chatMessage);
 		String response = httpCommunicator
 				.doPost("/moves/sendChat", jsonString);
@@ -455,7 +457,7 @@ public class ServerProxy implements IServer {
 		int playerIndex = UserPlayerInfo.getSingleton().getPlayerIndex();
 		String jsonString = Serializer.serialize(new RollParams(playerIndex,
 				number));
-		
+
 		String response = httpCommunicator.doPost("/moves/rollNumber",
 				jsonString);
 		logger.info("made it here");
