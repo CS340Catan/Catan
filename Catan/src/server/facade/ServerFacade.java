@@ -81,6 +81,7 @@ public class ServerFacade implements IServerFacade {
 	private static HashMap<Integer, ServerModel> modelMap = new HashMap<Integer, ServerModel>();
 	private int currentPlayerID; // !!!!!NOT THE INDEX WITHIN THE GAME!!!!!!!
 	private static Logger logger;
+	
 	static {
 		logger = Logger.getLogger("CatanServer");
 	}
