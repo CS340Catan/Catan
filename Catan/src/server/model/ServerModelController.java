@@ -1177,7 +1177,7 @@ public class ServerModelController {
 	public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
 		if (isPlayerTurn(playerIndex)
 				&& model.getPlayers()[playerIndex].getResources().contains(
-						resourceList.invertList())
+						resourceList)
 				&& model.getTurnTracker().getStatus().equals("Playing")) {
 			return true;
 		}
