@@ -80,14 +80,14 @@ public class Server {
 	}
 	
 	/**
-	 * param pluginType is the name of the plugin you want to use
+	 * param pluginName is the name of the plugin you want to use
 	 * calls getAvailablePlugins
-	 * searches through the list for the PluginDescription that has name == pluginType
+	 * searches through the list for the PluginDescription that has name == pluginName
 	 * calls getPlugin sending in the correct PluginDescription
 	 * calls setPersistance on the ServerFacade sending in the IPersistance returned by getPlugin
 	 * @post ServerFacade contains the correct IPersistence class
 	 */
-	private void loadPlugin(String pluginType) {
+	private void loadPlugin(String pluginName) {
 		
 	}
 

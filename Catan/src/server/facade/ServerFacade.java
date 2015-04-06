@@ -825,10 +825,6 @@ public class ServerFacade implements IServerFacade {
 	public void setPersistance(IPersistance persistance) {
 		this.persistance = persistance;
 	}
-	
-	/**
-	 * 
-	 */
 
 	private void saveCommand(ICommand command) {
 		if (this.newCommands.size() > frequency) {
