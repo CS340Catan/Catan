@@ -35,7 +35,8 @@ public class SQLPersistance implements IPersistance {
 	}
 
 	@Override
-	public void getGame(int gameID) {
+	public ServerModel getGame(int gameID) {
+		return null;
 		// TODO Auto-generated method stub
 
 	}

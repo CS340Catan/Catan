@@ -9,7 +9,7 @@ import shared.communication.UserCredentials;
 public class TextPersistance implements IPersistance {
 
 	private TextFactory factory;
-	
+
 	@Override
 	public void saveGames(List<ServerModel> gameList, RegisteredPlayers players) {
 		// TODO Auto-generated method stub
@@ -35,9 +35,9 @@ public class TextPersistance implements IPersistance {
 	}
 
 	@Override
-	public void getGame(int gameID) {
+	public ServerModel getGame(int gameID) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override
@@ -63,13 +63,13 @@ public class TextPersistance implements IPersistance {
 	@Override
 	public void clearGames() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void clearUsers() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

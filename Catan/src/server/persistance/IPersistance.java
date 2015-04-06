@@ -7,21 +7,49 @@ import server.model.ServerModel;
 import shared.communication.UserCredentials;
 
 public interface IPersistance {
+	/**
+	 * @param gameList
+	 * @param players
+	 */
 	public void saveGames(List<ServerModel> gameList, RegisteredPlayers players);
-	
+
+	/**
+	 * @param game
+	 */
 	public void updateGame(ServerModel game);
-	
+
+	/**
+	 * @param newUser
+	 */
 	public void addPlayer(UserCredentials newUser);
-	
+
+	/**
+	 * @param game
+	 */
 	public void addGame(ServerModel game);
-	
-	public void getGame(int gameID);
-	
+
+	/**
+	 * @param gameID
+	 */
+	public ServerModel getGame(int gameID);
+
+	/**
+	 * 
+	 */
 	public void getPlayers();
-	
+
+	/**
+	 * 
+	 */
 	public void getGames();
-	
+
+	/**
+	 * 
+	 */
 	public void clearGames();
-	
+
+	/**
+	 * 
+	 */
 	public void clearUsers();
 }

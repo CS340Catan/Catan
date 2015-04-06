@@ -1,5 +1,7 @@
 package server.persistance;
 
+import server.DAO.IGameDAO;
+import server.DAO.IUserDAO;
 import server.DAO.SQLGameDAO;
 import server.DAO.SQLUserDAO;
 
