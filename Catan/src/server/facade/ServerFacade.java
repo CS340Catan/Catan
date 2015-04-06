@@ -82,7 +82,9 @@ public class ServerFacade implements IServerFacade {
 	private int currentPlayerID; // !!!!!NOT THE INDEX WITHIN THE GAME!!!!!!!
 	private static Logger logger;
 	private IPersistance persistance;
-	
+	private List<ICommand> newCommands;
+	private int frequency;
+
 	static {
 		logger = Logger.getLogger("CatanServer");
 	}
@@ -822,6 +824,21 @@ public class ServerFacade implements IServerFacade {
 
 	public void setPersistance(IPersistance persistance) {
 		this.persistance = persistance;
+	}
+
+	private void saveCommand(ICommand command) {
+		if (this.newCommands.size() > frequency) {
+			this.persistance.saveGames(null, null);
+		}
+		this.newCommands.add(command);
+	}
+
+	public int getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(int numberOfCommandsBeforeSave) {
+		this.frequency = numberOfCommandsBeforeSave;
 	}
 
 }

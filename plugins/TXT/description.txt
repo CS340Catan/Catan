@@ -1,0 +1,3 @@
+name: TXTPlugin
+class: TXTPlugin.jar
+path: plugins/TXT/
