@@ -2,6 +2,8 @@ package server.persistance;
 
 import java.util.List;
 
+import server.DAO.IGameDAO;
+import server.DAO.IUserDAO;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
 import shared.communication.UserCredentials;
@@ -70,6 +72,18 @@ public class TextPersistance implements IPersistance {
 	public void clearUsers() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public IUserDAO getUserDAO() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IGameDAO getGameDAO() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

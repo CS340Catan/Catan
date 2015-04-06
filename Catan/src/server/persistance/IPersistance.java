@@ -2,6 +2,8 @@ package server.persistance;
 
 import java.util.List;
 
+import server.DAO.IGameDAO;
+import server.DAO.IUserDAO;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
 import shared.communication.UserCredentials;
@@ -63,12 +65,26 @@ public interface IPersistance {
 	public void getGames();
 
 	/**
-	 * 
+	 * Clears all games stored within the server.
 	 */
 	public void clearGames();
 
 	/**
-	 * 
+	 * Clears all games stored within the server.
 	 */
 	public void clearUsers();
+
+	/**
+	 * Get the user DAO stored within the factory.
+	 * 
+	 * @return User database access object.
+	 */
+	public IUserDAO getUserDAO();
+
+	/**
+	 * Get the game DAO stored within the factory.
+	 * 
+	 * @return Game database access object.
+	 */
+	public IGameDAO getGameDAO();
 }
