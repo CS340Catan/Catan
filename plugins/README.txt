@@ -1,1 +1,0 @@
-The plugins will be stored as JARs in this folder
