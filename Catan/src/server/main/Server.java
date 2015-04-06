@@ -72,14 +72,15 @@ public class Server {
 	
 	/**
 	 * @param commandsBetween is the number of commands executed between the state being saved (ex. 5 of 7)
-	 * 
+	 * calls setFrequency on ServerFacade, sending in commandsBetween
+	 * @post ServerFacade knows how many commands to execute before the state is saved
 	 */
 	private void setFrequency(int commandsBetween) {
 		
 	}
 	
 	/**
-	 * @param pluginType is the pathname to the correct jar
+	 * @param pluginType is the name of the plugin you want to use
 	 * calls getAvailablePlugins
 	 * searches through the list for the PluginDescription that has name == pluginType
 	 * calls registerPlugin sending in the correct PluginDescription
@@ -91,7 +92,7 @@ public class Server {
 
 	/**
 	 * @param args should have two strings
-	 * @param args[0] is the pathname to the correct jar
+	 * @param args[0] is the name of the plugin you want to use
 	 * @param args[1] is the number of commands executed between the state being saved (ex. 5 or 7)
 	 * @post server running on port 8081
 	 * @post loadPlugin() is called

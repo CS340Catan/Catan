@@ -1,0 +1,3 @@
+name: SQLPlugin
+class: SQLPlugin.jar
+path: plugins/SQL/
