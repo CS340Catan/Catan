@@ -71,9 +71,12 @@ public class Server {
 	}
 
 	/**
-	 * starts the server with port number 8081
-	 * 
-	 * @param args
+	 * @param args should have two strings
+	 * @param args[0] is the plugin type (either "sql" or "txt")
+	 * @param args[1] is the number of commands executed between the state being saved (ex. 5 or 7)
+	 * @post server running on port 8081
+	 * @post loadPlugin() is called
+	 * @post setFrequency() is called
 	 */
 	public static void main(String[] args) {
 		if (args.length > 0) {
