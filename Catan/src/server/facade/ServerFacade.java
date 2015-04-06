@@ -34,6 +34,7 @@ import server.commands.SendChatCommand;
 import server.model.GameList;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
+import server.persistance.IPersistance;
 import shared.communication.AcceptTradeParams;
 import shared.communication.AddAIParams;
 import shared.communication.AddAIResponse;
@@ -69,7 +70,6 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.Player;
-
 import shared.utils.Serializer;
 import shared.utils.ServerResponseException;
 import client.model.ClientModel;
@@ -81,6 +81,7 @@ public class ServerFacade implements IServerFacade {
 	private static HashMap<Integer, ServerModel> modelMap = new HashMap<Integer, ServerModel>();
 	private int currentPlayerID; // !!!!!NOT THE INDEX WITHIN THE GAME!!!!!!!
 	private static Logger logger;
+	private IPersistance persistance;
 	
 	static {
 		logger = Logger.getLogger("CatanServer");
@@ -813,6 +814,14 @@ public class ServerFacade implements IServerFacade {
 
 	public static void setLogger(Logger logger) {
 		ServerFacade.logger = logger;
+	}
+
+	public IPersistance getPersistance() {
+		return persistance;
+	}
+
+	public void setPersistance(IPersistance persistance) {
+		this.persistance = persistance;
 	}
 
 }

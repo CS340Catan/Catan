@@ -8,7 +8,7 @@ import shared.communication.UserCredentials;
 
 public class TextPersistance implements IPersistance {
 
-	
+	private TextFactory factory;
 	
 	@Override
 	public void saveGames(List<ServerModel> gameList, RegisteredPlayers players) {
@@ -50,6 +50,14 @@ public class TextPersistance implements IPersistance {
 	public void getGames() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public TextFactory getFactory() {
+		return factory;
+	}
+
+	public void setFactory(TextFactory factory) {
+		this.factory = factory;
 	}
 
 }
