@@ -11,6 +11,7 @@ import shared.communication.UserCredentials;
 public class SQLPersistance implements IPersistance {
 
 	private SQLFactory factory;
+	String DBConnection;
 	
 	@Override
 	public void saveGames(List<ServerModel> gameList, RegisteredPlayers players) {
