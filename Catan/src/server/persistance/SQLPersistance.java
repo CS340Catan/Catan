@@ -4,6 +4,8 @@ import java.util.List;
 
 import server.DAO.IGameDAO;
 import server.DAO.IUserDAO;
+import server.DAO.SQLGameDAO;
+import server.DAO.SQLUserDAO;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
 import shared.communication.UserCredentials;
@@ -11,6 +13,18 @@ import shared.communication.UserCredentials;
 public class SQLPersistance implements IPersistance {
 
 	private SQLFactory factory;
+	/**
+	 * Stores the SQLGameDAO so that the SQLPersistence can access the games on disk
+	 */
+	private SQLGameDAO gameDAO;
+	/**
+	 * Stores the SQLGameDAO so that the SQLPersistence can access the users on disk
+	 */
+	private SQLUserDAO userDAO;
+	
+	/**
+	 * Contains the information needed to access sql databse
+	 */
 	String DBConnection;
 	
 	@Override

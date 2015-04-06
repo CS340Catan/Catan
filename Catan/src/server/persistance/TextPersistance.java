@@ -4,6 +4,8 @@ import java.util.List;
 
 import server.DAO.IGameDAO;
 import server.DAO.IUserDAO;
+import server.DAO.TextGameDAO;
+import server.DAO.TextUserDAO;
 import server.model.RegisteredPlayers;
 import server.model.ServerModel;
 import shared.communication.UserCredentials;
@@ -11,6 +13,18 @@ import shared.communication.UserCredentials;
 public class TextPersistance implements IPersistance {
 
 	private TextFactory factory;
+	/**
+	 * Stores the TextGameDAO so that the TextPersistence can access the games on disk
+	 */
+	private TextGameDAO gameDAO;
+	/**
+	 * Stores the TextGameDAO so that the TextPersistence can access the users on disk
+	 */
+	private TextUserDAO userDAO;
+	/**
+	 * Contains the path to the folder where all save files will be kept.
+	 */
+	private String pathname;
 
 	@Override
 	public void saveGames(List<ServerModel> gameList, RegisteredPlayers players) {
