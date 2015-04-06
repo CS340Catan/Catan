@@ -60,4 +60,16 @@ public class TextPersistance implements IPersistance {
 		this.factory = factory;
 	}
 
+	@Override
+	public void clearGames() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearUsers() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

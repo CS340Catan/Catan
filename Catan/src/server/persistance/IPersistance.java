@@ -20,4 +20,8 @@ public interface IPersistance {
 	public void getPlayers();
 	
 	public void getGames();
+	
+	public void clearGames();
+	
+	public void clearUsers();
 }
