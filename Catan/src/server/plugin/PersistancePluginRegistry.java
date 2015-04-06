@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import server.persistance.IPersistance;
 
-public class PersistencePluginRegistry {
+public class PersistancePluginRegistry {
 	/**
 	 * Private member: registeredPlugins list
 	 */
