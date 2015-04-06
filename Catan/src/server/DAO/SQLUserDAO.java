@@ -13,13 +13,15 @@ public class SQLUserDAO implements IUserDAO{
 	}
 
 	@Override
-	public void createUser(UserCredentials newUser) {
+	public boolean createUser(UserCredentials newUser) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void clear() {
+	public boolean clear() {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}

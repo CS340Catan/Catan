@@ -13,13 +13,14 @@ public class TextUserDAO implements IUserDAO{
 	}
 
 	@Override
-	public void createUser(UserCredentials newUser) {
+	public boolean createUser(UserCredentials newUser) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void clear() {
+	public boolean clear() {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}

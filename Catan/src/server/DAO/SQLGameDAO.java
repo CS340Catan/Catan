@@ -26,7 +26,7 @@ public class SQLGameDAO implements IGameDAO{
 	}
 
 	@Override
-	public boolean saveGame(int gameID) {
+	public boolean saveGame(int gameID, ServerModel game) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -35,12 +35,6 @@ public class SQLGameDAO implements IGameDAO{
 	public List<ServerModel> queryGame() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public boolean storeCommand(List<ICommand> commands) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override

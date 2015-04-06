@@ -26,25 +26,19 @@ public class TextGameDAO implements IGameDAO{
 	}
 
 	@Override
-	public boolean saveGame(int gameID) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public List<ServerModel> queryGame() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean storeCommand(List<ICommand> commands) {
+	public boolean clear() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean clear() {
+	public boolean saveGame(int GameID, ServerModel game) {
 		// TODO Auto-generated method stub
 		return false;
 	}
