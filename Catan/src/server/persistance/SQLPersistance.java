@@ -102,4 +102,20 @@ public class SQLPersistance implements IPersistance {
 		return null;
 	}
 
+	public String getDBConnection() {
+		return DBConnection;
+	}
+
+	public void setDBConnection(String dBConnection) {
+		DBConnection = dBConnection;
+	}
+
+	public void setGameDAO(SQLGameDAO gameDAO) {
+		this.gameDAO = gameDAO;
+	}
+
+	public void setUserDAO(SQLUserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
+
 }

@@ -826,6 +826,7 @@ public class ServerFacade implements IServerFacade {
 		this.persistance = persistance;
 	}
 
+	@SuppressWarnings("unused")
 	private void saveCommand(ICommand command) {
 		if (this.newCommands.size() > frequency) {
 			this.persistance.saveGames(null, null);

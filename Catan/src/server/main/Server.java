@@ -75,6 +75,7 @@ public class Server {
 	 * calls setFrequency on ServerFacade, sending in commandsBetween
 	 * @post ServerFacade knows how many commands to execute before the state is saved
 	 */
+	@SuppressWarnings("unused")
 	private void setFrequency(int commandsBetween) {
 		
 	}
@@ -87,6 +88,7 @@ public class Server {
 	 * calls setPersistance on the ServerFacade sending in the IPersistance returned by getPlugin
 	 * @post ServerFacade contains the correct IPersistence class
 	 */
+	@SuppressWarnings("unused")
 	private void loadPlugin(String pluginName) {
 		
 	}

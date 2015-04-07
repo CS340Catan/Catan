@@ -100,4 +100,20 @@ public class TextPersistance implements IPersistance {
 		return null;
 	}
 
+	public String getPathname() {
+		return pathname;
+	}
+
+	public void setPathname(String pathname) {
+		this.pathname = pathname;
+	}
+
+	public void setGameDAO(TextGameDAO gameDAO) {
+		this.gameDAO = gameDAO;
+	}
+
+	public void setUserDAO(TextUserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
+
 }
