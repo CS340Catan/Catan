@@ -2,7 +2,6 @@ package server.DAO;
 
 import java.util.List;
 
-import server.commands.ICommand;
 import server.model.ServerModel;
 
 public class SQLGameDAO implements IGameDAO{

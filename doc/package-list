@@ -12,6 +12,7 @@ client.join
 client.login
 client.main
 client.map
+client.map.state
 client.maritime
 client.misc
 client.model
@@ -20,8 +21,18 @@ client.resources
 client.roll
 client.turntracker
 client.utils
+server.DAO
+server.commands
+server.facade
+server.httpHandlers
+server.main
+server.model
+server.persistance
+server.plugin
 shared.communication
+shared.data
 shared.definitions
 shared.locations
+shared.model
 shared.utils
 test
