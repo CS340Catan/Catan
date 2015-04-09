@@ -102,4 +102,16 @@ public class SQLPersistance implements IPersistance {
 		return null;
 	}
 
+	@Override
+	public void startTransaction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endTransaction() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
