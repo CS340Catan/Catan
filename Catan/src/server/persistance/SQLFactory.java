@@ -3,9 +3,8 @@ package server.persistance;
 import server.DAO.IGameDAO;
 import server.DAO.IUserDAO;
 
-public class SQLFactory implements IFactory{
+public class SQLFactory implements IFactory {
 
-	
 	@Override
 	public IGameDAO createGameDAO() {
 		// TODO Auto-generated method stub

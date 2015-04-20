@@ -14,19 +14,21 @@ public class SQLPersistance implements IPersistance {
 
 	private SQLFactory factory;
 	/**
-	 * Stores the SQLGameDAO so that the SQLPersistence can access the games on disk
+	 * Stores the SQLGameDAO so that the SQLPersistence can access the games on
+	 * disk
 	 */
 	private SQLGameDAO gameDAO;
 	/**
-	 * Stores the SQLGameDAO so that the SQLPersistence can access the users on disk
+	 * Stores the SQLGameDAO so that the SQLPersistence can access the users on
+	 * disk
 	 */
 	private SQLUserDAO userDAO;
-	
+
 	/**
 	 * Contains the information needed to access sql databse
 	 */
 	String DBConnection;
-	
+
 	@Override
 	public void saveGames(List<ServerModel> gameList, RegisteredPlayers players) {
 		// TODO Auto-generated method stub
@@ -81,13 +83,13 @@ public class SQLPersistance implements IPersistance {
 	@Override
 	public void clearGames() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void clearUsers() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -105,13 +107,13 @@ public class SQLPersistance implements IPersistance {
 	@Override
 	public void startTransaction() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void endTransaction() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

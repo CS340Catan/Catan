@@ -4,7 +4,7 @@ import java.util.List;
 
 import shared.communication.UserCredentials;
 
-public class SQLUserDAO implements IUserDAO{
+public class SQLUserDAO implements IUserDAO {
 
 	@Override
 	public List<UserCredentials> getUsers() {
@@ -16,14 +16,14 @@ public class SQLUserDAO implements IUserDAO{
 	public boolean createUser(UserCredentials newUser) {
 		return false;
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public boolean clear() {
 		return false;
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
