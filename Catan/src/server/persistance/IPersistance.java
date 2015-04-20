@@ -87,11 +87,12 @@ public interface IPersistance {
 	 * @return Game database access object.
 	 */
 	public IGameDAO getGameDAO();
-	
+
 	/**
 	 * Starts a persistance transaction
 	 */
 	public void startTransaction();
+
 	/**
 	 * Ends a persistance transaction
 	 */

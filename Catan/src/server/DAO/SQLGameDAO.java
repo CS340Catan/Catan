@@ -4,7 +4,7 @@ import java.util.List;
 
 import server.model.ServerModel;
 
-public class SQLGameDAO implements IGameDAO{
+public class SQLGameDAO implements IGameDAO {
 
 	@Override
 	public List<ServerModel> getGames() {

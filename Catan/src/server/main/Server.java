@@ -69,34 +69,39 @@ public class Server {
 		consoleHandler.setFormatter(new SimpleFormatter());
 		ServerLogger.addHandler(consoleHandler);
 	}
-	
+
 	/**
-	 * param commandsBetween is the number of commands executed between the state being saved (ex. 5 of 7)
-	 * calls setFrequency on ServerFacade, sending in commandsBetween
-	 * @post ServerFacade knows how many commands to execute before the state is saved
+	 * param commandsBetween is the number of commands executed between the
+	 * state being saved (ex. 5 of 7) calls setFrequency on ServerFacade,
+	 * sending in commandsBetween
+	 * 
+	 * @post ServerFacade knows how many commands to execute before the state is
+	 *       saved
 	 */
 	@SuppressWarnings("unused")
 	private void setFrequency(int commandsBetween) {
-		
+
 	}
-	
+
 	/**
-	 * param pluginName is the name of the plugin you want to use
-	 * calls getAvailablePlugins
-	 * searches through the list for the PluginDescription that has name == pluginName
-	 * calls getPlugin sending in the correct PluginDescription
-	 * calls setPersistance on the ServerFacade sending in the IPersistance returned by getPlugin
+	 * param pluginName is the name of the plugin you want to use calls
+	 * getAvailablePlugins searches through the list for the PluginDescription
+	 * that has name == pluginName calls getPlugin sending in the correct
+	 * PluginDescription calls setPersistance on the ServerFacade sending in the
+	 * IPersistance returned by getPlugin
+	 * 
 	 * @post ServerFacade contains the correct IPersistence class
 	 */
 	@SuppressWarnings("unused")
 	private void loadPlugin(String pluginName) {
-		
+
 	}
 
 	/**
-	 * param args should have two strings
-	 * args[0] is the name of the plugin you want to use
-	 * args[1] is the number of commands executed between the state being saved (ex. 5 or 7)
+	 * param args should have two strings args[0] is the name of the plugin you
+	 * want to use args[1] is the number of commands executed between the state
+	 * being saved (ex. 5 or 7)
+	 * 
 	 * @post server running on port 8081
 	 * @post loadPlugin() is called
 	 * @post setFrequency() is called

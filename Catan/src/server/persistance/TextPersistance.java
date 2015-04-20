@@ -14,11 +14,13 @@ public class TextPersistance implements IPersistance {
 
 	private TextFactory factory;
 	/**
-	 * Stores the TextGameDAO so that the TextPersistence can access the games on disk
+	 * Stores the TextGameDAO so that the TextPersistence can access the games
+	 * on disk
 	 */
 	private TextGameDAO gameDAO;
 	/**
-	 * Stores the TextGameDAO so that the TextPersistence can access the users on disk
+	 * Stores the TextGameDAO so that the TextPersistence can access the users
+	 * on disk
 	 */
 	private TextUserDAO userDAO;
 	/**
@@ -103,13 +105,13 @@ public class TextPersistance implements IPersistance {
 	@Override
 	public void startTransaction() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void endTransaction() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

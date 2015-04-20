@@ -4,7 +4,7 @@ import java.util.List;
 
 import shared.communication.UserCredentials;
 
-public class TextUserDAO implements IUserDAO{
+public class TextUserDAO implements IUserDAO {
 
 	@Override
 	public List<UserCredentials> getUsers() {
@@ -22,7 +22,7 @@ public class TextUserDAO implements IUserDAO{
 	public boolean clear() {
 		return false;
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
